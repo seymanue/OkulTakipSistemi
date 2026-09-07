@@ -1,0 +1,127 @@
+@model OkulTakipSistemi.Models.Veli
+
+@{
+    ViewData["Title"] = "Veli Ekle";
+}
+
+<div class="container mt-4">
+
+    <h2>Veli Ekle</h2>
+
+    <p class="text-muted">
+        Veli bilgilerini girin ve bağlı olduğu öğrenciyi seçin.
+    </p>
+
+    <form asp-action="Create" method="post">
+
+        <div class="mb-3">
+            <label asp-for="AdSoyad" class="form-label">
+                Ad Soyad
+            </label>
+
+            <input asp-for="AdSoyad"
+                   class="form-control"
+                   placeholder="Örneğin: Ahmet Yılmaz" />
+
+            <span asp-validation-for="AdSoyad"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Telefon" class="form-label">
+                Telefon
+            </label>
+
+            <input asp-for="Telefon"
+                   class="form-control"
+                   placeholder="Örneğin: 0555 123 45 67" />
+
+            <span asp-validation-for="Telefon"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Yakinlik" class="form-label">
+                Yakınlık
+            </label>
+
+            <select asp-for="Yakinlik"
+                    class="form-select">
+
+                <option value="">
+                    Yakınlık seçiniz
+                </option>
+
+                <option value="Anne">
+                    Anne
+                </option>
+
+                <option value="Baba">
+                    Baba
+                </option>
+
+                <option value="Vasi">
+                    Vasi
+                </option>
+
+                <option value="Diğer">
+                    Diğer
+                </option>
+
+            </select>
+
+            <span asp-validation-for="Yakinlik"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Öğrenci
+            </label>
+
+            <select name="OgrenciId"
+                    class="form-select"
+                    required>
+
+                <option value="">
+                    Öğrenci seçiniz
+                </option>
+
+                @foreach (var ogrenci in ViewBag.Ogrenciler)
+                {
+                    <option value="@ogrenci.Id">
+                        @ogrenci.AdSoyad
+                        (@ogrenci.OgrenciNo)
+                    </option>
+                }
+
+            </select>
+
+            <div class="form-text">
+                Bu veli hangi öğrencinin velisiyse onu seçin.
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Kaydet
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                İptal
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

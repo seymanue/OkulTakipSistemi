@@ -1,0 +1,506 @@
+@{
+    ViewData["Title"] = "Öğretmen Paneli";
+
+    var adSoyad = Context.Session.GetString("AdSoyad") ?? "Öğretmen";
+
+    int sinifSayisi = ViewBag.SinifSayisi ?? 0;
+    int ogrenciSayisi = ViewBag.OgrenciSayisi ?? 0;
+    int bugunkuYoklamaSayisi = ViewBag.BugunkuYoklamaSayisi ?? 0;
+    int toplamYoklamaSayisi = ViewBag.ToplamYoklamaSayisi ?? 0;
+}
+
+<div class="teacher-dashboard">
+
+    <!-- ÜST ALAN -->
+    <section class="teacher-hero">
+
+        <!-- SOL TARAF -->
+        <div class="hero-welcome">
+
+            <div class="teacher-badge">
+                <span class="badge-icon">♙</span>
+                <span>ÖĞRETMEN PANELİ</span>
+            </div>
+
+            <h1>
+                Hoş geldiniz,
+                <strong>@adSoyad</strong>
+            </h1>
+
+            <div class="welcome-line"></div>
+
+            <p class="welcome-message">
+                <span class="sun-icon">☼</span>
+
+                <span>
+                    Bugün harika bir gün,<br />
+                    öğrencilerinizle güzel bir gün geçirmenizi dileriz.
+                </span>
+            </p>
+
+        </div>
+
+
+        <!-- SAĞ TARAF - TARİH -->
+        <div class="today-card">
+
+            <div class="today-header">
+
+                <div class="today-title">
+                    <span class="calendar-icon">▣</span>
+                    <span>BUGÜN</span>
+                </div>
+
+            </div>
+
+            <div class="today-divider"></div>
+
+            <div class="date-details">
+
+                <div class="date-item">
+                    <span class="date-icon">◷</span>
+                    <strong id="currentTime">--:--</strong>
+                    <small>Saat</small>
+                </div>
+
+                <div class="date-item">
+                    <span class="date-icon">▣</span>
+                    <strong id="currentDay">--</strong>
+                    <small>Gün</small>
+                </div>
+
+                <div class="date-item">
+                    <span class="date-icon">▣</span>
+                    <strong id="currentMonth">--</strong>
+                    <small>Ay</small>
+                </div>
+
+                <div class="date-item">
+                    <span class="date-icon">▣</span>
+                    <strong id="currentYear">----</strong>
+                    <small>Yıl</small>
+                </div>
+
+            </div>
+
+            <div class="today-divider"></div>
+
+            <div class="full-date">
+                <span class="calendar-small">▣</span>
+                <strong id="fullDate">--</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- İSTATİSTİKLER -->
+    <section class="teacher-stats">
+
+        <!-- SINIF -->
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-5h6v5M8 10h2M14 10h2M8 13h2M14 13h2" />
+                </svg>
+
+            </div>
+
+            <div class="stat-info">
+
+                <span class="stat-title">
+                    Toplam Sınıfınız
+                </span>
+
+                <strong>
+                    @sinifSayisi
+                </strong>
+
+                <small>
+                    Atandığınız sınıf sayısı
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- ÖĞRENCİ -->
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <svg viewBox="0 0 24 24">
+
+                    <circle cx="9" cy="8" r="3" />
+                    <circle cx="17" cy="9" r="2.5" />
+                    <path d="M3 20c0-3.2 2.7-5 6-5s6 1.8 6 5M14 15c3-.4 6 1.2 7 4" />
+
+                </svg>
+
+            </div>
+
+            <div class="stat-info">
+
+                <span class="stat-title">
+                    Toplam Öğrenci
+                </span>
+
+                <strong>
+                    @ogrenciSayisi
+                </strong>
+
+                <small>
+                    Tüm sınıflardaki öğrenci sayısı
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUGÜNKÜ YOKLAMA -->
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <svg viewBox="0 0 24 24">
+
+                    <rect x="4" y="5" width="16" height="16" rx="2" />
+                    <path d="M8 3v4M16 3v4M4 10h16M8 15l2 2 5-5" />
+
+                </svg>
+
+            </div>
+
+            <div class="stat-info">
+
+                <span class="stat-title">
+                    Bugün Alınan Yoklama
+                </span>
+
+                <strong>
+                    @bugunkuYoklamaSayisi
+                </strong>
+
+                <small>
+                    Bugün yoklaması alınan sınıf
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- TOPLAM YOKLAMA -->
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <svg viewBox="0 0 24 24">
+
+                    <rect x="5" y="3" width="14" height="18" rx="2" />
+                    <path d="M8 7h8M8 11h8M8 15h5M8 18h3" />
+
+                </svg>
+
+            </div>
+
+            <div class="stat-info">
+
+                <span class="stat-title">
+                    Toplam Yoklama
+                </span>
+
+                <strong>
+                    @toplamYoklamaSayisi
+                </strong>
+
+                <small>
+                    Tüm zamanlardaki toplam yoklama
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- HIZLI İŞLEMLER -->
+    <section class="quick-actions">
+
+        <div class="section-heading">
+
+            <div class="heading-icon">
+                <span>Ⅱ</span>
+            </div>
+
+            <div>
+
+                <h3>Hızlı İşlemler</h3>
+
+                <p>
+                    İhtiyacınız olan bölüme hızlıca geçiş yapın.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="action-grid">
+
+
+            <!-- SINIFLARIM -->
+            <a href="/Ogretmen/Siniflarim"
+               class="action-card">
+
+                <div class="action-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-5h6v5M8 10h2M14 10h2M8 13h2M14 13h2" />
+
+                    </svg>
+
+                </div>
+
+                <div class="action-text">
+
+                    <span class="action-number">
+                        01
+                    </span>
+
+                    <h4>
+                        Sınıflarım
+                    </h4>
+
+                    <p>
+                        Size atanmış sınıfları ve öğrencileri görüntüleyin.
+                    </p>
+
+                </div>
+
+                <span class="action-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <!-- YOKLAMA AL -->
+            <a href="/Ogretmen/Yoklama"
+               class="action-card">
+
+                <div class="action-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M5 12l4 4L19 6" />
+
+                    </svg>
+
+                </div>
+
+                <div class="action-text">
+
+                    <span class="action-number">
+                        02
+                    </span>
+
+                    <h4>
+                        Yoklama Al
+                    </h4>
+
+                    <p>
+                        Sınıflarınız için günlük yoklama alın.
+                    </p>
+
+                </div>
+
+                <span class="action-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <!-- YOKLAMA LİSTESİ -->
+            <a href="/Yoklama/Gecmis"
+               class="action-card">
+
+                <div class="action-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <rect x="5" y="3" width="14" height="18" rx="2" />
+
+                        <path d="M8 7h8M8 11h8M8 15h5" />
+
+                    </svg>
+
+                </div>
+
+                <div class="action-text">
+
+                    <span class="action-number">
+                        03
+                    </span>
+
+                    <h4>
+                        Yoklama Listesi
+                    </h4>
+
+                    <p>
+                        Geçmiş yoklama kayıtlarını görüntüleyin.
+                    </p>
+
+                </div>
+
+                <span class="action-arrow">
+                    →
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ALT BİLGİ -->
+    <footer class="teacher-footer">
+
+        <div class="footer-brand">
+
+            <div class="footer-logo">
+                ◈
+            </div>
+
+            <div>
+
+                <strong>
+                    Okul Takip Sistemi
+                </strong>
+
+                <span>
+                    © 2026 - Tüm hakları saklıdır.
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ÇIKIŞ -->
+        <a href="/Account/Logout"
+           class="logout-button">
+
+            <span>
+                ⇥
+            </span>
+
+            Çıkış Yap
+
+        </a>
+
+    </footer>
+
+</div>
+
+
+<!-- TARİH / SAAT -->
+<script>
+
+    function updateDateTime() {
+
+        const now = new Date();
+
+        const months = [
+            "Ocak",
+            "Şubat",
+            "Mart",
+            "Nisan",
+            "Mayıs",
+            "Haziran",
+            "Temmuz",
+            "Ağustos",
+            "Eylül",
+            "Ekim",
+            "Kasım",
+            "Aralık"
+        ];
+
+        const days = [
+            "Pazar",
+            "Pazartesi",
+            "Salı",
+            "Çarşamba",
+            "Perşembe",
+            "Cuma",
+            "Cumartesi"
+        ];
+
+        const hour =
+            String(now.getHours()).padStart(2, "0");
+
+        const minute =
+            String(now.getMinutes()).padStart(2, "0");
+
+        const currentTime =
+            document.getElementById("currentTime");
+
+        const currentDay =
+            document.getElementById("currentDay");
+
+        const currentMonth =
+            document.getElementById("currentMonth");
+
+        const currentYear =
+            document.getElementById("currentYear");
+
+        const fullDate =
+            document.getElementById("fullDate");
+
+
+        if (currentTime) {
+            currentTime.textContent =
+                hour + ":" + minute;
+        }
+
+        if (currentDay) {
+            currentDay.textContent =
+                now.getDate();
+        }
+
+        if (currentMonth) {
+            currentMonth.textContent =
+                String(now.getMonth() + 1).padStart(2, "0");
+        }
+
+        if (currentYear) {
+            currentYear.textContent =
+                now.getFullYear();
+        }
+
+        if (fullDate) {
+            fullDate.textContent =
+                days[now.getDay()] +
+                ", " +
+                now.getDate() +
+                " " +
+                months[now.getMonth()] +
+                " " +
+                now.getFullYear();
+        }
+    }
+
+    updateDateTime();
+
+    setInterval(updateDateTime, 1000);
+
+</script>

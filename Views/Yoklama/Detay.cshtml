@@ -1,0 +1,76 @@
+@model List<OkulTakipSistemi.Models.YoklamaDetay>
+
+@{
+    ViewData["Title"] = "Yoklama Detayı";
+}
+
+<div class="container mt-5">
+
+    <h2>Yoklama Detayı</h2>
+
+    <hr />
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            Bu yoklamaya ait öğrenci kaydı bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover">
+
+            <thead>
+                <tr>
+                    <th>Öğrenci</th>
+                    <th>Öğrenci No</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var detay in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @detay.Ogrenci?.AdSoyad
+                        </td>
+
+                        <td>
+                            @detay.Ogrenci?.OgrenciNo
+                        </td>
+
+                        <td>
+
+                            @if (detay.Geldi)
+                            {
+                                <span class="badge bg-success">
+                                    Geldi
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    Gelmedi
+                                </span>
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+
+    <a asp-controller="Yoklama"
+       asp-action="Gecmis"
+       class="btn btn-secondary mt-3">
+        Yoklama Geçmişine Dön
+    </a>
+
+</div>

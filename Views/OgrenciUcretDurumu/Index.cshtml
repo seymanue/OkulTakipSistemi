@@ -1,0 +1,269 @@
+@model IEnumerable<OkulTakipSistemi.Models.OgrenciUcretDurumu>
+
+@{
+    ViewData["Title"] = "Öğrenci Ücret Durumları";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- BAŞLIK -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Öğrenci Ücret Durumları</h2>
+
+            <p class="text-muted mb-0">
+                Öğrencilerin indirim, özel fiyat ve ücretsiz kontenjan durumlarını yönetin.
+            </p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            + Yeni Ücret Durumu
+        </a>
+    </div>
+
+
+    <!-- BAŞARILI MESAJ -->
+    @if (TempData["Basarili"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Basarili"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+
+    <!-- HATA MESAJI -->
+    @if (TempData["Hata"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Hata"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+
+    <!-- ÖĞRENCİ YOKSA -->
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Sistemde aktif öğrenci bulunmuyor.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body p-0">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <!-- TABLO BAŞLIĞI -->
+                        <thead class="table-light">
+                            <tr>
+                                <th>Öğrenci</th>
+                                <th>Okul</th>
+                                <th>Sınıf</th>
+                                <th>Ücret Durumu</th>
+                                <th>İndirim</th>
+                                <th>Özel Fiyat</th>
+                                <th>Açıklama</th>
+                                <th class="text-end">İşlem</th>
+                            </tr>
+                        </thead>
+
+
+                        <!-- TABLO İÇERİĞİ -->
+                        <tbody>
+
+                            @foreach (var durum in Model)
+                            {
+                                <tr>
+
+                                    <!-- ÖĞRENCİ -->
+                                    <td>
+                                        <div class="fw-semibold">
+                                            @durum.OgrenciKaydi?.Ogrenci?.AdSoyad
+                                        </div>
+
+                                        <small class="text-muted">
+                                            No:
+                                            @durum.OgrenciKaydi?.Ogrenci?.OgrenciNo
+                                        </small>
+                                    </td>
+
+
+                                    <!-- OKUL -->
+                                    <td>
+                                        @durum.OgrenciKaydi?.Okul?.Ad
+                                    </td>
+
+
+                                    <!-- SINIF -->
+                                    <td>
+                                        @durum.OgrenciKaydi?.Sinif?.Ad
+                                    </td>
+
+
+                                    <!-- ÜCRET DURUMU -->
+                                    <td>
+
+                                        @if (durum.Id == 0)
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Belirlenmedi
+                                            </span>
+                                        }
+                                        else if (durum.Ucretsiz)
+                                        {
+                                            <span class="badge bg-success">
+                                                Ücretsiz
+                                            </span>
+                                        }
+                                        else if (durum.OzelFiyat.HasValue)
+                                        {
+                                            <span class="badge bg-primary">
+                                                Özel Fiyat
+                                            </span>
+                                        }
+                                        else if (durum.Indirimli)
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                İndirimli
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Normal
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- İNDİRİM -->
+                                    <td>
+
+                                        @if (durum.Id != 0 && durum.Indirimli)
+                                        {
+                                            <strong>
+                                                %@durum.IndirimOrani
+                                            </strong>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                -
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- ÖZEL FİYAT -->
+                                    <td>
+
+                                        @if (durum.Id != 0 && durum.OzelFiyat.HasValue)
+                                        {
+                                            <strong>
+                                                @durum.OzelFiyat.Value.ToString("N2") ₺
+                                            </strong>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                -
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- AÇIKLAMA -->
+                                    <td>
+
+                                        @if (durum.Id != 0 &&
+                                             !string.IsNullOrWhiteSpace(durum.Aciklama))
+                                        {
+                                            @durum.Aciklama
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                -
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- İŞLEM -->
+                                    <td class="text-end">
+
+                                        @if (durum.Id != 0)
+                                        {
+                                            <div class="d-flex justify-content-end gap-2">
+
+                                                <!-- ÖDEME PLANI OLUŞTUR -->
+                                                <a asp-controller="OgrenciUcretDurumu"
+                                                   asp-action="OdemePlani"
+                                                   asp-route-id="@durum.OgrenciKaydiId"
+                                                   class="btn btn-sm btn-primary">
+                                                    Ödeme Planı Oluştur
+                                                </a>
+
+
+                                                <!-- SİL -->
+                                                <form asp-action="Delete"
+                                                      method="post"
+                                                      onsubmit="return confirm('Bu ücret durumunu silmek istediğinize emin misiniz?');">
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <input type="hidden"
+                                                           name="id"
+                                                           value="@durum.Id" />
+
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger">
+                                                        Sil
+                                                    </button>
+
+                                                </form>
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                -
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>

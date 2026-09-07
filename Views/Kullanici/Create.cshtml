@@ -1,0 +1,100 @@
+@model OkulTakipSistemi.Models.Kullanici
+
+@{
+    ViewData["Title"] = "Kullanıcı Ekle";
+}
+
+<div class="container mt-4">
+
+    <h2>Kullanıcı Ekle</h2>
+
+    <div asp-validation-summary="All"
+         class="text-danger mb-3"></div>
+
+    <form asp-controller="Kullanici"
+          asp-action="Create"
+          method="post">
+
+        <div class="mb-3">
+            <label asp-for="AdSoyad"
+                   class="form-label">
+                Ad Soyad
+            </label>
+
+            <input asp-for="AdSoyad"
+                   class="form-control"
+                   placeholder="Örneğin: Ayşe Demir" />
+
+            <span asp-validation-for="AdSoyad"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="KullaniciAdi"
+                   class="form-label">
+                Kullanıcı Adı
+            </label>
+
+            <input asp-for="KullaniciAdi"
+                   class="form-control"
+                   placeholder="Örneğin: ayse" />
+
+            <span asp-validation-for="KullaniciAdi"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Sifre"
+                   class="form-label">
+                Şifre
+            </label>
+
+            <input asp-for="Sifre"
+                   type="password"
+                   class="form-control"
+                   placeholder="Şifre" />
+
+            <span asp-validation-for="Sifre"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="RolId"
+                   class="form-label">
+                Rol
+            </label>
+
+            <select asp-for="RolId"
+                    class="form-select">
+
+                <option value="0">
+                    Rol seçiniz
+                </option>
+
+                @foreach (var rol in ViewBag.Roller)
+                {
+                    <option value="@rol.Id">
+                        @rol.Ad
+                    </option>
+                }
+
+            </select>
+
+            <span asp-validation-for="RolId"
+                  class="text-danger"></span>
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Kaydet
+        </button>
+
+        <a asp-controller="Kullanici"
+           asp-action="Index"
+           class="btn btn-secondary">
+            İptal
+        </a>
+
+    </form>
+
+</div>

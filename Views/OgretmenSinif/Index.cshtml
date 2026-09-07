@@ -1,0 +1,728 @@
+@model IEnumerable<OkulTakipSistemi.Models.OgretmenSinif>
+
+@{
+    ViewData["Title"] = "Öğretmen-Sınıf Atamaları";
+}
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+
+        font-family: "Inter",
+                     -apple-system,
+                     BlinkMacSystemFont,
+                     "Segoe UI",
+                     sans-serif;
+
+        color: #ffffff;
+
+        background:
+            radial-gradient(
+                circle at 80% 10%,
+                rgba(233,120,69,0.22),
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 15% 80%,
+                rgba(185,75,40,0.18),
+                transparent 32%
+            ),
+            linear-gradient(
+                135deg,
+                #211713 0%,
+                #2d1b15 45%,
+                #1b110e 100%
+            );
+
+        background-attachment: fixed;
+    }
+
+
+    /* =====================================================
+       ANA KAPSAYICI
+       ===================================================== */
+
+    .sinif-page {
+        width: 100%;
+        max-width: 1250px;
+
+        margin: 0 auto;
+        padding: 45px 28px 60px;
+    }
+
+
+    /* =====================================================
+       ÜST BAŞLIK
+       ===================================================== */
+
+    .page-header {
+
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 25px;
+
+        margin-bottom: 28px;
+
+        padding: 28px 30px;
+
+        border-radius: 24px;
+
+        background:
+            rgba(255,255,255,0.075);
+
+        border:
+            1px solid rgba(255,210,185,0.18);
+
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+
+        box-shadow:
+            0 20px 60px rgba(0,0,0,0.20);
+    }
+
+
+    .page-title-area h2 {
+
+        margin: 0 0 8px;
+
+        font-size: 28px;
+
+        font-weight: 800;
+
+        letter-spacing: -0.5px;
+
+        color: #ffffff;
+    }
+
+
+    .page-title-area p {
+
+        margin: 0;
+
+        color: rgba(255,255,255,0.62);
+
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       SINIF ATA BUTONU
+       ===================================================== */
+
+    .add-button {
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 13px 20px;
+
+        border-radius: 13px;
+
+        color: #ffffff !important;
+
+        text-decoration: none;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        background:
+            linear-gradient(
+                135deg,
+                #e97845,
+                #b94b28
+            );
+
+        border:
+            1px solid rgba(255,210,185,0.28);
+
+        box-shadow:
+            0 10px 28px rgba(185,75,40,0.25);
+
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+
+    .add-button:hover {
+
+        color: #ffffff !important;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 14px 35px rgba(185,75,40,0.35);
+    }
+
+
+    /* =====================================================
+       TABLO KARTI
+       ===================================================== */
+
+    .table-card {
+
+        overflow: hidden;
+
+        border-radius: 24px;
+
+        background:
+            rgba(255,255,255,0.065);
+
+        border:
+            1px solid rgba(255,210,185,0.17);
+
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+
+        box-shadow:
+            0 20px 60px rgba(0,0,0,0.20);
+    }
+
+
+    .assignment-table {
+
+        width: 100%;
+
+        margin: 0;
+
+        border-collapse: collapse;
+
+        color: #ffffff;
+    }
+
+
+    /* =====================================================
+       TABLO BAŞLIĞI
+       ===================================================== */
+
+    .assignment-table thead {
+
+        background:
+            rgba(233,120,69,0.13);
+    }
+
+
+    .assignment-table thead th {
+
+        padding: 18px 20px;
+
+        border: none;
+
+        color: rgba(255,220,200,0.90);
+
+        font-size: 11px;
+
+        font-weight: 800;
+
+        text-transform: uppercase;
+
+        letter-spacing: 1px;
+
+        white-space: nowrap;
+    }
+
+
+    /* =====================================================
+       TABLO SATIRLARI
+       ===================================================== */
+
+    .assignment-table tbody tr {
+
+        border-top:
+            1px solid rgba(255,255,255,0.075);
+
+        transition:
+            background .2s ease;
+    }
+
+
+    .assignment-table tbody tr:hover {
+
+        background:
+            rgba(233,120,69,0.075);
+    }
+
+
+    .assignment-table tbody td {
+
+        padding: 18px 20px;
+
+        border: none;
+
+        color: rgba(255,255,255,0.82);
+
+        font-size: 14px;
+
+        vertical-align: middle;
+    }
+
+
+    /* ID */
+
+    .id-badge {
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        min-width: 38px;
+        height: 30px;
+
+        padding: 0 9px;
+
+        border-radius: 9px;
+
+        color: #f3a276;
+
+        background:
+            rgba(233,120,69,0.12);
+
+        border:
+            1px solid rgba(233,120,69,0.20);
+
+        font-size: 12px;
+
+        font-weight: 700;
+    }
+
+
+    /* ÖĞRETMEN */
+
+    .teacher-cell {
+
+        color: #ffffff !important;
+
+        font-weight: 700;
+    }
+
+
+    /* SINIF */
+
+    .class-badge {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        padding: 7px 12px;
+
+        border-radius: 10px;
+
+        color: #ffd4bc;
+
+        background:
+            rgba(233,120,69,0.11);
+
+        border:
+            1px solid rgba(233,120,69,0.18);
+
+        font-size: 12px;
+
+        font-weight: 700;
+    }
+
+
+    /* OKUL */
+
+    .school-cell {
+
+        color:
+            rgba(255,255,255,0.65) !important;
+    }
+
+
+    /* =====================================================
+       İŞLEM BUTONLARI
+       ===================================================== */
+
+    .action-area {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+    }
+
+
+    .edit-button,
+    .delete-button {
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 9px 13px;
+
+        border-radius: 10px;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        text-decoration: none;
+
+        border: 1px solid transparent;
+
+        transition:
+            transform .2s ease,
+            background .2s ease;
+    }
+
+
+    .edit-button {
+
+        color: #ffd4bc !important;
+
+        background:
+            rgba(233,120,69,0.13);
+
+        border-color:
+            rgba(233,120,69,0.22);
+    }
+
+
+    .edit-button:hover {
+
+        color: #ffffff !important;
+
+        background:
+            rgba(233,120,69,0.24);
+
+        transform: translateY(-1px);
+    }
+
+
+    .delete-button {
+
+        color: #ffb5a5;
+
+        background:
+            rgba(170,55,40,0.14);
+
+        border-color:
+            rgba(220,90,65,0.20);
+
+        cursor: pointer;
+    }
+
+
+    .delete-button:hover {
+
+        color: #ffffff;
+
+        background:
+            rgba(190,60,42,0.25);
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =====================================================
+       BOŞ DURUM
+       ===================================================== */
+
+    .empty-row {
+
+        padding: 55px 20px !important;
+
+        text-align: center;
+
+        color:
+            rgba(255,255,255,0.45) !important;
+
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       GERİ DÖN
+       ===================================================== */
+
+    .back-area {
+
+        margin-top: 22px;
+    }
+
+
+    .back-button {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        padding: 11px 17px;
+
+        border-radius: 12px;
+
+        color:
+            rgba(255,255,255,0.72) !important;
+
+        text-decoration: none;
+
+        font-size: 13px;
+
+        font-weight: 600;
+
+        background:
+            rgba(255,255,255,0.065);
+
+        border:
+            1px solid rgba(255,255,255,0.13);
+
+        backdrop-filter: blur(12px);
+
+        transition:
+            background .2s ease,
+            transform .2s ease;
+    }
+
+
+    .back-button:hover {
+
+        color: #ffffff !important;
+
+        background:
+            rgba(255,255,255,0.11);
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =====================================================
+       MOBİL
+       ===================================================== */
+
+    @@media (max-width: 800px) {
+
+        .sinif-page {
+
+            padding:
+                25px 15px 40px;
+        }
+
+
+        .page-header {
+
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            padding: 22px;
+        }
+
+
+        .page-title-area h2 {
+
+            font-size: 23px;
+        }
+
+
+        .table-card {
+
+            overflow-x: auto;
+        }
+
+
+        .assignment-table {
+
+            min-width: 850px;
+        }
+
+    }
+
+</style>
+
+
+<div class="sinif-page">
+
+
+    <!-- =====================================================
+         BAŞLIK
+         ===================================================== -->
+
+    <div class="page-header">
+
+        <div class="page-title-area">
+
+            <h2>
+                Öğretmen-Sınıf Atamaları
+            </h2>
+
+            <p>
+                Öğretmenlerin görev yaptığı sınıfları yönetin.
+            </p>
+
+        </div>
+
+
+        <a asp-action="Create"
+           class="add-button">
+
+            + Sınıf Ata
+
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         TABLO
+         ===================================================== -->
+
+    <div class="table-card">
+
+        <table class="assignment-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Öğretmen</th>
+
+                    <th>Sınıf</th>
+
+                    <th>Okul</th>
+
+                    <th>İşlem</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                @if (!Model.Any())
+                {
+                    <tr>
+
+                        <td colspan="5"
+                            class="empty-row">
+
+                            Henüz öğretmen-sınıf ataması yapılmamış.
+
+                        </td>
+
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var atama in Model)
+                    {
+                        <tr>
+
+                            <td>
+
+                                <span class="id-badge">
+                                    @atama.Id
+                                </span>
+
+                            </td>
+
+
+                            <td class="teacher-cell">
+
+                                @(atama.Ogretmen?.AdSoyad ?? "Bilinmiyor")
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="class-badge">
+
+                                    @(atama.Sinif?.Ad ?? "Bilinmiyor")
+
+                                </span>
+
+                            </td>
+
+
+                            <td class="school-cell">
+
+                                @(atama.Sinif?.Okul?.Ad ?? "Bilinmiyor")
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="action-area">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@atama.Id"
+                                       class="edit-button">
+
+                                        ✏️ Düzenle
+
+                                    </a>
+
+
+                                    <form asp-action="Delete"
+                                          method="post"
+                                          style="display:inline;"
+                                          onsubmit="return confirm('Bu atamayı silmek istediğinize emin misiniz?');">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@atama.Id" />
+
+                                        <button type="submit"
+                                                class="delete-button">
+
+                                            🗑️ Sil
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- =====================================================
+         GERİ DÖN
+         ===================================================== -->
+
+    <div class="back-area">
+
+        <a asp-controller="Home"
+           asp-action="AdminPanel"
+           class="back-button">
+
+            ← Yönetici Paneline Dön
+
+        </a>
+
+    </div>
+
+</div>

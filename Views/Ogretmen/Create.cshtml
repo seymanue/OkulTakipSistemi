@@ -1,0 +1,54 @@
+@model OkulTakipSistemi.Models.Ogretmen
+
+@{
+    ViewData["Title"] = "Öğretmen Ekle";
+}
+
+<div class="container mt-4">
+
+    <h2>Öğretmen Ekle</h2>
+
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <form asp-controller="Ogretmen" asp-action="Create" method="post">
+
+        <div class="mb-3">
+            <label asp-for="AdSoyad" class="form-label">Ad Soyad</label>
+            <input asp-for="AdSoyad" class="form-control" />
+            <span asp-validation-for="AdSoyad" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Branş" class="form-label">Branş</label>
+            <input asp-for="Branş" class="form-control" />
+            <span asp-validation-for="Branş" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="KullaniciId" class="form-label">Kullanıcı</label>
+
+            <select asp-for="KullaniciId" class="form-select">
+                <option value="0">Kullanıcı seçiniz</option>
+
+                @foreach (var kullanici in ViewBag.Kullanicilar)
+                {
+                    <option value="@kullanici.Id">
+                        @kullanici.KullaniciAdi
+                    </option>
+                }
+            </select>
+
+            <span asp-validation-for="KullaniciId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Kaydet
+        </button>
+
+        <a asp-controller="Ogretmen" asp-action="Index" class="btn btn-secondary">
+            İptal
+        </a>
+
+    </form>
+
+</div>

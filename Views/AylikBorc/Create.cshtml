@@ -1,0 +1,196 @@
+@model OkulTakipSistemi.Models.AylikBorc
+
+@{
+    ViewData["Title"] = "Yeni Aylık Borç";
+}
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h2 class="fw-bold">Yeni Aylık Borç</h2>
+        <p class="text-muted">
+            Öğrenci için yeni bir aylık borç kaydı oluşturun.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <form asp-action="Create" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"></div>
+
+                <div class="row g-3">
+
+                    <!-- ÖĞRENCİ KAYDI -->
+                    <div class="col-md-12">
+                        <label asp-for="OgrenciKaydiId"
+                               class="form-label fw-semibold">
+                            Öğrenci
+                        </label>
+
+                        <select asp-for="OgrenciKaydiId"
+                                class="form-select">
+
+                            <option value="">
+                                Öğrenci seçiniz
+                            </option>
+
+                            @foreach (var kayit in ViewBag.OgrenciKayitlari)
+                            {
+                                <option value="@kayit.Id">
+                                    @kayit.Ogrenci?.AdSoyad
+                                    -
+                                    @kayit.Ogrenci?.OgrenciNo
+                                    |
+                                    @kayit.Okul?.Ad
+                                    |
+                                    @kayit.Sinif?.Ad
+                                </option>
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="OgrenciKaydiId"
+                              class="text-danger"></span>
+                    </div>
+
+                    <!-- YIL -->
+                    <div class="col-md-6">
+
+                        <label asp-for="Yil"
+                               class="form-label fw-semibold">
+                            Yıl
+                        </label>
+
+                        <input asp-for="Yil"
+                               class="form-control"
+                               type="number"
+                               min="2020"
+                               max="2100"
+                               value="@DateTime.Now.Year" />
+
+                        <span asp-validation-for="Yil"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- AY -->
+                    <div class="col-md-6">
+
+                        <label asp-for="Ay"
+                               class="form-label fw-semibold">
+                            Ay
+                        </label>
+
+                        <select asp-for="Ay"
+                                class="form-select">
+
+                            <option value="1">Ocak</option>
+                            <option value="2">Şubat</option>
+                            <option value="3">Mart</option>
+                            <option value="4">Nisan</option>
+                            <option value="5">Mayıs</option>
+                            <option value="6">Haziran</option>
+                            <option value="7">Temmuz</option>
+                            <option value="8">Ağustos</option>
+                            <option value="9">Eylül</option>
+                            <option value="10">Ekim</option>
+                            <option value="11">Kasım</option>
+                            <option value="12">Aralık</option>
+
+                        </select>
+
+                        <span asp-validation-for="Ay"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- BORÇ TUTARI -->
+                    <div class="col-md-6">
+
+                        <label asp-for="Tutar"
+                               class="form-label fw-semibold">
+                            Borç Tutarı (₺)
+                        </label>
+
+                        <input asp-for="Tutar"
+                               class="form-control"
+                               type="number"
+                               step="0.01"
+                               min="0" />
+
+                        <span asp-validation-for="Tutar"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- ÖDENEN -->
+                    <div class="col-md-6">
+
+                        <label asp-for="OdenenTutar"
+                               class="form-label fw-semibold">
+                            Ödenen Tutar (₺)
+                        </label>
+
+                        <input asp-for="OdenenTutar"
+                               class="form-control"
+                               type="number"
+                               step="0.01"
+                               min="0"
+                               value="0" />
+
+                        <span asp-validation-for="OdenenTutar"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- AÇIKLAMA -->
+                    <div class="col-12">
+
+                        <label asp-for="Aciklama"
+                               class="form-label fw-semibold">
+                            Açıklama
+                        </label>
+
+                        <textarea asp-for="Aciklama"
+                                  class="form-control"
+                                  rows="4"
+                                  placeholder="Borç ile ilgili açıklama..."></textarea>
+
+                        <span asp-validation-for="Aciklama"
+                              class="text-danger"></span>
+
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        ← Geri
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary px-4">
+                        Borç Kaydet
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

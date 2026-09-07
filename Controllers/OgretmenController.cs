@@ -1,0 +1,524 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OkulTakipSistemi.Data;
+using OkulTakipSistemi.Models;
+
+namespace OkulTakipSistemi.Controllers
+{
+    public class OgretmenController : Controller
+    {
+        private readonly AppDbContext _context;
+
+        public OgretmenController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // ============================================================
+        // YÖNETİCİ - Öğretmenleri listele
+        // ============================================================
+
+        public IActionResult Index()
+        {
+            var ogretmenler = _context.Ogretmenler
+                .Include(x => x.Kullanici)
+                .ToList();
+
+            return View(ogretmenler);
+        }
+
+        // ============================================================
+        // YÖNETİCİ - Öğretmen ekleme
+        // ============================================================
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            ViewBag.Kullanicilar = _context.Kullanicilar.ToList();
+
+            return View();
+        }
+
+        // ============================================================
+        // YÖNETİCİ - Öğretmen kaydetme
+        // ============================================================
+
+        [HttpPost]
+        public IActionResult Create(Ogretmen ogretmen)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ViewBag.Kullanicilar = _context.Kullanicilar.ToList();
+
+                    return View(ogretmen);
+                }
+
+                var kullanici = _context.Kullanicilar
+                    .FirstOrDefault(x =>
+                        x.Id == ogretmen.KullaniciId);
+
+                if (kullanici == null)
+                {
+                    ModelState.AddModelError(
+                        "KullaniciId",
+                        "Geçerli bir kullanıcı seçmelisiniz."
+                    );
+
+                    ViewBag.Kullanicilar =
+                        _context.Kullanicilar.ToList();
+
+                    return View(ogretmen);
+                }
+
+                var mevcutOgretmen = _context.Ogretmenler
+                    .FirstOrDefault(x =>
+                        x.KullaniciId == ogretmen.KullaniciId);
+
+                if (mevcutOgretmen != null)
+                {
+                    ModelState.AddModelError(
+                        "KullaniciId",
+                        "Bu kullanıcı zaten bir öğretmene atanmış."
+                    );
+
+                    ViewBag.Kullanicilar =
+                        _context.Kullanicilar.ToList();
+
+                    return View(ogretmen);
+                }
+
+                _context.Ogretmenler.Add(ogretmen);
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Kullanicilar =
+                    _context.Kullanicilar.ToList();
+
+                ModelState.AddModelError(
+                    "",
+                    "Kayıt sırasında hata oluştu: " +
+                    ex.Message
+                );
+
+                return View(ogretmen);
+            }
+        }
+
+        // ============================================================
+        // YÖNETİCİ - Öğretmen silme
+        // ============================================================
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var ogretmen =
+                _context.Ogretmenler.Find(id);
+
+            if (ogretmen == null)
+            {
+                return NotFound();
+            }
+
+            _context.Ogretmenler.Remove(ogretmen);
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        // ============================================================
+        // ÖĞRETMEN - Kendisine atanmış sınıflar
+        // ============================================================
+
+        public IActionResult Siniflarim()
+        {
+            var kullaniciAdi =
+                HttpContext.Session.GetString("KullaniciAdi");
+
+            if (string.IsNullOrEmpty(kullaniciAdi))
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var kullanici = _context.Kullanicilar
+                .FirstOrDefault(x =>
+                    x.KullaniciAdi == kullaniciAdi);
+
+            if (kullanici == null)
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var ogretmen = _context.Ogretmenler
+                .FirstOrDefault(x =>
+                    x.KullaniciId == kullanici.Id);
+
+            if (ogretmen == null)
+            {
+                return Unauthorized();
+            }
+
+            var siniflar = _context.OgretmenSiniflar
+                .Where(x =>
+                    x.OgretmenId == ogretmen.Id)
+                .Include(x => x.Sinif)
+                .ThenInclude(x => x.Okul)
+                .Select(x => x.Sinif)
+                .Where(x => x != null)
+                .ToList();
+
+            return View(siniflar);
+        }
+
+        // ============================================================
+        // ÖĞRETMEN - Seçilen sınıftaki öğrenciler
+        // ============================================================
+
+        [HttpGet]
+        public IActionResult SinifOgrencileri(int id)
+        {
+            var kullaniciAdi =
+                HttpContext.Session.GetString("KullaniciAdi");
+
+            if (string.IsNullOrEmpty(kullaniciAdi))
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var kullanici = _context.Kullanicilar
+                .FirstOrDefault(x =>
+                    x.KullaniciAdi == kullaniciAdi);
+
+            if (kullanici == null)
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var ogretmen = _context.Ogretmenler
+                .FirstOrDefault(x =>
+                    x.KullaniciId == kullanici.Id);
+
+            if (ogretmen == null)
+            {
+                return Unauthorized();
+            }
+
+            // --------------------------------------------------------
+            // Öğretmenin bu sınıfa atanmış olup olmadığını kontrol et
+            // --------------------------------------------------------
+
+            var atama = _context.OgretmenSiniflar
+                .FirstOrDefault(x =>
+                    x.OgretmenId == ogretmen.Id &&
+                    x.SinifId == id);
+
+            if (atama == null)
+            {
+                return Unauthorized();
+            }
+
+            // --------------------------------------------------------
+            // Sınıfı getir
+            // --------------------------------------------------------
+
+            var sinif = _context.Siniflar
+                .Include(x => x.Okul)
+                .FirstOrDefault(x =>
+                    x.Id == id);
+
+            if (sinif == null)
+            {
+                return NotFound();
+            }
+
+            // --------------------------------------------------------
+            // Sınıftaki öğrencileri getir
+            // --------------------------------------------------------
+
+            var ogrenciler = _context.Ogrenciler
+                .Where(x =>
+                    x.SinifId.HasValue &&
+                    x.SinifId.Value == id)
+                .OrderBy(x => x.AdSoyad)
+                .ToList();
+
+            ViewBag.Sinif = sinif;
+
+            return View(ogrenciler);
+        }
+
+        // ============================================================
+        // ÖĞRETMEN - Yoklama ekranı
+        // ============================================================
+
+        public IActionResult Yoklama()
+        {
+            var kullaniciAdi =
+                HttpContext.Session.GetString("KullaniciAdi");
+
+            if (string.IsNullOrEmpty(kullaniciAdi))
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var kullanici = _context.Kullanicilar
+                .FirstOrDefault(x =>
+                    x.KullaniciAdi == kullaniciAdi);
+
+            if (kullanici == null)
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var ogretmen = _context.Ogretmenler
+                .FirstOrDefault(x =>
+                    x.KullaniciId == kullanici.Id);
+
+            if (ogretmen == null)
+            {
+                return Unauthorized();
+            }
+
+            var siniflar = _context.OgretmenSiniflar
+                .Where(x =>
+                    x.OgretmenId == ogretmen.Id)
+                .Include(x => x.Sinif)
+                .ThenInclude(x => x.Okul)
+                .Select(x => x.Sinif)
+                .Where(x => x != null)
+                .ToList();
+
+            return View(siniflar);
+        }
+
+        // ============================================================
+        // ÖĞRETMEN - Seçilen sınıfın öğrencilerini getir
+        // YOKLAMA
+        // ============================================================
+
+        [HttpGet]
+        public IActionResult YoklamaAl(int id)
+        {
+            var kullaniciAdi =
+                HttpContext.Session.GetString("KullaniciAdi");
+
+            if (string.IsNullOrEmpty(kullaniciAdi))
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var kullanici = _context.Kullanicilar
+                .FirstOrDefault(x =>
+                    x.KullaniciAdi == kullaniciAdi);
+
+            if (kullanici == null)
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var ogretmen = _context.Ogretmenler
+                .FirstOrDefault(x =>
+                    x.KullaniciId == kullanici.Id);
+
+            if (ogretmen == null)
+            {
+                return Unauthorized();
+            }
+
+            var atama = _context.OgretmenSiniflar
+                .FirstOrDefault(x =>
+                    x.OgretmenId == ogretmen.Id &&
+                    x.SinifId == id);
+
+            if (atama == null)
+            {
+                return Unauthorized();
+            }
+
+            var sinif = _context.Siniflar
+                .FirstOrDefault(x =>
+                    x.Id == id);
+
+            if (sinif == null)
+            {
+                return NotFound();
+            }
+
+            var ogrenciler = _context.Ogrenciler
+                .Where(x =>
+                    x.SinifId.HasValue &&
+                    x.SinifId.Value == id)
+                .OrderBy(x => x.AdSoyad)
+                .ToList();
+
+            var bugun = DateTime.Today;
+
+            var mevcutYoklama = _context.Yoklamalar
+                .Include(x => x.Detaylar)
+                .FirstOrDefault(x =>
+                    x.SinifId == id &&
+                    x.OgretmenId == ogretmen.Id &&
+                    x.Tarih.Date == bugun);
+
+            ViewBag.Sinif = sinif;
+            ViewBag.AlreadyTaken = mevcutYoklama != null;
+
+            if (mevcutYoklama != null)
+            {
+                ViewBag.MevcutDurumlar = mevcutYoklama.Detaylar
+                    .ToDictionary(x => x.OgrenciId, x => x.Geldi);
+            }
+
+            return View(ogrenciler);
+        }
+
+        // ============================================================
+        // ÖĞRETMEN - Yoklamayı kaydet
+        // ============================================================
+
+        [HttpPost]
+        public IActionResult YoklamaKaydet(
+            int sinifId,
+            Dictionary<int, bool> durumlar)
+        {
+            var kullaniciAdi =
+                HttpContext.Session.GetString("KullaniciAdi");
+
+            if (string.IsNullOrEmpty(kullaniciAdi))
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var kullanici = _context.Kullanicilar
+                .FirstOrDefault(x =>
+                    x.KullaniciAdi == kullaniciAdi);
+
+            if (kullanici == null)
+            {
+                return RedirectToAction(
+                    "Login",
+                    "Account"
+                );
+            }
+
+            var ogretmen = _context.Ogretmenler
+                .FirstOrDefault(x =>
+                    x.KullaniciId == kullanici.Id);
+
+            if (ogretmen == null)
+            {
+                return Unauthorized();
+            }
+
+            var atama = _context.OgretmenSiniflar
+                .FirstOrDefault(x =>
+                    x.OgretmenId == ogretmen.Id &&
+                    x.SinifId == sinifId);
+
+            if (atama == null)
+            {
+                return Unauthorized();
+            }
+
+            var ogrenciler = _context.Ogrenciler
+                .Where(x =>
+                    x.SinifId.HasValue &&
+                    x.SinifId.Value == sinifId)
+                .ToList();
+
+            if (!ogrenciler.Any())
+            {
+                return RedirectToAction("Yoklama");
+            }
+
+            var bugun = DateTime.Today;
+
+            var mevcutYoklama = _context.Yoklamalar
+                .Include(x => x.Detaylar)
+                .FirstOrDefault(x =>
+                    x.SinifId == sinifId &&
+                    x.OgretmenId == ogretmen.Id &&
+                    x.Tarih.Date == bugun);
+
+            if (mevcutYoklama != null)
+            {
+                TempData["YoklamaUyari"] =
+                    "Bu sınıf için bugün yoklama zaten alındı. Değişiklik yapmak için Yoklama Geçmişi bölümündeki Düzenle seçeneğini kullanabilirsiniz.";
+
+                return RedirectToAction(
+                    "YoklamaAl",
+                    new { id = sinifId }
+                );
+            }
+
+            var yoklama = new Yoklama
+            {
+                SinifId = sinifId,
+                OgretmenId = ogretmen.Id,
+                Tarih = DateTime.Now
+            };
+
+            _context.Yoklamalar.Add(yoklama);
+            _context.SaveChanges();
+
+            foreach (var ogrenci in ogrenciler)
+            {
+                var geldi = durumlar.ContainsKey(ogrenci.Id)
+                    ? durumlar[ogrenci.Id]
+                    : false;
+
+                var detay = new YoklamaDetay
+                {
+                    YoklamaId = yoklama.Id,
+                    OgrenciId = ogrenci.Id,
+                    Geldi = geldi
+                };
+
+                _context.YoklamaDetaylari.Add(detay);
+            }
+
+            _context.SaveChanges();
+
+            TempData["YoklamaMesaji"] =
+                "Yoklama başarıyla kaydedildi.";
+
+            return RedirectToAction(
+                "YoklamaAl",
+                new { id = sinifId }
+            );
+        }
+    }
+}

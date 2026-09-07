@@ -1,0 +1,265 @@
+@model OkulTakipSistemi.Models.Ogrenci
+
+@{
+    ViewData["Title"] = "Yeni Öğrenci Kaydı";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2>Yeni Öğrenci Kaydı</h2>
+        <p class="text-muted">
+            Öğrencinin kişisel ve okul bilgilerini girerek kayıt oluşturun.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+            <form asp-action="Create" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-4"></div>
+
+                <!-- KİŞİSEL BİLGİLER -->
+
+                <h5 class="mb-3">
+                    Kişisel Bilgiler
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="AdSoyad" class="form-label">
+                            Ad Soyad
+                        </label>
+
+                        <input asp-for="AdSoyad"
+                               class="form-control"
+                               placeholder="Öğrencinin adını ve soyadını giriniz" />
+
+                        <span asp-validation-for="AdSoyad"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="OgrenciNo" class="form-label">
+                            Öğrenci No
+                        </label>
+
+                        <input asp-for="OgrenciNo"
+                               class="form-control"
+                               placeholder="Öğrenci numarasını giriniz" />
+
+                        <span asp-validation-for="OgrenciNo"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="DogumTarihi" class="form-label">
+                            Doğum Tarihi
+                        </label>
+
+                        <input asp-for="DogumTarihi"
+                               type="date"
+                               class="form-control" />
+
+                        <span asp-validation-for="DogumTarihi"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Cinsiyet" class="form-label">
+                            Cinsiyet
+                        </label>
+
+                        <select asp-for="Cinsiyet"
+                                class="form-select">
+
+                            <option value="">
+                                Cinsiyet seçiniz
+                            </option>
+
+                            <option value="Kadın">
+                                Kadın
+                            </option>
+
+                            <option value="Erkek">
+                                Erkek
+                            </option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Telefon" class="form-label">
+                            Telefon
+                        </label>
+
+                        <input asp-for="Telefon"
+                               class="form-control"
+                               placeholder="05XX XXX XX XX" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="KayitTarihi" class="form-label">
+                            Kayıt Tarihi
+                        </label>
+
+                        <input asp-for="KayitTarihi"
+                               type="date"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <label asp-for="Adres" class="form-label">
+                            Adres
+                        </label>
+
+                        <textarea asp-for="Adres"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="Öğrencinin adresini giriniz"></textarea>
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <!-- OKUL BİLGİLERİ -->
+
+                <h5 class="mb-3">
+                    Okul Bilgileri
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            Okul
+                        </label>
+
+                        <select id="okulSelect"
+                                class="form-select">
+
+                            <option value="">
+                                Okul seçiniz
+                            </option>
+
+                            @foreach (var okul in ViewBag.Okullar)
+                            {
+                                <option value="@okul.Id">
+                                    @okul.Ad
+                                </option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="SinifId" class="form-label">
+                            Sınıf
+                        </label>
+
+                        <select asp-for="SinifId"
+                                id="sinifSelect"
+                                class="form-select">
+
+                            <option value="">
+                                Önce okul seçiniz
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="SinifId"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+                        İptal
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Öğrenciyi Kaydet
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        const okulSelect = document.getElementById("okulSelect");
+        const sinifSelect = document.getElementById("sinifSelect");
+
+        const siniflar = [
+            @foreach (var sinif in ViewBag.Siniflar)
+            {
+                <text>
+                {
+                    id: @sinif.Id,
+                    ad: "@Html.Raw((sinif.Ad ?? "").Replace("\"", "\\\""))",
+                    okulId: @sinif.OkulId
+                },
+                </text>
+            }
+        ];
+
+        okulSelect.addEventListener("change", function () {
+
+            const okulId = this.value;
+
+            sinifSelect.innerHTML =
+                '<option value="">Sınıf seçiniz</option>';
+
+            if (!okulId) {
+                sinifSelect.innerHTML =
+                    '<option value="">Önce okul seçiniz</option>';
+                return;
+            }
+
+            const filtrelenenSiniflar = siniflar.filter(
+                x => x.okulId == okulId
+            );
+
+            filtrelenenSiniflar.forEach(function (sinif) {
+
+                const option = document.createElement("option");
+
+                option.value = sinif.id;
+                option.textContent = sinif.ad;
+
+                sinifSelect.appendChild(option);
+
+            });
+
+            if (filtrelenenSiniflar.length === 0) {
+
+                sinifSelect.innerHTML =
+                    '<option value="">Bu okulda sınıf bulunamadı</option>';
+
+            }
+
+        });
+
+    </script>
+}

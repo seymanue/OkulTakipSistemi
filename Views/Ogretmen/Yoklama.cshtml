@@ -1,0 +1,444 @@
+@model IEnumerable<OkulTakipSistemi.Models.Sinif>
+
+@{
+    ViewData["Title"] = "Yoklama Al";
+}
+
+<style>
+    .attendance-page {
+        min-height: calc(100vh - 100px);
+        background: #f3f8f5;
+        padding: 45px 0 60px;
+    }
+
+    /* YEŞİL BAŞLIK */
+
+    .page-header {
+        background: #198754;
+        color: white;
+        border-radius: 18px;
+        padding: 28px 32px;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 20px rgba(25, 135, 84, 0.15);
+    }
+
+    .page-header-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .page-header h1 {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .page-header p {
+        margin: 7px 0 0;
+        opacity: .9;
+        font-size: 15px;
+    }
+
+    .page-kicker {
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        margin-bottom: 8px;
+        opacity: .9;
+    }
+
+    .back-btn {
+        background: white;
+        color: #198754;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        white-space: nowrap;
+        transition: .2s ease;
+    }
+
+    .back-btn:hover {
+        background: #e9f5ef;
+        color: #146c43;
+        transform: translateY(-1px);
+    }
+
+
+    /* SINIFLAR */
+
+    .class-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+
+    /* SINIF KARTI */
+
+    .class-card {
+        background: white;
+        border: 1px solid #dceee4;
+        border-radius: 18px;
+        padding: 24px;
+        min-height: 310px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        box-shadow: 0 5px 15px rgba(0,0,0,.05);
+
+        transition: .2s ease;
+    }
+
+    .class-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,.08);
+        border-color: #b9dcc8;
+    }
+
+
+    /* İKON */
+
+    .class-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 17px;
+        background: #e9f7ef;
+        color: #198754;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .class-icon svg {
+        width: 36px;
+        height: 36px;
+        stroke: currentColor;
+    }
+
+
+    /* SINIF BİLGİSİ */
+
+    .class-info {
+        margin-top: 25px;
+    }
+
+    .class-info h2 {
+        margin: 0 0 7px;
+        color: #146c43;
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    .class-info p {
+        margin: 0;
+        color: #7a857f;
+        font-size: 14px;
+    }
+
+
+    /* YOKLAMA BUTONU */
+
+    .attendance-button {
+        width: 100%;
+        min-height: 48px;
+
+        margin-top: 25px;
+        padding: 12px 16px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        box-sizing: border-box;
+
+        background: #198754;
+        color: white !important;
+
+        border: 1px solid #198754;
+        border-radius: 10px;
+
+        text-decoration: none;
+
+        font-size: 15px;
+        font-weight: 600;
+
+        transition: .2s ease;
+    }
+
+    .attendance-button:hover {
+        background: #146c43;
+        border-color: #146c43;
+        color: white !important;
+        transform: translateY(-1px);
+    }
+
+    .attendance-button .arrow {
+        font-size: 21px;
+        line-height: 1;
+    }
+
+
+    /* BOŞ DURUM */
+
+    .empty-card {
+        background: white;
+        border: 1px solid #dceee4;
+        border-radius: 18px;
+        padding: 45px 25px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,.04);
+    }
+
+    .empty-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 15px;
+
+        border-radius: 50%;
+        background: #e9f7ef;
+        color: #198754;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .empty-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .empty-card h3 {
+        margin: 0 0 7px;
+        color: #344039;
+        font-size: 18px;
+    }
+
+    .empty-card p {
+        margin: 0;
+        color: #89938d;
+        font-size: 14px;
+    }
+
+
+    /* TABLET */
+
+    @@media (max-width: 768px) {
+
+        .attendance-page {
+            padding: 25px 0 40px;
+        }
+
+        .page-header {
+            padding: 22px;
+        }
+
+        .page-header-inner {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 18px;
+        }
+
+        .back-btn {
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .class-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+
+    /* TELEFON */
+
+    @@media (max-width: 500px) {
+
+        .page-header h1 {
+            font-size: 26px;
+        }
+
+        .class-card {
+            padding: 20px;
+        }
+
+        .class-icon {
+            width: 58px;
+            height: 58px;
+        }
+
+        .class-icon svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .class-info h2 {
+            font-size: 23px;
+        }
+    }
+</style>
+
+
+<div class="attendance-page">
+
+    <div class="container">
+
+        <!-- YEŞİL BAŞLIK -->
+
+        <div class="page-header">
+
+            <div class="page-header-inner">
+
+                <div>
+
+                    <div class="page-kicker">
+                        YOKLAMA
+                    </div>
+
+                    <h1>
+                        Yoklama Al
+                    </h1>
+
+                    <p>
+                        Yoklama almak istediğiniz sınıfı seçiniz.
+                    </p>
+
+                </div>
+
+                <a asp-controller="Home"
+                   asp-action="OgretmenPanel"
+                   class="back-btn">
+                    ← Ana Sayfaya Dön
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- SINIFLAR -->
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="class-grid">
+
+                @foreach (var sinif in Model)
+                {
+                    <div class="class-card">
+
+                        <div>
+
+                            <div class="class-icon">
+
+                                <svg viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="1.8"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+
+                                    <path d="M3 21h18" />
+
+                                    <path d="M5 21V8l7-5 7 5v13" />
+
+                                    <path d="M9 21v-6h6v6" />
+
+                                    <path d="M8 10h.01" />
+                                    <path d="M12 10h.01" />
+                                    <path d="M16 10h.01" />
+
+                                </svg>
+
+                            </div>
+
+
+                            <div class="class-info">
+
+                                <h2>
+                                    @sinif.Ad
+                                </h2>
+
+                                @if (sinif.Okul != null)
+                                {
+                                    <p>
+                                        Okul: @sinif.Okul.Ad
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        Sınıf bilgileri
+                                    </p>
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- YOKLAMA AL -->
+
+                        <a asp-controller="Ogretmen"
+                           asp-action="YoklamaAl"
+                           asp-route-id="@sinif.Id"
+                           class="attendance-button">
+
+                            <span>
+                                Yoklama Al
+                            </span>
+
+                            <span class="arrow">
+                                →
+                            </span>
+
+                        </a>
+
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="empty-card">
+
+                <div class="empty-icon">
+
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.8"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+
+                        <path d="M3 21h18" />
+                        <path d="M5 21V8l7-5 7 5v13" />
+                        <path d="M9 21v-6h6v6" />
+
+                    </svg>
+
+                </div>
+
+                <h3>
+                    Atanmış sınıf bulunamadı
+                </h3>
+
+                <p>
+                    Şu anda size atanmış herhangi bir sınıf bulunmamaktadır.
+                </p>
+
+            </div>
+        }
+
+    </div>
+
+</div>

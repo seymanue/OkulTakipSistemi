@@ -1,0 +1,134 @@
+@model IEnumerable<OkulTakipSistemi.Models.AylikBorc>
+
+@{
+    ViewData["Title"] = "Borç Raporu";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Borç Raporu</h2>
+            <p class="text-muted mb-0">
+                Öğrencilerin aylık borç ve ödeme durumlarını görüntüleyin.
+            </p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Toplam Borç</h6>
+                    <h3>
+                        @(((decimal)ViewBag.ToplamBorc).ToString("N2")) ₺
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Toplam Ödenen</h6>
+                    <h3>
+                        @(((decimal)ViewBag.ToplamOdenen).ToString("N2")) ₺
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Toplam Kalan</h6>
+                    <h3>
+                        @(((decimal)ViewBag.ToplamKalan).ToString("N2")) ₺
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Öğrenci</th>
+                        <th>Öğrenci No</th>
+                        <th>Okul</th>
+                        <th>Sınıf</th>
+                        <th>Dönem</th>
+                        <th>Borç</th>
+                        <th>Ödenen</th>
+                        <th>Kalan</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center">
+                                Henüz borç kaydı bulunmuyor.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var borc in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @borc.OgrenciKaydi?.Ogrenci?.AdSoyad
+                                </td>
+
+                                <td>
+                                    @borc.OgrenciKaydi?.Ogrenci?.OgrenciNo
+                                </td>
+
+                                <td>
+                                    @borc.OgrenciKaydi?.Okul?.Ad
+                                </td>
+
+                                <td>
+                                    @borc.OgrenciKaydi?.Sinif?.Ad
+                                </td>
+
+                                <td>
+                                    @borc.Ay / @borc.Yil
+                                </td>
+
+                                <td>
+                                    @borc.Tutar.ToString("N2") ₺
+                                </td>
+
+                                <td>
+                                    @borc.OdenenTutar.ToString("N2") ₺
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        @borc.KalanTutar.ToString("N2") ₺
+                                    </strong>
+                                </td>
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>

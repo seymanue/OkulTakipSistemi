@@ -1,0 +1,339 @@
+@model OkulTakipSistemi.Models.Ogrenci
+
+@{
+    ViewData["Title"] = "Öğrenci Düzenle";
+
+    var seciliOkulId = Model.Sinif?.OkulId ?? 0;
+}
+
+<style>
+    .edit-page {
+        padding: 32px;
+        background: #f7f8fc;
+        min-height: calc(100vh - 70px);
+    }
+
+    .edit-header {
+        margin-bottom: 24px;
+    }
+
+    .edit-title {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 700;
+        color: #202338;
+    }
+
+    .edit-subtitle {
+        margin-top: 6px;
+        color: #73788c;
+        font-size: 15px;
+    }
+
+    .edit-card {
+        max-width: 760px;
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 18px rgba(30, 35, 70, 0.06);
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #303447;
+        font-size: 14px;
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        height: 48px;
+        border: 1px solid #dfe3eb;
+        border-radius: 9px;
+        padding: 0 14px;
+        font-size: 14px;
+        background: white;
+        outline: none;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #4f35dc;
+        box-shadow: 0 0 0 3px rgba(79, 53, 220, 0.08);
+    }
+
+    .button-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    .cancel-btn {
+        padding: 12px 18px;
+        border-radius: 9px;
+        background: #eef0f4;
+        color: #555a6b;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .cancel-btn:hover {
+        background: #e3e6ec;
+        color: #444858;
+    }
+
+    .save-btn {
+        border: none;
+        padding: 12px 20px;
+        border-radius: 9px;
+        background: #4f35dc;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .save-btn:hover {
+        background: #3f28c4;
+    }
+
+    .validation {
+        color: #c23b3b;
+        font-size: 13px;
+        margin-top: 5px;
+        display: block;
+    }
+</style>
+
+<div class="edit-page">
+
+    <div class="edit-header">
+
+        <h1 class="edit-title">
+            Öğrenci Düzenle
+        </h1>
+
+        <p class="edit-subtitle">
+            Öğrenci bilgilerini güncelleyin.
+        </p>
+
+    </div>
+
+    <div class="edit-card">
+
+        <form asp-action="Edit"
+              method="post">
+
+            <input type="hidden"
+                   asp-for="Id" />
+
+            <input type="hidden"
+                   asp-for="Aktif" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation">
+            </div>
+
+
+            <!-- AD SOYAD -->
+
+            <div class="form-group">
+
+                <label asp-for="AdSoyad"
+                       class="form-label">
+                    Ad Soyad
+                </label>
+
+                <input asp-for="AdSoyad"
+                       class="form-control"
+                       placeholder="Öğrencinin adını ve soyadını giriniz" />
+
+                <span asp-validation-for="AdSoyad"
+                      class="validation">
+                </span>
+
+            </div>
+
+
+            <!-- ÖĞRENCİ NO -->
+
+            <div class="form-group">
+
+                <label asp-for="OgrenciNo"
+                       class="form-label">
+                    Öğrenci No
+                </label>
+
+                <input asp-for="OgrenciNo"
+                       class="form-control"
+                       placeholder="Öğrenci numarasını giriniz" />
+
+                <span asp-validation-for="OgrenciNo"
+                      class="validation">
+                </span>
+
+            </div>
+
+
+            <!-- OKUL -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Okul
+                </label>
+
+                <select id="okulSelect"
+                        class="form-select">
+
+                    <option value="">
+                        Okul seçiniz
+                    </option>
+
+                    @foreach (var okul in ViewBag.Okullar)
+                    {
+                        <option value="@okul.Id"
+                                selected="@(okul.Id == seciliOkulId)">
+                            @okul.Ad
+                        </option>
+                    }
+
+                </select>
+
+            </div>
+
+
+            <!-- SINIF -->
+
+            <div class="form-group">
+
+                <label asp-for="SinifId"
+                       class="form-label">
+                    Sınıf
+                </label>
+
+                <select asp-for="SinifId"
+                        id="sinifSelect"
+                        class="form-select">
+
+                    <option value="">
+                        Önce okul seçiniz
+                    </option>
+
+                    @foreach (var sinif in ViewBag.Siniflar)
+                    {
+                        <option value="@sinif.Id"
+                                data-okul-id="@sinif.OkulId"
+                                selected="@(sinif.Id == Model.SinifId)">
+                            @sinif.Ad
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="SinifId"
+                      class="validation">
+                </span>
+
+            </div>
+
+
+            <!-- BUTONLAR -->
+
+            <div class="button-row">
+
+                <a asp-action="Index"
+                   class="cancel-btn">
+                    İptal
+                </a>
+
+                <button type="submit"
+                        class="save-btn">
+                    Değişiklikleri Kaydet
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync(
+            "_ValidationScriptsPartial"
+        );
+    }
+
+    <script>
+
+        const okulSelect =
+            document.getElementById("okulSelect");
+
+        const sinifSelect =
+            document.getElementById("sinifSelect");
+
+
+        function filtreleSiniflar() {
+
+            const okulId =
+                okulSelect.value;
+
+            const options =
+                sinifSelect.querySelectorAll(
+                    "option[data-okul-id]"
+                );
+
+            options.forEach(function (option) {
+
+                if (
+                    okulId === "" ||
+                    option.dataset.okulId === okulId
+                ) {
+
+                    option.style.display = "";
+
+                } else {
+
+                    option.style.display = "none";
+
+                }
+
+            });
+
+            const selected =
+                sinifSelect.querySelector(
+                    "option:checked"
+                );
+
+            if (
+                selected &&
+                selected.dataset.okulId &&
+                selected.dataset.okulId !== okulId
+            ) {
+
+                sinifSelect.value = "";
+
+            }
+
+        }
+
+
+        okulSelect.addEventListener(
+            "change",
+            filtreleSiniflar
+        );
+
+
+        filtreleSiniflar();
+
+    </script>
+}

@@ -1,0 +1,83 @@
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<div class="container mt-5">
+
+    <h1>Okul Takip Sistemi</h1>
+
+    <p class="lead">
+        Okul yönetim sistemine hoş geldiniz.
+    </p>
+
+    <div class="mt-4">
+
+        <a asp-controller="Okul"
+           asp-action="Index"
+           class="btn btn-primary me-2 mb-2">
+            Okullar
+        </a>
+
+        <a asp-controller="Sinif"
+           asp-action="Index"
+           class="btn btn-primary me-2 mb-2">
+            Sınıflar
+        </a>
+
+        <a asp-controller="Ogrenci"
+           asp-action="Index"
+           class="btn btn-primary me-2 mb-2">
+            Öğrenciler
+        </a>
+
+        <a asp-controller="Veli"
+           asp-action="Index"
+           class="btn btn-primary me-2 mb-2">
+            Veliler
+        </a>
+
+        <a asp-controller="Ogretmen"
+           asp-action="Index"
+           class="btn btn-primary me-2 mb-2">
+            Öğretmenler
+        </a>
+
+        <a asp-controller="OgretmenSinif"
+           asp-action="Index"
+           class="btn btn-warning me-2 mb-2">
+            Öğretmen-Sınıf Atama
+        </a>
+
+        <a asp-controller="Odeme"
+           asp-action="Index"
+           class="btn btn-primary me-2 mb-2">
+            Ödemeler
+        </a>
+
+        <a asp-controller="OkulUcreti"
+           asp-action="Index"
+           class="btn btn-info me-2 mb-2">
+            Okul Ücretleri
+        </a>
+
+        <a asp-controller="OgrenciUcretDurumu"
+           asp-action="Index"
+           class="btn btn-warning me-2 mb-2">
+            Öğrenci Ücret Durumları
+        </a>
+
+        <a asp-controller="AylikBorc"
+           asp-action="Index"
+           class="btn btn-danger me-2 mb-2">
+            Aylık Borçlar
+        </a>
+
+        <a asp-controller="Kullanici"
+           asp-action="Index"
+           class="btn btn-success mb-2">
+            Kullanıcılar
+        </a>
+
+    </div>
+
+</div>

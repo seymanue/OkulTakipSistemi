@@ -1,0 +1,294 @@
+@model OkulTakipSistemi.Models.OdemePlaniViewModel
+
+@{
+    ViewData["Title"] = "Ödeme Planı Oluştur";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- MESAJLAR -->
+    @if (TempData["Hata"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Hata:</strong>
+            @TempData["Hata"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Kapat">
+            </button>
+        </div>
+    }
+
+    @if (TempData["Basarili"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Başarılı:</strong>
+            @TempData["Basarili"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Kapat">
+            </button>
+        </div>
+    }
+
+
+    <!-- BAŞLIK -->
+    <div class="mb-4">
+        <h2 class="fw-bold">Ödeme Planı Oluştur</h2>
+
+        <p class="text-muted">
+            Öğrenci için başlangıç ayı ve taksit sayısını belirleyin.
+        </p>
+    </div>
+
+
+    <!-- ÖĞRENCİ BİLGİLERİ -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <div class="alert alert-light border mb-0">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <strong>Öğrenci</strong>
+
+                        <br />
+
+                        @Model.OgrenciAdi
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <strong>Okul</strong>
+
+                        <br />
+
+                        @Model.OkulAdi
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <strong>Sınıf</strong>
+
+                        <br />
+
+                        @Model.SinifAdi
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ÖDEME PLANI FORMU -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <form asp-action="OdemePlani"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+
+                <!-- GİZLİ ALANLAR -->
+
+                <input type="hidden"
+                       asp-for="OgrenciKaydiId" />
+
+                <input type="hidden"
+                       asp-for="OgrenciAdi" />
+
+                <input type="hidden"
+                       asp-for="OkulAdi" />
+
+                <input type="hidden"
+                       asp-for="SinifAdi" />
+
+                <input type="hidden"
+                       asp-for="AylikUcret" />
+
+                <input type="hidden"
+                       asp-for="AylikOdenecekTutar" />
+
+
+                <!-- TARİH VE TAKSİT -->
+
+                <div class="row">
+
+                    <!-- BAŞLANGIÇ YILI -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label asp-for="BaslangicYili"
+                               class="form-label fw-semibold">
+                            Başlangıç Yılı
+                        </label>
+
+                        <input asp-for="BaslangicYili"
+                               class="form-control"
+                               type="number"
+                               min="2020"
+                               max="2100" />
+
+                        <span asp-validation-for="BaslangicYili"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <!-- BAŞLANGIÇ AYI -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label asp-for="BaslangicAyi"
+                               class="form-label fw-semibold">
+                            Başlangıç Ayı
+                        </label>
+
+                        <select asp-for="BaslangicAyi"
+                                class="form-select">
+
+                            <option value="1">Ocak</option>
+
+                            <option value="2">Şubat</option>
+
+                            <option value="3">Mart</option>
+
+                            <option value="4">Nisan</option>
+
+                            <option value="5">Mayıs</option>
+
+                            <option value="6">Haziran</option>
+
+                            <option value="7">Temmuz</option>
+
+                            <option value="8">Ağustos</option>
+
+                            <option value="9">Eylül</option>
+
+                            <option value="10">Ekim</option>
+
+                            <option value="11">Kasım</option>
+
+                            <option value="12">Aralık</option>
+
+                        </select>
+
+                        <span asp-validation-for="BaslangicAyi"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <!-- TAKSİT SAYISI -->
+
+                    <div class="col-md-4 mb-3">
+
+                        <label asp-for="TaksitSayisi"
+                               class="form-label fw-semibold">
+                            Taksit Sayısı
+                        </label>
+
+                        <input asp-for="TaksitSayisi"
+                               class="form-control"
+                               type="number"
+                               min="1"
+                               max="24" />
+
+                        <span asp-validation-for="TaksitSayisi"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ÜCRET BİLGİLERİ -->
+
+                <div class="alert alert-primary mt-3">
+
+                    <div>
+                        <strong>Aylık Ücret:</strong>
+
+                        @Model.AylikUcret.ToString("N2") ₺
+                    </div>
+
+
+                    <div class="mt-2">
+
+                        <strong>Aylık Ödenecek:</strong>
+
+                        @Model.AylikOdenecekTutar.ToString("N2") ₺
+                    </div>
+
+
+                    <div class="mt-2">
+
+                        <strong>Toplam:</strong>
+
+                        @Model.ToplamTutar.ToString("N2") ₺
+                    </div>
+
+                </div>
+
+
+                <!-- GENEL MODEL HATALARI -->
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+
+                <!-- BUTONLAR -->
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        Ödeme Planını Oluştur
+
+                    </button>
+
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+
+                        Vazgeç
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

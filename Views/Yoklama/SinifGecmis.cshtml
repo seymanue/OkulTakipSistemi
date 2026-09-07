@@ -1,0 +1,415 @@
+@model List<OkulTakipSistemi.Models.YoklamaGecmisViewModel>
+
+@{
+    ViewData["Title"] = "Yoklama Geçmişi";
+    var sinif = ViewBag.Sinif as OkulTakipSistemi.Models.Sinif;
+}
+
+<style>
+    .yoklama-page {
+        min-height: calc(100vh - 100px);
+        background: #f3f8f5;
+        padding: 45px 0;
+    }
+
+    .page-header {
+        background: #198754;
+        color: white;
+        border-radius: 18px;
+        padding: 28px 32px;
+        margin-bottom: 30px;
+        box-shadow: 0 8px 20px rgba(25, 135, 84, 0.15);
+    }
+
+    .page-header h1 {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .page-header p {
+        margin: 7px 0 0;
+        opacity: .9;
+        font-size: 15px;
+    }
+
+    .back-btn {
+        background: white;
+        color: #198754;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: .2s ease;
+    }
+
+    .back-btn:hover {
+        background: #e9f5ef;
+        color: #146c43;
+        transform: translateY(-1px);
+    }
+
+    .message-box {
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        background: white;
+        border: 1px solid #dceee4;
+    }
+
+    .success-box {
+        color: #146c43;
+        background: #edf8f2;
+        border-color: #cce8d8;
+    }
+
+    .warning-box {
+        color: #856404;
+        background: #fff8e1;
+        border-color: #ffe8a1;
+    }
+
+    .info-box {
+        text-align: center;
+        color: #53605a;
+        padding: 45px 25px;
+    }
+
+    .attendance-card {
+        background: white;
+        border: 1px solid #dceee4;
+        border-radius: 18px;
+        margin-bottom: 22px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,.05);
+    }
+
+    .attendance-header {
+        padding: 18px 22px;
+        background: #edf8f2;
+        border-bottom: 1px solid #dceee4;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .attendance-title {
+        color: #146c43;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .attendance-date {
+        color: #748078;
+        font-size: 14px;
+        margin-left: 8px;
+    }
+
+    .edit-btn {
+        background: white;
+        color: #198754;
+        border: 1px solid #b9dcc8;
+        border-radius: 9px;
+        padding: 8px 13px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .edit-btn:hover {
+        background: #198754;
+        color: white;
+    }
+
+    .attendance-body {
+        padding: 0;
+    }
+
+    .attendance-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    .attendance-table th {
+        background: #f7faf8;
+        color: #52605a;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 14px 18px;
+        text-align: left;
+        border-bottom: 1px solid #e6ece8;
+    }
+
+    .attendance-table td {
+        padding: 14px 18px;
+        border-bottom: 1px solid #edf1ee;
+        color: #39453f;
+        font-size: 14px;
+    }
+
+    .attendance-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .attendance-table tr:hover td {
+        background: #fafcfb;
+    }
+
+    .student-name {
+        font-weight: 600;
+        color: #27332c;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .status-present {
+        background: #e6f6ed;
+        color: #198754;
+    }
+
+    .status-absent {
+        background: #fdecec;
+        color: #dc3545;
+    }
+
+    .no-student {
+        padding: 22px;
+        color: #856404;
+        background: #fff8e1;
+        text-align: center;
+    }
+
+    @@media (max-width: 768px) {
+
+        .yoklama-page {
+            padding: 25px 0;
+        }
+
+        .page-header {
+            padding: 22px;
+        }
+
+        .page-header .d-flex {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 18px;
+        }
+
+        .back-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .attendance-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .edit-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .attendance-table {
+            min-width: 600px;
+        }
+
+        .attendance-body {
+            overflow-x: auto;
+        }
+    }
+</style>
+
+<div class="yoklama-page">
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <div style="font-size:12px; font-weight:800; letter-spacing:1.5px; opacity:.85; margin-bottom:6px;">
+                        YOKLAMA GEÇMİŞİ
+                    </div>
+
+                    <h1>
+                        @(sinif?.Ad ?? "Sınıf") Yoklama Geçmişi
+                    </h1>
+
+                    @if (sinif?.Okul != null)
+                    {
+                        <p>
+                            Okul: @sinif.Okul.Ad
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            Sınıfa ait geçmiş yoklamalar
+                        </p>
+                    }
+
+                </div>
+
+                <a asp-controller="Yoklama"
+                   asp-action="Gecmis"
+                   class="back-btn">
+                    ← Sınıflara Dön
+                </a>
+
+            </div>
+
+        </div>
+
+        @if (TempData["Basari"] != null)
+        {
+            <div class="message-box success-box">
+                ✓ @TempData["Basari"]
+            </div>
+        }
+
+        @if (TempData["Hata"] != null)
+        {
+            <div class="message-box warning-box">
+                ⚠ @TempData["Hata"]
+            </div>
+        }
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="message-box info-box">
+
+                <div style="font-size:40px; margin-bottom:12px;">
+                    📋
+                </div>
+
+                <strong style="display:block; font-size:17px; margin-bottom:7px;">
+                    Henüz yoklama bulunmamaktadır.
+                </strong>
+
+                <span>
+                    Bu sınıfa ait alınmış bir yoklama henüz bulunmuyor.
+                </span>
+
+            </div>
+        }
+        else
+        {
+            @foreach (var yoklama in Model)
+            {
+                <div class="attendance-card">
+
+                    <div class="attendance-header">
+
+                        <div>
+
+                            <span class="attendance-title">
+                                📋 Yoklama
+                            </span>
+
+                            <span class="attendance-date">
+                                @yoklama.Tarih.ToString("dd.MM.yyyy HH:mm")
+                            </span>
+
+                        </div>
+
+                        <a asp-controller="Yoklama"
+                           asp-action="Duzenle"
+                           asp-route-id="@yoklama.YoklamaId"
+                           class="edit-btn">
+                            ✏️ Düzenle
+                        </a>
+
+                    </div>
+
+                    <div class="attendance-body">
+
+                        @if (yoklama.Ogrenciler == null ||
+                             !yoklama.Ogrenciler.Any())
+                        {
+                            <div class="no-student">
+                                Bu yoklamada öğrenci kaydı bulunmamaktadır.
+                            </div>
+                        }
+                        else
+                        {
+                            <table class="attendance-table">
+
+                                <thead>
+                                    <tr>
+                                        <th style="width:150px;">
+                                            Öğrenci No
+                                        </th>
+
+                                        <th>
+                                            Ad Soyad
+                                        </th>
+
+                                        <th style="width:180px;">
+                                            Durum
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach (var ogrenci in yoklama.Ogrenciler)
+                                    {
+                                        <tr>
+
+                                            <td>
+                                                @ogrenci.OgrenciNo
+                                            </td>
+
+                                            <td class="student-name">
+                                                @ogrenci.AdSoyad
+                                            </td>
+
+                                            <td>
+
+                                                @if (ogrenci.Geldi)
+                                                {
+                                                    <span class="status-badge status-present">
+                                                        ✓ Geldi
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="status-badge status-absent">
+                                                        ✕ Gelmedi
+                                                    </span>
+                                                }
+
+                                            </td>
+
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+                        }
+
+                    </div>
+
+                </div>
+            }
+        }
+
+    </div>
+
+</div>

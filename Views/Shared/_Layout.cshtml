@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        @ViewData["Title"] - Okul Takip Sistemi
+    </title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/OkulTakipSistemi.styles.css"
+          asp-append-version="true" />
+
+</head>
+
+<body>
+
+    @{
+        var rol = Context.Session.GetString("Rol");
+        var adSoyad = Context.Session.GetString("AdSoyad");
+    }
+
+    <header>
+
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow">
+
+            <div class="container-fluid">
+
+                <!-- SOL TARAF -->
+
+                @if (rol == "Admin")
+                {
+                    <a class="navbar-brand fw-bold"
+                       asp-controller="Home"
+                       asp-action="AdminPanel">
+
+                        Okul Takip Sistemi
+
+                    </a>
+                }
+                else if (rol == "Öğretmen")
+                {
+                    <a class="navbar-brand fw-bold"
+                       asp-controller="Home"
+                       asp-action="OgretmenPanel">
+
+                        Okul Takip Sistemi
+
+                    </a>
+                }
+                else
+                {
+                    <a class="navbar-brand fw-bold"
+                       asp-controller="Account"
+                       asp-action="Login">
+
+                        Okul Takip Sistemi
+
+                    </a>
+                }
+
+                <!-- SAĞ TARAF -->
+
+                @if (!string.IsNullOrEmpty(rol))
+                {
+                    <div class="ms-auto d-flex align-items-center">
+
+                        <a class="nav-link me-3"
+                           asp-controller="Account"
+                           asp-action="OgretmenBilgileri">
+
+                            @adSoyad
+
+                        </a>
+
+                        <a class="nav-link text-danger"
+                           asp-controller="Account"
+                           asp-action="Logout">
+
+                            Çıkış Yap
+
+                        </a>
+
+                    </div>
+                }
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <div class="container-fluid">
+
+        <main role="main" class="pb-3">
+
+            @RenderBody()
+
+        </main>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @await RenderSectionAsync(
+        "Scripts",
+        required: false)
+</body>
+
+</html>

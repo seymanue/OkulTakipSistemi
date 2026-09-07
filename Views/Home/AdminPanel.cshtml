@@ -1,0 +1,514 @@
+@{
+    ViewData["Title"] = "Yönetici Paneli";
+}
+
+<style>
+    .admin-page {
+        min-height: calc(100vh - 80px);
+        background: #f3faff;
+        padding: 45px 0 60px;
+    }
+
+    .admin-header {
+        background: linear-gradient(135deg, #a9d9f5, #8fcbea);
+        color: #17445f;
+        border-radius: 22px;
+        padding: 32px 36px;
+        margin-bottom: 35px;
+        box-shadow: 0 10px 28px rgba(92, 151, 190, .15);
+    }
+
+    .admin-header h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    .admin-header p {
+        margin: 8px 0 0;
+        color: #35657e;
+        font-size: 15px;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+        color: #214d65;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .section-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: #dff2fc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+    }
+
+    .admin-card {
+        display: block;
+        height: 100%;
+        background: #ffffff;
+        border: 1px solid #dcecf5;
+        border-radius: 18px;
+        padding: 23px;
+        text-decoration: none;
+        color: #214d65;
+        box-shadow: 0 5px 18px rgba(67, 132, 164, .055);
+        transition: .2s ease;
+    }
+
+    .admin-card:hover {
+        color: #214d65;
+        transform: translateY(-4px);
+        border-color: #b9dff1;
+        box-shadow: 0 12px 28px rgba(92, 151, 190, .13);
+    }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        background: #e8f6fd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 23px;
+        margin-bottom: 16px;
+    }
+
+    .admin-card h3 {
+        margin: 0 0 7px;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .admin-card p {
+        margin: 0;
+        color: #718895;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .card-arrow {
+        margin-top: 15px;
+        text-align: right;
+        color: #4d9bc2;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    /* ÜCRET VE ÖDEME */
+
+    .finance-card {
+        background: linear-gradient(135deg, #ffffff, #f1f9fd);
+        border: 1px solid #cce6f3;
+        padding: 30px;
+    }
+
+    .finance-card .card-icon {
+        background: #9bd5f2;
+        color: #17445f;
+    }
+
+    .finance-card h3 {
+        color: #286987;
+        font-size: 22px;
+    }
+
+    .finance-card > p {
+        max-width: 800px;
+        font-size: 15px;
+    }
+
+    .finance-items {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 22px;
+    }
+
+    .finance-item {
+        background: #ffffff;
+        border: 1px solid #deedf4;
+        border-radius: 13px;
+        padding: 15px;
+        font-size: 13px;
+        color: #657c88;
+    }
+
+    .finance-item strong {
+        display: block;
+        color: #214d65;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .finance-button {
+        display: inline-block;
+        margin-top: 22px;
+        padding: 11px 20px;
+        border-radius: 11px;
+        background: #8fcbea;
+        color: #17445f;
+        font-weight: 600;
+        text-decoration: none;
+        transition: .2s ease;
+    }
+
+    .finance-button:hover {
+        background: #76bfe4;
+        color: #123b54;
+        transform: translateY(-1px);
+    }
+
+    .logout-area {
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .logout-button {
+        display: inline-block;
+        padding: 11px 24px;
+        border-radius: 11px;
+        background: #ffffff;
+        border: 1px solid #d8e9f2;
+        color: #4d7d94;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .logout-button:hover {
+        background: #eef9ff;
+        color: #286987;
+    }
+
+    @@media (max-width: 768px) {
+
+        .admin-page {
+            padding: 25px 12px 40px;
+        }
+
+        .admin-header {
+            padding: 25px;
+        }
+
+        .admin-header h1 {
+            font-size: 27px;
+        }
+
+        .finance-items {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="admin-page">
+
+    <div class="container">
+
+        <!-- BAŞLIK -->
+
+        <div class="admin-header">
+
+            <h1>Yönetici Paneli</h1>
+
+            <p>
+                Hoş geldiniz, @Context.Session.GetString("AdSoyad")
+            </p>
+
+        </div>
+
+
+        <!-- TEMEL YÖNETİM -->
+
+        <div class="section-title">
+            <div class="section-icon">⚙️</div>
+            Temel Yönetim
+        </div>
+
+        <div class="row g-4 mb-5">
+
+            <!-- OKULLAR -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <a asp-controller="Okul"
+                   asp-action="Index"
+                   class="admin-card">
+
+                    <div class="card-icon">🏫</div>
+
+                    <h3>Okullar</h3>
+
+                    <p>
+                        Okulları görüntüle, ekle ve yönet.
+                    </p>
+
+                    <div class="card-arrow">→</div>
+
+                </a>
+
+            </div>
+
+
+            <!-- SINIFLAR -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <a asp-controller="Sinif"
+                   asp-action="Index"
+                   class="admin-card">
+
+                    <div class="card-icon">📚</div>
+
+                    <h3>Sınıflar</h3>
+
+                    <p>
+                        Sınıfları ve sınıf bilgilerini yönet.
+                    </p>
+
+                    <div class="card-arrow">→</div>
+
+                </a>
+
+            </div>
+
+
+            <!-- ÖĞRENCİLER -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <a asp-controller="Ogrenci"
+                   asp-action="Index"
+                   class="admin-card">
+
+                    <div class="card-icon">👨‍🎓</div>
+
+                    <h3>Öğrenciler</h3>
+
+                    <p>
+                        Öğrenci kayıtlarını görüntüle ve yönet.
+                    </p>
+
+                    <div class="card-arrow">→</div>
+
+                </a>
+
+            </div>
+
+
+            <!-- ÖĞRETMENLER -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <a asp-controller="Ogretmen"
+                   asp-action="Index"
+                   class="admin-card">
+
+                    <div class="card-icon">👩‍🏫</div>
+
+                    <h3>Öğretmenler</h3>
+
+                    <p>
+                        Öğretmen kayıtlarını ve bilgilerini yönet.
+                    </p>
+
+                    <div class="card-arrow">→</div>
+
+                </a>
+
+            </div>
+
+
+            <!-- VELİLER -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <a asp-controller="Veli"
+                   asp-action="Index"
+                   class="admin-card">
+
+                    <div class="card-icon">👨‍👩‍👧</div>
+
+                    <h3>Veliler</h3>
+
+                    <p>
+                        Veli bilgilerini görüntüle ve düzenle.
+                    </p>
+
+                    <div class="card-arrow">→</div>
+
+                </a>
+
+            </div>
+
+
+            <!-- KULLANICILAR -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <a asp-controller="Kullanici"
+                   asp-action="Index"
+                   class="admin-card">
+
+                    <div class="card-icon">👤</div>
+
+                    <h3>Kullanıcılar</h3>
+
+                    <p>
+                        Sistem kullanıcılarını yönet.
+                    </p>
+
+                    <div class="card-arrow">→</div>
+
+                </a>
+
+            </div>
+
+
+            <!-- ÖĞRETMEN SINIF ATAMA -->
+
+            <div class="col-md-6 col-lg-4">
+
+                <a asp-controller="OgretmenSinif"
+                   asp-action="Index"
+                   class="admin-card">
+
+                    <div class="card-icon">🔗</div>
+
+                    <h3>Öğretmen–Sınıf Atama</h3>
+
+                    <p>
+                        Öğretmenleri sınıflara ata ve atamaları yönet.
+                    </p>
+
+                    <div class="card-arrow">→</div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ÜCRET YÖNETİMİ -->
+
+        <div class="section-title">
+            <div class="section-icon">💰</div>
+            Ücret Yönetimi
+        </div>
+
+        <div class="row mb-5">
+
+            <div class="col-12">
+
+                <div class="admin-card finance-card">
+
+                    <div class="card-icon">💳</div>
+
+                    <h3>
+                        Ücret Yönetimi
+                    </h3>
+
+                    <p>
+                        Okul tarifelerini, öğrenciye özel ücretleri,
+                        ödeme planlarını, borçları ve tahsilatları tek
+                        bir alandan yönet.
+                    </p>
+
+                    <div class="finance-items">
+
+                        <div class="finance-item">
+
+                            <strong>
+                                🏫 Okul Tarifeleri
+                            </strong>
+
+                                Kurum ve standart veli ücretlerini
+                                okul bazında tanımla.
+
+                        </div>
+
+
+                        <div class="finance-item">
+
+                            <strong>
+                                👨‍🎓 Özel Ücretler
+                            </strong>
+
+                                Sadece gerektiğinde öğrenciye özel
+                                ücret uygula.
+
+                        </div>
+
+
+                        <div class="finance-item">
+
+                            <strong>
+                                📅 Plan ve Tahsilat
+                            </strong>
+
+                                Ödeme planlarını, borçları ve
+                                tahsilatları takip et.
+
+                        </div>
+
+                    </div>
+
+                    <a asp-controller="UcretYonetimi"
+                       asp-action="Index"
+                       class="finance-button">
+
+                        Ücret Yönetimini Aç →
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RAPORLAMA -->
+
+        <div class="section-title">
+            <div class="section-icon">📊</div>
+            Raporlama
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <a asp-controller="Rapor"
+                   asp-action="Index"
+                   class="admin-card">
+
+                    <div class="card-icon">📈</div>
+
+                    <h3>Raporlama</h3>
+
+                    <p>
+                        Öğrenci, sınıf, yoklama ve ödeme
+                        raporlarını görüntüle.
+                    </p>
+
+                    <div class="card-arrow">→</div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

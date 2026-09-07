@@ -1,0 +1,136 @@
+@model List<OkulTakipSistemi.Models.Ogrenci>
+
+@{
+    ViewData["Title"] = "Yoklama Düzenle";
+
+    var sinif = ViewBag.Sinif as OkulTakipSistemi.Models.Sinif;
+    var yoklama = ViewBag.Yoklama as OkulTakipSistemi.Models.Yoklama;
+    var detaylar = ViewBag.Detaylar as Dictionary<int, bool>;
+}
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+            <h2>Yoklama Düzenle</h2>
+
+            <p class="text-muted mb-0">
+                @sinif?.Ad
+                -
+                @yoklama?.Tarih.ToString("dd.MM.yyyy HH:mm")
+            </p>
+        </div>
+
+        <a asp-controller="Yoklama"
+           asp-action="SinifGecmis"
+           asp-route-id="@sinif?.Id"
+           class="btn btn-secondary">
+            ← Geri Dön
+        </a>
+
+    </div>
+
+    <hr />
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-warning">
+            Bu sınıfta kayıtlı öğrenci bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <form asp-controller="Yoklama"
+              asp-action="DuzenleKaydet"
+              method="post">
+
+            <input type="hidden"
+                   name="yoklamaId"
+                   value="@yoklama?.Id" />
+
+            @foreach (var ogrenci in Model)
+            {
+                var geldi = detaylar != null &&
+                            detaylar.ContainsKey(ogrenci.Id) &&
+                            detaylar[ogrenci.Id];
+
+                <div class="card mb-3 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="row align-items-center">
+
+                            <div class="col-md-6">
+
+                                <strong>
+                                    @ogrenci.AdSoyad
+                                </strong>
+
+                                <br />
+
+                                <small class="text-muted">
+                                    Öğrenci No: @ogrenci.OgrenciNo
+                                </small>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="durumlar[@ogrenci.Id]"
+                                           value="true"
+                                           @(geldi ? "checked" : "") />
+
+                                    <label class="form-check-label text-success">
+                                        Geldi
+                                    </label>
+
+                                </div>
+
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="durumlar[@ogrenci.Id]"
+                                           value="false"
+                                           @(!geldi ? "checked" : "") />
+
+                                    <label class="form-check-label text-danger">
+                                        Gelmedi
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+            <div class="mt-4">
+
+                <button type="submit"
+                        class="btn btn-success">
+                    ✓ Değişiklikleri Kaydet
+                </button>
+
+                <a asp-controller="Yoklama"
+                   asp-action="SinifGecmis"
+                   asp-route-id="@sinif?.Id"
+                   class="btn btn-secondary ms-2">
+                    İptal
+                </a>
+
+            </div>
+
+        </form>
+    }
+
+</div>

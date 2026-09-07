@@ -1,0 +1,76 @@
+@using OkulTakipSistemi.Models
+
+@{
+    ViewData["Title"] = "Öğrenci Raporu";
+    var ogrenciler = ViewBag.Ogrenciler as List<Ogrenci>;
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Öğrenci Raporu</h2>
+            <p class="text-muted">
+                Sistemde kayıtlı öğrencilerin listesi.
+            </p>
+        </div>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            ← Raporlara Dön
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <div class="mb-3">
+                <strong>Toplam Öğrenci:</strong>
+                @(ogrenciler?.Count ?? 0)
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ad Soyad</th>
+                            <th>Öğrenci No</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (ogrenciler != null && ogrenciler.Any())
+                        {
+                            foreach (var ogrenci in ogrenciler)
+                            {
+                                <tr>
+                                    <td>@ogrenci.Id</td>
+                                    <td>@ogrenci.AdSoyad</td>
+                                    <td>@ogrenci.OgrenciNo</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">
+                                    Kayıtlı öğrenci bulunmamaktadır.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

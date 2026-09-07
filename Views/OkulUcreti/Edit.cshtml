@@ -1,0 +1,445 @@
+@model OkulTakipSistemi.Models.OkulUcreti
+
+@{
+    ViewData["Title"] = "Okul Ücretini Düzenle";
+
+    var okullar = ViewBag.Okullar
+        as List<OkulTakipSistemi.Models.Okul>;
+}
+
+<div class="container-fluid py-4">
+
+    <!-- BAŞLIK -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                Okul Ücretini Düzenle
+            </h2>
+
+            <p class="text-muted mb-0">
+                Mevcut okul ücretini ve ödeme planını buradan değiştirebilirsiniz.
+            </p>
+        </div>
+
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
+            ← Geri
+        </a>
+
+    </div>
+
+
+    <!-- FORM -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <form asp-action="Edit"
+                  asp-route-id="@Model.Id"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="Id" />
+
+
+                <!-- HATALAR -->
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+
+                <div class="row">
+
+
+                    <!-- OKUL -->
+                    <div class="col-md-6 mb-4">
+
+                        <label asp-for="OkulId"
+                               class="form-label fw-semibold">
+                            Okul
+                        </label>
+
+                        <select asp-for="OkulId"
+                                class="form-select">
+
+                            <option value="">
+                                Okul seçiniz
+                            </option>
+
+                            @if (okullar != null)
+                            {
+                                foreach (var okul in okullar)
+                                {
+                                    <option value="@okul.Id">
+                                        @okul.Ad
+                                    </option>
+                                }
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="OkulId"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <!-- TOPLAM ÜCRET -->
+                    <div class="col-md-6 mb-4">
+
+                        <label asp-for="ToplamUcret"
+                               class="form-label fw-semibold">
+                            Toplam Eğitim Ücreti
+                        </label>
+
+                        <div class="input-group">
+
+                            <input asp-for="ToplamUcret"
+                                   class="form-control"
+                                   type="number"
+                                   step="0.01"
+                                   min="0.01" />
+
+                            <span class="input-group-text">
+                                ₺
+                            </span>
+
+                        </div>
+
+                        <span asp-validation-for="ToplamUcret"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <!-- ÖDEME ŞEKLİ -->
+                    <div class="col-md-6 mb-4">
+
+                        <label asp-for="OdemeSekli"
+                               class="form-label fw-semibold">
+                            Ödeme Şekli
+                        </label>
+
+                        <select asp-for="OdemeSekli"
+                                class="form-select"
+                                id="OdemeSekli">
+
+                            <option value="Taksitli">
+                                Taksitli
+                            </option>
+
+                            <option value="Pesin">
+                                Peşin
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="OdemeSekli"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <!-- TAKSİT SAYISI -->
+                    <div class="col-md-6 mb-4"
+                         id="taksitAlani">
+
+                        <label asp-for="TaksitAySayisi"
+                               class="form-label fw-semibold">
+                            Taksit Sayısı
+                        </label>
+
+                        <select asp-for="TaksitAySayisi"
+                                class="form-select"
+                                id="TaksitAySayisi">
+
+                            @for (int i = 1; i <= 24; i++)
+                            {
+                                <option value="@i">
+                                    @i Ay
+                                </option>
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="TaksitAySayisi"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <!-- BAŞLANGIÇ AYI -->
+                    <div class="col-md-6 mb-4">
+
+                        <label asp-for="BaslangicAyi"
+                               class="form-label fw-semibold">
+                            Başlangıç Ayı
+                        </label>
+
+                        <select asp-for="BaslangicAyi"
+                                class="form-select">
+
+                            <option value="1">Ocak</option>
+                            <option value="2">Şubat</option>
+                            <option value="3">Mart</option>
+                            <option value="4">Nisan</option>
+                            <option value="5">Mayıs</option>
+                            <option value="6">Haziran</option>
+                            <option value="7">Temmuz</option>
+                            <option value="8">Ağustos</option>
+                            <option value="9">Eylül</option>
+                            <option value="10">Ekim</option>
+                            <option value="11">Kasım</option>
+                            <option value="12">Aralık</option>
+
+                        </select>
+
+                        <span asp-validation-for="BaslangicAyi"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <!-- GEÇERLİLİK TARİHİ -->
+                    <div class="col-md-6 mb-4">
+
+                        <label asp-for="GecerlilikTarihi"
+                               class="form-label fw-semibold">
+                            Geçerlilik Tarihi
+                        </label>
+
+                        <input asp-for="GecerlilikTarihi"
+                               class="form-control"
+                               type="date" />
+
+                        <span asp-validation-for="GecerlilikTarihi"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <!-- AÇIKLAMA -->
+                    <div class="col-12 mb-4">
+
+                        <label asp-for="Aciklama"
+                               class="form-label fw-semibold">
+                            Açıklama
+                        </label>
+
+                        <textarea asp-for="Aciklama"
+                                  class="form-control"
+                                  rows="4"
+                                  placeholder="Ücret hakkında açıklama yazabilirsiniz..."></textarea>
+
+                        <span asp-validation-for="Aciklama"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ÜCRET ÖZETİ -->
+                <div class="card bg-light border-0 mb-4">
+
+                    <div class="card-body">
+
+                        <h5 class="fw-bold mb-3">
+                            Ödeme Özeti
+                        </h5>
+
+                        <div class="row">
+
+                            <div class="col-md-4">
+
+                                <small class="text-muted d-block">
+                                    Toplam Ücret
+                                </small>
+
+                                <strong id="toplamUcretGoster">
+                                    @Model.ToplamUcret.ToString("N2") ₺
+                                </strong>
+
+                            </div>
+
+
+                            <div class="col-md-4">
+
+                                <small class="text-muted d-block">
+                                    Taksit Sayısı
+                                </small>
+
+                                <strong id="taksitGoster">
+                                    @Model.TaksitAySayisi ay
+                                </strong>
+
+                            </div>
+
+
+                            <div class="col-md-4">
+
+                                <small class="text-muted d-block">
+                                    Aylık Ücret
+                                </small>
+
+                                <strong id="aylikUcret">
+                                    @Model.AylikUcret.ToString("N2") ₺
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTONLAR -->
+                <div class="d-flex justify-content-between">
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        İptal
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary px-4">
+                        Değişiklikleri Kaydet
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        function odemeOzetiniGuncelle() {
+
+            const toplamUcretInput =
+                document.getElementById("ToplamUcret");
+
+            const taksitInput =
+                document.getElementById("TaksitAySayisi");
+
+            const odemeSekli =
+                document.getElementById("OdemeSekli");
+
+            const taksitAlani =
+                document.getElementById("taksitAlani");
+
+            const toplamUcretGoster =
+                document.getElementById("toplamUcretGoster");
+
+            const taksitGoster =
+                document.getElementById("taksitGoster");
+
+            const aylikUcret =
+                document.getElementById("aylikUcret");
+
+
+            const toplam =
+                parseFloat(toplamUcretInput.value) || 0;
+
+            const taksit =
+                parseInt(taksitInput.value) || 1;
+
+
+            toplamUcretGoster.textContent =
+                toplam.toLocaleString(
+                    "tr-TR",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                ) + " ₺";
+
+
+            if (odemeSekli.value === "Pesin") {
+
+                taksitAlani.style.display = "none";
+
+                taksitGoster.textContent =
+                    "Peşin";
+
+                aylikUcret.textContent =
+                    toplam.toLocaleString(
+                        "tr-TR",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    ) + " ₺";
+
+            }
+            else {
+
+                taksitAlani.style.display = "block";
+
+                taksitGoster.textContent =
+                    taksit + " ay";
+
+                const aylik =
+                    toplam / taksit;
+
+                aylikUcret.textContent =
+                    aylik.toLocaleString(
+                        "tr-TR",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    ) + " ₺";
+            }
+        }
+
+
+        document
+            .getElementById("OdemeSekli")
+            .addEventListener(
+                "change",
+                odemeOzetiniGuncelle
+            );
+
+
+        document
+            .getElementById("ToplamUcret")
+            .addEventListener(
+                "input",
+                odemeOzetiniGuncelle
+            );
+
+
+        document
+            .getElementById("TaksitAySayisi")
+            .addEventListener(
+                "change",
+                odemeOzetiniGuncelle
+            );
+
+
+        odemeOzetiniGuncelle();
+
+    </script>
+}

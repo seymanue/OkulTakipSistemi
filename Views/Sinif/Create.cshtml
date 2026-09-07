@@ -1,0 +1,128 @@
+@model OkulTakipSistemi.Models.Sinif
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+                    <h4 class="mb-0">Yeni Sınıf Ekle</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-controller="Sinif"
+                          asp-action="Create"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+
+                        <!-- SINIF ADI -->
+                        <div class="mb-3">
+
+                            <label asp-for="Ad"
+                                   class="form-label">
+                                Sınıf Adı
+                            </label>
+
+                            <input asp-for="Ad"
+                                   class="form-control"
+                                   placeholder="Örn: A-432" />
+
+                            <span asp-validation-for="Ad"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- OKUL -->
+                        <div class="mb-3">
+
+                            <label asp-for="OkulId"
+                                   class="form-label">
+                                Okul
+                            </label>
+
+                            <select asp-for="OkulId"
+                                    class="form-select">
+
+                                <option value="">
+                                    -- Okul Seçiniz --
+                                </option>
+
+                                @foreach (var okul in ViewBag.Okullar)
+                                {
+                                    <option value="@okul.Id">
+                                        @okul.Ad
+                                    </option>
+                                }
+
+                            </select>
+
+                            <span asp-validation-for="OkulId"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+
+                        <!-- DURUM -->
+                        <div class="mb-3">
+
+                            <div class="form-check">
+
+                                <input asp-for="Aktif"
+                                       class="form-check-input" />
+
+                                <label asp-for="Aktif"
+                                       class="form-check-label">
+                                    Aktif
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="d-flex gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                💾 Kaydet
+                            </button>
+
+                            <a asp-controller="Sinif"
+                               asp-action="Index"
+                               class="btn btn-secondary">
+                                Geri
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

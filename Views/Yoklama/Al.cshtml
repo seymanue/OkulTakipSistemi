@@ -1,0 +1,164 @@
+@model List<OkulTakipSistemi.Models.Ogrenci>
+
+@{
+    ViewData["Title"] = "Yoklama Al";
+    var secilenSinif = ViewBag.Sinif as OkulTakipSistemi.Models.Sinif;
+}
+
+<div class="attendance-page">
+
+    <!-- BAŞLIK -->
+    <div class="attendance-header">
+
+        <div>
+            <div class="page-kicker">
+                ÖĞRETMEN PANELİ
+            </div>
+
+            <h1>Yoklama Al</h1>
+
+            <p>
+                <strong>@secilenSinif?.Ad</strong>
+                sınıfı için bugünkü yoklamayı alın.
+            </p>
+        </div>
+
+        <a asp-controller="Ogretmen"
+           asp-action="Yoklama"
+           class="back-button">
+            ← Geri Dön
+        </a>
+
+    </div>
+
+
+    @if (Model == null || !Model.Any())
+    {
+        <!-- BOŞ SINIF -->
+        <div class="attendance-card">
+
+            <div class="empty-students">
+
+                <h3>Öğrenci Bulunamadı</h3>
+
+                <p>
+                    Bu sınıfta kayıtlı öğrenci bulunmamaktadır.
+                </p>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <form asp-controller="Yoklama"
+              asp-action="Kaydet"
+              method="post">
+
+            <input type="hidden"
+                   name="sinifId"
+                   value="@secilenSinif?.Id" />
+
+
+            <!-- ANA KART -->
+            <div class="attendance-card">
+
+                <!-- KART BAŞLIĞI -->
+                <div class="attendance-card-header">
+
+                    <div>
+                        <h2>Öğrenci Listesi</h2>
+
+                        <p>
+                            Katılım durumunu öğrenciler için seçiniz.
+                        </p>
+                    </div>
+
+                    <div class="student-count">
+                        @Model.Count Öğrenci
+                    </div>
+
+                </div>
+
+
+                <!-- ÖĞRENCİLER -->
+                <div class="student-list">
+
+                    @foreach (var ogrenci in Model)
+                    {
+                        <div class="student-row">
+
+                            <!-- ÖĞRENCİ BİLGİSİ -->
+                            <div class="student-info">
+
+                                <div class="student-icon">
+
+                                    <svg viewBox="0 0 24 24">
+                                        <circle cx="12"
+                                                cy="8"
+                                                r="3" />
+
+                                        <path d="M5 21c0-3.5 3-6 7-6s7 2.5 7 6" />
+                                    </svg>
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        @ogrenci.AdSoyad
+                                    </strong>
+
+                                    <span>
+                                        Öğrenci No: @ogrenci.OgrenciNo
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- YOKLAMA -->
+                            <label class="attendance-check">
+
+                                <input type="checkbox"
+                                       name="durumlar[@ogrenci.Id]"
+                                       value="true"
+                                       checked />
+
+                                <span class="check-text">
+                                    Geldi
+                                </span>
+
+                            </label>
+
+                        </div>
+                    }
+
+                </div>
+
+
+                <!-- ALT BÖLÜM -->
+                <div class="attendance-footer">
+
+                    <div class="attendance-info">
+                        <span class="info-icon">ⓘ</span>
+                        Öğrenciler varsayılan olarak <strong>Geldi</strong>
+                        olarak işaretlenmiştir.
+                    </div>
+
+                    <button type="submit"
+                            class="save-attendance">
+
+                        Yoklamayı Kaydet
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+    }
+
+</div>

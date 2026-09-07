@@ -1,0 +1,39 @@
+@model OkulTakipSistemi.Models.OgrenciOzelUcret
+
+@{
+    ViewData["Title"] = "Öğrenciye Özel Ücret";
+    var kayit = ViewBag.Kayit as OkulTakipSistemi.Models.OgrenciKaydi;
+}
+
+<div class="container py-4">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">Öğrenciye Özel Ücret</h2>
+        <p class="text-muted mb-0">
+            @(kayit?.Ogrenci?.AdSoyad) için özel ücret girebilirsiniz. Özel ücret yalnızca gerektiğinde kullanılır.
+        </p>
+    </div>
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            <form asp-action="OzelUcret" method="post">
+                @Html.AntiForgeryToken()
+                <input asp-for="OgrenciKaydiId" type="hidden" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="mb-3">
+                    <label asp-for="OzelUcret" class="form-label fw-semibold">Özel Ücret</label>
+                    <input asp-for="OzelUcret" class="form-control" type="number" min="0.01" step="0.01" required />
+                    <span asp-validation-for="OzelUcret" class="text-danger"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Aciklama" class="form-label fw-semibold">Açıklama</label>
+                    <textarea asp-for="Aciklama" class="form-control" rows="3"></textarea>
+                </div>
+                <a asp-action="Index" class="btn btn-outline-secondary">Geri</a>
+                <button type="submit" class="btn btn-primary">Özel Ücreti Kaydet</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

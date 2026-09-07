@@ -1,0 +1,114 @@
+@model List<OkulTakipSistemi.Models.Odeme>
+
+@{
+    ViewData["Title"] = "Ödeme Raporu";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Ödeme Raporu</h2>
+            <p class="text-muted">
+                Sistemde kayıtlı ödemelerin genel görünümü
+            </p>
+        </div>
+
+        <a asp-controller="Home"
+           asp-action="AdminPanel"
+           class="btn btn-outline-secondary">
+            Yönetici Paneli
+        </a>
+    </div>
+
+    <div class="row mb-4">
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Toplam Ödeme</h6>
+                    <h3>@ViewBag.ToplamOdeme.ToString("N2") ₺</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6 class="text-muted">Ödeme Sayısı</h6>
+                    <h3>@ViewBag.OdemeSayisi</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>Öğrenci</th>
+                            <th>Tutar</th>
+                            <th>Ödeme Tarihi</th>
+                            <th>Durum</th>
+                            <th>İşlemi Yapan</th>
+                            <th>Açıklama</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Any())
+                        {
+                            foreach (var odeme in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @(odeme.Ogrenci?.AdSoyad ?? "-")
+                                    </td>
+
+                                    <td>
+                                        @odeme.Tutar.ToString("N2") ₺
+                                    </td>
+
+                                    <td>
+                                        @odeme.OdemeTarihi.ToString("dd.MM.yyyy")
+                                    </td>
+
+                                    <td>
+                                        @odeme.Durum
+                                    </td>
+
+                                    <td>
+                                        @(odeme.Kullanici?.AdSoyad ?? "-")
+                                    </td>
+
+                                    <td>
+                                        @(odeme.Aciklama ?? "-")
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6"
+                                    class="text-center text-muted py-4">
+                                    Henüz kayıtlı ödeme bulunmamaktadır.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>

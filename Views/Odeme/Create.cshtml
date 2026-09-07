@@ -1,0 +1,186 @@
+@model OkulTakipSistemi.Models.Odeme
+
+@{
+    ViewData["Title"] = "Ödeme Ekle";
+}
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h2 class="fw-bold">Yeni Ödeme</h2>
+
+        <p class="text-muted">
+            Öğrenciden alınan ödemeyi sisteme kaydedin.
+            Ödeme, öğrencinin açık borçlarına otomatik olarak dağıtılacaktır.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <form asp-action="Create" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"></div>
+
+                <!-- ÖĞRENCİ -->
+                <div class="mb-3">
+
+                    <label asp-for="OgrenciId"
+                           class="form-label fw-semibold">
+                        Öğrenci
+                    </label>
+
+                    <select asp-for="OgrenciId"
+                            class="form-select"
+                            required>
+
+                        <option value="">
+                            -- Öğrenci Seçiniz --
+                        </option>
+
+                        @foreach (var ogrenci in ViewBag.Ogrenciler)
+                        {
+                            <option value="@ogrenci.Id">
+                                @ogrenci.AdSoyad
+                                -
+                                @ogrenci.OgrenciNo
+                            </option>
+                        }
+
+                    </select>
+
+                    <span asp-validation-for="OgrenciId"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- TUTAR -->
+                <div class="mb-3">
+
+                    <label asp-for="Tutar"
+                           class="form-label fw-semibold">
+                        Ödeme Tutarı
+                    </label>
+
+                    <div class="input-group">
+
+                        <input asp-for="Tutar"
+                               class="form-control"
+                               type="number"
+                               step="0.01"
+                               min="0.01"
+                               placeholder="Örn: 30000" />
+
+                        <span class="input-group-text">
+                            ₺
+                        </span>
+
+                    </div>
+
+                    <span asp-validation-for="Tutar"
+                          class="text-danger"></span>
+
+                    <div class="form-text">
+                        Girilen ödeme, öğrencinin en eski açık borcundan
+                        başlayarak otomatik olarak dağıtılır.
+                    </div>
+
+                </div>
+
+                <!-- TARİH -->
+                <div class="mb-3">
+
+                    <label asp-for="OdemeTarihi"
+                           class="form-label fw-semibold">
+                        Ödeme Tarihi
+                    </label>
+
+                    <input asp-for="OdemeTarihi"
+                           class="form-control"
+                           type="date" />
+
+                    <span asp-validation-for="OdemeTarihi"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- DURUM -->
+                <div class="mb-3">
+
+                    <label asp-for="Durum"
+                           class="form-label fw-semibold">
+                        Durum
+                    </label>
+
+                    <select asp-for="Durum"
+                            class="form-select">
+
+                        <option value="Ödendi">
+                            Ödendi
+                        </option>
+
+                        <option value="Bekliyor">
+                            Bekliyor
+                        </option>
+
+                        <option value="İptal">
+                            İptal
+                        </option>
+
+                    </select>
+
+                    <span asp-validation-for="Durum"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- AÇIKLAMA -->
+                <div class="mb-4">
+
+                    <label asp-for="Aciklama"
+                           class="form-label fw-semibold">
+                        Açıklama
+                    </label>
+
+                    <textarea asp-for="Aciklama"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Ödeme hakkında açıklama..."></textarea>
+
+                    <span asp-validation-for="Aciklama"
+                          class="text-danger"></span>
+
+                </div>
+
+                <!-- BUTONLAR -->
+                <div class="d-flex justify-content-between">
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        ← Geri
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary px-4">
+                        Ödemeyi Kaydet
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

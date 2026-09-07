@@ -1,0 +1,807 @@
+@model IEnumerable<OkulTakipSistemi.Models.Sinif>
+
+@{
+    ViewData["Title"] = "Sınıflarım";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sınıflarım - Okul Takip Sistemi</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+        body {
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            color: #ffffff;
+
+            background:
+                radial-gradient(
+                    circle at 85% 15%,
+                    rgba(224, 111, 62, 0.22),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 10% 85%,
+                    rgba(143, 69, 42, 0.20),
+                    transparent 32%
+                ),
+                linear-gradient(
+                    135deg,
+                    #211612 0%,
+                    #382017 48%,
+                    #1b100d 100%
+                );
+
+            background-attachment: fixed;
+        }
+
+
+        /* ==========================================
+           SAYFA
+           ========================================== */
+
+        .siniflarim-page {
+
+            min-height: 100vh;
+
+            padding:
+                42px 30px 60px;
+        }
+
+
+        .page-container {
+
+            width: 100%;
+
+            max-width: 1180px;
+
+            margin: 0 auto;
+        }
+
+
+        /* ==========================================
+           ÜST BAR
+           ========================================== */
+
+        .top-bar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 32px;
+
+            padding:
+                18px 22px;
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,0.065);
+
+            border:
+                1px solid rgba(255,210,185,0.15);
+
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.18);
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .brand-icon {
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(224,111,62,0.13);
+
+            border:
+                1px solid rgba(224,111,62,0.20);
+
+            font-size: 19px;
+        }
+
+
+        .brand-text {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .brand-title {
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .brand-subtitle {
+
+            margin-top: 2px;
+
+            color:
+                rgba(255,255,255,0.43);
+
+            font-size: 11px;
+        }
+
+
+        .back-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding:
+                10px 16px;
+
+            border-radius: 11px;
+
+            color:
+                rgba(255,255,255,0.80) !important;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid rgba(255,255,255,0.13);
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transition: .2s ease;
+        }
+
+
+        .back-btn:hover {
+
+            color: #ffffff !important;
+
+            background:
+                rgba(224,111,62,0.15);
+
+            border-color:
+                rgba(224,111,62,0.30);
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* ==========================================
+           BAŞLIK
+           ========================================== */
+
+        .page-heading {
+
+            margin-bottom: 26px;
+        }
+
+
+        .page-heading h1 {
+
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.7px;
+        }
+
+
+        .page-heading p {
+
+            margin:
+                7px 0 0;
+
+            color:
+                rgba(255,255,255,0.52);
+
+            font-size: 13px;
+        }
+
+
+        /* ==========================================
+           SINIF GRID
+           ========================================== */
+
+        .classes-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+
+        /* ==========================================
+           SINIF KARTI
+           ========================================== */
+
+        .class-card {
+
+            position: relative;
+
+            min-height: 205px;
+
+            padding: 23px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.065);
+
+            border:
+                1px solid rgba(255,210,185,0.15);
+
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+
+            box-shadow:
+                0 18px 45px rgba(0,0,0,0.18);
+
+            transition:
+                transform .22s ease,
+                border-color .22s ease,
+                box-shadow .22s ease;
+        }
+
+
+        .class-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 24px;
+            right: 24px;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,190,145,0.35),
+                    transparent
+                );
+        }
+
+
+        .class-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            border-color:
+                rgba(224,111,62,0.32);
+
+            box-shadow:
+                0 25px 55px rgba(0,0,0,0.27);
+        }
+
+
+        /* ==========================================
+           SINIF ÜST
+           ========================================== */
+
+        .class-top {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+
+        .class-icon {
+
+            width: 50px;
+            height: 50px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background:
+                rgba(224,111,62,0.12);
+
+            border:
+                1px solid rgba(224,111,62,0.20);
+
+            color: #f2a277;
+
+            font-size: 22px;
+        }
+
+
+        .class-info {
+
+            min-width: 0;
+        }
+
+
+        .class-info h4 {
+
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 18px;
+
+            font-weight: 750;
+        }
+
+
+        .school-name {
+
+            margin-top: 5px;
+
+            color:
+                rgba(255,255,255,0.46);
+
+            font-size: 12px;
+        }
+
+
+        /* ==========================================
+           AYIRICI
+           ========================================== */
+
+        .class-divider {
+
+            width: 100%;
+
+            height: 1px;
+
+            margin:
+                21px 0;
+
+            background:
+                rgba(255,255,255,0.09);
+        }
+
+
+        /* ==========================================
+           ÖĞRENCİLERİ GÖR
+           ========================================== */
+
+        .class-view {
+
+            width: 100%;
+
+            min-height: 43px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding:
+                10px 14px;
+
+            border-radius: 11px;
+
+            color: #ffd3ba !important;
+
+            background:
+                rgba(224,111,62,0.10);
+
+            border:
+                1px solid rgba(224,111,62,0.20);
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            transition: .2s ease;
+        }
+
+
+        .class-view:hover {
+
+            color: #ffffff !important;
+
+            background:
+                rgba(224,111,62,0.22);
+
+            border-color:
+                rgba(224,111,62,0.34);
+        }
+
+
+        .class-view span {
+
+            font-size: 16px;
+
+            transition:
+                transform .2s ease;
+        }
+
+
+        .class-view:hover span {
+
+            transform:
+                translateX(3px);
+        }
+
+
+        /* ==========================================
+           BOŞ DURUM
+           ========================================== */
+
+        .empty-message {
+
+            padding:
+                50px 25px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.065);
+
+            border:
+                1px solid rgba(255,210,185,0.15);
+
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+
+            box-shadow:
+                0 18px 45px rgba(0,0,0,0.18);
+        }
+
+
+        .empty-icon {
+
+            width: 60px;
+            height: 60px;
+
+            margin:
+                0 auto 16px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background:
+                rgba(224,111,62,0.12);
+
+            border:
+                1px solid rgba(224,111,62,0.20);
+
+            font-size: 25px;
+        }
+
+
+        .empty-message strong {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #ffffff;
+
+            font-size: 16px;
+        }
+
+
+        .empty-message span {
+
+            color:
+                rgba(255,255,255,0.45);
+
+            font-size: 13px;
+        }
+
+
+        /* ==========================================
+           TABLET
+           ========================================== */
+
+        @@media (max-width: 900px) {
+
+            .classes-grid {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        /* ==========================================
+           MOBİL
+           ========================================== */
+
+        @@media (max-width: 600px) {
+
+            .siniflarim-page {
+
+                padding:
+                    22px 15px 40px;
+            }
+
+
+            .top-bar {
+
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .back-btn {
+
+                width: 100%;
+            }
+
+
+            .page-heading h1 {
+
+                font-size: 27px;
+            }
+
+
+            .classes-grid {
+
+                grid-template-columns:
+                    1fr;
+
+                gap: 15px;
+            }
+
+
+            .class-card {
+
+                min-height: auto;
+
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="siniflarim-page">
+
+    <div class="page-container">
+
+
+        <!-- ÜST BAR -->
+
+        <div class="top-bar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🏫
+                </div>
+
+                <div class="brand-text">
+
+                    <div class="brand-title">
+                        Okul Takip Sistemi
+                    </div>
+
+                    <div class="brand-subtitle">
+                        Öğretmen Paneli
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <a href="/Home/OgretmenPanel"
+               class="back-btn">
+
+                ← Ana Sayfaya Dön
+
+            </a>
+
+        </div>
+
+
+        <!-- BAŞLIK -->
+
+        <div class="page-heading">
+
+            <h1>
+                Sınıflarım
+            </h1>
+
+            <p>
+                Size atanmış sınıflar
+            </p>
+
+        </div>
+
+
+        @if (Model != null && Model.Any())
+        {
+
+            <div class="classes-grid">
+
+                @foreach (var sinif in Model)
+                {
+
+                    <div class="class-card">
+
+
+                        <div class="class-top">
+
+                            <div class="class-icon">
+                                📚
+                            </div>
+
+
+                            <div class="class-info">
+
+                                <h4>
+                                    @sinif.Ad
+                                </h4>
+
+
+                                @if (sinif.Okul != null)
+                                {
+
+                                    <div class="school-name">
+                                        Okul: @sinif.Okul.Ad
+                                    </div>
+
+                                }
+                                else
+                                {
+
+                                    <div class="school-name">
+                                        Okul bilgisi bulunmuyor
+                                    </div>
+
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="class-divider"></div>
+
+
+                        <a href="/Ogretmen/SinifOgrencileri/@sinif.Id"
+                           class="class-view">
+
+                            👥 Öğrencileri Gör
+
+                            <span>
+                                →
+                            </span>
+
+                        </a>
+
+
+                    </div>
+
+                }
+
+            </div>
+
+        }
+        else
+        {
+
+            <div class="empty-message">
+
+                <div class="empty-icon">
+                    📚
+                </div>
+
+
+                <strong>
+                    Size atanmış sınıf bulunmamaktadır.
+                </strong>
+
+
+                <span>
+                    Size bir sınıf atandığında burada görüntülenecektir.
+                </span>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>
+
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+@model OkulTakipSistemi.Models.UcretYonetimiViewModel
+
+@{
+    ViewData["Title"] = "Ücret Yönetimi";
+}
+
+<div class="container-fluid py-4">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">💰 Ücret Yönetimi</h2>
+        <p class="text-muted mb-0">
+            Okul tarifelerini, öğrenciye özel ücretleri, ödeme planlarını ve tahsilatları tek yerden yönetin.
+        </p>
+    </div>
+
+    @if (TempData["Basarili"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Basarili"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Hata"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Hata"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-white">
+            <h5 class="fw-bold mb-0">Okul Ücret Tarifesi</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="TarifeEkle" method="post">
+                @Html.AntiForgeryToken()
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label asp-for="YeniTarife.OkulId" class="form-label fw-semibold">Okul</label>
+                        <select asp-for="YeniTarife.OkulId" class="form-select" required>
+                            <option value="">Okul seçiniz</option>
+                            @foreach (var okul in Model.Okullar)
+                            {
+                                <option value="@okul.Id">@okul.Ad</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="YeniTarife.KurumIcinBelirlenenUcret" class="form-label fw-semibold">Kurumun Okul İçin Belirlediği Ücret</label>
+                        <input asp-for="YeniTarife.KurumIcinBelirlenenUcret" class="form-control" type="number" min="0" step="0.01" />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="YeniTarife.StandartVeliUcreti" class="form-label fw-semibold">Standart Veli Ücreti</label>
+                        <input asp-for="YeniTarife.StandartVeliUcreti" class="form-control" type="number" min="0.01" step="0.01" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="YeniTarife.OdemeSekli" class="form-label fw-semibold">Ödeme Şekli</label>
+                        <select asp-for="YeniTarife.OdemeSekli" class="form-select">
+                            <option value="Taksitli">Taksitli</option>
+                            <option value="Pesin">Peşin</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="YeniTarife.TaksitAySayisi" class="form-label fw-semibold">Taksit Sayısı</label>
+                        <input asp-for="YeniTarife.TaksitAySayisi" class="form-control" type="number" min="1" max="24" />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="YeniTarife.BaslangicAyi" class="form-label fw-semibold">Başlangıç Ayı</label>
+                        <select asp-for="YeniTarife.BaslangicAyi" class="form-select">
+                            @for (var ay = 1; ay <= 12; ay++)
+                            {
+                                <option value="@ay">@(new DateTime(2000, ay, 1).ToString("MMMM"))</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="YeniTarife.GecerlilikTarihi" class="form-label fw-semibold">Geçerlilik Tarihi</label>
+                        <input asp-for="YeniTarife.GecerlilikTarihi" class="form-control" type="date" />
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">+ Yeni Tarife Kaydet</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-white"><h5 class="fw-bold mb-0">Tanımlı Tarifeler</h5></div>
+        <div class="card-body p-0">
+            @if (!Model.Tarifeler.Any())
+            {
+                <div class="p-4 text-muted">Henüz ücret tarifesi tanımlanmamış.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light"><tr><th>Okul</th><th>Kurum Ücreti</th><th>Standart Veli Ücreti</th><th>Ödeme</th><th>Geçerlilik</th></tr></thead>
+                        <tbody>
+                            @foreach (var tarife in Model.Tarifeler)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@tarife.Okul?.Ad</td>
+                                    <td>@(tarife.KurumIcinBelirlenenUcret?.ToString("N2") ?? "-") ₺</td>
+                                    <td class="fw-semibold">@tarife.UygulanacakStandartVeliUcreti.ToString("N2") ₺</td>
+                                    <td>@(tarife.OdemeSekli == "Pesin" ? "Peşin" : $"{tarife.TaksitAySayisi} taksit")</td>
+                                    <td>@tarife.GecerlilikTarihi.ToString("dd.MM.yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white">
+            <h5 class="fw-bold mb-0">Öğrenci Ücretleri, Planlar ve Tahsilatlar</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr><th>Öğrenci</th><th>Okul / Sınıf</th><th>Standart Ücret</th><th>Özel Ücret</th><th>Uygulanan Ücret</th><th>Plan</th><th class="text-end">İşlem</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ogrenci in Model.Ogrenciler)
+                        {
+                            <tr>
+                                <td><div class="fw-semibold">@ogrenci.Kayit.Ogrenci?.AdSoyad</div><small class="text-muted">No: @ogrenci.Kayit.Ogrenci?.OgrenciNo</small></td>
+                                <td>@ogrenci.Kayit.Okul?.Ad<br /><small class="text-muted">@ogrenci.Kayit.Sinif?.Ad</small></td>
+                                <td>@(ogrenci.StandartVeliUcreti?.ToString("N2") ?? "Tarife yok") ₺</td>
+                                <td>@(ogrenci.OzelUcret?.OzelUcret.ToString("N2") ?? "-") ₺</td>
+                                <td class="fw-semibold">@(ogrenci.UygulanacakUcret?.ToString("N2") ?? "-") ₺</td>
+                                <td>
+                                    @if (ogrenci.OdemePlaniVar) { <span class="badge bg-success">Oluşturuldu</span> }
+                                    else { <span class="badge bg-secondary">Yok</span> }
+                                </td>
+                                <td class="text-end">
+                                    <a asp-action="OzelUcret" asp-route-kayitId="@ogrenci.Kayit.Id" class="btn btn-sm btn-outline-primary">Özel Ücret</a>
+                                    @if (!ogrenci.OdemePlaniVar)
+                                    {
+                                        <form asp-action="OdemePlaniOlustur" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="kayitId" value="@ogrenci.Kayit.Id" />
+                                            <button type="submit" class="btn btn-sm btn-primary">Plan Oluştur</button>
+                                        </form>
+                                    }
+                                    <a asp-controller="Odeme" asp-action="Index" asp-route-ogrenciId="@ogrenci.Kayit.OgrenciId" class="btn btn-sm btn-outline-success">Borç ve Tahsilat</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

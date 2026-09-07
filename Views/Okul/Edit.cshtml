@@ -1,0 +1,67 @@
+@model OkulTakipSistemi.Models.Okul
+
+@{
+    ViewData["Title"] = "Okul Düzenle";
+}
+
+<div class="container mt-4">
+
+    <h2>Okul Düzenle</h2>
+
+    <hr />
+
+    <form asp-action="Edit" method="post">
+
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Ad" class="form-label">
+                Okul Adı
+            </label>
+
+            <input asp-for="Ad"
+                   class="form-control" />
+
+            <span asp-validation-for="Ad"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Adres" class="form-label">
+                Adres
+            </label>
+
+            <input asp-for="Adres"
+                   class="form-control" />
+
+            <span asp-validation-for="Adres"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Telefon" class="form-label">
+                Telefon
+            </label>
+
+            <input asp-for="Telefon"
+                   class="form-control" />
+
+            <span asp-validation-for="Telefon"
+                  class="text-danger"></span>
+        </div>
+
+        <button type="submit"
+                class="btn btn-success">
+            Güncelle
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Vazgeç
+        </a>
+
+    </form>
+
+</div>

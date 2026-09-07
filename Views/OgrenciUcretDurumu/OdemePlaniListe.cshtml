@@ -1,0 +1,162 @@
+@model IEnumerable<OkulTakipSistemi.Models.AylikBorc>
+
+@{
+    ViewData["Title"] = "Ödeme Planı";
+    var ogrenci = ViewBag.Ogrenci as OkulTakipSistemi.Models.OgrenciKaydi;
+}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                Ödeme Planı
+            </h2>
+
+            <p class="text-muted mb-0">
+                @(ogrenci?.Ogrenci?.AdSoyad)
+            </p>
+        </div>
+
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
+            Geri Dön
+        </a>
+
+    </div>
+
+    @if (TempData["Basarili"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Basarili"]
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-0">
+
+            @if (!Model.Any())
+            {
+                <div class="p-4">
+
+                    <div class="alert alert-info mb-0">
+                        Bu öğrenci için henüz ödeme planı oluşturulmamış.
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+                                <th>Ay</th>
+                                <th>Taksit</th>
+                                <th>Ödenen</th>
+                                <th>Kalan</th>
+                                <th>Durum</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var borc in Model)
+                            {
+                                var ayAdi = new DateTime(
+                                    borc.Yil,
+                                    borc.Ay,
+                                    1
+                                ).ToString("MMMM");
+
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            @char.ToUpper(ayAdi[0])@ayAdi.Substring(1)
+                                            @borc.Yil
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        @borc.Tutar.ToString("N2") ₺
+                                    </td>
+
+                                    <td>
+                                        @borc.OdenenTutar.ToString("N2") ₺
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            @borc.KalanTutar.ToString("N2") ₺
+                                        </strong>
+                                    </td>
+
+                                    <td>
+
+                                        @if (borc.Odendi)
+                                        {
+                                            <span class="badge bg-success">
+                                                Ödendi
+                                            </span>
+                                        }
+                                        else if (borc.OdenenTutar > 0)
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                Kısmi Ödendi
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">
+                                                Ödenmedi
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                        <tfoot class="table-light">
+
+                            <tr>
+
+                                <th>TOPLAM</th>
+
+                                <th>
+                                    @Model.Sum(x => x.Tutar).ToString("N2") ₺
+                                </th>
+
+                                <th>
+                                    @Model.Sum(x => x.OdenenTutar).ToString("N2") ₺
+                                </th>
+
+                                <th>
+                                    @Model.Sum(x => x.KalanTutar).ToString("N2") ₺
+                                </th>
+
+                                <th></th>
+
+                            </tr>
+
+                        </tfoot>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

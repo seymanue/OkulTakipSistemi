@@ -1,0 +1,239 @@
+@{
+    ViewData["Title"] = "Şifremi Unuttum";
+
+    string girisTuru = ViewBag.GirisTuru ?? "Ogretmen";
+    bool adminMi = girisTuru == "Admin";
+}
+
+<style>
+    .forgot-page {
+        min-height: calc(100vh - 80px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: #f5f7fb;
+    }
+
+    .forgot-card {
+        width: 100%;
+        max-width: 460px;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+
+    .forgot-header {
+        padding: 30px 30px 25px;
+        text-align: center;
+        background: linear-gradient(135deg, #4f46e5, #6366f1);
+        color: white;
+    }
+
+    .forgot-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
+
+    .forgot-header h2 {
+        margin: 0;
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    .forgot-header p {
+        margin: 8px 0 0;
+        opacity: 0.9;
+        font-size: 14px;
+    }
+
+    .forgot-body {
+        padding: 30px;
+    }
+
+    .field {
+        margin-bottom: 20px;
+    }
+
+    .field label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .custom-input {
+        width: 100%;
+        height: 48px;
+        border: 1px solid #d9dee8;
+        border-radius: 10px;
+        padding: 0 14px;
+        font-size: 15px;
+        outline: none;
+        transition: 0.2s;
+        box-sizing: border-box;
+    }
+
+    .custom-input:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+    }
+
+    .change-button {
+        width: 100%;
+        height: 50px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #4f46e5, #6366f1);
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .change-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(79,70,229,0.25);
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 22px;
+        text-align: center;
+        color: #4f46e5;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+
+    .alert {
+        padding: 12px 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .alert-danger {
+        background: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+    }
+
+    .alert-success {
+        background: #f0fdf4;
+        color: #15803d;
+        border: 1px solid #bbf7d0;
+    }
+
+    @@media (max-width: 576px) {
+        .forgot-page {
+            padding: 20px 15px;
+        }
+
+        .forgot-body {
+            padding: 25px 20px;
+        }
+    }
+</style>
+
+<div class="forgot-page">
+
+    <div class="forgot-card">
+
+        <div class="forgot-header">
+
+            <div class="forgot-icon">
+                🔑
+            </div>
+
+            <h2>Şifremi Unuttum</h2>
+
+            <p>
+                Email adresinize doğrulama kodu göndereceğiz.
+            </p>
+
+        </div>
+
+        <div class="forgot-body">
+
+            @if (ViewBag.Hata != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.Hata
+                </div>
+            }
+
+            @if (TempData["Basari"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Basari"]
+                </div>
+            }
+
+            <form asp-controller="Account"
+                  asp-action="SifremiUnuttum"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="GirisTuru"
+                       value="@girisTuru" />
+
+                <div class="field">
+
+                    <label for="KullaniciAdi">
+                        Kullanıcı Adı
+                    </label>
+
+                    <input type="text"
+                           id="KullaniciAdi"
+                           name="KullaniciAdi"
+                           class="custom-input"
+                           placeholder="Kullanıcı adınızı giriniz"
+                           autocomplete="username"
+                           required />
+
+                </div>
+
+                <button type="submit"
+                        class="change-button">
+                    Email Kodunu Gönder
+                </button>
+
+            </form>
+
+            @if (adminMi)
+            {
+                <a asp-controller="Account"
+                   asp-action="AdminLogin"
+                   class="back-link">
+                    ← Yönetici girişine dön
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Account"
+                   asp-action="Login"
+                   class="back-link">
+                    ← Öğretmen girişine dön
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+</div>

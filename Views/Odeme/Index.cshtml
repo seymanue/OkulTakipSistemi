@@ -1,0 +1,443 @@
+@model IEnumerable<OkulTakipSistemi.Models.Odeme>
+
+@{
+    ViewData["Title"] = "Ödeme Paneli";
+
+    var ogrenciler = ViewBag.Ogrenciler as List<OkulTakipSistemi.Models.Ogrenci>;
+    var seciliOgrenciId = ViewBag.SeciliOgrenciId as int?;
+    var ogrenci = ViewBag.Ogrenci as OkulTakipSistemi.Models.Ogrenci;
+
+    var borclar = ViewBag.Borclar as List<OkulTakipSistemi.Models.AylikBorc>
+                   ?? new List<OkulTakipSistemi.Models.AylikBorc>();
+
+    var odemeler = ViewBag.Odemeler as List<OkulTakipSistemi.Models.Odeme>
+                   ?? new List<OkulTakipSistemi.Models.Odeme>();
+
+    decimal toplamBorc = ViewBag.ToplamBorc ?? 0m;
+    decimal toplamOdenen = ViewBag.ToplamOdenen ?? 0m;
+    decimal toplamKalan = ViewBag.ToplamKalan ?? 0m;
+}
+
+<div class="container-fluid py-4">
+
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">Ödeme Paneli</h2>
+        <p class="text-muted mb-0">
+            Öğrenci ücretleri, taksitler ve tahsilat işlemleri
+        </p>
+    </div>
+
+    @if (TempData["Basarili"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Basarili"]
+        </div>
+    }
+
+    @if (TempData["Hata"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Hata"]
+        </div>
+    }
+
+    <!-- ÖĞRENCİ SEÇ -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <form asp-action="Index" method="get">
+
+                <div class="row align-items-end">
+
+                    <div class="col-md-8">
+
+                        <label class="form-label fw-bold">
+                            Öğrenci
+                        </label>
+
+                        <select name="ogrenciId"
+                                class="form-select"
+                                required>
+
+                            <option value="">
+                                Öğrenci seçiniz
+                            </option>
+
+                            @if (ogrenciler != null)
+                            {
+                                foreach (var o in ogrenciler)
+                                {
+                                    if (seciliOgrenciId == o.Id)
+                                    {
+                                        <option value="@o.Id" selected>
+                                            @o.AdSoyad - @o.OgrenciNo
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@o.Id">
+                                            @o.AdSoyad - @o.OgrenciNo
+                                        </option>
+                                    }
+                                }
+                            }
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+                            Öğrenciyi Getir
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+
+    @if (ogrenci != null)
+    {
+        <!-- ÖĞRENCİ BİLGİSİ -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-8">
+
+                        <h4 class="fw-bold mb-1">
+                            @ogrenci.AdSoyad
+                        </h4>
+
+                        <p class="text-muted mb-0">
+                            Öğrenci No: @ogrenci.OgrenciNo
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-4 text-md-end">
+
+                        <a asp-action="Create"
+                           asp-route-ogrenciId="@ogrenci.Id"
+                           class="btn btn-success">
+                            + Yeni Tahsilat
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ÖZET -->
+
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-4">
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-body">
+
+                        <small class="text-muted">
+                            Toplam Borç
+                        </small>
+
+                        <h3 class="fw-bold mb-0">
+                            @toplamBorc.ToString("N2") ₺
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-body">
+
+                        <small class="text-muted">
+                            Ödenen
+                        </small>
+
+                        <h3 class="fw-bold text-success mb-0">
+                            @toplamOdenen.ToString("N2") ₺
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="card shadow-sm border-0">
+
+                    <div class="card-body">
+
+                        <small class="text-muted">
+                            Kalan Borç
+                        </small>
+
+                        <h3 class="fw-bold text-danger mb-0">
+                            @toplamKalan.ToString("N2") ₺
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- AYLIK BORÇLAR -->
+
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-header bg-white">
+
+                <h5 class="fw-bold mb-0">
+                    Ödeme Planı
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                @if (borclar.Any())
+                {
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Dönem</th>
+                                    <th>Toplam Borç</th>
+                                    <th>Ödenen</th>
+                                    <th>Kalan</th>
+                                    <th>Durum</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var borc in borclar)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @borc.Ay.ToString("00")/@borc.Yil
+                                        </td>
+
+                                        <td>
+                                            @borc.Tutar.ToString("N2") ₺
+                                        </td>
+
+                                        <td class="text-success">
+                                            @borc.OdenenTutar.ToString("N2") ₺
+                                        </td>
+
+                                        <td class="fw-bold">
+                                            @borc.KalanTutar.ToString("N2") ₺
+                                        </td>
+
+                                        <td>
+
+                                            @if (borc.Odendi)
+                                            {
+                                                <span class="badge bg-success">
+                                                    Ödendi
+                                                </span>
+                                            }
+                                            else if (borc.OdenenTutar > 0)
+                                            {
+                                                <span class="badge bg-warning text-dark">
+                                                    Kısmi Ödeme
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">
+                                                    Ödenmedi
+                                                </span>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+
+                        <h5>
+                            Ödeme planı bulunmuyor
+                        </h5>
+
+                        <p class="text-muted">
+                            Bu öğrenci için henüz aylık borç oluşturulmamış.
+                        </p>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <!-- TAHSİLATLAR -->
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-header bg-white">
+
+                <h5 class="fw-bold mb-0">
+                    Tahsilatlar
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                @if (odemeler.Any())
+                {
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Tarih</th>
+                                    <th>Tutar</th>
+                                    <th>Durum</th>
+                                    <th>Açıklama</th>
+                                    <th class="text-end">İşlem</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var odeme in odemeler)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @odeme.OdemeTarihi.ToString("dd.MM.yyyy")
+                                        </td>
+
+                                        <td>
+                                            <strong>
+                                                @odeme.Tutar.ToString("N2") ₺
+                                            </strong>
+                                        </td>
+
+                                        <td>
+
+                                            @if (odeme.Durum == "Ödendi")
+                                            {
+                                                <span class="badge bg-success">
+                                                    Ödendi
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-warning text-dark">
+                                                    @odeme.Durum
+                                                </span>
+                                            }
+
+                                        </td>
+
+                                        <td>
+                                            @(string.IsNullOrWhiteSpace(odeme.Aciklama)
+                                                ? "-"
+                                                : odeme.Aciklama)
+                                        </td>
+
+                                        <td class="text-end">
+
+                                            <form asp-action="Delete"
+                                                  method="post"
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('Bu ödemeyi silmek istediğinize emin misiniz?');">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@odeme.Id" />
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger">
+                                                    Sil
+                                                </button>
+
+                                            </form>
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+
+                        <h5>
+                            Henüz tahsilat bulunmuyor
+                        </h5>
+
+                        <p class="text-muted">
+                            Bu öğrenci için henüz ödeme kaydı oluşturulmamış.
+                        </p>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

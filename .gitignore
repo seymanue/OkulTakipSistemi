@@ -1,0 +1,37 @@
+bin/
+obj/
+.vs/
+.DS_Store
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Yedek ve geçici dosyalar
+*.backup
+*.bak
+*.save
+*.bozuk
+*.eski
+*.test
+
+# SQLite geçici dosyaları
+*.db-shm
+*.db-wal
+
+# Büyük yedek dosyaları
+*.zip
+
+# Sorunlu/yedek klasörler
+wwwroot_sorunlu/
+
+# Veritabanı dosyaları
+*.db
+
+# Eski ve test dosyaları
+*_eski.cs
+TEST.txt
+Icon*
+
+# Tüm numaralı yedekler
+*.backup*

@@ -1,0 +1,51 @@
+@model IEnumerable<OkulTakipSistemi.Models.Ogrenci>
+
+@{
+    ViewData["Title"] = "Öğrencilerim";
+}
+
+<div class="container mt-5">
+
+    <h1>Öğrencilerim</h1>
+
+    <hr />
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-striped">
+
+                <thead>
+                    <tr>
+                        <th>Öğrenci No</th>
+                        <th>Ad Soyad</th>
+                        <th>Sınıf</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var ogrenci in Model)
+                    {
+                        <tr>
+                            <td>@ogrenci.OgrenciNo</td>
+                            <td>@ogrenci.AdSoyad</td>
+                            <td>@ogrenci.Sinif?.Ad</td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Size atanmış sınıflarda öğrenci bulunmamaktadır.
+        </div>
+    }
+
+</div>

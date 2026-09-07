@@ -1,0 +1,263 @@
+@model IEnumerable<OkulTakipSistemi.Models.OkulUcreti>
+
+@{
+    ViewData["Title"] = "Okul Ücretleri";
+}
+
+<div class="container-fluid py-4">
+
+    <!-- BAŞLIK -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                Okul Ücretleri
+            </h2>
+
+            <p class="text-muted mb-0">
+                Okulların eğitim ücretlerini ve ödeme seçeneklerini yönetin.
+            </p>
+        </div>
+
+        <a asp-action="Create"
+           class="btn btn-primary">
+            + Yeni Okul Ücreti
+        </a>
+
+    </div>
+
+
+    <!-- BAŞARILI MESAJ -->
+    @if (TempData["Basarili"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show"
+             role="alert">
+
+            <strong>Başarılı:</strong>
+            @TempData["Basarili"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+
+        </div>
+    }
+
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Henüz okul ücreti tanımlanmamış.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body p-0">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+                                <th>Okul</th>
+                                <th>Toplam Ücret</th>
+                                <th>Ödeme Şekli</th>
+                                <th>Taksit</th>
+                                <th>Aylık Ücret</th>
+                                <th>Başlangıç Ayı</th>
+                                <th>Geçerlilik</th>
+                                <th>Açıklama</th>
+                                <th class="text-end">
+                                    İşlem
+                                </th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var ucret in Model)
+                            {
+                                <tr>
+
+                                    <!-- OKUL -->
+                                    <td>
+                                        <div class="fw-semibold">
+                                            @(ucret.Okul?.Ad ?? "Okul belirtilmemiş")
+                                        </div>
+                                    </td>
+
+
+                                    <!-- TOPLAM ÜCRET -->
+                                    <td>
+                                        <strong>
+                                            @ucret.ToplamUcret.ToString("N2") ₺
+                                        </strong>
+                                    </td>
+
+
+                                    <!-- ÖDEME ŞEKLİ -->
+                                    <td>
+
+                                        @if (ucret.OdemeSekli == "Pesin")
+                                        {
+                                            <span class="badge bg-success">
+                                                Peşin
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-primary">
+                                                Taksitli
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- TAKSİT -->
+                                    <td>
+
+                                        @if (ucret.OdemeSekli == "Pesin")
+                                        {
+                                            <span class="text-muted">
+                                                -
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <strong>
+                                                @ucret.TaksitAySayisi ay
+                                            </strong>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- AYLIK ÜCRET -->
+                                    <td>
+
+                                        @if (ucret.OdemeSekli == "Pesin")
+                                        {
+                                            <span class="text-muted">
+                                                -
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <strong>
+                                                @ucret.AylikUcret.ToString("N2") ₺
+                                            </strong>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- BAŞLANGIÇ AYI -->
+                                    <td>
+
+                                        @{
+                                            string[] aylar =
+                                            {
+                                                "",
+                                                "Ocak",
+                                                "Şubat",
+                                                "Mart",
+                                                "Nisan",
+                                                "Mayıs",
+                                                "Haziran",
+                                                "Temmuz",
+                                                "Ağustos",
+                                                "Eylül",
+                                                "Ekim",
+                                                "Kasım",
+                                                "Aralık"
+                                            };
+                                        }
+
+                                        @(ucret.BaslangicAyi >= 1 &&
+                                          ucret.BaslangicAyi <= 12
+                                            ? aylar[ucret.BaslangicAyi]
+                                            : "-")
+
+                                    </td>
+
+
+                                    <!-- GEÇERLİLİK -->
+                                    <td>
+                                        @ucret.GecerlilikTarihi.ToString("dd.MM.yyyy")
+                                    </td>
+
+
+                                    <!-- AÇIKLAMA -->
+                                    <td>
+
+                                        @if (!string.IsNullOrWhiteSpace(ucret.Aciklama))
+                                        {
+                                            @ucret.Aciklama
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                -
+                                            </span>
+                                        }
+
+                                    </td>
+
+
+                                    <!-- İŞLEMLER -->
+                                    <td class="text-end">
+
+                                        <div class="d-flex justify-content-end gap-2">
+
+                                            <!-- DÜZENLE -->
+                                            <a asp-action="Edit"
+                                               asp-route-id="@ucret.Id"
+                                               class="btn btn-sm btn-outline-primary">
+                                                Düzenle
+                                            </a>
+
+
+                                            <!-- SİL -->
+                                            <form asp-action="Delete"
+                                                  method="post"
+                                                  onsubmit="return confirm('Bu okul ücretini silmek istediğinize emin misiniz?');">
+
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@ucret.Id" />
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger">
+                                                    Sil
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>

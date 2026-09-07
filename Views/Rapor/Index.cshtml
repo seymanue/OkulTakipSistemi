@@ -1,0 +1,108 @@
+@{
+    ViewData["Title"] = "Raporlama";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2>Raporlama</h2>
+        <p class="text-muted">
+            Okul takip sistemindeki bilgileri raporlayabilirsiniz.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Öğrenci Raporu -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5>👨‍🎓 Öğrenci Raporu</h5>
+                    <p class="text-muted">
+                        Sistemde kayıtlı öğrencileri görüntüleyin.
+                    </p>
+                    <a asp-action="OgrenciRaporu" class="btn btn-primary">
+                        Raporu Görüntüle
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Okul Raporu -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5>🏫 Okul Raporu</h5>
+                    <p class="text-muted">
+                        Kayıtlı okulların bilgilerini görüntüleyin.
+                    </p>
+                    <a asp-action="OkulRaporu" class="btn btn-primary">
+                        Raporu Görüntüle
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sınıf Raporu -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5>📚 Sınıf Raporu</h5>
+                    <p class="text-muted">
+                        Sınıfları ve bağlı oldukları okulları görüntüleyin.
+                    </p>
+                    <a asp-action="SinifRaporu" class="btn btn-primary">
+                        Raporu Görüntüle
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ödeme Raporu -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5>💳 Ödeme Raporu</h5>
+                    <p class="text-muted">
+                        Yapılan ödemeleri ve toplam ödeme tutarını görüntüleyin.
+                    </p>
+                    <a asp-action="OdemeRaporu" class="btn btn-success">
+                        Raporu Görüntüle
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Borç Raporu -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5>💰 Borç Raporu</h5>
+                    <p class="text-muted">
+                        Toplam borç, ödenen ve kalan tutarları görüntüleyin.
+                    </p>
+                    <a asp-action="BorcRaporu" class="btn btn-warning">
+                        Raporu Görüntüle
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yoklama Raporu -->
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5>📋 Yoklama Raporu</h5>
+                    <p class="text-muted">
+                        Yapılan yoklamaları ve yoklama detaylarını görüntüleyin.
+                    </p>
+                    <a asp-action="YoklamaRaporu" class="btn btn-info">
+                        Raporu Görüntüle
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

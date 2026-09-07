@@ -1,0 +1,704 @@
+@{
+    ViewData["Title"] = "Yönetici Girişi";
+}
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+    }
+
+    body {
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        background:
+            radial-gradient(circle at 15% 20%, rgba(74, 144, 226, 0.28), transparent 32%),
+            radial-gradient(circle at 85% 80%, rgba(42, 157, 143, 0.22), transparent 35%),
+            linear-gradient(135deg, #0b1724 0%, #102b3f 48%, #173d4b 100%);
+        overflow-x: hidden;
+    }
+
+    .admin-login-page {
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 35px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Arka plan dekorasyonları */
+
+    .bg-circle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(1px);
+    }
+
+    .circle-one {
+        width: 420px;
+        height: 420px;
+        top: -190px;
+        left: -160px;
+        background: rgba(82, 170, 255, 0.14);
+    }
+
+    .circle-two {
+        width: 520px;
+        height: 520px;
+        bottom: -270px;
+        right: -190px;
+        background: rgba(52, 211, 153, 0.11);
+    }
+
+    .circle-three {
+        width: 170px;
+        height: 170px;
+        top: 18%;
+        right: 13%;
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    .login-wrapper {
+        width: 100%;
+        max-width: 1080px;
+        min-height: 650px;
+        display: grid;
+        grid-template-columns: 1fr 0.9fr;
+        position: relative;
+        z-index: 2;
+
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.20);
+        border-radius: 30px;
+        overflow: hidden;
+
+        box-shadow:
+            0 35px 90px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.10);
+
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+    }
+
+    /* SOL TARAF */
+
+    .login-info {
+        position: relative;
+        min-height: 650px;
+        padding: 55px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        background: rgba(255, 255, 255, 0.045);
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .info-top {
+        position: relative;
+        z-index: 2;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+    }
+
+    .brand-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+
+        color: #ffffff;
+        font-size: 19px;
+
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .info-content {
+        position: relative;
+        z-index: 2;
+        max-width: 440px;
+    }
+
+    .info-content .small-title {
+        margin-bottom: 15px;
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .info-content h1 {
+        margin: 0 0 20px;
+        color: #ffffff;
+        font-size: clamp(38px, 4vw, 58px);
+        line-height: 1.05;
+        font-weight: 800;
+        letter-spacing: -2px;
+    }
+
+    .info-content h1 span {
+        color: #78c7ff;
+    }
+
+    .info-content p {
+        margin: 0;
+        max-width: 410px;
+        color: rgba(255, 255, 255, 0.70);
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .info-bottom {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: rgba(255, 255, 255, 0.52);
+        font-size: 12px;
+    }
+
+    .info-bottom i {
+        color: #72c7ff;
+    }
+
+    /* SAĞ FORM */
+
+    .login-form-side {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 55px 60px;
+
+        background: rgba(255, 255, 255, 0.92);
+    }
+
+    .admin-card {
+        width: 100%;
+        max-width: 390px;
+    }
+
+    .form-header {
+        margin-bottom: 32px;
+    }
+
+    .shield-icon {
+        width: 62px;
+        height: 62px;
+        margin-bottom: 22px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 18px;
+        background: linear-gradient(145deg, #2488e8, #1267bb);
+        color: white;
+        font-size: 26px;
+
+        box-shadow:
+            0 12px 25px rgba(24, 117, 198, 0.25);
+    }
+
+    .form-header h2 {
+        margin: 0 0 8px;
+        color: #152536;
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: -0.7px;
+    }
+
+    .form-header p {
+        margin: 0;
+        color: #82909d;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 19px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #344454;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #91a0ad;
+        font-size: 15px;
+        pointer-events: none;
+    }
+
+    .form-input {
+        width: 100%;
+        height: 52px;
+        padding: 0 16px 0 45px;
+
+        border: 1px solid #dfe6ec;
+        border-radius: 13px;
+
+        background: #f8fafc;
+        color: #1d2d3d;
+
+        font-family: inherit;
+        font-size: 14px;
+
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    .form-input::placeholder {
+        color: #aab5bf;
+    }
+
+    .form-input:focus {
+        border-color: #2689e8;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(38, 137, 232, 0.10);
+    }
+
+    .password-button {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        border: 0;
+        background: transparent;
+        color: #94a0aa;
+
+        cursor: pointer;
+        padding: 5px;
+        font-size: 15px;
+    }
+
+    .password-button:hover {
+        color: #2689e8;
+    }
+
+    .remember-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 4px 0 23px;
+    }
+
+    .remember-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        color: #6d7a86;
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+    .remember-label input {
+        width: 16px;
+        height: 16px;
+        accent-color: #2689e8;
+        cursor: pointer;
+    }
+
+    .forgot-link {
+        color: #2689e8;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .forgot-link:hover {
+        text-decoration: underline;
+    }
+
+    .login-button {
+        width: 100%;
+        height: 53px;
+
+        border: 0;
+        border-radius: 13px;
+
+        background: linear-gradient(135deg, #248be9, #1469ba);
+        color: #ffffff;
+
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        box-shadow: 0 12px 25px rgba(29, 119, 201, 0.23);
+        transition: all 0.2s ease;
+    }
+
+    .login-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 30px rgba(29, 119, 201, 0.30);
+    }
+
+    .login-button:active {
+        transform: translateY(0);
+    }
+
+    .alert {
+        padding: 12px 14px;
+        margin-bottom: 18px;
+        border-radius: 11px;
+        font-size: 13px;
+    }
+
+    .alert-danger {
+        color: #a32929;
+        background: #fff1f1;
+        border: 1px solid #ffd6d6;
+    }
+
+    .alert-success {
+        color: #187344;
+        background: #effcf4;
+        border: 1px solid #ccefd9;
+    }
+
+    .account-links {
+        margin-top: 26px;
+        padding-top: 21px;
+        border-top: 1px solid #edf0f3;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .account-links a {
+        color: #6d7b88;
+        text-decoration: none;
+        font-size: 13px;
+        transition: color 0.2s ease;
+    }
+
+    .account-links a:hover {
+        color: #2689e8;
+    }
+
+    .account-links a:first-child {
+        color: #2689e8;
+        font-weight: 700;
+    }
+
+    /* MOBİL */
+
+    @@media (max-width: 850px) {
+        .login-wrapper {
+            max-width: 560px;
+            grid-template-columns: 1fr;
+        }
+
+        .login-info {
+            min-height: 300px;
+            padding: 35px;
+            border-right: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .info-content h1 {
+            font-size: 40px;
+        }
+
+        .info-bottom {
+            display: none;
+        }
+
+        .login-form-side {
+            padding: 40px 35px;
+        }
+    }
+
+    @@media (max-width: 500px) {
+        .admin-login-page {
+            padding: 15px;
+        }
+
+        .login-wrapper {
+            border-radius: 22px;
+        }
+
+        .login-info {
+            min-height: 270px;
+            padding: 28px;
+        }
+
+        .info-content h1 {
+            font-size: 34px;
+        }
+
+        .login-form-side {
+            padding: 35px 24px;
+        }
+
+        .form-header h2 {
+            font-size: 26px;
+        }
+    }
+</style>
+
+<div class="admin-login-page">
+
+    <div class="bg-circle circle-one"></div>
+    <div class="bg-circle circle-two"></div>
+    <div class="bg-circle circle-three"></div>
+
+    <div class="login-wrapper">
+
+        <!-- SOL TARAF -->
+        <div class="login-info">
+
+            <div class="info-top">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-school"></i>
+                    </div>
+
+                    <span>Okul Takip Sistemi</span>
+                </div>
+            </div>
+
+            <div class="info-content">
+
+                <div class="small-title">
+                    Yönetim Paneli
+                </div>
+
+                <h1>
+                    Okulunu<br />
+                    <span>kolayca yönet.</span>
+                </h1>
+
+                <p>
+                    Öğrenci, öğretmen ve okul süreçlerini
+                    tek bir yerden güvenli ve kolay bir şekilde
+                    yönetmek için yönetici paneline giriş yapın.
+                </p>
+
+            </div>
+
+            <div class="info-bottom">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Güvenli yönetici erişimi</span>
+            </div>
+
+        </div>
+
+        <!-- SAĞ TARAF -->
+        <div class="login-form-side">
+
+            <div class="admin-card">
+
+                <div class="form-header">
+
+                    <div class="shield-icon">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+
+                    <h2>Yönetici Girişi</h2>
+
+                    <p>
+                        Yönetim paneline devam etmek için giriş yapın.
+                    </p>
+
+                </div>
+
+                @if (ViewBag.Hata != null)
+                {
+                    <div class="alert alert-danger">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        @ViewBag.Hata
+                    </div>
+                }
+
+                @if (TempData["Basari"] != null)
+                {
+                    <div class="alert alert-success">
+                        <i class="fa-solid fa-circle-check"></i>
+                        @TempData["Basari"]
+                    </div>
+                }
+
+                <form asp-controller="Account"
+                      asp-action="Login"
+                      method="post">
+
+                    <input type="hidden"
+                           name="GirisTuru"
+                           value="Admin" />
+
+                    <div class="form-group">
+
+                        <label for="KullaniciAdi">
+                            Kullanıcı Adı
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-user input-icon"></i>
+
+                            <input type="text"
+                                   id="KullaniciAdi"
+                                   name="KullaniciAdi"
+                                   class="form-input"
+                                   placeholder="Kullanıcı adınızı girin"
+                                   autocomplete="username"
+                                   required />
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="adminPassword">
+                            Şifre
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class="fa-solid fa-lock input-icon"></i>
+
+                            <input type="password"
+                                   id="adminPassword"
+                                   name="Sifre"
+                                   class="form-input"
+                                   placeholder="Şifrenizi girin"
+                                   autocomplete="current-password"
+                                   required
+                                   style="padding-right: 48px;" />
+
+                            <button type="button"
+                                    class="password-button"
+                                    onclick="togglePassword()"
+                                    aria-label="Şifreyi göster/gizle">
+
+                                <i id="passwordEye"
+                                   class="fa-solid fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="remember-row">
+
+                        <label class="remember-label">
+
+                            <input type="checkbox"
+                                   name="BeniHatirla"
+                                   value="true" />
+
+                            <span>Beni Hatırla</span>
+
+                        </label>
+
+                        <a asp-controller="Account"
+                           asp-action="SifremiUnuttum"
+                           asp-route-GirisTuru="Admin"
+                           class="forgot-link">
+                            Şifremi Unuttum?
+                        </a>
+
+                    </div>
+
+                    <button type="submit"
+                            class="login-button">
+
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        &nbsp;
+                        Giriş Yap
+
+                    </button>
+
+                </form>
+
+                <div class="account-links">
+
+                    <a asp-controller="Account"
+                       asp-action="AdminRegister">
+                        Yönetici hesabı oluştur
+                    </a>
+
+                    <a asp-controller="Account"
+                       asp-action="Login">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        &nbsp;Öğretmen girişine dön
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function togglePassword() {
+
+        const password = document.getElementById("adminPassword");
+        const eye = document.getElementById("passwordEye");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            eye.classList.remove("fa-eye");
+            eye.classList.add("fa-eye-slash");
+
+        } else {
+
+            password.type = "password";
+
+            eye.classList.remove("fa-eye-slash");
+            eye.classList.add("fa-eye");
+
+        }
+    }
+</script>

@@ -1,0 +1,779 @@
+@model IEnumerable<OkulTakipSistemi.Models.Ogrenci>
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Yoklama Al";
+
+    var sinif = ViewBag.Sinif as OkulTakipSistemi.Models.Sinif;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yoklama Al - Okul Takip Sistemi</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(255, 166, 112, .22), transparent 35%),
+                linear-gradient(135deg, #3b241d 0%, #6b3827 45%, #9d5937 100%);
+            color: #3b2923;
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        .yoklama-page {
+            min-height: 100vh;
+            padding: 45px 25px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(52, 31, 25, .78),
+                    rgba(123, 63, 39, .62),
+                    rgba(202, 112, 72, .35)
+                );
+        }
+
+        .container {
+            width: min(1100px, 100%);
+            margin: 0 auto;
+        }
+
+        /* BAŞLIK */
+
+        .page-header {
+            background: rgba(55, 31, 24, .60);
+            border: 1px solid rgba(255, 218, 195, .20);
+            border-radius: 22px;
+            padding: 28px 32px;
+            margin-bottom: 25px;
+            box-shadow: 0 18px 45px rgba(35, 18, 12, .25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .page-header .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .page-kicker {
+            color: #f5b58f;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 7px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            color: #fff1e7;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            margin: 8px 0 0;
+            color: #e8c8b7;
+            font-size: 14px;
+        }
+
+        .page-header p strong {
+            color: #ffc39e;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 10px 18px;
+            border-radius: 12px;
+            background: rgba(255, 224, 205, .13);
+            border: 1px solid rgba(255, 213, 190, .25);
+            color: #ffe4d2;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 650;
+            white-space: nowrap;
+            transition: .2s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 190, 151, .20);
+            color: #fff4ed;
+            transform: translateY(-1px);
+        }
+
+        /* MESAJLAR */
+
+        .attendance-success,
+        .attendance-warning {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+            padding: 15px 18px;
+            border-radius: 15px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .attendance-success {
+            background: rgba(255, 191, 150, .15);
+            border: 1px solid rgba(255, 205, 176, .30);
+            color: #ffe5d4;
+        }
+
+        .attendance-warning {
+            background: rgba(214, 146, 103, .16);
+            border: 1px solid rgba(255, 200, 165, .28);
+            color: #ffe2cf;
+        }
+
+        .success-icon,
+        .warning-icon {
+            width: 35px;
+            height: 35px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .success-icon {
+            background: #e9976c;
+            color: #fff7f1;
+        }
+
+        .warning-icon {
+            background: #c9825f;
+            color: #fff7f1;
+        }
+
+        .attendance-success strong,
+        .attendance-warning strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .attendance-success p,
+        .attendance-warning p {
+            margin: 0;
+            font-size: 13px;
+            color: #f1cdbb;
+        }
+
+        .success-close,
+        .warning-close {
+            margin-left: auto;
+            border: none;
+            background: transparent;
+            color: #edc1aa;
+            font-size: 24px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        /* KART */
+
+        .attendance-card {
+            overflow: hidden;
+            background: rgba(49, 29, 23, .58);
+            border: 1px solid rgba(255, 218, 197, .20);
+            border-radius: 22px;
+            box-shadow: 0 18px 50px rgba(35, 18, 12, .25);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .attendance-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 23px 27px;
+            background: rgba(255, 191, 151, .07);
+            border-bottom: 1px solid rgba(255, 219, 198, .14);
+        }
+
+        .attendance-title h2 {
+            margin: 0;
+            color: #ffe6d6;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .attendance-title p {
+            margin: 6px 0 0;
+            color: #cda997;
+            font-size: 13px;
+        }
+
+        .student-count {
+            background: rgba(255, 201, 169, .12);
+            color: #ffc5a3;
+            border: 1px solid rgba(255, 203, 174, .25);
+            border-radius: 20px;
+            padding: 7px 13px;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* ÖĞRENCİLER */
+
+        .student-list {
+            padding: 0;
+        }
+
+        .student-row {
+            min-height: 76px;
+            padding: 15px 27px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 1px solid rgba(255, 222, 204, .10);
+            transition: .2s ease;
+        }
+
+        .student-row:last-child {
+            border-bottom: none;
+        }
+
+        .student-row:hover {
+            background: rgba(255, 190, 150, .055);
+        }
+
+        .student-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .student-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .student-details strong {
+            color: #ffe8dc;
+            font-size: 15px;
+            font-weight: 650;
+        }
+
+        .student-details span {
+            color: #bfa092;
+            font-size: 12px;
+        }
+
+        /* GELDİ / GELMEDİ */
+
+        .attendance-choice {
+            margin-left: auto;
+            padding-left: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .attendance-choice input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .attendance-choice label {
+            cursor: pointer;
+        }
+
+        .choice-button {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 218, 198, .18);
+            background: rgba(255, 220, 202, .07);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            font-weight: 700;
+            transition: all .2s ease;
+        }
+
+        .choice-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .choice-present {
+            color: #ffc09b;
+        }
+
+        .choice-absent {
+            color: #e7b8a4;
+        }
+
+        .attendance-choice input:checked + .choice-button.choice-present {
+            background: linear-gradient(135deg, #ffb17f, #e98a5c);
+            border-color: #ffc39f;
+            color: #fff8f3;
+            box-shadow: 0 0 0 3px rgba(255, 174, 132, .12);
+        }
+
+        .attendance-choice input:checked + .choice-button.choice-absent {
+            background: linear-gradient(135deg, #d99370, #b96f50);
+            border-color: #e6b29a;
+            color: #fff8f3;
+            box-shadow: 0 0 0 3px rgba(210, 142, 107, .12);
+        }
+
+        /* ALT */
+
+        .attendance-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            padding: 20px 27px;
+            background: rgba(255, 200, 170, .055);
+            border-top: 1px solid rgba(255, 220, 202, .12);
+        }
+
+        .attendance-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cdb0a2;
+            font-size: 13px;
+        }
+
+        .info-icon {
+            width: 27px;
+            height: 27px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: rgba(255, 183, 145, .14);
+            color: #f6b48c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .save-attendance {
+            margin-left: auto;
+            width: auto;
+            min-width: 185px;
+            min-height: 52px;
+            padding: 13px 20px;
+            border: 1px solid rgba(255, 208, 181, .18);
+            border-radius: 12px;
+            background: linear-gradient(135deg, #c9774f, #9f5438);
+            color: #fff6f0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            font-size: 14px;
+            font-weight: 650;
+            cursor: pointer;
+            transition: .2s ease;
+            white-space: nowrap;
+        }
+
+        .save-attendance:hover {
+            background: linear-gradient(135deg, #d4875e, #ad6042);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(70, 32, 20, .25);
+        }
+
+        .save-attendance svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+
+        /* ÖĞRENCİ YOK */
+
+        .empty-students {
+            padding: 55px 25px;
+            text-align: center;
+            color: #bda397;
+        }
+
+        .empty-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            border-radius: 18px;
+            background: rgba(255, 184, 146, .10);
+            color: #efa47c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-icon svg {
+            width: 34px;
+            height: 34px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .empty-students strong {
+            display: block;
+            color: #f3d9cb;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .empty-students span {
+            color: #b69b8f;
+            font-size: 13px;
+        }
+
+        /* MOBİL */
+
+        @@media (max-width: 768px) {
+            .yoklama-page {
+                padding: 25px 15px;
+            }
+
+            .page-header {
+                padding: 22px;
+            }
+
+            .page-header .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 18px;
+            }
+
+            .back-btn {
+                width: 100%;
+            }
+
+            .attendance-card-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .student-row {
+                padding: 15px 18px;
+            }
+
+            .attendance-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .save-attendance {
+                width: 100%;
+            }
+
+            .attendance-info {
+                align-items: flex-start;
+            }
+        }
+
+        @@media (max-width: 500px) {
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .student-row {
+                gap: 12px;
+            }
+
+            .student-details strong {
+                font-size: 14px;
+            }
+
+            .choice-button {
+                width: 39px;
+                height: 39px;
+            }
+
+            .attendance-choice {
+                padding-left: 10px;
+                gap: 7px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="yoklama-page">
+    <div class="container">
+
+        @if (TempData["Basari"] != null)
+        {
+            <div class="attendance-success" id="attendanceSuccess">
+                <span class="success-icon">✓</span>
+
+                <div>
+                    <strong>İşlem başarılı</strong>
+                    <p>@TempData["Basari"]</p>
+                </div>
+
+                <button type="button"
+                        class="success-close"
+                        onclick="document.getElementById('attendanceSuccess').remove()">
+                    ×
+                </button>
+            </div>
+        }
+
+        @if (TempData["YoklamaUyari"] != null)
+        {
+            <div class="attendance-warning" id="attendanceWarning">
+                <span class="warning-icon">!</span>
+
+                <div>
+                    <strong>Yoklama zaten alındı</strong>
+                    <p>@TempData["YoklamaUyari"]</p>
+                </div>
+
+                <button type="button"
+                        class="warning-close"
+                        onclick="document.getElementById('attendanceWarning').remove()">
+                    ×
+                </button>
+            </div>
+        }
+
+        <!-- BAŞLIK -->
+
+        <div class="page-header">
+            <div class="header-content">
+
+                <div>
+                    <div class="page-kicker">
+                        YOKLAMA
+                    </div>
+
+                    <h1>Yoklama Al</h1>
+
+                    <p>
+                        <strong>@sinif?.Ad</strong>
+                        sınıfındaki öğrencilerin günlük yoklamasını alın.
+                    </p>
+                </div>
+
+                <a href="@Url.Action("Yoklama", "Ogretmen")"
+                   class="back-btn">
+                    ← Sınıflara Dön
+                </a>
+
+            </div>
+        </div>
+
+
+        <!-- YOKLAMA FORMU -->
+
+        <form asp-controller="Yoklama"
+              asp-action="Kaydet"
+              method="post">
+
+            <input type="hidden"
+                   name="sinifId"
+                   value="@sinif?.Id" />
+
+            <div class="attendance-card">
+
+                <!-- KART BAŞLIĞI -->
+
+                <div class="attendance-card-header">
+
+                    <div class="attendance-title">
+
+                        <h2>Öğrenciler</h2>
+
+                        <p>
+                            Her öğrenci için gelen veya gelmeyen seçimini yapınız.
+                        </p>
+
+                    </div>
+
+                    <div class="student-count">
+                        @(Model?.Count() ?? 0) Öğrenci
+                    </div>
+
+                </div>
+
+
+                <!-- ÖĞRENCİLER -->
+
+                <div class="student-list">
+
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var ogrenci in Model)
+                        {
+                            <div class="student-row">
+
+                                <div class="student-info">
+
+                                    <div class="student-details">
+
+                                        <strong>
+                                            @ogrenci.AdSoyad
+                                        </strong>
+
+                                        <span>
+                                            Öğrenci No: @ogrenci.OgrenciNo
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="attendance-choice">
+
+                                    <!-- GELDİ -->
+
+                                    <label title="Geldi">
+
+                                        <input type="radio"
+                                               name="durumlar[@ogrenci.Id]"
+                                               value="true"
+                                               required />
+
+                                        <span class="choice-button choice-present">
+                                            ✓
+                                        </span>
+
+                                    </label>
+
+
+                                    <!-- GELMEDİ -->
+
+                                    <label title="Gelmedi">
+
+                                        <input type="radio"
+                                               name="durumlar[@ogrenci.Id]"
+                                               value="false" />
+
+                                        <span class="choice-button choice-absent">
+                                            ✕
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-students">
+
+                            <div class="empty-icon">
+
+                                <svg viewBox="0 0 24 24">
+
+                                    <circle cx="12"
+                                            cy="8"
+                                            r="4" />
+
+                                    <path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7" />
+
+                                </svg>
+
+                            </div>
+
+                            <strong>
+                                Öğrenci bulunamadı
+                            </strong>
+
+                            <span>
+                                Bu sınıfta kayıtlı öğrenci bulunmamaktadır.
+                            </span>
+
+                        </div>
+                    }
+
+                </div>
+
+
+                <!-- ALT BÖLÜM -->
+
+                @if (Model != null && Model.Any())
+                {
+                    <div class="attendance-footer">
+
+                        <div class="attendance-info">
+
+                            <span class="info-icon">
+                                !
+                            </span>
+
+                            <span>
+                                Öğrencilerin durumunu kontrol ettikten sonra
+                                yoklamayı kaydedebilirsiniz.
+                            </span>
+
+                        </div>
+
+
+                        <button type="submit"
+                                class="save-attendance">
+
+                            <svg viewBox="0 0 24 24">
+
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+
+                                <polyline points="17 21 17 13 7 13 7 21" />
+
+                                <polyline points="7 3 7 8 15 8" />
+
+                            </svg>
+
+                            Yoklamayı Kaydet
+
+                        </button>
+
+                    </div>
+                }
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

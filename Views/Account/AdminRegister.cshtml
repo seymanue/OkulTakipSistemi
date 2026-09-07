@@ -1,0 +1,408 @@
+@model OkulTakipSistemi.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Yönetici Hesabı Oluştur";
+}
+
+<style>
+    .register-page {
+        min-height: calc(100vh - 100px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 560px;
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.10);
+        overflow: hidden;
+    }
+
+    .register-header {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-align: center;
+        padding: 30px 25px;
+    }
+
+    .register-header .icon {
+        font-size: 42px;
+        margin-bottom: 10px;
+    }
+
+    .register-header h2 {
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .register-header p {
+        margin: 8px 0 0;
+        opacity: 0.9;
+    }
+
+    .register-body {
+        padding: 35px;
+    }
+
+    .field {
+        margin-bottom: 22px;
+    }
+
+    .field label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #667eea;
+        z-index: 2;
+    }
+
+    .custom-input {
+        width: 100%;
+        height: 56px;
+        border: 1px solid #dfe3ea;
+        border-radius: 14px;
+        padding: 0 48px;
+        font-size: 16px;
+        outline: none;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+
+    .custom-input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        font-size: 20px;
+        cursor: pointer;
+        color: #6b7280;
+        padding: 5px;
+    }
+
+    .password-toggle:hover {
+        color: #667eea;
+    }
+
+    .validation-error {
+        display: block;
+        margin-top: 6px;
+        font-size: 14px;
+        color: #dc3545;
+    }
+
+    .error-box {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #b91c1c;
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 22px;
+    }
+
+    .error-box ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .register-button {
+        width: 100%;
+        height: 56px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .register-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.25);
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 22px;
+        border-top: 1px solid #eeeeee;
+        color: #6b7280;
+    }
+
+    .login-link a {
+        color: #667eea;
+        font-weight: 600;
+        text-decoration: none;
+        margin-left: 5px;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    @@media (max-width: 600px) {
+        .register-page {
+            padding: 20px 12px;
+        }
+
+        .register-body {
+            padding: 25px 20px;
+        }
+
+        .register-header {
+            padding: 25px 20px;
+        }
+    }
+</style>
+
+<div class="register-page">
+
+    <div class="register-card">
+
+        <!-- ===================================================== -->
+        <!-- BAŞLIK -->
+        <!-- ===================================================== -->
+
+        <div class="register-header">
+
+            <div class="icon">
+                👩‍🏫
+            </div>
+
+            <h2>Yönetici Hesabı Oluştur</h2>
+
+            <p>
+                Okul Takip Sistemi'ne yönetici olarak katılın.
+            </p>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- FORM -->
+        <!-- ===================================================== -->
+
+        <div class="register-body">
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="error-box"
+                     asp-validation-summary="All">
+                </div>
+            }
+
+            <form asp-controller="Account"
+                  asp-action="AdminRegister"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <!-- AD SOYAD -->
+
+                <div class="field">
+
+                    <label asp-for="AdSoyad">
+                        Ad Soyad
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            👤
+                        </span>
+
+                        <input asp-for="AdSoyad"
+                               class="custom-input"
+                               placeholder="Örneğin: Ayşe Demir"
+                               required />
+
+                    </div>
+
+                    <span asp-validation-for="AdSoyad"
+                          class="validation-error">
+                    </span>
+
+                </div>
+
+                <!-- KULLANICI ADI -->
+
+                <div class="field">
+
+                    <label asp-for="KullaniciAdi">
+                        Kullanıcı Adı
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            @@
+                        </span>
+
+                        <input asp-for="KullaniciAdi"
+                               class="custom-input"
+                               placeholder="Örneğin: ayse.demir"
+                               required />
+
+                    </div>
+
+                    <span asp-validation-for="KullaniciAdi"
+                          class="validation-error">
+                    </span>
+
+                </div>
+
+                <!-- ŞİFRE -->
+
+                <div class="field">
+
+                    <label asp-for="Sifre">
+                        Şifre
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input asp-for="Sifre"
+                               type="password"
+                               id="sifre"
+                               class="custom-input"
+                               placeholder="Kendi şifrenizi belirleyin"
+                               required />
+
+                        <button type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('sifre', this)">
+                            👁️
+                        </button>
+
+                    </div>
+
+                    <span asp-validation-for="Sifre"
+                          class="validation-error">
+                    </span>
+
+                </div>
+
+                <!-- ŞİFRE TEKRAR -->
+
+                <div class="field">
+
+                    <label asp-for="SifreTekrar">
+                        Şifre Tekrar
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input asp-for="SifreTekrar"
+                               type="password"
+                               id="sifreTekrar"
+                               class="custom-input"
+                               placeholder="Şifrenizi tekrar girin"
+                               required />
+
+                        <button type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('sifreTekrar', this)">
+                            👁️
+                        </button>
+
+                    </div>
+
+                    <span asp-validation-for="SifreTekrar"
+                          class="validation-error">
+                    </span>
+
+                </div>
+
+                <!-- HESAP OLUŞTUR -->
+
+                <button type="submit"
+                        class="register-button">
+
+                    Yönetici Hesabı Oluştur
+
+                </button>
+
+            </form>
+
+            <!-- GİRİŞE DÖN -->
+
+            <div class="login-link">
+
+                <span>
+                    Zaten hesabınız var mı?
+                </span>
+
+                <a asp-controller="Account"
+                   asp-action="AdminLogin">
+
+                    Yönetici girişine dön
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function togglePassword(inputId, button) {
+
+        const input = document.getElementById(inputId);
+
+        if (input.type === "password") {
+
+            input.type = "text";
+            button.innerHTML = "🙈";
+
+        }
+        else {
+
+            input.type = "password";
+            button.innerHTML = "👁️";
+
+        }
+    }
+
+</script>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

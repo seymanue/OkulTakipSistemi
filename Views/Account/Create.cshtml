@@ -1,0 +1,58 @@
+@model OkulTakipSistemi.Models.Kullanici
+
+@{
+    ViewData["Title"] = "Kullanıcı Ekle";
+}
+
+<h2>Kullanıcı Ekle</h2>
+
+<form asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label asp-for="AdSoyad" class="form-label">Ad Soyad</label>
+        <input asp-for="AdSoyad" class="form-control" />
+        <span asp-validation-for="AdSoyad" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="KullaniciAdi" class="form-label">Kullanıcı Adı</label>
+        <input asp-for="KullaniciAdi" class="form-control" />
+        <span asp-validation-for="KullaniciAdi" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Sifre" class="form-label">Şifre</label>
+        <input asp-for="Sifre" type="password" class="form-control" />
+        <span asp-validation-for="Sifre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="RolId" class="form-label">Rol</label>
+
+        <select asp-for="RolId" class="form-select">
+            <option value="">-- Rol Seçiniz --</option>
+
+            @foreach (var rol in ViewBag.Roller)
+            {
+                <option value="@rol.Id">@rol.Ad</option>
+            }
+        </select>
+
+        <span asp-validation-for="RolId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Kullanıcıyı Kaydet
+    </button>
+
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+        İptal
+    </a>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

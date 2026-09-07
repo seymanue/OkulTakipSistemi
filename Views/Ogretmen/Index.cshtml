@@ -1,0 +1,80 @@
+@model IEnumerable<OkulTakipSistemi.Models.Ogretmen>
+
+@{
+    ViewData["Title"] = "Öğretmenler";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Öğretmenler</h2>
+            <p class="text-muted">Öğretmenleri yönetin.</p>
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary">
+            + Öğretmen Ekle
+        </a>
+    </div>
+
+    <table class="table table-bordered table-hover">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ad Soyad</th>
+                <th>Branş</th>
+                <th>Kullanıcı</th>
+                <th>E-posta</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var ogretmen in Model)
+            {
+                <tr>
+                    <td>@ogretmen.Id</td>
+
+                    <!-- Güncel ad soyad Kullanici tablosundan alınır -->
+                    <td>
+                        @(ogretmen.Kullanici?.AdSoyad ?? ogretmen.AdSoyad)
+                    </td>
+
+                    <td>
+                        @ogretmen.Branş
+                    </td>
+
+                    <!-- Güncel kullanıcı adı Kullanici tablosundan alınır -->
+                    <td>
+                        @(ogretmen.Kullanici?.KullaniciAdi ?? "Atanmamış")
+                    </td>
+
+                    <!-- Güncel email Kullanici tablosundan alınır -->
+                    <td>
+                        @(ogretmen.Kullanici?.Email ?? "-")
+                    </td>
+
+                    <td>
+                        <form asp-action="Delete"
+                              method="post"
+                              onsubmit="return confirm('Bu öğretmeni silmek istediğinize emin misiniz?');">
+
+                            <input type="hidden"
+                                   name="id"
+                                   value="@ogretmen.Id" />
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm">
+                                🗑️ Sil
+                            </button>
+
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>

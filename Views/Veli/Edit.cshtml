@@ -1,0 +1,119 @@
+@model OkulTakipSistemi.Models.Veli
+
+@{
+    ViewData["Title"] = "Veli Düzenle";
+}
+
+<div class="container mt-4">
+
+    <h2>Veli Düzenle</h2>
+
+    <p class="text-muted">
+        Veli bilgilerini ve bağlı olduğu öğrenciyi düzenleyin.
+    </p>
+
+    <form asp-action="Edit" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="AdSoyad" class="form-label">
+                Ad Soyad
+            </label>
+
+            <input asp-for="AdSoyad"
+                   class="form-control" />
+
+            <span asp-validation-for="AdSoyad"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Telefon" class="form-label">
+                Telefon
+            </label>
+
+            <input asp-for="Telefon"
+                   class="form-control" />
+
+            <span asp-validation-for="Telefon"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Yakinlik" class="form-label">
+                Yakınlık
+            </label>
+
+            <select asp-for="Yakinlik"
+                    class="form-select">
+
+                <option value="">Yakınlık seçiniz</option>
+                <option value="Anne">Anne</option>
+                <option value="Baba">Baba</option>
+                <option value="Vasi">Vasi</option>
+                <option value="Diğer">Diğer</option>
+
+            </select>
+
+            <span asp-validation-for="Yakinlik"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Öğrenci
+            </label>
+
+            <select name="OgrenciId"
+                    class="form-select"
+                    required>
+
+                <option value="">
+                    Öğrenci seçiniz
+                </option>
+
+                @foreach (var ogrenci in ViewBag.Ogrenciler)
+                {
+                    if (ogrenci.Id == (int)ViewBag.MevcutOgrenciId)
+                    {
+                        <option value="@ogrenci.Id" selected>
+                            @ogrenci.AdSoyad (@ogrenci.OgrenciNo)
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@ogrenci.Id">
+                            @ogrenci.AdSoyad (@ogrenci.OgrenciNo)
+                        </option>
+                    }
+                }
+
+            </select>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Değişiklikleri Kaydet
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                İptal
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

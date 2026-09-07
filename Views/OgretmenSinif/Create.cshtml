@@ -1,0 +1,96 @@
+@model OkulTakipSistemi.Models.OgretmenSinif
+
+@{
+    ViewData["Title"] = "Öğretmene Sınıf Ata";
+}
+
+<div class="container mt-4">
+
+    <h2>Öğretmene Sınıf Ata</h2>
+
+    <p class="text-muted">
+        Öğretmenin görev yapacağı sınıfı seçin.
+    </p>
+
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <form asp-controller="OgretmenSinif"
+          asp-action="Create"
+          method="post">
+
+        <div class="mb-3">
+
+            <label asp-for="OgretmenId"
+                   class="form-label">
+                Öğretmen
+            </label>
+
+            <select asp-for="OgretmenId"
+                    class="form-select">
+
+                <option value="0">
+                    Öğretmen seçiniz
+                </option>
+
+                @foreach (var ogretmen in ViewBag.Ogretmenler)
+                {
+                    <option value="@ogretmen.Id">
+                        @ogretmen.AdSoyad
+                        -
+                        @ogretmen.Branş
+                    </option>
+                }
+
+            </select>
+
+            <span asp-validation-for="OgretmenId"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label asp-for="SinifId"
+                   class="form-label">
+                Sınıf
+            </label>
+
+            <select asp-for="SinifId"
+                    class="form-select">
+
+                <option value="0">
+                    Sınıf seçiniz
+                </option>
+
+                @foreach (var sinif in ViewBag.Siniflar)
+                {
+                    <option value="@sinif.Id">
+                        @sinif.Ad
+                        -
+                        @(sinif.Okul?.Ad ?? "Okul belirtilmemiş")
+                    </option>
+                }
+
+            </select>
+
+            <span asp-validation-for="SinifId"
+                  class="text-danger">
+            </span>
+
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Sınıfı Ata
+        </button>
+
+        <a asp-controller="OgretmenSinif"
+           asp-action="Index"
+           class="btn btn-secondary">
+            İptal
+        </a>
+
+    </form>
+
+</div>

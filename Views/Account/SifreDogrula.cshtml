@@ -1,0 +1,73 @@
+@{
+    ViewData["Title"] = "Şifre Sıfırlama";
+}
+
+<div class="container mt-5" style="max-width: 500px;">
+
+    <h2>Şifre Sıfırlama</h2>
+
+    <p class="text-muted">
+        Kayıtlı email adresinize gönderilen 6 haneli kodu giriniz.
+    </p>
+
+    @if (ViewBag.Hata != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Hata
+        </div>
+    }
+
+    <form asp-controller="Account"
+          asp-action="SifreDogrula"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label">
+                Doğrulama Kodu
+            </label>
+
+            <input type="text"
+                   name="Kod"
+                   class="form-control"
+                   maxlength="6"
+                   minlength="6"
+                   inputmode="numeric"
+                   autocomplete="one-time-code"
+                   placeholder="6 haneli kod"
+                   required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Yeni Şifre
+            </label>
+
+            <input type="password"
+                   name="YeniSifre"
+                   class="form-control"
+                   autocomplete="new-password"
+                   required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Yeni Şifre Tekrar
+            </label>
+
+            <input type="password"
+                   name="YeniSifreTekrar"
+                   class="form-control"
+                   autocomplete="new-password"
+                   required />
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary w-100">
+            Şifreyi Değiştir
+        </button>
+
+    </form>
+
+</div>

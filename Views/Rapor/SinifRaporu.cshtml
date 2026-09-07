@@ -1,0 +1,89 @@
+@using OkulTakipSistemi.Models
+
+@{
+    ViewData["Title"] = "Sınıf Raporu";
+    var siniflar = ViewBag.Siniflar as List<Sinif>;
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Sınıf Raporu</h2>
+            <p class="text-muted mb-0">
+                Sistemde kayıtlı sınıfların genel raporu.
+            </p>
+        </div>
+
+        <a asp-controller="Rapor"
+           asp-action="Index"
+           class="btn btn-secondary">
+            ← Raporlara Dön
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sınıf</th>
+                        <th>Okul</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (siniflar == null || !siniflar.Any())
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                Kayıtlı sınıf bulunmuyor.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var sinif in siniflar)
+                        {
+                            <tr>
+                                <td>@sinif.Id</td>
+
+                                <td>
+                                    <strong>@sinif.Ad</strong>
+                                </td>
+
+                                <td>
+                                    @(sinif.Okul?.Ad ?? "Okul atanmadı")
+                                </td>
+
+                                <td>
+                                    @if (sinif.Aktif)
+                                    {
+                                        <span class="badge bg-success">
+                                            Aktif
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Pasif
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>

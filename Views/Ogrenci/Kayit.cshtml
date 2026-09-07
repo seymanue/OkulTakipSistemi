@@ -1,0 +1,118 @@
+@model OkulTakipSistemi.Models.Ogrenci
+
+@{
+    ViewData["Title"] = "Öğrenci Kaydı";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2>Öğrenci Kaydı</h2>
+        <p class="text-muted">
+            Öğrenciyi okul ve sınıfa kaydedin.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="mb-3">
+                <label class="form-label">Öğrenci</label>
+                <input class="form-control"
+                       value="@Model.AdSoyad - @Model.OgrenciNo"
+                       readonly />
+            </div>
+
+            <form asp-action="Kayit" method="post">
+
+                <input type="hidden"
+                       name="ogrenciId"
+                       value="@Model.Id" />
+
+                <div class="mb-3">
+                    <label class="form-label">Okul</label>
+
+                    <select name="okulId"
+                            id="okulId"
+                            class="form-select"
+                            required>
+
+                        <option value="">Okul seçiniz</option>
+
+                        @foreach (var okul in ViewBag.Okullar)
+                        {
+                            <option value="@okul.Id">
+                                @okul.Ad
+                            </option>
+                        }
+
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Sınıf</label>
+
+                    <select name="sinifId"
+                            id="sinifId"
+                            class="form-select"
+                            required>
+
+                        <option value="">Önce okul seçiniz</option>
+
+                        @foreach (var sinif in ViewBag.Siniflar)
+                        {
+                            <option value="@sinif.Id"
+                                    data-okul="@sinif.OkulId">
+                                @sinif.Ad
+                            </option>
+                        }
+
+                    </select>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Kaydı Oluştur
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    İptal
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const okulSelect = document.getElementById("okulId");
+    const sinifSelect = document.getElementById("sinifId");
+
+    okulSelect.addEventListener("change", function () {
+
+        const okulId = this.value;
+
+        const options = sinifSelect.querySelectorAll("option");
+
+        sinifSelect.value = "";
+
+        options.forEach(function (option, index) {
+
+            if (index === 0) {
+                option.style.display = "block";
+                return;
+            }
+
+            if (option.dataset.okul === okulId) {
+                option.style.display = "block";
+            } else {
+                option.style.display = "none";
+            }
+
+        });
+
+    });
+</script>

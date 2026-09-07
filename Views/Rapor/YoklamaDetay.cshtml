@@ -1,0 +1,124 @@
+@model OkulTakipSistemi.Models.Yoklama
+
+@{
+    ViewData["Title"] = "Yoklama Detayı";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Yoklama Detayı</h2>
+            <p class="text-muted mb-0">
+                Yoklamaya ait öğrenci devam durumlarını görüntüleyin.
+            </p>
+        </div>
+
+        <a asp-controller="Rapor"
+           asp-action="YoklamaRaporu"
+           class="btn btn-secondary">
+            ← Yoklama Raporuna Dön
+        </a>
+    </div>
+
+    <!-- YOKLAMA BİLGİLERİ -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <strong>Tarih</strong>
+                    <p>
+                        @Model.Tarih.ToString("dd.MM.yyyy")
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Sınıf</strong>
+                    <p>
+                        @Model.Sinif?.Ad
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <strong>Öğretmen</strong>
+                    <p>
+                        @Model.Ogretmen?.AdSoyad
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ÖĞRENCİ YOKLAMA DETAYLARI -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                Öğrenci Yoklama Durumu
+            </h5>
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead>
+                    <tr>
+                        <th>Öğrenci No</th>
+                        <th>Öğrenci</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model.Detaylar == null || !Model.Detaylar.Any())
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                Bu yoklamaya ait öğrenci detayı bulunmuyor.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var detay in Model.Detaylar)
+                        {
+                            <tr>
+
+                                <td>
+                                    @detay.Ogrenci?.OgrenciNo
+                                </td>
+
+                                <td>
+                                    @detay.Ogrenci?.AdSoyad
+                                </td>
+
+                                <td>
+                                    @if (detay.Geldi)
+                                    {
+                                        <span class="badge bg-success">
+                                            Geldi
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            Gelmedi
+                                        </span>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
