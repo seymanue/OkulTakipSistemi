@@ -141,11 +141,11 @@ namespace OkulTakipSistemi.Controllers
                     $"UYARI: Bugün zaten yoklama var. Yoklama ID: {mevcutYoklama.Id}");
 
                 TempData["YoklamaUyari"] =
-                    "Bu sınıf için bugün yoklama zaten alınmış. Değişiklik yapmak için Yoklama Geçmişi bölümündeki Düzenle seçeneğini kullanabilirsiniz.";
+                    "Bu sınıfın bugünkü yoklaması daha önce alınmıştır.";
 
                 return RedirectToAction(
-                    "SinifGecmis",
-                    new { id = sinifId });
+                    "Al",
+                    new { sinifId = sinifId });
             }
 
             // --------------------------------------------------------
@@ -214,8 +214,8 @@ namespace OkulTakipSistemi.Controllers
                 "Yoklama başarıyla kaydedildi.";
 
             return RedirectToAction(
-                "SinifGecmis",
-                new { id = sinifId });
+                "Al",
+                new { sinifId = sinifId });
         }
 
 

@@ -326,6 +326,135 @@ namespace OkulTakipSistemi.Controllers
         }
 
 
+
+        // ============================================================
+        // ÖDEME DÜZENLE - SAYFAYI AÇ
+        // ============================================================
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var odeme = _context.Odemeler
+                .FirstOrDefault(x => x.Id == id);
+
+            if (odeme == null)
+            {
+                return NotFound();
+            }
+
+            return View(odeme);
+        }
+
+
+        // ============================================================
+        // ÖDEME DÜZENLE - KAYDET
+        // ============================================================
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Odeme yeniOdeme)
+        {
+            var odeme = _context.Odemeler
+                .Include(x => x.OdemeDagilimlari)
+                    .ThenInclude(x => x.AylikBorc)
+                .FirstOrDefault(x => x.Id == yeniOdeme.Id);
+
+            if (odeme == null)
+            {
+                return NotFound();
+            }
+
+            if (yeniOdeme.Tutar <= 0)
+            {
+                ModelState.AddModelError(
+                    "Tutar",
+                    "Ödeme tutarı 0'dan büyük olmalıdır.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(yeniOdeme);
+            }
+
+            foreach (var dagilim in odeme.OdemeDagilimlari)
+            {
+                if (dagilim.AylikBorc != null)
+                {
+                    dagilim.AylikBorc.OdenenTutar -= dagilim.Tutar;
+
+                    if (dagilim.AylikBorc.OdenenTutar < 0)
+                    {
+                        dagilim.AylikBorc.OdenenTutar = 0;
+                    }
+                }
+            }
+
+            _context.OdemeDagilimlari.RemoveRange(
+                odeme.OdemeDagilimlari);
+
+            var borclar = _context.AylikBorclar
+                .Include(x => x.OgrenciKaydi)
+                .Where(x =>
+                    x.OgrenciKaydi != null &&
+                    x.OgrenciKaydi.OgrenciId == odeme.OgrenciId &&
+                    x.OdenenTutar < x.Tutar)
+                .OrderBy(x => x.Yil)
+                .ThenBy(x => x.Ay)
+                .ToList();
+
+            decimal toplamKalan = borclar.Sum(
+                x => x.Tutar - x.OdenenTutar);
+
+            if (yeniOdeme.Tutar > toplamKalan)
+            {
+                ModelState.AddModelError(
+                    "Tutar",
+                    $"Ödeme toplam kalan borçtan fazla olamaz. Kalan borç: {toplamKalan:N2} ₺");
+
+                return View(yeniOdeme);
+            }
+
+            odeme.Tutar = yeniOdeme.Tutar;
+            odeme.OdemeTarihi = yeniOdeme.OdemeTarihi;
+            odeme.Aciklama = yeniOdeme.Aciklama;
+
+            decimal kalanOdeme = yeniOdeme.Tutar;
+
+            foreach (var borc in borclar)
+            {
+                if (kalanOdeme <= 0)
+                    break;
+
+                decimal kalanBorc =
+                    borc.Tutar - borc.OdenenTutar;
+
+                decimal dagitilacak =
+                    Math.Min(kalanOdeme, kalanBorc);
+
+                borc.OdenenTutar += dagitilacak;
+
+                _context.OdemeDagilimlari.Add(
+                    new OdemeDagilimi
+                    {
+                        OdemeId = odeme.Id,
+                        AylikBorcId = borc.Id,
+                        Tutar = dagitilacak
+                    });
+
+                kalanOdeme -= dagitilacak;
+            }
+
+            _context.SaveChanges();
+
+            TempData["Basarili"] =
+                "Ödeme başarıyla güncellendi.";
+
+            return RedirectToAction(
+                nameof(Index),
+                new { ogrenciId = odeme.OgrenciId });
+        }
+
+
         // ============================================================
         // ÖDEME SİL
         // ============================================================

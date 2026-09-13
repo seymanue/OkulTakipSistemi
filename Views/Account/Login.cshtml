@@ -98,11 +98,11 @@
 
 
     .teacher-icon {
-        background: #d1fae5;
-        color: #059669;
+        background: rgba(255, 248, 242, 0.92);
+        color: #6b4b3e;
 
         box-shadow:
-            0 8px 20px rgba(5, 150, 105, 0.08);
+            0 8px 20px rgba(74, 48, 38, 0.08);
     }
 
 
@@ -162,7 +162,7 @@
 
 
     .teacher-line {
-        background: #059669;
+        background: #8a6758;
     }
 
 
@@ -181,7 +181,7 @@
 
 
     .teacher-text {
-        color: #059669;
+        color: #6b4b3e;
     }
 
 
@@ -389,7 +389,7 @@
 
 
     .teacher-link {
-        color: #059669;
+        color: #6b4b3e;
     }
 
 
@@ -448,10 +448,10 @@
 
 
     .teacher-button {
-        background: #059669;
+        background: linear-gradient(135deg, #6b4b3e, #8a6758);
 
         box-shadow:
-            0 8px 16px rgba(5, 150, 105, 0.16);
+            0 8px 16px rgba(74, 48, 38, 0.16);
     }
 
 
@@ -547,9 +547,9 @@
 
 
     .teacher-register {
-        border: 1px solid #a7f3d0;
+        border: 1px solid rgba(107, 75, 62, 0.30);
 
-        color: #059669;
+        color: #6b4b3e;
     }
 
 
@@ -604,9 +604,9 @@
 
         justify-content: center;
 
-        background: #d1fae5;
+        background: rgba(255, 248, 242, 0.90);
 
-        color: #059669;
+        color: #6b4b3e;
 
         font-size: 17px;
     }
@@ -650,13 +650,13 @@
 
         padding: 12px 20px;
 
-        border: 1px solid #bfdbfe;
+        border: 1px solid rgba(107, 75, 62, 0.30);
 
         border-radius: 11px;
 
         background: #ffffff;
 
-        color: #2563eb;
+        color: #6b4b3e;
 
         text-decoration: none;
 
@@ -863,7 +863,597 @@
         }
     }
 
+
+
+    /* =========================================================
+       ÖĞRETMEN VİDEOSUNU TAM EKRAN YAP
+       ========================================================= */
+
+    .login-page:has(.teacher-video-page) {
+        display: block;
+        width: 100%;
+        min-height: calc(100vh - 70px);
+        padding: 0;
+    }
+
+    .login-wrapper:has(.teacher-video-page) {
+        width: 100%;
+        max-width: none;
+        min-height: calc(100vh - 70px);
+    }
+
+
+    /* =========================================================
+       ÖĞRETMEN GİRİŞİ - VİDEOLU ARKA PLAN
+       ========================================================= */
+
+    .teacher-video-page {
+        position: relative;
+        width: 100%;
+        min-height: calc(100vh - 70px);
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        padding: 40px 8%;
+
+        overflow: hidden;
+    }
+
+
+    .teacher-background-video {
+        position: absolute;
+        inset: 0;
+
+        z-index: 0;
+    }
+
+
+    .teacher-background-video video {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        display: block;
+    }
+
+
+    .teacher-video-overlay {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(45, 31, 25, 0.08) 0%,
+                rgba(92, 57, 39, 0.18) 35%,
+                rgba(126, 76, 47, 0.32) 58%,
+                rgba(76, 48, 37, 0.72) 100%
+            );
+
+    }
+
+
+    .teacher-login-wrapper {
+        position: relative;
+
+        z-index: 2;
+
+        width: 100%;
+        max-width: 520px;
+    }
+
+
+    .teacher-login-wrapper .login-card {
+        background: rgba(255, 255, 255, 0.82);
+
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+
+        border: 1px solid rgba(255, 255, 255, 0.65);
+
+        box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.30);
+    }
+
+
+    .teacher-login-wrapper .admin-login-option {
+        margin-bottom: 20px;
+    }
+
+
+    @@media (max-width: 700px) {
+
+        .teacher-video-page {
+            justify-content: center;
+
+            padding: 30px 20px;
+        }
+
+    }
+
+
+
+
+    /* =========================================================
+       ÖĞRETMEN GİRİŞİ - TAM EKRAN VİDEO DÜZELTMESİ
+       ========================================================= */
+
+    html,
+    body {
+        width: 100%;
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    body:has(.teacher-video-page) {
+        overflow: hidden;
+        background: #000;
+    }
+
+    .login-page:has(.teacher-video-page) {
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: block;
+        background: transparent;
+    }
+
+    .login-wrapper:has(.teacher-video-page) {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .teacher-video-page {
+        position: fixed !important;
+
+        inset: 0 !important;
+
+        width: 100vw !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+
+        margin: 0 !important;
+        padding: 40px 7% !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+
+        overflow: hidden !important;
+
+        background: #000;
+
+        z-index: 999;
+    }
+
+    .teacher-background-video {
+        position: absolute !important;
+
+        inset: 0 !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        z-index: 0 !important;
+
+        overflow: hidden;
+    }
+
+    .teacher-background-video video {
+        position: absolute;
+
+        inset: 0;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        object-fit: cover !important;
+        object-position: center center;
+
+        display: block;
+    }
+
+    .teacher-video-overlay {
+        position: absolute !important;
+
+        inset: 0 !important;
+
+        background: rgba(0, 0, 0, 0.18) !important;
+
+        z-index: 1 !important;
+    }
+
+    .teacher-login-wrapper {
+        position: relative;
+
+        width: 100% !important;
+        max-width: 520px !important;
+
+        z-index: 2 !important;
+    }
+
+    .teacher-login-wrapper .login-card {
+        width: 100%;
+
+        background: rgba(255, 255, 255, 0.24) !important;
+
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+
+        border: 1px solid rgba(255, 255, 255, 0.35) !important;
+
+        box-shadow:
+            0 25px 70px rgba(0, 0, 0, 0.28) !important;
+    }
+
+    .teacher-login-wrapper .admin-login-option {
+        position: relative;
+        z-index: 3;
+    }
+
+    .login-footer:has(+ *) {
+        display: none;
+    }
+
+    @@media (max-width: 700px) {
+
+        body:has(.teacher-video-page) {
+            overflow-y: auto;
+        }
+
+        .teacher-video-page {
+            position: relative !important;
+
+            min-height: 100vh !important;
+            height: auto !important;
+
+            padding: 25px 20px !important;
+
+            justify-content: center !important;
+        }
+
+        .teacher-login-wrapper {
+            max-width: 100% !important;
+        }
+
+    }
+
+
+
+    /* =========================================================
+       ÖĞRETMEN GİRİŞİ - SON YERLEŞİM AYARI
+       ========================================================= */
+
+    .teacher-video-page {
+        justify-content: flex-end !important;
+        padding-right: 9% !important;
+    }
+
+    .teacher-login-wrapper {
+        max-width: 460px !important;
+    }
+
+    .teacher-login-wrapper .login-card {
+        padding: 32px 30px !important;
+        border-radius: 26px !important;
+
+        background: rgba(255, 255, 255, 0.30) !important;
+
+        box-shadow:
+            0 25px 70px rgba(0, 0, 0, 0.32) !important;
+    }
+
+    /* Yönetici giriş bölümü */
+
+    .teacher-login-wrapper .admin-login-option {
+        margin-top: 14px !important;
+        margin-bottom: 0 !important;
+
+        text-align: center;
+
+        color: white;
+    }
+
+    .teacher-login-wrapper .admin-option-text {
+        margin-bottom: 8px !important;
+
+        color: rgba(255, 255, 255, 0.85) !important;
+    }
+
+    .teacher-login-wrapper .admin-option-button {
+        width: 100% !important;
+
+        background: rgba(255, 255, 255, 0.82) !important;
+
+        border-radius: 14px !important;
+
+        padding: 14px 20px !important;
+    }
+
+    /* Kart içindeki elemanları biraz kompakt yap */
+
+    .teacher-login-wrapper .login-icon {
+        width: 68px !important;
+        height: 68px !important;
+
+        margin-bottom: 14px !important;
+    }
+
+    .teacher-login-wrapper .login-title {
+        font-size: 27px !important;
+    }
+
+    .teacher-login-wrapper .login-description {
+        margin-bottom: 22px !important;
+    }
+
+    @@media (max-width: 700px) {
+
+        .teacher-video-page {
+            padding: 25px 18px !important;
+        }
+
+        .teacher-login-wrapper {
+            max-width: 100% !important;
+        }
+
+        .teacher-login-wrapper .login-card {
+            padding: 28px 20px !important;
+        }
+    }
+
+
+
+
+    /* =========================================================
+       ÖĞRETMEN VİDEO TASARIMI - SON DÜZENLEME
+       ========================================================= */
+
+    body:has(.teacher-video-page) {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        background: #000 !important;
+    }
+
+    body:has(.teacher-video-page) .login-page {
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 100vh !important;
+        width: 100% !important;
+        background: transparent !important;
+    }
+
+    body:has(.teacher-video-page) .login-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    body:has(.teacher-video-page) .login-footer {
+        display: none !important;
+    }
+
+
+    .teacher-video-page {
+        position: fixed !important;
+
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+
+        width: 100vw !important;
+        height: 100vh !important;
+
+        margin: 0 !important;
+        padding: 0 9% 0 0 !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+
+        overflow: hidden !important;
+        background: #000 !important;
+
+        z-index: 1 !important;
+    }
+
+
+    .teacher-background-video {
+        position: absolute !important;
+
+        top: 0 !important;
+        left: 0 !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        overflow: hidden !important;
+
+        z-index: 1 !important;
+    }
+
+
+    .teacher-background-video video {
+        width: 100% !important;
+        height: 100% !important;
+
+        object-fit: cover !important;
+        object-position: center center !important;
+
+        display: block !important;
+    }
+
+
+    .teacher-video-overlay {
+        position: absolute !important;
+
+        top: 0 !important;
+        left: 0 !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        background:
+            linear-gradient(
+                90deg,
+                rgba(0,0,0,0.05) 0%,
+                rgba(0,0,0,0.10) 45%,
+                rgba(74,30,15,0.32) 100%
+            ) !important;
+
+        z-index: 2 !important;
+    }
+
+
+    .teacher-login-wrapper {
+        position: relative !important;
+
+        width: 100% !important;
+        max-width: 465px !important;
+
+        z-index: 3 !important;
+    }
+
+
+    .teacher-login-wrapper .login-card {
+        width: 100% !important;
+
+        box-sizing: border-box !important;
+
+        margin: 0 !important;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(255,255,255,0.82),
+                rgba(230,190,170,0.42)
+            ) !important;
+
+        backdrop-filter: blur(22px) saturate(125%) !important;
+        -webkit-backdrop-filter: blur(22px) saturate(125%) !important;
+
+        border: 1px solid rgba(255,255,255,0.48) !important;
+
+        border-radius: 28px !important;
+
+        box-shadow:
+            0 25px 70px rgba(0,0,0,0.30) !important;
+
+        padding: 38px 32px 28px !important;
+    }
+
+
+    .teacher-login-wrapper .admin-login-option {
+        width: 100% !important;
+
+        box-sizing: border-box !important;
+
+        margin-top: 14px !important;
+        margin-bottom: 0 !important;
+
+        text-align: center !important;
+
+        color: white !important;
+    }
+
+
+    .teacher-login-wrapper .admin-option-text {
+        color: rgba(255,255,255,0.88) !important;
+
+        margin-bottom: 8px !important;
+    }
+
+
+    .teacher-login-wrapper .admin-option-button {
+        width: 100% !important;
+
+        box-sizing: border-box !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+
+        padding: 13px 18px !important;
+
+        background: rgba(255,255,255,0.88) !important;
+
+        border: 1px solid rgba(255,255,255,0.65) !important;
+
+        border-radius: 12px !important;
+    }
+
+
+    @@media (max-width: 900px) {
+
+        body:has(.teacher-video-page) {
+            overflow: auto !important;
+        }
+
+        .teacher-video-page {
+            position: fixed !important;
+
+            padding: 25px !important;
+
+            justify-content: center !important;
+        }
+
+        .teacher-login-wrapper {
+            max-width: 500px !important;
+        }
+
+    }
+
+
+    @@media (max-width: 600px) {
+
+        .teacher-video-page {
+            position: absolute !important;
+
+            min-height: 100vh !important;
+
+            padding: 20px !important;
+
+            overflow-y: auto !important;
+        }
+
+        .teacher-login-wrapper .login-card {
+            padding: 30px 20px 24px !important;
+
+            border-radius: 22px !important;
+        }
+
+    }
+
+
+
+
+/* =========================================================
+   YENİ GİRİŞ SAYFASI GÖRÜNÜMÜ
+   Video tam ekran + sağ tarafta bulanık cam alan
+   ========================================================= */
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    background: #111 !important;
+}
+
+
 </style>
+
 
 
 <div class="login-page">
@@ -877,10 +1467,37 @@
                  ÖĞRETMEN GİRİŞİ
                  ================================================= -->
 
-            <div class="login-card">
+            <div class="teacher-video-page">
 
-                <div class="login-icon teacher-icon">
-                    📖
+                <div class="teacher-background-video">
+
+                    <video autoplay muted loop playsinline>
+                        <source src="/videos/ogretmen-giris.mp4"
+                                type="video/mp4">
+                    </video>
+
+                </div>
+
+
+                <div class="teacher-video-overlay"></div>
+
+
+                <div class="teacher-login-wrapper">
+
+                    <div class="login-card">
+
+                <div class="login-icon teacher-icon" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" width="38" height="38"
+                         fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12.5C20 10 27 12 32 16V53C27 49 20 47 12 49.5V12.5Z"
+                              stroke="currentColor" stroke-width="3"
+                              stroke-linejoin="round"/>
+                        <path d="M52 12.5C44 10 37 12 32 16V53C37 49 44 47 52 49.5V12.5Z"
+                              stroke="currentColor" stroke-width="3"
+                              stroke-linejoin="round"/>
+                        <path d="M32 16V53"
+                              stroke="currentColor" stroke-width="3"/>
+                    </svg>
                 </div>
 
 
@@ -894,7 +1511,7 @@
                     <div class="subtitle-line teacher-line"></div>
 
                     <div class="subtitle teacher-text">
-                        Öğretmen Giriş Paneli
+                        Öğretmen Girişi
                     </div>
 
                     <div class="subtitle-line teacher-line"></div>
@@ -939,12 +1556,18 @@
 
                     <div class="input-group-custom">
 
-                        <span class="input-icon">
-                            👤
-                        </span>
+                        <span class="input-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="20" height="20"
+         fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="3.2"></circle>
+        <path d="M5.5 20c.8-3.5 3-5.3 6.5-5.3s5.7 1.8 6.5 5.3"></path>
+    </svg>
+</span>
 
                         <input type="text"
                                name="KullaniciAdi"
+                               value="@ViewBag.HatirlananKullanici"
                                placeholder="Kullanıcı adı"
                                autocomplete="username"
                                required />
@@ -956,9 +1579,14 @@
 
                     <div class="input-group-custom">
 
-                        <span class="input-icon">
-                            🔒
-                        </span>
+                        <span class="input-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="20" height="20"
+         fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round">
+        <rect x="5.5" y="10" width="13" height="10" rx="2"></rect>
+        <path d="M8.5 10V7.5a3.5 3.5 0 0 1 7 0V10"></path>
+    </svg>
+</span>
 
                         <input type="password"
                                id="teacherPassword"
@@ -967,13 +1595,21 @@
                                autocomplete="current-password"
                                required />
 
-                        <span class="password-toggle"
-                              onclick="togglePassword('teacherPassword', this)"
-                              title="Şifreyi göster">
-
-                            👁
-
-                        </span>
+                        <button type="button"
+        class="password-toggle"
+        title="Şifreyi göster"
+        aria-label="Şifreyi göster">
+    <svg class="eye-icon" viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="1.8"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         aria-hidden="true">
+        <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/>
+        <circle cx="12" cy="12" r="2.7"/>
+    </svg>
+</button>
 
                     </div>
 
@@ -1010,7 +1646,7 @@
                     <button type="submit"
                             class="login-button teacher-button">
 
-                        <span>➜</span>
+                        <span>→</span>
 
                         <span>Giriş Yap</span>
 
@@ -1038,7 +1674,7 @@
                     <button type="button"
                             class="register-button teacher-register">
 
-                        <span>＋</span>
+                        <span>+</span>
 
                         <span>Öğretmen Kaydı</span>
 
@@ -1051,9 +1687,18 @@
 
                 <div class="info-box">
 
-                    <div class="info-icon">
-                        🎓
-                    </div>
+                    <div class="info-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="1.8"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+        <circle cx="12" cy="12" r="8.5"/>
+        <path d="M12 11v5"/>
+        <path d="M12 8h.01"/>
+    </svg>
+</div>
 
                     <div>
 
@@ -1082,11 +1727,15 @@
                 <a href="/Account/AdminLogin"
                    class="admin-option-button">
 
-                    <span>🛡️</span>
+                    <span>◆</span>
 
-                    <span>Yönetici Giriş Paneli</span>
+                    <span>Yönetici Girişi</span>
 
                 </a>
+
+            </div>
+
+                </div>
 
             </div>
         }
@@ -1101,7 +1750,7 @@
             <div class="login-card">
 
                 <div class="login-icon admin-icon">
-                    🛡️
+                    ◆
                 </div>
 
 
@@ -1115,7 +1764,7 @@
                     <div class="subtitle-line admin-line"></div>
 
                     <div class="subtitle admin-text">
-                        Yönetici Giriş Paneli
+                        Yönetici Girişi
                     </div>
 
                     <div class="subtitle-line admin-line"></div>
@@ -1161,7 +1810,7 @@
                     <div class="input-group-custom">
 
                         <span class="input-icon">
-                            👤
+                            ●
                         </span>
 
                         <input type="text"
@@ -1178,7 +1827,7 @@
                     <div class="input-group-custom">
 
                         <span class="input-icon">
-                            🔒
+                            ▣
                         </span>
 
                         <input type="password"
@@ -1189,10 +1838,10 @@
                                required />
 
                         <span class="password-toggle"
-                              onclick="togglePassword('adminPassword', this)"
+                              
                               title="Şifreyi göster">
 
-                            👁
+                            ◉
 
                         </span>
 
@@ -1231,7 +1880,7 @@
                     <button type="submit"
                             class="login-button admin-button">
 
-                        <span>➜</span>
+                        <span>→</span>
 
                         <span>Giriş Yap</span>
 
@@ -1259,7 +1908,7 @@
                     <button type="button"
                             class="register-button admin-register">
 
-                        <span>＋</span>
+                        <span>+</span>
 
                         <span>Yönetici Kaydı</span>
 
@@ -1303,9 +1952,9 @@
                 <a href="/Account/Login"
                    class="teacher-option-button">
 
-                    <span>📖</span>
+                    <span>▣</span>
 
-                    <span>Öğretmen Giriş Paneli</span>
+                    <span>Öğretmen Girişi</span>
 
                 </a>
 
@@ -1319,7 +1968,7 @@
 
 <footer class="login-footer">
 
-    🛡️ © 2026 Okul Takip Sistemi. Tüm hakları saklıdır.
+    ◆ © 2026 Okul Takip Sistemi. Tüm hakları saklıdır.
 
 </footer>
 
@@ -1327,39 +1976,3407 @@
 <script>
 
     function togglePassword(inputId, icon) {
-
         const input = document.getElementById(inputId);
+        if (!input) return;
 
-        if (!input) {
-            return;
+        const showing = input.type === "text";
+
+        input.type = showing ? "password" : "text";
+
+        icon.setAttribute(
+            "title",
+            showing ? "Şifreyi göster" : "Şifreyi gizle"
+        );
+
+        icon.setAttribute(
+            "aria-label",
+            showing ? "Şifreyi göster" : "Şifreyi gizle"
+        );
+
+        if (showing) {
+            icon.innerHTML = `
+                <svg class="eye-icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+                    <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/>
+                    <circle cx="12" cy="12" r="2.7"/>
+                </svg>`;
+        } else {
+            icon.innerHTML = `
+                <svg class="eye-icon"
+                     viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+                    <path d="M3 3l18 18"/>
+                    <path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6 0 9.5 7 9.5 7a16.5 16.5 0 0 1-3.1 3.9"/>
+                    <path d="M6.2 6.3C3.8 8.1 2.5 12 2.5 12s3.5 7 9.5 7c1.1 0 2.1-.2 3-.6"/>
+                    <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>
+                </svg>`;
         }
-
-
-        if (input.type === "password") {
-
-            input.type = "text";
-
-            icon.textContent = "🙈";
-
-            icon.setAttribute(
-                "title",
-                "Şifreyi gizle"
-            );
-
-        }
-        else {
-
-            input.type = "password";
-
-            icon.textContent = "👁";
-
-            icon.setAttribute(
-                "title",
-                "Şifreyi göster"
-            );
-
-        }
-
     }
 
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".password-toggle").forEach(function (button) {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const input = button.closest(".input-group-custom")
+                    ?.querySelector("input[type='password'], input[type='text']");
+
+                if (!input) return;
+
+                togglePassword(input.id, button);
+            });
+        });
+    });
+
 </script>
+
+<style>
+/* =========================================================
+   ÖĞRETMEN GİRİŞİ — TEMİZ TASARIM
+   ========================================================= */
+
+body:has(.teacher-video-page) {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #111 !important;
+}
+
+body:has(.teacher-video-page) header {
+    display: none !important;
+}
+
+body:has(.teacher-video-page) .login-page {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    display: block !important;
+    background: transparent !important;
+}
+
+body:has(.teacher-video-page) .login-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    display: block !important;
+}
+
+/* =========================================================
+   TAM EKRAN VİDEO
+   ========================================================= */
+
+.teacher-video-page {
+    position: fixed !important;
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    overflow: hidden !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    background: #000 !important;
+}
+
+/*
+   Videoyu ekrana yay.
+   Türbin sağ tarafta kalacak şekilde kadraj ayarlanıyor.
+*/
+.teacher-background-video {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    overflow: hidden !important;
+
+    z-index: 0 !important;
+
+    background: #000 !important;
+}
+
+.teacher-background-video video {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    /*
+       DİKKAT:
+       Türbini sağ tarafa taşıyoruz.
+       50% = merkez
+       Daha yüksek = görüntü sağa kayar.
+    */
+    object-position: 72% center !important;
+
+    filter: none !important;
+    -webkit-filter: none !important;
+
+    opacity: 1 !important;
+
+    transform: none !important;
+    transform-origin: center center !important;
+
+    display: block !important;
+}
+
+/*
+   Scale ile küçültünce kenarlarda boşluk oluşmasın.
+   Aynı videonun çok hafif koyulaştırılmış arka zemini.
+*/
+.teacher-background-video::before {
+    content: "" !important;
+
+    position: absolute !important;
+    inset: -10% !important;
+
+    z-index: -1 !important;
+
+    background: #000 !important;
+}
+
+/* =========================================================
+   SADE VE ÇOK HAFİF CAM ATMOSFERİ
+   ========================================================= */
+
+.teacher-video-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+
+    z-index: 1 !important;
+
+    pointer-events: none !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.00) 0%,
+            rgba(255,255,255,0.00) 55%,
+            rgba(255,245,238,0.06) 78%,
+            rgba(80,55,45,0.10) 100%
+        ) !important;
+
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* =========================================================
+   GİRİŞ PANELİ
+   ========================================================= */
+
+.teacher-login-wrapper {
+    position: relative !important;
+
+    z-index: 5 !important;
+
+    width: min(430px, 34vw) !important;
+    max-width: 430px !important;
+
+    margin-left: 7vw !important;
+    margin-right: 0 !important;
+
+    padding: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+
+    transform: none !important;
+}
+
+/* =========================================================
+   ŞEFFAF CAM KART
+   ========================================================= */
+
+.teacher-login-wrapper .login-card,
+.teacher-login-wrapper .teacher-login-card {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    background:
+        rgba(255,255,255,0.20) !important;
+
+    background-image: none !important;
+
+    border: 1px solid rgba(255,255,255,0.48) !important;
+
+    border-radius: 26px !important;
+
+    box-shadow:
+        0 20px 60px rgba(35,20,15,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.32) !important;
+
+    backdrop-filter: blur(16px) saturate(100%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(100%) !important;
+
+    color: #fff !important;
+}
+
+/* =========================================================
+   KART İÇERİĞİ — YEŞİLİ TAMAMEN KALDIR
+   ========================================================= */
+
+.teacher-login-wrapper * {
+    color: #fff !important;
+}
+
+.teacher-login-wrapper .teacher-line,
+.teacher-login-wrapper .teacher-text,
+.teacher-login-wrapper .teacher-link {
+    color: #fff !important;
+}
+
+.teacher-login-wrapper .subtitle-line,
+.teacher-login-wrapper .divider-custom::before,
+.teacher-login-wrapper .divider-custom::after {
+    background: rgba(255,255,255,0.60) !important;
+    border-color: rgba(255,255,255,0.60) !important;
+}
+
+.teacher-login-wrapper .login-icon {
+    background: rgba(255,255,255,0.70) !important;
+    color: #4a3b36 !important;
+    border-color: rgba(255,255,255,0.75) !important;
+}
+
+/* =========================================================
+   INPUTLAR
+   ========================================================= */
+
+.teacher-login-wrapper input,
+.teacher-login-wrapper .input-group-custom {
+    background: rgba(255,255,255,0.78) !important;
+
+    background-image: none !important;
+
+    color: #443833 !important;
+
+    border: 1px solid rgba(255,255,255,0.72) !important;
+
+    box-shadow: none !important;
+
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.teacher-login-wrapper input::placeholder {
+    color: rgba(70,60,55,0.62) !important;
+}
+
+.teacher-login-wrapper .input-icon,
+.teacher-login-wrapper .password-toggle {
+    color: #554943 !important;
+}
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.teacher-login-wrapper form,
+.teacher-login-wrapper .login-form,
+.teacher-login-wrapper .login-content {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+/* =========================================================
+   GİRİŞ BUTONU
+   ========================================================= */
+
+.teacher-login-wrapper .login-button,
+.teacher-login-wrapper button[type="submit"] {
+    background: rgba(255,255,255,0.16) !important;
+
+    background-image: none !important;
+
+    color: #fff !important;
+
+    border: 1px solid rgba(255,255,255,0.58) !important;
+
+    box-shadow: none !important;
+}
+
+/* Hover'da yeşil/orange renk gelmesin */
+.teacher-login-wrapper .login-button:hover,
+.teacher-login-wrapper button[type="submit"]:hover {
+    background: rgba(255,255,255,0.28) !important;
+    color: #fff !important;
+}
+
+/* =========================================================
+   ÖĞRETMEN KAYDI
+   ========================================================= */
+
+.teacher-login-wrapper .register-button {
+    background: rgba(255,255,255,0.18) !important;
+
+    background-image: none !important;
+
+    color: #fff !important;
+
+    border: 1px solid rgba(255,255,255,0.55) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper .register-button:hover {
+    background: rgba(255,255,255,0.28) !important;
+    color: #fff !important;
+}
+
+/* =========================================================
+   YÖNETİCİ
+   ========================================================= */
+
+.teacher-login-wrapper .admin-login-option {
+    position: relative !important;
+    z-index: 6 !important;
+
+    width: 100% !important;
+
+    margin-top: 12px !important;
+}
+
+.teacher-login-wrapper .admin-option-button {
+    background: rgba(255,255,255,0.16) !important;
+
+    background-image: none !important;
+
+    color: #fff !important;
+
+    border: 1px solid rgba(255,255,255,0.50) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper .admin-option-button:hover {
+    background: rgba(255,255,255,0.26) !important;
+    color: #fff !important;
+}
+
+/* =========================================================
+   YEŞİL RENK KULLANAN ÖĞRETMEN ELEMANLARI
+   ========================================================= */
+
+.teacher-login-wrapper .teacher-button,
+.teacher-login-wrapper .teacher-register,
+.teacher-login-wrapper .teacher-icon,
+.teacher-login-wrapper .teacher-line {
+    accent-color: #fff !important;
+}
+
+/* Checkbox */
+.teacher-login-wrapper input[type="checkbox"] {
+    accent-color: #fff !important;
+}
+
+/* =========================================================
+   MOBİL
+   ========================================================= */
+
+@@media (max-width: 700px) {
+
+    .teacher-video-page {
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .teacher-background-video video {
+        object-position: 72% center !important;
+        transform: none !important;
+        transform-origin: center center !important;
+    }
+
+    .teacher-login-wrapper {
+        width: calc(100vw - 30px) !important;
+        max-width: 430px !important;
+
+        margin: 0 auto !important;
+    }
+}
+
+
+
+/* ============================================================
+   ÖĞRETMEN GİRİŞ EKRANI — SON TASARIM
+   ============================================================ */
+
+/* Sayfanın kendisi */
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body:has(.teacher-video-page) {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #5d504c !important;
+}
+
+/* Üst menü / header yok */
+body:has(.teacher-video-page) header {
+    display: none !important;
+}
+
+/* Login dış kabuk */
+body:has(.teacher-video-page) .login-page {
+    position: fixed !important;
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    max-width: none !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #5f5652 0%,
+            #80736c 60%,
+            #a68d82 100%
+        ) !important;
+}
+
+body:has(.teacher-video-page) .login-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    max-width: none !important;
+
+    display: block !important;
+}
+
+
+/* ============================================================
+   ANA SAHNE
+   ============================================================ */
+
+.teacher-video-page {
+    position: fixed !important;
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    overflow: hidden !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #5e5753 0%,
+            #796c66 60%,
+            #aa9085 100%
+        ) !important;
+}
+
+
+/* ============================================================
+   VİDEO — SADECE SOL/ORTA BÖLGE
+   ============================================================ */
+
+.teacher-background-video {
+    position: absolute !important;
+
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+
+    width: 70vw !important;
+    height: 100vh !important;
+
+    overflow: hidden !important;
+
+    z-index: 0 !important;
+
+    background: transparent !important;
+}
+
+
+/*
+   Videoyu artık tüm 16:9 ekrana zorlamıyoruz.
+
+   Böylece dikey videodaki türbin çok daha küçük görünüyor.
+*/
+.teacher-background-video video {
+    position: absolute !important;
+
+    left: 0 !important;
+    top: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    /*
+       Türbin solda.
+       Biraz daha sola çekiyoruz.
+    */
+    object-position: 25% center !important;
+
+    display: block !important;
+
+    opacity: 1 !important;
+
+    filter: none !important;
+    -webkit-filter: none !important;
+
+    transform: none !important;
+
+    border: 0 !important;
+}
+
+
+/* ============================================================
+   VİDEODAN SAĞA DOĞRU BULUTLU / SİSLİ GEÇİŞ
+   ============================================================ */
+
+.teacher-video-overlay {
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    z-index: 2 !important;
+
+    pointer-events: none !important;
+
+    /*
+       Solda video tamamen temiz.
+       Sağa doğru beyaz/sıcak sis artıyor.
+    */
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.00) 0%,
+            rgba(255,255,255,0.00) 38%,
+            rgba(245,235,230,0.08) 48%,
+            rgba(235,220,212,0.25) 60%,
+            rgba(210,191,183,0.55) 72%,
+            rgba(166,142,133,0.82) 84%,
+            rgba(145,120,112,0.96) 100%
+        ) !important;
+
+    /*
+       SADECE geçiş bölgesinde cam/sis hissi.
+       Videonun kendisi blur değil.
+    */
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+}
+
+
+/*
+   Eski ::before / ::after tasarımlarından gelebilecek
+   turuncu/pembe/renkli katmanları tamamen kapat.
+*/
+.teacher-video-page::before,
+.teacher-video-page::after,
+.teacher-background-video::after {
+    content: none !important;
+    display: none !important;
+}
+
+
+/* ============================================================
+   GİRİŞ PANELİ — SAĞ
+   ============================================================ */
+
+.teacher-login-wrapper {
+    position: relative !important;
+
+    z-index: 10 !important;
+
+    width: min(420px, 30vw) !important;
+
+    max-width: 420px !important;
+
+    margin: 0 5vw 0 0 !important;
+    padding: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    align-items: stretch !important;
+
+    transform: none !important;
+}
+
+
+/* ============================================================
+   CAM PANEL
+   ============================================================ */
+
+.teacher-login-wrapper .login-card,
+.teacher-login-wrapper .teacher-login-card {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    /*
+       Nötr cam.
+       Turuncu/pembe bir kart rengi vermiyoruz.
+    */
+    background:
+        rgba(255,255,255,0.20) !important;
+
+    background-image: none !important;
+
+    border:
+        1px solid rgba(255,255,255,0.48) !important;
+
+    border-radius: 26px !important;
+
+    box-shadow:
+        0 25px 70px rgba(45,30,25,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.32) !important;
+
+    backdrop-filter:
+        blur(18px) saturate(100%) !important;
+
+    -webkit-backdrop-filter:
+        blur(18px) saturate(100%) !important;
+
+    color: #ffffff !important;
+}
+
+
+/* ============================================================
+   KARTTAKİ TÜM YAZILAR
+   ============================================================ */
+
+.teacher-login-wrapper .login-card,
+.teacher-login-wrapper .login-card h1,
+.teacher-login-wrapper .login-card h2,
+.teacher-login-wrapper .login-card h3,
+.teacher-login-wrapper .login-card p,
+.teacher-login-wrapper .login-card span,
+.teacher-login-wrapper .login-card label,
+.teacher-login-wrapper .login-card a {
+    color: #ffffff !important;
+}
+
+
+/* ============================================================
+   YEŞİLİ TAMAMEN KALDIR
+   ============================================================ */
+
+.teacher-login-wrapper .teacher-line,
+.teacher-login-wrapper .teacher-text,
+.teacher-login-wrapper .teacher-link,
+.teacher-login-wrapper .teacher-button,
+.teacher-login-wrapper .teacher-register,
+.teacher-login-wrapper .teacher-icon {
+    color: #ffffff !important;
+
+    background-color: transparent !important;
+
+    border-color: rgba(255,255,255,0.55) !important;
+}
+
+.teacher-login-wrapper .teacher-line {
+    background: rgba(255,255,255,0.60) !important;
+}
+
+
+/* ============================================================
+   İKON
+   ============================================================ */
+
+.teacher-login-wrapper .login-icon,
+.teacher-login-wrapper .teacher-icon {
+    background:
+        rgba(255,255,255,0.78) !important;
+
+    color: #514641 !important;
+
+    border:
+        1px solid rgba(255,255,255,0.80) !important;
+}
+
+
+/* ============================================================
+   INPUTLAR
+   ============================================================ */
+
+.teacher-login-wrapper input,
+.teacher-login-wrapper .input-group-custom {
+    background:
+        rgba(255,255,255,0.80) !important;
+
+    background-image: none !important;
+
+    color: #514641 !important;
+
+    border:
+        1px solid rgba(255,255,255,0.72) !important;
+
+    box-shadow: none !important;
+
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.teacher-login-wrapper input::placeholder {
+    color: rgba(75,65,60,0.65) !important;
+}
+
+.teacher-login-wrapper .input-icon,
+.teacher-login-wrapper .password-toggle {
+    color: #554943 !important;
+}
+
+
+/* ============================================================
+   FORMUN ARKASINDA RENK OLMASIN
+   ============================================================ */
+
+.teacher-login-wrapper form,
+.teacher-login-wrapper .login-form,
+.teacher-login-wrapper .login-content {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+
+/* ============================================================
+   GİRİŞ BUTONU
+   ============================================================ */
+
+.teacher-login-wrapper .login-button,
+.teacher-login-wrapper button[type="submit"] {
+    background:
+        rgba(255,255,255,0.14) !important;
+
+    background-image: none !important;
+
+    color: #ffffff !important;
+
+    border:
+        1px solid rgba(255,255,255,0.58) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper .login-button:hover,
+.teacher-login-wrapper button[type="submit"]:hover {
+    background:
+        rgba(255,255,255,0.25) !important;
+
+    color: #ffffff !important;
+}
+
+
+/* ============================================================
+   ÖĞRETMEN KAYDI
+   ============================================================ */
+
+.teacher-login-wrapper .register-button {
+    background:
+        rgba(255,255,255,0.15) !important;
+
+    background-image: none !important;
+
+    color: #ffffff !important;
+
+    border:
+        1px solid rgba(255,255,255,0.52) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper .register-button:hover {
+    background:
+        rgba(255,255,255,0.25) !important;
+
+    color: #ffffff !important;
+}
+
+
+/* ============================================================
+   YÖNETİCİ
+   ============================================================ */
+
+.teacher-login-wrapper .admin-login-option {
+    position: relative !important;
+
+    z-index: 12 !important;
+
+    width: 100% !important;
+
+    margin-top: 12px !important;
+}
+
+.teacher-login-wrapper .admin-option-button {
+    background:
+        rgba(255,255,255,0.15) !important;
+
+    background-image: none !important;
+
+    color: #ffffff !important;
+
+    border:
+        1px solid rgba(255,255,255,0.50) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper .admin-option-button:hover {
+    background:
+        rgba(255,255,255,0.25) !important;
+
+    color: #ffffff !important;
+}
+
+
+/* ============================================================
+   AYIRICI
+   ============================================================ */
+
+.teacher-login-wrapper .divider-custom::before,
+.teacher-login-wrapper .divider-custom::after {
+    background:
+        rgba(255,255,255,0.50) !important;
+}
+
+
+/* ============================================================
+   CHECKBOX
+   ============================================================ */
+
+.teacher-login-wrapper input[type="checkbox"] {
+    accent-color: #ffffff !important;
+}
+
+
+/* ============================================================
+   MOBİL
+   ============================================================ */
+
+@@media (max-width: 700px) {
+
+    .teacher-video-page {
+        justify-content: center !important;
+    }
+
+    .teacher-background-video {
+        width: 100vw !important;
+    }
+
+    .teacher-background-video video {
+        object-position: 25% center !important;
+    }
+
+    .teacher-video-overlay {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(255,255,255,0.00) 0%,
+                rgba(120,100,95,0.45) 100%
+            ) !important;
+    }
+
+    .teacher-login-wrapper {
+        width: calc(100vw - 30px) !important;
+
+        max-width: 420px !important;
+
+        margin: 0 auto !important;
+    }
+}
+
+
+
+/* =========================================================
+   SON GÖRSEL AYAR — ÖĞRETMEN GİRİŞİ
+   ========================================================= */
+
+/* ANA EKRAN */
+.teacher-video-page {
+    position: fixed !important;
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    overflow: hidden !important;
+
+    display: block !important;
+
+    background: #4a3026 !important;
+}
+
+
+/* =========================================================
+   VİDEO
+   ========================================================= */
+
+.teacher-background-video {
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    overflow: hidden !important;
+
+    z-index: 0 !important;
+
+    background: #4a3026 !important;
+}
+
+.teacher-background-video video {
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    /*
+       TÜRBİN SOLDA KALACAK.
+       Videonun kendisine blur uygulanmıyor.
+    */
+    object-position: 27% center !important;
+
+    transform: none !important;
+
+    filter: none !important;
+    -webkit-filter: none !important;
+
+    opacity: 1 !important;
+
+    display: block !important;
+}
+
+
+/* =========================================================
+   SAĞA DOĞRU TURUNCU / KAHVERENGİ BULUTLU GEÇİŞ
+   ========================================================= */
+
+.teacher-video-overlay {
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    z-index: 2 !important;
+
+    pointer-events: none !important;
+
+    /*
+       SOL = temiz video
+       ORTA = sıcak turuncu sis
+       SAĞ = kahverengi cam atmosferi
+    */
+    background:
+        linear-gradient(
+            90deg,
+
+            rgba(0,0,0,0) 0%,
+            rgba(0,0,0,0) 42%,
+
+            rgba(226,151,103,0.05) 50%,
+
+            rgba(207,126,82,0.16) 59%,
+
+            rgba(177,102,70,0.34) 68%,
+
+            rgba(111,69,53,0.62) 78%,
+
+            rgba(70,43,35,0.84) 88%,
+
+            rgba(54,34,29,0.93) 100%
+        ) !important;
+
+    /*
+       Sadece sağdaki geçiş hafif yumuşasın.
+       Video net kalıyor.
+    */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+
+/* Eski renkli pseudo katmanlarını kapat */
+.teacher-video-page::before,
+.teacher-video-page::after,
+.teacher-background-video::before,
+.teacher-background-video::after {
+    content: none !important;
+    display: none !important;
+}
+
+
+/* =========================================================
+   GİRİŞ PANELİ — DAHA SAĞDA
+   ========================================================= */
+
+.teacher-login-wrapper {
+    position: absolute !important;
+
+    z-index: 10 !important;
+
+    top: 50% !important;
+    right: 4vw !important;
+
+    left: auto !important;
+
+    width: min(420px, 30vw) !important;
+    max-width: 420px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform: translateY(-50%) !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    align-items: stretch !important;
+}
+
+
+/* =========================================================
+   ŞEFFAF CAM PANEL
+   ========================================================= */
+
+.teacher-login-wrapper .login-card,
+.teacher-login-wrapper .teacher-login-card {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    /*
+       Panel artık pembe değil.
+       Arkasındaki turuncu/kahverengi atmosfer
+       camın içinden hafifçe görünecek.
+    */
+    background:
+        rgba(255, 236, 224, 0.18) !important;
+
+    background-image: none !important;
+
+    border:
+        1px solid rgba(255,255,255,0.42) !important;
+
+    border-radius: 25px !important;
+
+    box-shadow:
+        0 24px 70px rgba(42,24,18,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.30) !important;
+
+    backdrop-filter:
+        blur(18px) saturate(105%) !important;
+
+    -webkit-backdrop-filter:
+        blur(18px) saturate(105%) !important;
+
+    color: #fff !important;
+}
+
+
+/* =========================================================
+   PANEL YAZILARI
+   ========================================================= */
+
+.teacher-login-wrapper .login-card h1,
+.teacher-login-wrapper .login-card h2,
+.teacher-login-wrapper .login-card h3,
+.teacher-login-wrapper .login-card p,
+.teacher-login-wrapper .login-card span,
+.teacher-login-wrapper .login-card label,
+.teacher-login-wrapper .login-card a {
+    color: #fff !important;
+}
+
+
+/* =========================================================
+   YEŞİL / MAVİ / TURUNCU ÖĞRETMEN STİLLERİNİ SIFIRLA
+   ========================================================= */
+
+.teacher-login-wrapper .teacher-text,
+.teacher-login-wrapper .teacher-link,
+.teacher-login-wrapper .teacher-line,
+.teacher-login-wrapper .teacher-button,
+.teacher-login-wrapper .teacher-register,
+.teacher-login-wrapper .teacher-icon {
+    color: #fff !important;
+}
+
+.teacher-login-wrapper .teacher-line {
+    background: rgba(255,255,255,0.58) !important;
+}
+
+
+/* =========================================================
+   İKON
+   ========================================================= */
+
+.teacher-login-wrapper .login-icon,
+.teacher-login-wrapper .teacher-icon {
+    background:
+        rgba(255,255,255,0.78) !important;
+
+    color: #493b35 !important;
+
+    border:
+        1px solid rgba(255,255,255,0.70) !important;
+}
+
+
+/* =========================================================
+   INPUTLAR
+   ========================================================= */
+
+.teacher-login-wrapper input,
+.teacher-login-wrapper .input-group-custom {
+    background:
+        rgba(255,255,255,0.78) !important;
+
+    background-image: none !important;
+
+    color: #493b35 !important;
+
+    border:
+        1px solid rgba(255,255,255,0.65) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper input::placeholder {
+    color: rgba(65,53,48,0.58) !important;
+}
+
+.teacher-login-wrapper .input-icon,
+.teacher-login-wrapper .password-toggle {
+    color: #554640 !important;
+}
+
+
+/* =========================================================
+   GİRİŞ BUTONU
+   ========================================================= */
+
+.teacher-login-wrapper .login-button,
+.teacher-login-wrapper button[type="submit"] {
+    background:
+        rgba(255,255,255,0.13) !important;
+
+    background-image: none !important;
+
+    color: #fff !important;
+
+    border:
+        1px solid rgba(255,255,255,0.52) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper .login-button:hover,
+.teacher-login-wrapper button[type="submit"]:hover {
+    background:
+        rgba(255,255,255,0.23) !important;
+
+    color: #fff !important;
+}
+
+
+/* =========================================================
+   ÖĞRETMEN KAYDI
+   ========================================================= */
+
+.teacher-login-wrapper .register-button {
+    background:
+        rgba(255,255,255,0.13) !important;
+
+    background-image: none !important;
+
+    color: #fff !important;
+
+    border:
+        1px solid rgba(255,255,255,0.48) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper .register-button:hover {
+    background:
+        rgba(255,255,255,0.22) !important;
+
+    color: #fff !important;
+}
+
+
+/* =========================================================
+   YÖNETİCİ BUTONU
+   ========================================================= */
+
+.teacher-login-wrapper .admin-login-option {
+    position: relative !important;
+
+    z-index: 12 !important;
+
+    width: 100% !important;
+
+    margin-top: 12px !important;
+}
+
+.teacher-login-wrapper .admin-option-button {
+    background:
+        rgba(255,255,255,0.13) !important;
+
+    background-image: none !important;
+
+    color: #fff !important;
+
+    border:
+        1px solid rgba(255,255,255,0.48) !important;
+
+    box-shadow: none !important;
+}
+
+
+/* =========================================================
+   AYIRICILAR
+   ========================================================= */
+
+.teacher-login-wrapper .subtitle-line,
+.teacher-login-wrapper .divider-custom::before,
+.teacher-login-wrapper .divider-custom::after {
+    background:
+        rgba(255,255,255,0.48) !important;
+}
+
+
+/* =========================================================
+   MOBİL
+   ========================================================= */
+
+@@media (max-width: 700px) {
+
+    .teacher-login-wrapper {
+        top: 50% !important;
+        right: auto !important;
+        left: 50% !important;
+
+        width: calc(100vw - 30px) !important;
+        max-width: 420px !important;
+
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .teacher-background-video video {
+        object-position: 27% center !important;
+    }
+
+    .teacher-video-overlay {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(0,0,0,0) 0%,
+                rgba(100,65,50,0.30) 100%
+            ) !important;
+    }
+}
+
+
+
+
+
+/* =========================================================
+   ÖĞRETMEN GİRİŞİ — TEMİZ SON TASARIM
+   ========================================================= */
+
+.teacher-video-page {
+    position: fixed !important;
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    overflow: hidden !important;
+
+    display: block !important;
+
+    background: #493027 !important;
+}
+
+
+/* =========================================================
+   VİDEO — TAM EKRAN, NET
+   ========================================================= */
+
+.teacher-background-video {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    overflow: hidden !important;
+
+    z-index: 0 !important;
+
+    background: #493027 !important;
+}
+
+.teacher-background-video video {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    /*
+       Türbin SOLDA.
+       Video boyutu değiştirilmiyor.
+    */
+    object-position: 20% center !important;
+
+    transform: none !important;
+
+    filter: none !important;
+    -webkit-filter: none !important;
+
+    opacity: 1 !important;
+
+    display: block !important;
+}
+
+
+/* =========================================================
+   SAĞA DOĞRU TURUNCU → KAHVERENGİ GEÇİŞ
+   ========================================================= */
+
+.teacher-video-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+
+    z-index: 2 !important;
+
+    pointer-events: none !important;
+
+    /*
+       Video solda tamamen NET.
+       Sağ tarafa gittikçe sıcak renkli,
+       yumuşak ve bulutlu atmosfer oluşuyor.
+    */
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,0) 0%,
+            rgba(0,0,0,0) 43%,
+
+            rgba(224,145,94,0.04) 50%,
+            rgba(213,128,79,0.11) 57%,
+
+            rgba(190,105,70,0.22) 64%,
+            rgba(155,82,60,0.38) 71%,
+
+            rgba(116,65,51,0.57) 79%,
+            rgba(82,48,41,0.76) 88%,
+
+            rgba(62,39,34,0.90) 100%
+        ) !important;
+
+    /*
+       BURADA BLUR YOK.
+       Video tamamen net kalacak.
+    */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+
+/* Eski pseudo katmanlarını tamamen kapat */
+.teacher-video-page::before,
+.teacher-video-page::after,
+.teacher-background-video::before,
+.teacher-background-video::after {
+    content: none !important;
+    display: none !important;
+}
+
+
+/* =========================================================
+   GİRİŞ PANELİ — SAĞ
+   ========================================================= */
+
+.teacher-login-wrapper {
+    position: absolute !important;
+
+    top: 50% !important;
+
+    right: 4vw !important;
+    left: auto !important;
+
+    width: min(420px, 30vw) !important;
+    max-width: 420px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform: translateY(-50%) !important;
+
+    z-index: 10 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+
+/* =========================================================
+   ŞEFFAF CAM PANEL
+   ========================================================= */
+
+.teacher-login-wrapper .login-card,
+.teacher-login-wrapper .teacher-login-card {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    background:
+        rgba(255,232,220,0.18) !important;
+
+    background-image: none !important;
+
+    border:
+        1px solid rgba(255,255,255,0.45) !important;
+
+    border-radius: 26px !important;
+
+    box-shadow:
+        0 24px 65px rgba(45,25,18,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.30) !important;
+
+    backdrop-filter: blur(18px) saturate(105%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(105%) !important;
+
+    color: #fff !important;
+}
+
+
+/* =========================================================
+   YEŞİL RENKLERİ KALDIR
+   ========================================================= */
+
+.teacher-login-wrapper .teacher-text,
+.teacher-login-wrapper .teacher-link,
+.teacher-login-wrapper .teacher-line,
+.teacher-login-wrapper .teacher-button,
+.teacher-login-wrapper .teacher-register {
+    color: #fff !important;
+}
+
+.teacher-login-wrapper .teacher-line {
+    background: rgba(255,255,255,0.55) !important;
+}
+
+
+/* =========================================================
+   YAZILAR
+   ========================================================= */
+
+.teacher-login-wrapper .login-card h1,
+.teacher-login-wrapper .login-card h2,
+.teacher-login-wrapper .login-card h3,
+.teacher-login-wrapper .login-card p,
+.teacher-login-wrapper .login-card span,
+.teacher-login-wrapper .login-card label,
+.teacher-login-wrapper .login-card a {
+    color: #fff !important;
+}
+
+
+/* =========================================================
+   INPUTLAR
+   ========================================================= */
+
+.teacher-login-wrapper input,
+.teacher-login-wrapper .input-group-custom {
+    background:
+        rgba(255,255,255,0.80) !important;
+
+    background-image: none !important;
+
+    color: #493a34 !important;
+
+    border:
+        1px solid rgba(255,255,255,0.68) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper input::placeholder {
+    color: rgba(70,58,52,0.60) !important;
+}
+
+.teacher-login-wrapper .input-icon,
+.teacher-login-wrapper .password-toggle {
+    color: #55443e !important;
+}
+
+
+/* =========================================================
+   BUTONLAR
+   ========================================================= */
+
+.teacher-login-wrapper .login-button,
+.teacher-login-wrapper button[type="submit"],
+.teacher-login-wrapper .register-button,
+.teacher-login-wrapper .admin-option-button {
+    background:
+        rgba(255,255,255,0.14) !important;
+
+    background-image: none !important;
+
+    color: #fff !important;
+
+    border:
+        1px solid rgba(255,255,255,0.50) !important;
+
+    box-shadow: none !important;
+}
+
+.teacher-login-wrapper .login-button:hover,
+.teacher-login-wrapper button[type="submit"]:hover,
+.teacher-login-wrapper .register-button:hover,
+.teacher-login-wrapper .admin-option-button:hover {
+    background:
+        rgba(255,255,255,0.24) !important;
+
+    color: #fff !important;
+}
+
+
+/* =========================================================
+   MOBİL
+   ========================================================= */
+
+@@media (max-width: 700px) {
+
+    .teacher-background-video video {
+        object-position: 20% center !important;
+    }
+
+    .teacher-login-wrapper {
+        top: 50% !important;
+
+        left: 50% !important;
+        right: auto !important;
+
+        width: calc(100vw - 30px) !important;
+        max-width: 420px !important;
+
+        transform: translate(-50%, -50%) !important;
+    }
+}
+
+
+
+
+/* =========================================================
+   İKONLAR — PANELLE UYUMLU
+   ========================================================= */
+
+.teacher-login-wrapper .login-icon,
+.teacher-login-wrapper .teacher-icon {
+    color: #6b5148 !important;
+
+    background: rgba(255,255,255,0.78) !important;
+
+    border: 1px solid rgba(255,255,255,0.72) !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.teacher-login-wrapper .login-icon svg,
+.teacher-login-wrapper .teacher-icon svg {
+    color: #6b5148 !important;
+
+    stroke: currentColor !important;
+}
+
+
+/* Kullanıcı ve kilit ikonları */
+.teacher-login-wrapper .input-icon {
+    color: #80665b !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-shrink: 0 !important;
+}
+
+.teacher-login-wrapper .input-icon svg {
+    stroke: #80665b !important;
+}
+
+
+/* =========================================================
+   ŞİFRE GÖSTERME BUTONU
+   ========================================================= */
+
+.teacher-login-wrapper .password-toggle {
+    color: #80665b !important;
+
+    cursor: pointer !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 32px !important;
+    height: 32px !important;
+
+    flex-shrink: 0 !important;
+
+    transition: opacity 0.2s ease !important;
+}
+
+.teacher-login-wrapper .password-toggle:hover {
+    opacity: 0.65 !important;
+}
+
+.teacher-login-wrapper .password-toggle svg {
+    stroke: #80665b !important;
+}
+
+
+/* =========================================================
+   KULLANICI ADI / ŞİFRE ARASINDAKİ FAZLA BOŞLUK
+   ========================================================= */
+
+.teacher-login-wrapper .input-group-custom {
+    margin-bottom: 8px !important;
+}
+
+.teacher-login-wrapper .input-group-custom + .input-group-custom {
+    margin-top: 0 !important;
+}
+
+.teacher-login-wrapper form {
+    gap: 0 !important;
+}
+
+
+/* =========================================================
+   PANEL İÇİNDEKİ RENKLERİ TEK TONA ÇEK
+   ========================================================= */
+
+.teacher-login-wrapper .login-icon,
+.teacher-login-wrapper .teacher-icon,
+.teacher-login-wrapper .input-icon,
+.teacher-login-wrapper .password-toggle {
+    color: #80665b !important;
+}
+
+
+/* Yeşil/mavi ikon rengi kalmasın */
+.teacher-login-wrapper svg {
+    color: #80665b !important;
+}
+
+
+/* =========================================================
+   BAŞLIKLAR
+   ========================================================= */
+
+.teacher-login-wrapper .teacher-text {
+    color: rgba(255,255,255,0.95) !important;
+}
+
+.teacher-login-wrapper .teacher-line {
+    background: rgba(255,255,255,0.55) !important;
+}
+
+
+
+
+/* =========================================================
+   ÖĞRETMEN GİRİŞİ — İKONLAR
+   ========================================================= */
+
+/* Kullanıcı adı ikonu */
+.teacher-login-wrapper .input-group-custom:first-of-type .input-icon {
+    position: relative !important;
+
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #80645a !important;
+}
+
+/* Eğer SVG varsa göster */
+.teacher-login-wrapper .input-group-custom:first-of-type .input-icon svg {
+    display: block !important;
+    width: 21px !important;
+    height: 21px !important;
+
+    color: #80645a !important;
+    stroke: #80645a !important;
+
+    opacity: 1 !important;
+}
+
+
+/* Şifre kilit ikonu */
+.teacher-login-wrapper .input-group-custom:nth-of-type(2) .input-icon {
+    position: relative !important;
+
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #80645a !important;
+}
+
+.teacher-login-wrapper .input-group-custom:nth-of-type(2) .input-icon svg {
+    display: block !important;
+    width: 21px !important;
+    height: 21px !important;
+
+    color: #80645a !important;
+    stroke: #80645a !important;
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   GÖZ — ŞİFRE GÖSTER / GİZLE
+   ========================================================= */
+
+.teacher-login-wrapper .password-toggle {
+    position: absolute !important;
+
+    right: 12px !important;
+    top: 50% !important;
+
+    transform: translateY(-50%) !important;
+
+    width: 34px !important;
+    height: 34px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #80645a !important;
+
+    cursor: pointer !important;
+
+    z-index: 20 !important;
+
+    opacity: 1 !important;
+}
+
+.teacher-login-wrapper .password-toggle svg {
+    display: block !important;
+
+    width: 21px !important;
+    height: 21px !important;
+
+    color: #80645a !important;
+    stroke: #80645a !important;
+
+    opacity: 1 !important;
+}
+
+
+/* SVG yoksa da göz kesin görünsün */
+.teacher-login-wrapper .password-toggle:empty::before {
+    content: "◉" !important;
+
+    font-size: 19px !important;
+    line-height: 1 !important;
+
+    color: #80645a !important;
+}
+
+
+/* =========================================================
+   ALTTAKİ ÖĞRETMEN BİLGİ İKONU
+   ========================================================= */
+
+.teacher-login-wrapper .admin-login-option .admin-option-icon {
+    background:
+        rgba(255,255,255,0.78) !important;
+
+    color: #80645a !important;
+
+    border:
+        1px solid rgba(255,255,255,0.60) !important;
+
+    box-shadow:
+        0 4px 14px rgba(70,45,35,0.10) !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+/* İçindeki emoji/ikon yeşil kalmasın */
+.teacher-login-wrapper .admin-login-option .admin-option-icon svg {
+    color: #80645a !important;
+    stroke: #80645a !important;
+}
+
+.teacher-login-wrapper .admin-login-option .admin-option-icon {
+    filter: none !important;
+}
+
+
+/* Yeşil/turkuaz olabilecek tüm renkleri panel tonuna çek */
+.teacher-login-wrapper .admin-login-option,
+.teacher-login-wrapper .admin-login-option * {
+    --teacher-icon-color: #80645a;
+}
+
+
+/* =========================================================
+   ALTTAKİ AÇIKLAMA
+   ========================================================= */
+
+.teacher-login-wrapper .admin-option-text {
+    color: rgba(255,255,255,0.94) !important;
+}
+
+
+/* =========================================================
+   YÖNETİCİ GİRİŞİ
+   ========================================================= */
+
+.teacher-login-wrapper .admin-option-button {
+    color: white !important;
+
+    background:
+        rgba(255,255,255,0.14) !important;
+
+    border:
+        1px solid rgba(255,255,255,0.48) !important;
+}
+
+
+/* Yönetici butonundaki yeşil/kırmızı ikonlar */
+.teacher-login-wrapper .admin-option-button svg {
+    color: #80645a !important;
+    stroke: #80645a !important;
+}
+
+
+/* =========================================================
+   INPUT İÇ YERLEŞİMİ
+   ========================================================= */
+
+.teacher-login-wrapper .input-group-custom input {
+    padding-left: 8px !important;
+    padding-right: 44px !important;
+}
+
+
+/* Kullanıcı adı ve şifre kutularındaki ikon alanı */
+.teacher-login-wrapper .input-group-custom {
+    display: flex !important;
+    align-items: center !important;
+}
+
+
+/* =========================================================
+   ÜST KİTAP LOGOSU
+   ========================================================= */
+
+.teacher-login-wrapper .teacher-icon svg {
+    width: 34px !important;
+    height: 34px !important;
+
+    color: #80645a !important;
+    stroke: #80645a !important;
+}
+
+
+/* =========================================================
+   YEŞİL RENGİ PANEL İÇİNDEN KALDIR
+   ========================================================= */
+
+.teacher-login-wrapper .text-success,
+.teacher-login-wrapper .text-info,
+.teacher-login-wrapper .text-primary {
+    color: rgba(255,255,255,0.92) !important;
+}
+
+
+
+/* =========================================================
+   ÖĞRETMEN GİRİŞİ — İKONLAR
+   ========================================================= */
+
+/* Input kutularını ikon için hazırlıyoruz */
+.teacher-login-wrapper .input-group-custom {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+
+/* Kullanıcı adı + şifre ikonları */
+.teacher-login-wrapper .input-group-custom .input-icon {
+    position: absolute !important;
+
+    left: 14px !important;
+    top: 50% !important;
+
+    width: 24px !important;
+    height: 24px !important;
+
+    transform: translateY(-50%) !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    z-index: 20 !important;
+
+    color: #80645a !important;
+
+    pointer-events: none !important;
+
+    opacity: 1 !important;
+}
+
+
+/* SVG kesin görünsün */
+.teacher-login-wrapper .input-group-custom .input-icon svg {
+    display: block !important;
+
+    width: 20px !important;
+    height: 20px !important;
+
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    color: #80645a !important;
+    stroke: #80645a !important;
+}
+
+
+/* Input yazısı ikonun üzerine binmesin */
+.teacher-login-wrapper .input-group-custom input {
+    width: 100% !important;
+
+    box-sizing: border-box !important;
+
+    padding-left: 48px !important;
+}
+
+
+/* =========================================================
+   GÖZ BUTONU
+   ========================================================= */
+
+.teacher-login-wrapper .password-toggle {
+    position: absolute !important;
+
+    right: 12px !important;
+    top: 50% !important;
+
+    width: 34px !important;
+    height: 34px !important;
+
+    transform: translateY(-50%) !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    z-index: 30 !important;
+
+    color: #80645a !important;
+
+    cursor: pointer !important;
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+}
+
+.teacher-login-wrapper .password-toggle svg {
+    display: block !important;
+
+    width: 21px !important;
+    height: 21px !important;
+
+    color: #80645a !important;
+    stroke: #80645a !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+
+/* =========================================================
+   ALTTAKİ BİLGİ İKONU
+   YEŞİL / MİNT YOK
+   ========================================================= */
+
+.teacher-login-wrapper .info-box .info-icon {
+    background: rgba(255,255,255,0.18) !important;
+
+    color: #80645a !important;
+
+    border: 1px solid rgba(255,255,255,0.42) !important;
+
+    box-shadow: none !important;
+
+    width: 48px !important;
+    height: 48px !important;
+
+    min-width: 48px !important;
+
+    border-radius: 50% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    filter: none !important;
+}
+
+
+/* ◆ ikonunu panel rengine çevir */
+.teacher-login-wrapper .info-box .info-icon {
+    font-size: 18px !important;
+    line-height: 1 !important;
+}
+
+
+/* Bilgi yazısı */
+.teacher-login-wrapper .info-box {
+    color: rgba(255,255,255,0.95) !important;
+}
+
+
+/* =========================================================
+   ÜST KİTAP LOGOSU
+   ========================================================= */
+
+.teacher-login-wrapper .teacher-icon {
+    color: #80645a !important;
+}
+
+.teacher-login-wrapper .teacher-icon svg {
+    color: #80645a !important;
+    stroke: #80645a !important;
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   DİĞER İKONLAR
+   ========================================================= */
+
+.teacher-login-wrapper .input-icon,
+.teacher-login-wrapper .password-toggle {
+    color: #80645a !important;
+}
+
+
+/* =========================================================
+   YEŞİL RENGİ ÖĞRETMEN PANELİNDEN SÖK
+   ========================================================= */
+
+.teacher-login-wrapper .teacher-link,
+.teacher-login-wrapper .teacher-text,
+.teacher-login-wrapper .teacher-line {
+    color: rgba(255,255,255,0.95) !important;
+}
+
+.teacher-login-wrapper .teacher-line {
+    background: rgba(255,255,255,0.55) !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".password-toggle").forEach(function (icon) {
+            icon.addEventListener("click", function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const input = icon.parentElement.querySelector('input[type="password"], input[type="text"]');
+
+                if (!input) return;
+
+                togglePassword(input.id, icon);
+            });
+        });
+    });
+
+</script>
+
+
+/* =========================================================
+   ÖĞRETMEN GİRİŞİ — TEK FİNAL CSS
+   ========================================================= */
+
+.teacher-video-page {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    background: #6f4433 !important;
+}
+
+.teacher-background-video {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+}
+
+.teacher-background-video video {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: 32% center !important;
+    filter: none !important;
+    transform: none !important;
+}
+
+.teacher-video-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(45,25,20,.02) 0%,
+            rgba(88,48,34,.05) 35%,
+            rgba(116,65,47,.20) 55%,
+            rgba(83,48,38,.48) 76%,
+            rgba(48,30,25,.68) 100%
+        ) !important;
+}
+
+/* PANEL */
+.teacher-login-wrapper {
+    position: absolute !important;
+    top: 50% !important;
+    right: 4.5vw !important;
+    transform: translateY(-50%) !important;
+    width: min(430px, 34vw) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 10 !important;
+}
+
+/* CAM KART */
+.teacher-login-wrapper .login-card {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 30px 32px 25px !important;
+
+    border-radius: 27px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,249,244,.25),
+            rgba(205,165,145,.16)
+        ) !important;
+
+    border: 1px solid rgba(255,245,238,.48) !important;
+
+    box-shadow:
+        0 24px 65px rgba(45,25,18,.27),
+        inset 0 1px 0 rgba(255,255,255,.30) !important;
+
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+
+    color: #fff8f3 !important;
+}
+
+/* KİTAP */
+.teacher-login-wrapper .login-icon,
+.teacher-login-wrapper .teacher-icon {
+    width: 64px !important;
+    height: 64px !important;
+    margin: 0 auto 12px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 19px !important;
+
+    background: rgba(255,249,244,.20) !important;
+    border: 1px solid rgba(255,255,255,.38) !important;
+
+    color: #fff8f3 !important;
+}
+
+.teacher-login-wrapper .login-icon svg,
+.teacher-login-wrapper .teacher-icon svg {
+    width: 35px !important;
+    height: 35px !important;
+    stroke: currentColor !important;
+    color: currentColor !important;
+}
+
+/* BAŞLIK */
+.teacher-login-wrapper .login-title {
+    margin: 0 0 7px !important;
+    text-align: center !important;
+
+    color: #fff9f5 !important;
+
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+}
+
+/* ÖĞRETMEN GİRİŞİ */
+.teacher-login-wrapper .subtitle-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 11px !important;
+
+    margin: 0 0 7px !important;
+}
+
+.teacher-login-wrapper .subtitle-wrapper .subtitle {
+    color: #fff8f3 !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+}
+
+.teacher-login-wrapper .subtitle-wrapper .subtitle-line {
+    width: 32px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    background: rgba(255,248,243,.58) !important;
+}
+
+.teacher-login-wrapper .login-description {
+    margin: 0 0 18px !important;
+    color: rgba(255,248,243,.76) !important;
+    font-size: 13px !important;
+    text-align: center !important;
+}
+
+/* INPUT */
+.teacher-login-wrapper .input-group-custom {
+    position: relative !important;
+    width: 100% !important;
+    height: 51px !important;
+    margin: 0 0 7px !important;
+}
+
+.teacher-login-wrapper .input-group-custom + .input-group-custom {
+    margin-top: 0 !important;
+}
+
+.teacher-login-wrapper .input-group-custom input {
+    display: block !important;
+    width: 100% !important;
+    height: 51px !important;
+    box-sizing: border-box !important;
+
+    padding: 0 45px 0 47px !important;
+
+    border-radius: 13px !important;
+    border: 1px solid rgba(255,249,244,.40) !important;
+
+    background: rgba(255,250,246,.16) !important;
+
+    color: #fffaf6 !important;
+
+    font-size: 15px !important;
+    text-align: left !important;
+
+    outline: none !important;
+
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10) !important;
+}
+
+.teacher-login-wrapper .input-group-custom input::placeholder {
+    color: rgba(255,248,243,.70) !important;
+    opacity: 1 !important;
+    text-align: left !important;
+}
+
+.teacher-login-wrapper .input-group-custom input:focus {
+    background: rgba(255,250,246,.22) !important;
+    border-color: rgba(255,248,243,.72) !important;
+    box-shadow:
+        0 0 0 3px rgba(255,248,243,.07),
+        inset 0 1px 0 rgba(255,255,255,.15) !important;
+}
+
+/* SOL İKON */
+.teacher-login-wrapper .input-group-custom .input-icon {
+    position: absolute !important;
+    left: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    width: 21px !important;
+    height: 21px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: rgba(255,248,243,.82) !important;
+
+    z-index: 5 !important;
+    pointer-events: none !important;
+}
+
+.teacher-login-wrapper .input-group-custom .input-icon svg {
+    width: 19px !important;
+    height: 19px !important;
+    display: block !important;
+    stroke: currentColor !important;
+    color: currentColor !important;
+}
+
+/* GÖZ */
+.teacher-login-wrapper .password-toggle {
+    position: absolute !important;
+    right: 9px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    width: 31px !important;
+    height: 31px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: rgba(255,248,243,.80) !important;
+
+    background: transparent !important;
+    border: 0 !important;
+
+    cursor: pointer !important;
+    z-index: 10 !important;
+}
+
+.teacher-login-wrapper .password-toggle svg {
+    width: 19px !important;
+    height: 19px !important;
+    display: block !important;
+    stroke: currentColor !important;
+    color: currentColor !important;
+}
+
+.teacher-login-wrapper .password-toggle:hover {
+    color: #fffaf6 !important;
+}
+
+/* AKSİYONLAR */
+.teacher-login-wrapper .form-actions-custom {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    margin: 9px 0 13px !important;
+}
+
+.teacher-login-wrapper .remember-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+
+    margin: 0 !important;
+
+    color: rgba(255,248,243,.80) !important;
+    font-size: 12px !important;
+}
+
+.teacher-login-wrapper .remember-label input {
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 !important;
+    accent-color: #f0d2bd !important;
+}
+
+.teacher-login-wrapper .forgot-link {
+    color: rgba(255,248,243,.84) !important;
+    font-size: 12px !important;
+    text-decoration: none !important;
+}
+
+.teacher-login-wrapper .forgot-link:hover {
+    color: #fffaf6 !important;
+    text-decoration: underline !important;
+}
+
+/* GİRİŞ BUTONU */
+.teacher-login-wrapper .login-button,
+.teacher-login-wrapper button[type="submit"] {
+    width: 100% !important;
+    height: 51px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    padding: 0 18px !important;
+
+    border-radius: 13px !important;
+    border: 1px solid rgba(255,250,246,.45) !important;
+
+    background: rgba(255,239,227,.23) !important;
+
+    color: #fffaf6 !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+
+    cursor: pointer !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.17),
+        0 6px 18px rgba(55,31,23,.11) !important;
+
+    transition: .18s ease !important;
+}
+
+.teacher-login-wrapper .login-button:hover,
+.teacher-login-wrapper button[type="submit"]:hover {
+    background: rgba(255,239,227,.32) !important;
+    border-color: rgba(255,250,246,.67) !important;
+}
+
+/* VEYA */
+.teacher-login-wrapper .divider-custom {
+    display: flex !important;
+    align-items: center !important;
+    gap: 11px !important;
+
+    margin: 13px 0 !important;
+
+    color: rgba(255,248,243,.62) !important;
+    font-size: 12px !important;
+}
+
+.teacher-login-wrapper .divider-custom::before,
+.teacher-login-wrapper .divider-custom::after {
+    content: "" !important;
+    flex: 1 !important;
+    height: 1px !important;
+    background: rgba(255,248,243,.28) !important;
+}
+
+/* ÖĞRETMEN KAYDI */
+.teacher-login-wrapper .register-link {
+    display: block !important;
+    width: 100% !important;
+    text-decoration: none !important;
+}
+
+.teacher-login-wrapper .register-button {
+    width: 100% !important;
+    height: 47px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    padding: 0 16px !important;
+
+    border-radius: 12px !important;
+    border: 1px solid rgba(255,248,243,.32) !important;
+
+    background: rgba(255,248,243,.08) !important;
+
+    color: rgba(255,248,243,.90) !important;
+
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+
+/* BİLGİ */
+.teacher-login-wrapper .info-box {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+
+    width: 100% !important;
+    box-sizing: border-box !important;
+
+    margin-top: 13px !important;
+    padding: 11px 12px !important;
+
+    border-radius: 13px !important;
+
+    background: rgba(255,248,243,.08) !important;
+    border: 1px solid rgba(255,248,243,.23) !important;
+
+    color: rgba(255,248,243,.73) !important;
+
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+}
+
+.teacher-login-wrapper .info-box .info-icon {
+    flex: 0 0 29px !important;
+
+    width: 29px !important;
+    height: 29px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255,248,243,.10) !important;
+    border: 1px solid rgba(255,248,243,.27) !important;
+
+    color: rgba(255,248,243,.82) !important;
+}
+
+.teacher-login-wrapper .info-box .info-icon svg {
+    width: 15px !important;
+    height: 15px !important;
+    stroke: currentColor !important;
+}
+
+/* YÖNETİCİ */
+.teacher-login-wrapper .admin-login-option {
+    margin-top: 13px !important;
+    text-align: center !important;
+}
+
+.teacher-login-wrapper .admin-option-text {
+    margin: 0 0 6px !important;
+
+    color: rgba(255,248,243,.69) !important;
+    font-size: 11px !important;
+    text-align: center !important;
+}
+
+.teacher-login-wrapper .admin-option-button {
+    width: 100% !important;
+    min-height: 42px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+
+    box-sizing: border-box !important;
+
+    border-radius: 11px !important;
+    border: 1px solid rgba(255,248,243,.27) !important;
+
+    background: rgba(255,248,243,.06) !important;
+
+    color: rgba(255,248,243,.82) !important;
+
+    font-size: 13px !important;
+    font-weight: 600 !important;
+
+    text-decoration: none !important;
+}
+
+.teacher-login-wrapper .admin-option-button:hover {
+    background: rgba(255,248,243,.13) !important;
+    border-color: rgba(255,248,243,.43) !important;
+}
+
+/* ESKİ RENKLERİ DEVRE DIŞI BIRAK */
+.teacher-login-wrapper .text-success,
+.teacher-login-wrapper .text-info,
+.teacher-login-wrapper .text-primary,
+.teacher-login-wrapper .teacher-link,
+.teacher-login-wrapper .admin-link,
+.teacher-login-wrapper .text-success *,
+.teacher-login-wrapper .text-info *,
+.teacher-login-wrapper .text-primary * {
+    color: rgba(255,248,243,.84) !important;
+}
+
+.teacher-login-wrapper form {
+    margin: 0 !important;
+}
+
+@@media (max-width: 1100px) {
+    .teacher-login-wrapper {
+        right: 2.5vw !important;
+        width: min(420px, 40vw) !important;
+    }
+}
+
+@@media (max-width: 800px) {
+    .teacher-login-wrapper {
+        right: 50% !important;
+        width: min(430px, 90vw) !important;
+        transform: translate(50%, -50%) !important;
+    }
+}
+
+/* =========================================================
+   ÖĞRETMEN GİRİŞİ - RENKLERİ TAMAMEN NÖTRLEŞTİR
+   ========================================================= */
+
+.teacher-video-page .login-title {
+    color: #4a3b36 !important;
+}
+
+.teacher-video-page .teacher-text {
+    color: #6b4b3e !important;
+}
+
+.teacher-video-page .teacher-line {
+    background: #8a6758 !important;
+}
+
+.teacher-video-page .teacher-button {
+    background: linear-gradient(135deg, #6b4b3e, #8a6758) !important;
+    color: #fff !important;
+}
+
+.teacher-video-page .teacher-button:hover {
+    background: linear-gradient(135deg, #5a3d32, #765548) !important;
+}
+
+.teacher-video-page .forgot-link {
+    color: #6b4b3e !important;
+}
+
+.teacher-video-page .forgot-link:hover {
+    color: #4a3b36 !important;
+}
+
+.teacher-video-page .register-button,
+.teacher-video-page .teacher-register {
+    color: #6b4b3e !important;
+    border-color: rgba(107, 75, 62, 0.25) !important;
+}
+
+.teacher-video-page .register-button:hover,
+.teacher-video-page .teacher-register:hover {
+    color: #4a3b36 !important;
+    border-color: rgba(107, 75, 62, 0.45) !important;
+}
+
+.teacher-video-page .info-icon {
+    color: #6b4b3e !important;
+    background: rgba(255, 248, 242, 0.9) !important;
+    border-color: rgba(107, 75, 62, 0.25) !important;
+}
+
+.teacher-video-page .info-icon svg {
+    color: #6b4b3e !important;
+    stroke: #6b4b3e !important;
+}
+
+.teacher-video-page .admin-option-button {
+    color: #6b4b3e !important;
+    border-color: rgba(107, 75, 62, 0.25) !important;
+}
+
+.teacher-video-page .admin-option-button:hover {
+    color: #4a3b36 !important;
+    border-color: rgba(107, 75, 62, 0.45) !important;
+}
+
+.teacher-video-page .admin-option-button svg {
+    color: #6b4b3e !important;
+    stroke: #6b4b3e !important;
+}
+
+
+/* =========================================================
+   SON CANLILIK AYARI — SICAK KAHVE / TURUNCU
+   ========================================================= */
+
+.teacher-video-page .teacher-video-overlay {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(55, 32, 22, 0.02) 0%,
+            rgba(111, 58, 30, 0.10) 28%,
+            rgba(170, 86, 38, 0.25) 50%,
+            rgba(91, 48, 32, 0.66) 100%
+        ) !important;
+}
+
+/* Cam paneli biraz daha sıcak ve belirgin */
+.teacher-video-page .login-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 244, 234, 0.38),
+            rgba(132, 76, 50, 0.48)
+        ) !important;
+
+    border-color: rgba(255, 238, 222, 0.62) !important;
+
+    box-shadow:
+        0 24px 60px rgba(58, 31, 20, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42) !important;
+}
+
+/* Başlıklar daha canlı */
+.teacher-video-page .login-title {
+    color: #59382d !important;
+}
+
+.teacher-video-page .teacher-text {
+    color: #754735 !important;
+}
+
+.teacher-video-page .teacher-line {
+    background: #a66a4d !important;
+}
+
+.teacher-video-page .login-description {
+    color: rgba(73, 52, 44, 0.82) !important;
+}
+
+/* Inputlar */
+.teacher-video-page .input-group-custom {
+    background: rgba(255, 250, 246, 0.78) !important;
+    border-color: rgba(255, 255, 255, 0.72) !important;
+    box-shadow: 0 5px 16px rgba(76, 42, 29, 0.08) !important;
+}
+
+.teacher-video-page .input-group-custom input {
+    color: #49352d !important;
+}
+
+.teacher-video-page .input-group-custom input::placeholder {
+    color: rgba(92, 68, 57, 0.70) !important;
+}
+
+.teacher-video-page .input-icon,
+.teacher-video-page .password-toggle {
+    color: #765344 !important;
+}
+
+.teacher-video-page .password-toggle svg {
+    stroke: #765344 !important;
+}
+
+/* Giriş butonu daha canlı */
+.teacher-video-page .teacher-button {
+    background:
+        linear-gradient(
+            135deg,
+            #8b5035,
+            #b66b43
+        ) !important;
+
+    border-color: rgba(255, 225, 205, 0.45) !important;
+
+    box-shadow:
+        0 9px 22px rgba(113, 57, 34, 0.30) !important;
+}
+
+.teacher-video-page .teacher-button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #79432f,
+            #a85d3b
+        ) !important;
+}
+
+/* Link */
+.teacher-video-page .forgot-link {
+    color: #754735 !important;
+}
+
+/* Öğretmen kaydı */
+.teacher-video-page .teacher-register {
+    background: rgba(255, 249, 244, 0.70) !important;
+    color: #754735 !important;
+    border-color: rgba(139, 80, 53, 0.30) !important;
+}
+
+/* Bilgi kutusu */
+.teacher-video-page .info-box {
+    color: rgba(75, 53, 44, 0.88) !important;
+    background: rgba(255, 247, 240, 0.16) !important;
+}
+
+.teacher-video-page .info-icon {
+    background: rgba(255, 246, 238, 0.48) !important;
+    color: #754735 !important;
+    border-color: rgba(139, 80, 53, 0.28) !important;
+}
+
+/* Yönetici */
+.teacher-video-page .admin-option-button {
+    background: rgba(255, 247, 240, 0.22) !important;
+    color: #754735 !important;
+    border-color: rgba(139, 80, 53, 0.30) !important;
+}
+
+
+/* =========================================================
+   SON GÖRSEL DÜZENLEME
+   TÜRBİN + INPUT İKONLARI + KİTAP LOGOSU
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   VİDEO / TÜRBİN
+   --------------------------------------------------------- */
+
+.teacher-video-page {
+    background:
+        linear-gradient(
+            90deg,
+            #e7a05f 0%,
+            #c97845 38%,
+            #87513b 72%,
+            #51352f 100%
+        ) !important;
+}
+
+.teacher-video-page .teacher-background-video {
+    overflow: hidden !important;
+    background:
+        linear-gradient(
+            90deg,
+            #e7a05f 0%,
+            #c97845 45%,
+            #744636 100%
+        ) !important;
+}
+
+.teacher-video-page .teacher-background-video video {
+    object-fit: cover !important;
+    object-position: 16% center !important;
+    transform: scale(0.84) !important;
+    transform-origin: center center !important;
+    filter: saturate(1.10) contrast(1.03) !important;
+}
+
+/* Video küçültülünce kenarlarda boşluk oluşmasın */
+.teacher-video-page .teacher-video-overlay {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(219, 130, 65, 0.08) 0%,
+            rgba(184, 91, 43, 0.16) 35%,
+            rgba(122, 68, 48, 0.30) 58%,
+            rgba(69, 42, 35, 0.64) 100%
+        ) !important;
+}
+
+/* ---------------------------------------------------------
+   KİTAP LOGOSU
+   --------------------------------------------------------- */
+
+.teacher-video-page .teacher-icon {
+    width: 70px !important;
+    height: 70px !important;
+
+    margin-bottom: 14px !important;
+
+    border-radius: 21px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 249, 242, 0.42),
+            rgba(166, 101, 67, 0.34)
+        ) !important;
+
+    border: 1px solid rgba(255, 245, 235, 0.72) !important;
+
+    color: #fff8f1 !important;
+
+    box-shadow:
+        0 10px 26px rgba(76, 42, 29, 0.18),
+        inset 0 1px 0 rgba(255,255,255,0.48) !important;
+}
+
+.teacher-video-page .teacher-icon svg {
+    width: 34px !important;
+    height: 34px !important;
+
+    color: #fffaf5 !important;
+    stroke: #fffaf5 !important;
+    stroke-width: 1.7 !important;
+}
+
+/* ---------------------------------------------------------
+   KULLANICI ADI / ŞİFRE ALANLARI
+   --------------------------------------------------------- */
+
+.teacher-video-page .input-group-custom {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    height: 54px !important;
+
+    margin-bottom: 9px !important;
+
+    padding: 0 !important;
+
+    border-radius: 14px !important;
+
+    overflow: hidden !important;
+}
+
+/* Sol ikonun sabit yeri */
+.teacher-video-page .input-group-custom .input-icon {
+    position: absolute !important;
+
+    left: 17px !important;
+    top: 50% !important;
+
+    transform: translateY(-50%) !important;
+
+    width: 24px !important;
+    height: 24px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    z-index: 3 !important;
+
+    color: #705044 !important;
+}
+
+.teacher-video-page .input-group-custom .input-icon svg {
+    width: 21px !important;
+    height: 21px !important;
+
+    display: block !important;
+
+    stroke: #705044 !important;
+    color: #705044 !important;
+}
+
+/* Yazının ikonun üstüne kaymasını engelle */
+.teacher-video-page .input-group-custom input {
+    width: 100% !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+
+    padding:
+        0 52px 0 56px !important;
+
+    text-align: left !important;
+
+    font-size: 15px !important;
+    font-weight: 500 !important;
+
+    color: #4f3930 !important;
+
+    box-sizing: border-box !important;
+}
+
+/* Placeholder da soldan düzgün başlayacak */
+.teacher-video-page .input-group-custom input::placeholder {
+    text-align: left !important;
+
+    color: rgba(79, 57, 48, 0.64) !important;
+}
+
+/* ---------------------------------------------------------
+   GÖZ İKONU
+   --------------------------------------------------------- */
+
+.teacher-video-page .password-toggle {
+    position: absolute !important;
+
+    right: 13px !important;
+    top: 50% !important;
+
+    transform: translateY(-50%) !important;
+
+    width: 34px !important;
+    height: 34px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: 0 !important;
+    background: transparent !important;
+
+    color: #705044 !important;
+
+    cursor: pointer !important;
+
+    z-index: 5 !important;
+}
+
+.teacher-video-page .password-toggle svg {
+    width: 20px !important;
+    height: 20px !important;
+
+    stroke: #705044 !important;
+    color: #705044 !important;
+}
+
+/* ---------------------------------------------------------
+   PANELİ BİR TIK DAHA CANLI
+   --------------------------------------------------------- */
+
+.teacher-video-page .login-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 244, 233, 0.43),
+            rgba(137, 77, 49, 0.52)
+        ) !important;
+
+    border-color:
+        rgba(255, 239, 225, 0.68) !important;
+}
+
+/* Başlık biraz daha belirgin */
+.teacher-video-page .login-title {
+    color: #59382d !important;
+}
+
+/* ---------------------------------------------------------
+   INPUTLARIN BEYAZLIĞINI DENGELE
+   --------------------------------------------------------- */
+
+.teacher-video-page .input-group-custom {
+    background:
+        rgba(255, 249, 244, 0.86) !important;
+
+    border:
+        1px solid rgba(255,255,255,0.76) !important;
+
+    box-shadow:
+        0 5px 16px rgba(77, 42, 29, 0.10) !important;
+}
+
+
+/* =========================================================
+   VİDEO KADRAJI — TÜRBİN SOLDA / TAM GÖRÜNÜR
+   ========================================================= */
+
+.teacher-video-page .teacher-background-video {
+    position: absolute !important;
+    inset: 0 !important;
+    overflow: hidden !important;
+    background: #d88952 !important;
+}
+
+.teacher-video-page .teacher-background-video video {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+
+    /* Türbin sol tarafta */
+    object-position: 23% center !important;
+
+    /* Önceki küçültmeyi kaldır */
+    transform: none !important;
+
+    /* Video NET */
+    filter: saturate(1.08) contrast(1.04) brightness(1.02) !important;
+}
+
+/* =========================================================
+   SAĞA DOĞRU SICAK / BUĞULU GEÇİŞ
+   ========================================================= */
+
+.teacher-video-page .teacher-video-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+
+    pointer-events: none !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(224, 145, 79, 0.00) 0%,
+            rgba(224, 145, 79, 0.00) 34%,
+            rgba(202, 116, 62, 0.08) 44%,
+            rgba(164, 86, 53, 0.24) 56%,
+            rgba(116, 65, 49, 0.52) 70%,
+            rgba(73, 45, 39, 0.82) 100%
+        ) !important;
+}
+
+/* Sağ tarafta kademeli buğu.
+   Sol taraftaki video buna hiç maruz kalmaz. */
+.teacher-video-page .teacher-video-overlay::after {
+    content: "" !important;
+
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    width: 48% !important;
+
+    pointer-events: none !important;
+
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+
+    -webkit-mask-image:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(0,0,0,0.15) 18%,
+            rgba(0,0,0,0.55) 48%,
+            #000 100%
+        ) !important;
+
+    mask-image:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(0,0,0,0.15) 18%,
+            rgba(0,0,0,0.55) 48%,
+            #000 100%
+        ) !important;
+}
+
+/* =========================================================
+   PANEL SAĞDA KALSIN
+   ========================================================= */
+
+.teacher-video-page .teacher-login-wrapper {
+    position: absolute !important;
+
+    top: 50% !important;
+    right: 4.5vw !important;
+
+    transform: translateY(-50%) !important;
+
+    z-index: 10 !important;
+}
+
+
+/* =========================================================
+   HATA MESAJI + INPUT HİZALAMA SON DÜZENLEME
+   ========================================================= */
+
+/* Hata kutusu daha belirgin */
+.teacher-video-page .alert,
+.teacher-video-page .alert-danger,
+.teacher-video-page .login-alert {
+    background: rgba(255, 222, 214, 0.94) !important;
+    border: 1px solid rgba(156, 65, 45, 0.32) !important;
+    color: #6f3026 !important;
+
+    font-size: 14px !important;
+    font-weight: 600 !important;
+
+    text-align: left !important;
+
+    padding: 13px 17px !important;
+
+    border-radius: 13px !important;
+
+    box-shadow:
+        0 5px 14px rgba(91, 45, 32, 0.10) !important;
+}
+
+/* Hata mesajının içindeki yazı/elemanlar da koyu olsun */
+.teacher-video-page .alert *,
+.teacher-video-page .alert-danger *,
+.teacher-video-page .login-alert * {
+    color: #6f3026 !important;
+}
+
+/* ---------------------------------------------------------
+   KULLANICI ADI / ŞİFRE
+   --------------------------------------------------------- */
+
+.teacher-video-page .input-group-custom {
+    height: 54px !important;
+    position: relative !important;
+}
+
+/* İkonlar aynı hizada ve sabit */
+.teacher-video-page .input-group-custom .input-icon {
+    position: absolute !important;
+
+    left: 17px !important;
+    top: 50% !important;
+
+    width: 25px !important;
+    height: 25px !important;
+
+    transform: translateY(-50%) !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #60483d !important;
+
+    z-index: 4 !important;
+}
+
+.teacher-video-page .input-group-custom .input-icon svg {
+    width: 20px !important;
+    height: 20px !important;
+
+    display: block !important;
+
+    color: #60483d !important;
+    stroke: #60483d !important;
+}
+
+/* Yazılar ikonun hemen sağından başlasın */
+.teacher-video-page .input-group-custom input {
+    width: 100% !important;
+    height: 100% !important;
+
+    padding-left: 57px !important;
+    padding-right: 55px !important;
+
+    text-align: left !important;
+
+    box-sizing: border-box !important;
+
+    color: #4d3931 !important;
+
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}
+
+/* Placeholder */
+.teacher-video-page .input-group-custom input::placeholder {
+    color: #705c53 !important;
+    opacity: 0.78 !important;
+    text-align: left !important;
+}
+
+/* Şifre gözü sağda sabit */
+.teacher-video-page .password-toggle {
+    right: 13px !important;
+    top: 50% !important;
+
+    transform: translateY(-50%) !important;
+
+    width: 34px !important;
+    height: 34px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #60483d !important;
+}
+
+.teacher-video-page .password-toggle svg {
+    width: 20px !important;
+    height: 20px !important;
+
+    color: #60483d !important;
+    stroke: #60483d !important;
+}
+
+</style>
+
+
+
+

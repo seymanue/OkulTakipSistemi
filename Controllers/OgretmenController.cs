@@ -476,7 +476,7 @@ namespace OkulTakipSistemi.Controllers
             if (mevcutYoklama != null)
             {
                 TempData["YoklamaUyari"] =
-                    "Bu sınıf için bugün yoklama zaten alındı. Değişiklik yapmak için Yoklama Geçmişi bölümündeki Düzenle seçeneğini kullanabilirsiniz.";
+                    "Bu sınıfın bugünkü yoklaması daha önce alınmıştır.";
 
                 return RedirectToAction(
                     "YoklamaAl",

@@ -221,6 +221,35 @@ namespace OkulTakipSistemi.Migrations
                     b.ToTable("OgrenciKayitlari");
                 });
 
+            modelBuilder.Entity("OkulTakipSistemi.Models.OgrenciOzelUcret", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Aciklama")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("GuncellemeTarihi")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OgrenciKaydiId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("OzelUcret")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OgrenciKaydiId")
+                        .IsUnique();
+
+                    b.ToTable("OgrenciOzelUcretler");
+                });
+
             modelBuilder.Entity("OkulTakipSistemi.Models.OgrenciUcretDurumu", b =>
                 {
                     b.Property<int>("Id")
@@ -250,35 +279,6 @@ namespace OkulTakipSistemi.Migrations
                     b.HasIndex("OgrenciKaydiId");
 
                     b.ToTable("OgrenciUcretDurumlari");
-                });
-
-            modelBuilder.Entity("OkulTakipSistemi.Models.OgrenciOzelUcret", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Aciklama")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("GuncellemeTarihi")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("OlusturmaTarihi")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("OgrenciKaydiId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("OzelUcret")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OgrenciKaydiId")
-                        .IsUnique();
-
-                    b.ToTable("OgrenciOzelUcretler");
                 });
 
             modelBuilder.Entity("OkulTakipSistemi.Models.OgrenciVeli", b =>
@@ -398,11 +398,11 @@ namespace OkulTakipSistemi.Migrations
                     b.Property<DateTime>("OlusturmaTarihi")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TaksitAySayisi")
-                        .HasColumnType("INTEGER");
-
                     b.Property<decimal?>("StandartVeliUcreti")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("TaksitAySayisi")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("ToplamUcret")
                         .HasColumnType("TEXT");
@@ -620,23 +620,23 @@ namespace OkulTakipSistemi.Migrations
                     b.Navigation("Sinif");
                 });
 
-            modelBuilder.Entity("OkulTakipSistemi.Models.OgrenciUcretDurumu", b =>
-                {
-                    b.HasOne("OkulTakipSistemi.Models.OgrenciKaydi", "OgrenciKaydi")
-                        .WithMany()
-                        .HasForeignKey("OgrenciKaydiId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OgrenciKaydi");
-                });
-
             modelBuilder.Entity("OkulTakipSistemi.Models.OgrenciOzelUcret", b =>
                 {
                     b.HasOne("OkulTakipSistemi.Models.OgrenciKaydi", "OgrenciKaydi")
                         .WithMany()
                         .HasForeignKey("OgrenciKaydiId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("OgrenciKaydi");
+                });
+
+            modelBuilder.Entity("OkulTakipSistemi.Models.OgrenciUcretDurumu", b =>
+                {
+                    b.HasOne("OkulTakipSistemi.Models.OgrenciKaydi", "OgrenciKaydi")
+                        .WithMany()
+                        .HasForeignKey("OgrenciKaydiId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("OgrenciKaydi");

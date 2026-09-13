@@ -11,14 +11,66 @@
 
 <div class="teacher-dashboard">
 
-    <!-- ÜST ALAN -->
+    <!-- ÜST MENÜ -->
+    <header class="teacher-topbar">
+
+        <a class="teacher-brand"
+           asp-controller="Home"
+           asp-action="OgretmenPanel">
+
+            <span class="brand-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M16 3 29 16 16 29 3 16 16 3Z"/>
+                    <path d="M16 8 24 16 16 24 8 16 16 8Z"/>
+                </svg>
+            </span>
+
+            <span>Okul Takip Sistemi</span>
+        </a>
+
+        <div class="teacher-topbar-right">
+
+            <span class="topbar-panel">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3.5"/>
+                    <path d="M5 20c.8-4 3.1-6 7-6s6.2 2 7 6"/>
+                </svg>
+            </span>
+
+            <span class="topbar-divider"></span>
+
+            <a class="topbar-name"
+               asp-controller="Account"
+               asp-action="OgretmenBilgileri">
+                @adSoyad
+            </a>
+
+            <a class="topbar-logout"
+               asp-controller="Account"
+               asp-action="Logout">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M14 4H6.5A2.5 2.5 0 0 0 4 6.5v11A2.5 2.5 0 0 0 6.5 20H14"/>
+                    <path d="M10 12h10"/>
+                    <path d="m17 8 4 4-4 4"/>
+                </svg>
+                <span>Çıkış Yap</span>
+            </a>
+
+        </div>
+    </header>
+
+
+    <!-- KARŞILAMA + BUGÜN -->
     <section class="teacher-hero">
 
-        <!-- SOL TARAF -->
         <div class="hero-welcome">
 
             <div class="teacher-badge">
-                <span class="badge-icon">♙</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3"/>
+                    <path d="M5 20c.7-3.7 3-5.5 7-5.5s6.3 1.8 7 5.5"/>
+                    <path d="M5 5 12 2l7 3-7 3-7-3Z"/>
+                </svg>
                 <span>ÖĞRETMEN PANELİ</span>
             </div>
 
@@ -30,7 +82,12 @@
             <div class="welcome-line"></div>
 
             <p class="welcome-message">
-                <span class="sun-icon">☼</span>
+                <span class="welcome-sun">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4"/>
+                        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+                    </svg>
+                </span>
 
                 <span>
                     Bugün harika bir gün,<br />
@@ -41,15 +98,20 @@
         </div>
 
 
-        <!-- SAĞ TARAF - TARİH -->
         <div class="today-card">
 
             <div class="today-header">
 
                 <div class="today-title">
-                    <span class="calendar-icon">▣</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="4" y="4" width="16" height="16" rx="2"/>
+                        <path d="M8 2v4M16 2v4M4 9h16"/>
+                    </svg>
+
                     <span>BUGÜN</span>
                 </div>
+
+                <strong id="fullDate">--</strong>
 
             </div>
 
@@ -58,36 +120,41 @@
             <div class="date-details">
 
                 <div class="date-item">
-                    <span class="date-icon">◷</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="8"/>
+                        <path d="M12 7v5l3 2"/>
+                    </svg>
                     <strong id="currentTime">--:--</strong>
                     <small>Saat</small>
                 </div>
 
                 <div class="date-item">
-                    <span class="date-icon">▣</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="4" y="5" width="16" height="15" rx="2"/>
+                        <path d="M8 3v4M16 3v4M4 10h16"/>
+                    </svg>
                     <strong id="currentDay">--</strong>
                     <small>Gün</small>
                 </div>
 
                 <div class="date-item">
-                    <span class="date-icon">▣</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="4" y="5" width="16" height="15" rx="2"/>
+                        <path d="M8 3v4M16 3v4M4 10h16"/>
+                    </svg>
                     <strong id="currentMonth">--</strong>
                     <small>Ay</small>
                 </div>
 
-                <div class="date-item">
-                    <span class="date-icon">▣</span>
+                <div class="date-item year-item">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="4" y="5" width="16" height="15" rx="2"/>
+                        <path d="M8 3v4M16 3v4M4 10h16"/>
+                    </svg>
                     <strong id="currentYear">----</strong>
                     <small>Yıl</small>
                 </div>
 
-            </div>
-
-            <div class="today-divider"></div>
-
-            <div class="full-date">
-                <span class="calendar-small">▣</span>
-                <strong id="fullDate">--</strong>
             </div>
 
         </div>
@@ -98,133 +165,70 @@
     <!-- İSTATİSTİKLER -->
     <section class="teacher-stats">
 
-        <!-- SINIF -->
         <div class="stat-card">
-
             <div class="stat-icon">
-
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-5h6v5M8 10h2M14 10h2M8 13h2M14 13h2" />
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 21h18M5 21V9l7-5 7 5v12"/>
+                    <path d="M9 21v-6h6v6M9 10h.01M15 10h.01"/>
                 </svg>
-
             </div>
 
             <div class="stat-info">
-
-                <span class="stat-title">
-                    Toplam Sınıfınız
-                </span>
-
-                <strong>
-                    @sinifSayisi
-                </strong>
-
-                <small>
-                    Atandığınız sınıf sayısı
-                </small>
-
+                <span>Toplam Sınıfınız</span>
+                <strong>@sinifSayisi</strong>
+                <small>Atandığınız sınıf sayısı</small>
             </div>
-
         </div>
 
 
-        <!-- ÖĞRENCİ -->
         <div class="stat-card">
-
             <div class="stat-icon">
-
-                <svg viewBox="0 0 24 24">
-
-                    <circle cx="9" cy="8" r="3" />
-                    <circle cx="17" cy="9" r="2.5" />
-                    <path d="M3 20c0-3.2 2.7-5 6-5s6 1.8 6 5M14 15c3-.4 6 1.2 7 4" />
-
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="9" cy="8" r="3"/>
+                    <circle cx="17" cy="9" r="2.5"/>
+                    <path d="M3 20c.7-4 2.7-6 6-6s5.3 2 6 6"/>
+                    <path d="M14 15c2.7.2 4.3 1.8 5 5"/>
                 </svg>
-
             </div>
 
             <div class="stat-info">
-
-                <span class="stat-title">
-                    Toplam Öğrenci
-                </span>
-
-                <strong>
-                    @ogrenciSayisi
-                </strong>
-
-                <small>
-                    Tüm sınıflardaki öğrenci sayısı
-                </small>
-
+                <span>Toplam Öğrenci</span>
+                <strong>@ogrenciSayisi</strong>
+                <small>Tüm sınıflardaki öğrenci sayısı</small>
             </div>
-
         </div>
 
 
-        <!-- BUGÜNKÜ YOKLAMA -->
         <div class="stat-card">
-
             <div class="stat-icon">
-
-                <svg viewBox="0 0 24 24">
-
-                    <rect x="4" y="5" width="16" height="16" rx="2" />
-                    <path d="M8 3v4M16 3v4M4 10h16M8 15l2 2 5-5" />
-
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="4" y="5" width="16" height="15" rx="2"/>
+                    <path d="M8 3v4M16 3v4M4 10h16"/>
+                    <path d="m9 15 2 2 4-4"/>
                 </svg>
-
             </div>
 
             <div class="stat-info">
-
-                <span class="stat-title">
-                    Bugün Alınan Yoklama
-                </span>
-
-                <strong>
-                    @bugunkuYoklamaSayisi
-                </strong>
-
-                <small>
-                    Bugün yoklaması alınan sınıf
-                </small>
-
+                <span>Bugün Alınan Yoklama</span>
+                <strong>@bugunkuYoklamaSayisi</strong>
+                <small>Bugün yoklaması alınan sınıf</small>
             </div>
-
         </div>
 
 
-        <!-- TOPLAM YOKLAMA -->
         <div class="stat-card">
-
             <div class="stat-icon">
-
-                <svg viewBox="0 0 24 24">
-
-                    <rect x="5" y="3" width="14" height="18" rx="2" />
-                    <path d="M8 7h8M8 11h8M8 15h5M8 18h3" />
-
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="5" y="3" width="14" height="18" rx="2"/>
+                    <path d="M8 7h8M8 11h8M8 15h5"/>
                 </svg>
-
             </div>
 
             <div class="stat-info">
-
-                <span class="stat-title">
-                    Toplam Yoklama
-                </span>
-
-                <strong>
-                    @toplamYoklamaSayisi
-                </strong>
-
-                <small>
-                    Tüm zamanlardaki toplam yoklama
-                </small>
-
+                <span>Toplam Yoklama</span>
+                <strong>@toplamYoklamaSayisi</strong>
+                <small>Tüm zamanlardaki toplam yoklama</small>
             </div>
-
         </div>
 
     </section>
@@ -233,137 +237,93 @@
     <!-- HIZLI İŞLEMLER -->
     <section class="quick-actions">
 
-        <div class="section-heading">
+        <div class="quick-header">
 
-            <div class="heading-icon">
-                <span>Ⅱ</span>
+            <div class="quick-heading">
+
+                <span class="quick-heading-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="4" y="4" width="6" height="6" rx="1"/>
+                        <rect x="14" y="4" width="6" height="6" rx="1"/>
+                        <rect x="4" y="14" width="6" height="6" rx="1"/>
+                        <rect x="14" y="14" width="6" height="6" rx="1"/>
+                    </svg>
+                </span>
+
+                <div>
+                    <h2>Hızlı İşlemler</h2>
+                    <p>İhtiyacınız olan bölüme hızlıca geçiş yapın.</p>
+                </div>
+
             </div>
 
-            <div>
-
-                <h3>Hızlı İşlemler</h3>
-
-                <p>
-                    İhtiyacınız olan bölüme hızlıca geçiş yapın.
-                </p>
-
-            </div>
 
         </div>
 
 
         <div class="action-grid">
 
+            <a class="action-card"
+               asp-controller="Ogretmen"
+               asp-action="Siniflarim">
 
-            <!-- SINIFLARIM -->
-            <a href="/Ogretmen/Siniflarim"
-               class="action-card">
-
-                <div class="action-icon">
-
-                    <svg viewBox="0 0 24 24">
-
-                        <path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-5h6v5M8 10h2M14 10h2M8 13h2M14 13h2" />
-
+                <span class="action-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 21h18M5 21V9l7-5 7 5v12"/>
+                        <path d="M9 21v-6h6v6"/>
                     </svg>
-
-                </div>
-
-                <div class="action-text">
-
-                    <span class="action-number">
-                        01
-                    </span>
-
-                    <h4>
-                        Sınıflarım
-                    </h4>
-
-                    <p>
-                        Size atanmış sınıfları ve öğrencileri görüntüleyin.
-                    </p>
-
-                </div>
-
-                <span class="action-arrow">
-                    →
                 </span>
+
+                <span class="action-content">
+                    <small>01</small>
+                    <strong>Sınıflarım</strong>
+                    <span>Size atanmış sınıfları ve öğrencileri görüntüleyin.</span>
+                </span>
+
+                <span class="action-arrow">›</span>
 
             </a>
 
 
-            <!-- YOKLAMA AL -->
-            <a href="/Ogretmen/Yoklama"
-               class="action-card">
+            <a class="action-card"
+               asp-controller="Ogretmen"
+               asp-action="Yoklama">
 
-                <div class="action-icon">
-
-                    <svg viewBox="0 0 24 24">
-
-                        <path d="M5 12l4 4L19 6" />
-
+                <span class="action-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="m5 12 4 4L19 6"/>
                     </svg>
-
-                </div>
-
-                <div class="action-text">
-
-                    <span class="action-number">
-                        02
-                    </span>
-
-                    <h4>
-                        Yoklama Al
-                    </h4>
-
-                    <p>
-                        Sınıflarınız için günlük yoklama alın.
-                    </p>
-
-                </div>
-
-                <span class="action-arrow">
-                    →
                 </span>
+
+                <span class="action-content">
+                    <small>02</small>
+                    <strong>Yoklama Al</strong>
+                    <span>Sınıflarınız için günlük yoklama alın.</span>
+                </span>
+
+                <span class="action-arrow">›</span>
 
             </a>
 
 
-            <!-- YOKLAMA LİSTESİ -->
-            <a href="/Yoklama/Gecmis"
-               class="action-card">
+            <a class="action-card"
+               asp-controller="Yoklama"
+               asp-action="Gecmis">
 
-                <div class="action-icon">
-
-                    <svg viewBox="0 0 24 24">
-
-                        <rect x="5" y="3" width="14" height="18" rx="2" />
-
-                        <path d="M8 7h8M8 11h8M8 15h5" />
-
+                <span class="action-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="5" y="3" width="14" height="18" rx="2"/>
+                        <path d="M8 7h8M8 11h8M8 15h5"/>
                     </svg>
-
-                </div>
-
-                <div class="action-text">
-
-                    <span class="action-number">
-                        03
-                    </span>
-
-                    <h4>
-                        Yoklama Listesi
-                    </h4>
-
-                    <p>
-                        Geçmiş yoklama kayıtlarını görüntüleyin.
-                    </p>
-
-                </div>
-
-                <span class="action-arrow">
-                    →
                 </span>
+
+                <span class="action-content">
+                    <small>03</small>
+                    <strong>Yoklama Listesi</strong>
+                    <span>Geçmiş yoklama kayıtlarını görüntüleyin.</span>
+                </span>
+
+                <span class="action-arrow">›</span>
 
             </a>
 
@@ -377,130 +337,61 @@
 
         <div class="footer-brand">
 
-            <div class="footer-logo">
-                ◈
-            </div>
-
-            <div>
-
-                <strong>
-                    Okul Takip Sistemi
-                </strong>
-
-                <span>
-                    © 2026 - Tüm hakları saklıdır.
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- ÇIKIŞ -->
-        <a href="/Account/Logout"
-           class="logout-button">
-
-            <span>
-                ⇥
+            <span class="footer-mark">
+                <svg viewBox="0 0 32 32" aria-hidden="true">
+                    <path d="M16 3 29 16 16 29 3 16 16 3Z"/>
+                    <path d="M16 8 24 16 16 24 8 16 16 8Z"/>
+                </svg>
             </span>
 
-            Çıkış Yap
+            <strong>Okul Takip Sistemi</strong>
 
-        </a>
+            <span class="footer-divider"></span>
+
+            <span>© 2026 - Tüm hakları saklıdır.</span>
+
+        </div>
 
     </footer>
 
 </div>
 
 
-<!-- TARİH / SAAT -->
 <script>
-
-    function updateDateTime() {
-
+    function updateTeacherDateTime() {
         const now = new Date();
 
+        const pad = value => String(value).padStart(2, "0");
+
         const months = [
-            "Ocak",
-            "Şubat",
-            "Mart",
-            "Nisan",
-            "Mayıs",
-            "Haziran",
-            "Temmuz",
-            "Ağustos",
-            "Eylül",
-            "Ekim",
-            "Kasım",
-            "Aralık"
+            "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+            "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
         ];
 
         const days = [
-            "Pazar",
-            "Pazartesi",
-            "Salı",
-            "Çarşamba",
-            "Perşembe",
-            "Cuma",
-            "Cumartesi"
+            "Pazar", "Pazartesi", "Salı", "Çarşamba",
+            "Perşembe", "Cuma", "Cumartesi"
         ];
 
-        const hour =
-            String(now.getHours()).padStart(2, "0");
+        document.getElementById("currentTime").textContent =
+            pad(now.getHours()) + ":" + pad(now.getMinutes());
 
-        const minute =
-            String(now.getMinutes()).padStart(2, "0");
+        document.getElementById("currentDay").textContent =
+            pad(now.getDate());
 
-        const currentTime =
-            document.getElementById("currentTime");
+        document.getElementById("currentMonth").textContent =
+            months[now.getMonth()];
 
-        const currentDay =
-            document.getElementById("currentDay");
+        document.getElementById("currentYear").textContent =
+            now.getFullYear();
 
-        const currentMonth =
-            document.getElementById("currentMonth");
-
-        const currentYear =
-            document.getElementById("currentYear");
-
-        const fullDate =
-            document.getElementById("fullDate");
-
-
-        if (currentTime) {
-            currentTime.textContent =
-                hour + ":" + minute;
-        }
-
-        if (currentDay) {
-            currentDay.textContent =
-                now.getDate();
-        }
-
-        if (currentMonth) {
-            currentMonth.textContent =
-                String(now.getMonth() + 1).padStart(2, "0");
-        }
-
-        if (currentYear) {
-            currentYear.textContent =
-                now.getFullYear();
-        }
-
-        if (fullDate) {
-            fullDate.textContent =
-                days[now.getDay()] +
-                ", " +
-                now.getDate() +
-                " " +
-                months[now.getMonth()] +
-                " " +
-                now.getFullYear();
-        }
+        document.getElementById("fullDate").textContent =
+            days[now.getDay()] + ", " +
+            now.getDate() + " " +
+            months[now.getMonth()] + " " +
+            now.getFullYear();
     }
 
-    updateDateTime();
-
-    setInterval(updateDateTime, 1000);
-
+    updateTeacherDateTime();
+    setInterval(updateTeacherDateTime, 1000);
 </script>

@@ -536,14 +536,14 @@
 <div class="yoklama-page">
     <div class="container">
 
-        @if (TempData["Basari"] != null)
+        @if (TempData["YoklamaMesaji"] != null)
         {
             <div class="attendance-success" id="attendanceSuccess">
                 <span class="success-icon">✓</span>
 
                 <div>
                     <strong>İşlem başarılı</strong>
-                    <p>@TempData["Basari"]</p>
+                    <p>@TempData["YoklamaMesaji"]</p>
                 </div>
 
                 <button type="button"
@@ -601,8 +601,8 @@
 
         <!-- YOKLAMA FORMU -->
 
-        <form asp-controller="Yoklama"
-              asp-action="Kaydet"
+        <form asp-controller="Ogretmen"
+              asp-action="YoklamaKaydet"
               method="post">
 
             <input type="hidden"

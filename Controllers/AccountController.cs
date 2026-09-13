@@ -27,6 +27,13 @@ namespace OkulTakipSistemi.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            var hatirlananKullanici = Request.Cookies["HatirlananKullanici"];
+
+            if (!string.IsNullOrWhiteSpace(hatirlananKullanici))
+            {
+                ViewBag.HatirlananKullanici = hatirlananKullanici;
+            }
+
             return View();
         }
 
@@ -49,7 +56,8 @@ namespace OkulTakipSistemi.Controllers
         public IActionResult Login(
             string KullaniciAdi,
             string Sifre,
-            string GirisTuru)
+            string GirisTuru,
+            bool BeniHatirla)
         {
             if (string.IsNullOrWhiteSpace(GirisTuru))
             {
@@ -108,6 +116,24 @@ namespace OkulTakipSistemi.Controllers
                         "Bu hesap öğretmen olarak giriş yapamaz.";
 
                     return View("Login");
+                }
+
+                if (BeniHatirla)
+                {
+                    Response.Cookies.Append(
+                        "HatirlananKullanici",
+                        kullanici.KullaniciAdi,
+                        new CookieOptions
+                        {
+                            Expires = DateTimeOffset.UtcNow.AddDays(30),
+                            HttpOnly = true,
+                            IsEssential = true,
+                            Secure = Request.IsHttps
+                        });
+                }
+                else
+                {
+                    Response.Cookies.Delete("HatirlananKullanici");
                 }
 
                 OturumAc(kullanici);

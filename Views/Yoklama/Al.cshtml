@@ -31,6 +31,19 @@
 
     </div>
 
+    @if (TempData["Basari"] != null)
+    {
+        <div style="margin: 20px 0; padding: 14px 18px; border-radius: 10px; background: #e8f5e9; color: #2e7d32;">
+            ✓ @TempData["Basari"]
+        </div>
+    }
+
+    @if (TempData["YoklamaUyari"] != null)
+    {
+        <div style="margin: 20px 0; padding: 14px 18px; border-radius: 10px; background: #fff3cd; color: #856404;">
+            ⚠️ @TempData["YoklamaUyari"]
+        </div>
+    }
 
     @if (Model == null || !Model.Any())
     {
@@ -119,18 +132,26 @@
 
 
                             <!-- YOKLAMA -->
-                            <label class="attendance-check">
+                            <div class="attendance-actions">
 
-                                <input type="checkbox"
+                                <input type="hidden"
                                        name="durumlar[@ogrenci.Id]"
                                        value="true"
-                                       checked />
+                                       class="attendance-value" />
 
-                                <span class="check-text">
-                                    Geldi
-                                </span>
+                                <button type="button"
+                                        class="attendance-button present active"
+                                        onclick="this.parentElement.querySelector('.attendance-value').value='true'; this.classList.add('active'); this.nextElementSibling.classList.remove('active');">
+                                    ✓
+                                </button>
 
-                            </label>
+                                <button type="button"
+                                        class="attendance-button absent"
+                                        onclick="this.parentElement.querySelector('.attendance-value').value='false'; this.classList.add('active'); this.previousElementSibling.classList.remove('active');">
+                                    ✕
+                                </button>
+
+                            </div>
 
                         </div>
                     }
@@ -141,11 +162,7 @@
                 <!-- ALT BÖLÜM -->
                 <div class="attendance-footer">
 
-                    <div class="attendance-info">
-                        <span class="info-icon">ⓘ</span>
-                        Öğrenciler varsayılan olarak <strong>Geldi</strong>
-                        olarak işaretlenmiştir.
-                    </div>
+
 
                     <button type="submit"
                             class="save-attendance">
