@@ -6,7 +6,6 @@ namespace OkulTakipSistemi.Models
 
         public string AdSoyad { get; set; } = string.Empty;
 
-        public string Branş { get; set; } = string.Empty;
 
         public int KullaniciId { get; set; }
 

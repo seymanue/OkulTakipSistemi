@@ -1,24 +1,22 @@
 @model OkulTakipSistemi.Models.UcretYonetimiViewModel
 
 @{
-    ViewData["Title"] = "Öğrenci Kayıt ve Ödeme Yönetimi";
+    ViewData["Title"] = "Ücret ve Ödemeler";
 }
 
 <div class="container-fluid py-4">
 
     <div class="mb-4">
-        <h2 class="fw-bold">💰 Öğrenci Kayıt ve Ödeme Yönetimi</h2>
-        <p class="text-muted">
-            Okul ücretlerini, öğrenci ücretlerini ve ödeme planlarını tek ekrandan yönetin.
+        <h2 class="fw-bold">💰 Ücret ve Ödemeler</h2>
+        <p class="text-muted mb-0">
+            Okullar için yıllık ücret ve ödeme koşullarını tanımlayın.
         </p>
     </div>
-
 
     @if (TempData["Basarili"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show">
             @TempData["Basarili"]
-
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="alert">
@@ -30,7 +28,6 @@
     {
         <div class="alert alert-danger alert-dismissible fade show">
             @TempData["Hata"]
-
             <button type="button"
                     class="btn-close"
                     data-bs-dismiss="alert">
@@ -38,31 +35,26 @@
         </div>
     }
 
-
-    <!-- 1. OKUL VE GENEL ÜCRET AYARLARI -->
-
-    <div class="card shadow-sm border-0 mb-4">
+    <div class="card shadow-sm border-0">
 
         <div class="card-header bg-white py-3">
-            <h5 class="fw-bold mb-0">
-                1. 🏫 Okul ve Genel Ücret Ayarları
+            <h5 class="fw-bold mb-1">
+                🏫 Okul Ücret Tanımlama
             </h5>
 
             <small class="text-muted">
-                Önce okul seçin. Seçilen okulun öğrencileri aşağıda gösterilecektir.
+                Seçtiğiniz okulun veli ücretini ve ödeme koşullarını belirleyin.
             </small>
         </div>
 
-
         <div class="card-body">
 
-            <!-- OKUL SEÇ -->
-
+            <!-- OKUL SEÇİMİ -->
             <form method="get"
                   asp-action="Index"
-                  class="row g-3 mb-4">
+                  class="mb-4">
 
-                <div class="col-md-6">
+                <div class="col-md-6 px-0">
 
                     <label class="form-label fw-semibold">
                         Okul
@@ -78,12 +70,18 @@
 
                         @foreach (var okul in Model.Okullar)
                         {
-                            <option value="@okul.Id"
-                                    selected="@(Model.SeciliOkulId == okul.Id)">
-
-                                @okul.Ad
-
-                            </option>
+                            if (Model.SeciliOkulId == okul.Id)
+                            {
+                                <option value="@okul.Id" selected>
+                                    @okul.Ad
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@okul.Id">
+                                    @okul.Ad
+                                </option>
+                            }
                         }
 
                     </select>
@@ -95,8 +93,7 @@
 
             @if (Model.SeciliOkulId.HasValue)
             {
-                <!-- OKUL ÜCRETİ -->
-
+                <!-- ÜCRET TANIMLAMA -->
                 <form asp-action="OkulUcretiKaydet"
                       method="post">
 
@@ -106,101 +103,95 @@
                            name="okulId"
                            value="@Model.SeciliOkulId" />
 
-                    <div class="row g-3">
+                    <div class="row g-4">
 
-                        <div class="col-md-4">
-
-                            <label class="form-label fw-semibold">
-                                Yıllık Normal Ücret
-                            </label>
-
-                            <input type="number"
-                                   name="normalUcret"
-                                   class="form-control"
-                                   min="1"
-                                   step="0.01"
-                                   value="@(Model.OkulUcreti?.UygulanacakStandartVeliUcreti)"
-                                   placeholder="Örn: 120000" />
-
-                        </div>
-
-
-                        <div class="col-md-4 d-flex align-items-end">
-
-                            <button type="submit"
-                                    class="btn btn-primary w-100">
-
-                                💾 Okul Ücretini Kaydet
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </form>
-            }
-
-        </div>
-
-    </div>
-
-
-
-    <!-- 2. ÖĞRENCİ SEÇİMİ -->
-
-    @if (Model.SeciliOkulId.HasValue)
-    {
-        <div class="card shadow-sm border-0 mb-4">
-
-            <div class="card-header bg-white py-3">
-
-                <h5 class="fw-bold mb-0">
-                    2. 👨‍🎓 Öğrenci Bilgileri ve Ücret Seçimi
-                </h5>
-
-                <small class="text-muted">
-                    Sadece seçilen okula kayıtlı öğrenciler gösterilir.
-                </small>
-
-            </div>
-
-
-            <div class="card-body">
-
-                <form method="get"
-                      asp-action="Index">
-
-                    <input type="hidden"
-                           name="okulId"
-                           value="@Model.SeciliOkulId" />
-
-
-                    <div class="row">
-
+                        <!-- KURUM ÜCRETİ -->
                         <div class="col-md-6">
 
                             <label class="form-label fw-semibold">
-                                Öğrenci
+                                Kurum İçin Belirlenen Ücret
                             </label>
 
-                            <select name="kayitId"
-                                    class="form-select"
-                                    onchange="this.form.submit()">
+                            <div class="input-group">
 
-                                <option value="">
-                                    Öğrenci seçiniz
-                                </option>
+                                <input type="number"
+                                       name="toplamUcret"
+                                       class="form-control"
+                                       min="0"
+                                       step="0.01"
+                                       value="@(Model.OkulUcreti?.ToplamUcret > 0 ? Model.OkulUcreti.ToplamUcret.ToString("0.##") : "")"
+                                       placeholder="Örn: 120000" />
 
-                                @foreach (var kayit in Model.OgrenciKayitlari)
+                                <span class="input-group-text">
+                                    ₺
+                                </span>
+
+                            </div>
+
+                            <small class="text-muted">
+                                Okulun belirlediği toplam yıllık ücret.
+                            </small>
+
+                        </div>
+
+
+                        <!-- STANDART VELİ ÜCRETİ -->
+                        <div class="col-md-6">
+
+                            <label class="form-label fw-semibold">
+                                Standart Veli Ücreti
+                            </label>
+
+                            <div class="input-group">
+
+                                <input type="number"
+                                       name="standartVeliUcreti"
+                                       class="form-control"
+                                       min="0"
+                                       step="0.01"
+                                       value="@(Model.OkulUcreti?.StandartVeliUcreti > 0 ? Model.OkulUcreti.StandartVeliUcreti?.ToString("0.##") : "")"
+                                       placeholder="Örn: 100000" />
+
+                                <span class="input-group-text">
+                                    ₺
+                                </span>
+
+                            </div>
+
+                            <small class="text-muted">
+                                Öğrenci kaydı sırasında veliye uygulanacak ücret.
+                            </small>
+
+                        </div>
+
+
+                        <!-- ÖDEME ŞEKLİ -->
+                        <div class="col-md-4">
+
+                            <label class="form-label fw-semibold">
+                                Ödeme Şekli
+                            </label>
+
+                            <select name="odemeSekli"
+                                    id="odemeSekli"
+                                    class="form-select">
+
+                                @if (Model.OkulUcreti?.OdemeSekli == "Pesin")
                                 {
-                                    <option value="@kayit.Id"
-                                            selected="@(Model.SeciliKayitId == kayit.Id)">
-
-                                        @kayit.Ogrenci?.AdSoyad
-                                        -
-                                        @kayit.Sinif?.Ad
-
+                                    <option value="Pesin" selected>
+                                        Peşin
+                                    </option>
+                                    <option value="Taksitli">
+                                        Taksitli
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="Taksitli" selected>
+                                        Taksitli
+                                    </option>
+                                    <option value="Pesin">
+                                        Peşin
                                     </option>
                                 }
 
@@ -208,619 +199,199 @@
 
                         </div>
 
+
+                        <!-- TAKSİT SAYISI -->
+                        <div class="col-md-4"
+                             id="taksitAlani">
+
+                            <label class="form-label fw-semibold">
+                                Taksit Sayısı
+                            </label>
+
+                            <select name="taksitAySayisi"
+                                    class="form-select">
+
+                                @for (int i = 1; i <= 8; i++)
+                                {
+                                    if (Model.OkulUcreti?.TaksitAySayisi == i)
+                                    {
+                                        <option value="@i" selected>
+                                            @i Taksit
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@i">
+                                            @i Taksit
+                                        </option>
+                                    }
+                                }
+
+                            </select>
+
+                            <small class="text-muted">
+                                Öğrenci kaydında ödeme planı için kullanılır.
+                            </small>
+
+                        </div>
+
+
+                        <!-- BAŞLANGIÇ AYI -->
+                        <div class="col-md-4"
+                             id="baslangicAyiAlani">
+
+                            <label class="form-label fw-semibold">
+                                Başlangıç Ayı
+                            </label>
+
+                            <select name="baslangicAyi"
+                                    class="form-select">
+
+                                @{
+                                    int baslangicAyi =
+                                        Model.OkulUcreti?.BaslangicAyi > 0
+                                            ? Model.OkulUcreti.BaslangicAyi
+                                            : 10;
+                                }
+
+                                <option value="10" selected="@(baslangicAyi == 10)">
+                                    Ekim
+                                </option>
+
+                                <option value="11" selected="@(baslangicAyi == 11)">
+                                    Kasım
+                                </option>
+
+                                <option value="12" selected="@(baslangicAyi == 12)">
+                                    Aralık
+                                </option>
+
+                            </select>
+
+                            <small class="text-muted">
+                                Ödeme planının başlayacağı ay.
+                            </small>
+
+                        </div>
+
+
+                        <!-- AÇIKLAMA -->
+                        <div class="col-12">
+
+                            <label class="form-label fw-semibold">
+                                Açıklama
+                                <span class="text-muted fw-normal">
+                                    (Opsiyonel)
+                                </span>
+                            </label>
+
+                            <textarea name="aciklama"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="Ücret hakkında açıklama yazabilirsiniz.">@Model.OkulUcreti?.Aciklama</textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ÖNİZLEME -->
+                    @if (Model.OkulUcreti != null &&
+                         Model.OkulUcreti.UygulanacakStandartVeliUcreti > 0)
+                    {
+                        <div class="alert alert-light border mt-4 mb-0">
+
+                            <div class="fw-bold mb-2">
+                                📋 Ücret Özeti
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <small class="text-muted">
+                                        Yıllık Veli Ücreti
+                                    </small>
+                                    <div class="fw-bold">
+                                        @Model.OkulUcreti.UygulanacakStandartVeliUcreti.ToString("N2") ₺
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <small class="text-muted">
+                                        Ödeme Şekli
+                                    </small>
+                                    <div class="fw-bold">
+                                        @(Model.OkulUcreti.OdemeSekli == "Pesin"
+                                            ? "Peşin"
+                                            : $"{Model.OkulUcreti.TaksitAySayisi} Taksit")
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <small class="text-muted">
+                                        Aylık Taksit
+                                    </small>
+                                    <div class="fw-bold">
+                                        @Model.OkulUcreti.AylikUcret.ToString("N2") ₺
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+
+
+                    <div class="mt-4">
+
+                        <button type="submit"
+                                class="btn btn-primary px-4">
+
+                            💾 Ücreti Kaydet
+
+                        </button>
+
                     </div>
 
                 </form>
-
-
-                @if (Model.SeciliKayit != null)
-                {
-                    <hr class="my-4" />
-
-                    <div class="row">
-
-                        <div class="col-md-4 mb-3">
-
-                            <label class="text-muted small">
-                                Öğrenci
-                            </label>
-
-                            <div class="fw-bold">
-
-                                @Model.SeciliKayit.Ogrenci?.AdSoyad
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-md-4 mb-3">
-
-                            <label class="text-muted small">
-                                Sınıf
-                            </label>
-
-                            <div class="fw-bold">
-
-                                @Model.SeciliKayit.Sinif?.Ad
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-md-4 mb-3">
-
-                            <label class="text-muted small">
-                                Okul
-                            </label>
-
-                            <div class="fw-bold">
-
-                                @Model.SeciliKayit.Okul?.Ad
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- NORMAL / ÖZEL ÜCRET -->
-
-                    <hr class="my-3" />
-
-                    <h6 class="fw-bold mb-3">
-                        💰 Ücret Tipi Seçimi
-                    </h6>
-
-
-                    <div class="row mb-4">
-
-                        <div class="col-md-6">
-
-                            <div class="border rounded p-3 h-100">
-
-                                <div class="form-check">
-
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           name="ucretTipiSecim"
-                                           id="normalUcret"
-                                           value="Normal"
-                                           checked />
-
-                                    <label class="form-check-label fw-semibold"
-                                           for="normalUcret">
-
-                                        Normal Ücret
-
-                                    </label>
-
-                                </div>
-
-
-                                <div class="mt-2 text-success fw-bold">
-
-                                    @(Model.OkulUcreti?.UygulanacakStandartVeliUcreti.ToString("N2") ?? "Ücret tanımlanmamış") ₺
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-md-6">
-
-                            <div class="border rounded p-3 h-100">
-
-                                <div class="fw-semibold mb-2">
-
-                                    Özel Ücret
-
-                                </div>
-
-
-                                @if (Model.OzelUcret != null)
-                                {
-                                    <div class="text-primary fw-bold">
-
-                                        @Model.OzelUcret.OzelUcret.ToString("N2") ₺
-
-                                    </div>
-
-
-                                    @if (!string.IsNullOrWhiteSpace(Model.OzelUcret.Aciklama))
-                                    {
-                                        <small class="text-muted">
-
-                                            @Model.OzelUcret.Aciklama
-
-                                        </small>
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="text-muted">
-
-                                        Henüz özel ücret girilmedi.
-
-                                    </div>
-                                }
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ÖZEL ÜCRET FORMU -->
-
-                    <form asp-action="OzelUcretKaydet"
-                          method="post"
-                          class="border rounded p-3 bg-light">
-
-                        @Html.AntiForgeryToken()
-
-                        <input type="hidden"
-                               name="kayitId"
-                               value="@Model.SeciliKayit.Id" />
-
-
-                        <h6 class="fw-bold mb-3">
-                            ✏️ Öğrenciye Özel Ücret Tanımla
-                        </h6>
-
-
-                        <div class="row g-3">
-
-                            <div class="col-md-4">
-
-                                <label class="form-label">
-                                    Özel Ücret Tutarı
-                                </label>
-
-                                <input type="number"
-                                       name="ozelUcret"
-                                       class="form-control"
-                                       min="1"
-                                       step="0.01"
-                                       value="@Model.OzelUcret?.OzelUcret"
-                                       placeholder="Örn: 90000" />
-
-                            </div>
-
-
-                            <div class="col-md-5">
-
-                                <label class="form-label">
-                                    Özel Ücret Nedeni
-                                </label>
-
-                                <input type="text"
-                                       name="aciklama"
-                                       class="form-control"
-                                       value="@Model.OzelUcret?.Aciklama"
-                                       placeholder="Örn: Başarı bursu nedeniyle indirim uygulandı." />
-
-                            </div>
-
-
-                            <div class="col-md-3 d-flex align-items-end">
-
-                                <button type="submit"
-                                        class="btn btn-outline-primary w-100">
-
-                                    Özel Ücreti Kaydet
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </form>
-
-                }
-
-            </div>
-
-        </div>
-    }
-
-
-
-    <!-- 3. ÖDEME PLANI -->
-
-    @if (Model.SeciliKayit != null)
-    {
-        var planVar = Model.AylikBorclar.Any();
-        var odemeYapildi = Model.AylikBorclar.Any(x => x.OdenenTutar > 0);
-
-        <div class="card shadow-sm border-0 mb-4">
-
-            <div class="card-header bg-white py-3">
-
-                <h5 class="fw-bold mb-0">
-                    3. 💳 Ödeme Planı Kontrolü
-                </h5>
-
-            </div>
-
-            <div class="card-body">
-
-                @if (odemeYapildi)
-                {
-                    <div class="alert alert-warning mb-0">
-
-                        Bu ödeme planında ödeme yapıldığı için
-                        taksit sayısı ve ödeme planı değiştirilemez.
-
-                    </div>
-                }
-                else
-                {
-                    <form asp-action="@(planVar ? "OdemePlaniGuncelle" : "OdemePlaniOlustur")"
-                          method="post">
-
-                        @Html.AntiForgeryToken()
-
-                        <input type="hidden"
-                               name="kayitId"
-                               value="@Model.SeciliKayit.Id" />
-
-                        <div class="row g-3">
-
-                            <div class="col-md-3">
-
-                                <label class="form-label">
-                                    Ücret Tipi
-                                </label>
-
-                                <select class="form-select"
-                                        name="ucretTipi"
-                                        id="ucretTipi">
-
-                                    <option value="Normal"
-                                            selected="@(Model.UcretTipi != "Ozel")">
-                                        Normal Ücret
-                                    </option>
-
-                                    @if (Model.OzelUcret != null)
-                                    {
-                                        <option value="Ozel"
-                                                selected="@(Model.UcretTipi == "Ozel")">
-                                            Özel Ücret
-                                        </option>
-                                    }
-
-                                </select>
-
-                            </div>
-
-
-                            <div class="col-md-3">
-
-                                <label class="form-label">
-                                    Ödeme Yöntemi
-                                </label>
-
-                                <select class="form-select"
-                                        name="odemeSekli"
-                                        id="odemeSekli">
-
-                                    <option value="Taksitli"
-                                            selected="@(Model.TaksitSayisi > 1)">
-                                        Taksitli Ödeme
-                                    </option>
-
-                                    <option value="Pesin"
-                                            selected="@(Model.TaksitSayisi == 1)">
-                                        Peşin Ödeme
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <div class="col-md-3">
-
-                                <label class="form-label">
-                                    Taksit Sayısı
-                                </label>
-
-                                <input type="number"
-                                       name="taksitSayisi"
-                                       class="form-control"
-                                       id="taksitSayisi"
-                                       min="1"
-                                       max="24"
-                                       value="@Model.TaksitSayisi" />
-
-                            </div>
-
-
-                            <div class="col-md-3 d-flex align-items-end">
-
-                                @if (planVar)
-                                {
-                                    <button type="submit"
-                                            class="btn btn-warning w-100">
-
-                                        ✏️ Ödeme Planını Güncelle
-
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button type="submit"
-                                            class="btn btn-primary w-100">
-
-                                        📅 Ödeme Planı Oluştur
-
-                                    </button>
-                                }
-
-                            </div>
-
-                        </div>
-
-                    </form>
-                }
-
-            </div>
-
-        </div>
-    }
-
-
-
-    <!-- 4. ÖDEME PLANI TABLOSU -->
-
-    @if (Model.SeciliKayit != null &&
-         Model.AylikBorclar.Any())
-    {
-        <div class="card shadow-sm border-0 mb-4">
-
-            <div class="card-header bg-white py-3">
-
-                <h5 class="fw-bold mb-0">
-                    4. 📋 Otomatik Oluşturulan Ödeme Planı ve Takip
-                </h5>
-
-            </div>
-
-
-            <div class="card-body p-0">
-
-                <div class="table-responsive">
-
-                    <table class="table table-hover align-middle mb-0">
-
-                        <thead class="table-light">
-
-                            <tr>
-
-                                <th>No</th>
-
-                                <th>Vade Tarihi</th>
-
-                                <th>Tutar</th>
-
-                                <th>Ödenen</th>
-
-                                <th>Kalan</th>
-
-                                <th>Durum</th>
-
-                                <th class="text-end">
-                                    İşlem
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-                            @{
-                                var no = 1;
-                            }
-
-                            @foreach (var borc in Model.AylikBorclar)
-                            {
-                                var tarih =
-                                    new DateTime(
-                                        borc.Yil,
-                                        borc.Ay,
-                                        1);
-                                <tr>
-
-                                    <td>
-                                        @no
-                                    </td>
-
-
-                                    <td>
-                                        @tarih.ToString("MMMM yyyy")
-                                    </td>
-
-
-                                    <td class="fw-semibold">
-
-                                        @borc.Tutar.ToString("N2") ₺
-
-                                    </td>
-
-
-                                    <td class="text-success">
-
-                                        @borc.OdenenTutar.ToString("N2") ₺
-
-                                    </td>
-
-
-                                    <td class="text-danger">
-
-                                        @borc.KalanTutar.ToString("N2") ₺
-
-                                    </td>
-
-
-                                    <td>
-
-                                        @if (borc.Odendi)
-                                        {
-                                            <span class="badge bg-success">
-
-                                                ÖDENDİ
-
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-warning text-dark">
-
-                                                BEKLİYOR
-
-                                            </span>
-                                        }
-
-                                    </td>
-
-
-                                    <td class="text-end">
-
-                                        @if (!borc.Odendi)
-                                        {
-                                            <a asp-controller="Odeme"
-                                               asp-action="Index"
-                                               asp-route-ogrenciId="@Model.SeciliKayit.OgrenciId"
-                                               class="btn btn-sm btn-outline-success">
-
-                                                💳 Tahsil Et
-
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-success">
-
-                                                ✓ Tamamlandı
-
-                                            </span>
-                                        }
-
-                                    </td>
-
-                                </tr>
-
-                                no++;
-                            }
-
-                        </tbody>
-
-                    </table>
-
+            }
+            else
+            {
+                <div class="alert alert-info mb-0">
+                    <strong>Okul seçiniz.</strong>
+                    Ücret tanımlamak için yukarıdaki listeden bir okul seçin.
                 </div>
-
-
-                <!-- TOPLAM BİLGİLER -->
-
-                <div class="border-top p-4">
-
-                    <div class="row">
-
-                        <div class="col-md-4">
-
-                            <div class="text-muted">
-                                TOPLAM FİYAT
-                            </div>
-
-                            <div class="fs-4 fw-bold">
-
-                                @Model.ToplamBorc.ToString("N2") ₺
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-md-4">
-
-                            <div class="text-muted">
-                                ÖDENEN
-                            </div>
-
-                            <div class="fs-4 fw-bold text-success">
-
-                                @Model.OdenenTutar.ToString("N2") ₺
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-md-4">
-
-                            <div class="text-muted">
-                                KALAN BAKİYE
-                            </div>
-
-                            <div class="fs-4 fw-bold text-danger">
-
-                                @Model.KalanBakiye.ToString("N2") ₺
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+            }
 
         </div>
-    }
+
+    </div>
 
 </div>
 
-
 <script>
+    function odemeSekliGuncelle() {
+        const secim = document.getElementById("odemeSekli");
+        const taksitAlani = document.getElementById("taksitAlani");
+        const baslangicAlani = document.getElementById("baslangicAyiAlani");
+
+        if (!secim) return;
+
+        if (secim.value === "Pesin") {
+            taksitAlani.style.display = "none";
+            baslangicAlani.style.display = "none";
+        } else {
+            taksitAlani.style.display = "";
+            baslangicAlani.style.display = "";
+        }
+    }
 
     document.addEventListener("DOMContentLoaded", function () {
+        const secim = document.getElementById("odemeSekli");
 
-        const odemeSekli =
-            document.getElementById("odemeSekli");
-
-        const taksitSayisi =
-            document.getElementById("taksitSayisi");
-
-        if (odemeSekli && taksitSayisi) {
-
-            odemeSekli.addEventListener("change", function () {
-
-                if (this.value === "Pesin") {
-
-                    taksitSayisi.value = 1;
-                    taksitSayisi.readOnly = true;
-
-                }
-                else {
-
-                    taksitSayisi.readOnly = false;
-
-                }
-
-            });
-
+        if (secim) {
+            secim.addEventListener("change", odemeSekliGuncelle);
+            odemeSekliGuncelle();
         }
-
     });
-
 </script>

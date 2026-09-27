@@ -4,63 +4,482 @@
     ViewData["Title"] = "Okullar";
 }
 
-<div class="container mt-4">
+<style>
+    .admin-okul-page {
+        padding: 10px 4px 40px;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2>Okullar</h2>
-            <p class="text-muted">Sistemde kayıtlı okulları yönetin.</p>
+    .admin-okul-alert {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 13px 16px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .admin-okul-alert-error {
+        background: #fff4f4;
+        border: 1px solid #f2d6d6;
+        color: #a94444;
+    }
+
+    .admin-okul-alert-success {
+        background: #effaf4;
+        border: 1px solid #d1eedc;
+        color: #28734a;
+    }
+
+    .admin-okul-alert-icon {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: currentColor;
+        color: white;
+        font-size: 13px;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+
+    .admin-okul-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 28px;
+    }
+
+    .admin-okul-title-area {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .admin-okul-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #e8f3ff, #d7eaff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        flex-shrink: 0;
+    }
+
+    .admin-okul-title {
+        margin: 0;
+        color: #173b67;
+        font-size: 29px;
+        font-weight: 750;
+        letter-spacing: -.3px;
+    }
+
+    .admin-okul-subtitle {
+        margin: 5px 0 0;
+        color: #7a8da3;
+        font-size: 14px;
+    }
+
+    .admin-okul-add {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #287bc7, #17559c);
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 650;
+        box-shadow: 0 7px 18px rgba(31, 104, 174, .22);
+        transition: .2s ease;
+        white-space: nowrap;
+    }
+
+    .admin-okul-add:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(31, 104, 174, .28);
+    }
+
+    .admin-okul-summary {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+        color: #58708b;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .admin-okul-summary-badge {
+        min-width: 30px;
+        height: 30px;
+        padding: 0 9px;
+        border-radius: 9px;
+        background: #eaf4ff;
+        color: #246ba9;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 750;
+    }
+
+    .admin-okul-table-card {
+        background: #ffffff;
+        border: 1px solid #e4edf6;
+        border-radius: 18px;
+        box-shadow: 0 7px 24px rgba(33, 71, 110, .07);
+        overflow: hidden;
+    }
+
+    .admin-okul-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .admin-okul-table {
+        width: 100%;
+        min-width: 850px;
+        margin: 0;
+        border-collapse: collapse;
+    }
+
+    .admin-okul-table thead th {
+        padding: 16px 20px;
+        background: #f5f9fd;
+        border-bottom: 1px solid #e1ebf4;
+        color: #5c7188;
+        font-size: 12px;
+        font-weight: 750;
+        text-transform: uppercase;
+        letter-spacing: .35px;
+        white-space: nowrap;
+    }
+
+    .admin-okul-table tbody td {
+        padding: 18px 20px;
+        border-bottom: 1px solid #edf2f7;
+        color: #53677c;
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    .admin-okul-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .admin-okul-table tbody tr {
+        transition: .18s ease;
+    }
+
+    .admin-okul-table tbody tr:hover {
+        background: #f8fbff;
+    }
+
+    .admin-okul-id {
+        width: 70px;
+        color: #8092a5 !important;
+        font-weight: 650;
+    }
+
+    .admin-okul-name {
+        color: #1b416d !important;
+        font-weight: 700;
+    }
+
+    .admin-okul-name-wrap {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .admin-okul-mini-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: #edf6ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        flex-shrink: 0;
+    }
+
+    .admin-okul-address {
+        max-width: 360px;
+        line-height: 1.45;
+    }
+
+    .admin-okul-phone {
+        color: #60758a !important;
+        white-space: nowrap;
+    }
+
+    .admin-okul-actions {
+        white-space: nowrap;
+    }
+
+    .admin-okul-edit,
+    .admin-okul-delete {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 9px;
+        padding: 8px 11px;
+        font-size: 12px;
+        font-weight: 650;
+        text-decoration: none;
+        transition: .18s ease;
+    }
+
+    .admin-okul-edit {
+        background: #eef6ff;
+        border: 1px solid #d7e9fb;
+        color: #246ba9;
+        margin-right: 5px;
+    }
+
+    .admin-okul-edit:hover {
+        background: #dfeeff;
+        color: #175a96;
+    }
+
+    .admin-okul-delete {
+        background: #fff1f1;
+        border: 1px solid #f4dada;
+        color: #c24d55;
+    }
+
+    .admin-okul-delete:hover {
+        background: #ffe4e4;
+        color: #a9363f;
+    }
+
+    .admin-okul-empty {
+        padding: 55px 25px !important;
+        text-align: center;
+        color: #8496a9 !important;
+    }
+
+    .admin-okul-empty-icon {
+        font-size: 38px;
+        margin-bottom: 12px;
+        opacity: .7;
+    }
+
+    .admin-okul-empty-title {
+        display: block;
+        color: #526b84;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .admin-okul-empty-text {
+        display: block;
+        font-size: 13px;
+    }
+
+    @@media (max-width: 800px) {
+        .admin-okul-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .admin-okul-add {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .admin-okul-page {
+            padding: 5px 0 30px;
+        }
+
+        .admin-okul-title {
+            font-size: 24px;
+        }
+
+        .admin-okul-icon {
+            width: 48px;
+            height: 48px;
+        }
+    }
+</style>
+
+<div class="admin-okul-page">
+
+    @if (TempData["DeleteError"] != null)
+    {
+        <div class="admin-okul-alert admin-okul-alert-error">
+            <span class="admin-okul-alert-icon">!</span>
+            <span>@TempData["DeleteError"]</span>
+        </div>
+    }
+
+    @if (TempData["DeleteSuccess"] != null)
+    {
+        <div class="admin-okul-alert admin-okul-alert-success">
+            <span class="admin-okul-alert-icon">✓</span>
+            <span>@TempData["DeleteSuccess"]</span>
+        </div>
+    }
+
+    <div class="admin-okul-header">
+
+        <div class="admin-okul-title-area">
+
+            <div class="admin-okul-icon">
+                🏫
+            </div>
+
+            <div>
+
+                <h1 class="admin-okul-title">
+                    Okullar
+                </h1>
+
+                <p class="admin-okul-subtitle">
+                    Sistemde kayıtlı okulları görüntüleyin ve yönetin.
+                </p>
+
+            </div>
+
         </div>
 
-        <a asp-action="Create" class="btn btn-primary">
-            + Okul Ekle
+        <a asp-action="Create"
+           class="admin-okul-add">
+
+            <span>＋</span>
+            <span>Okul Ekle</span>
+
         </a>
+
     </div>
 
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Okul Adı</th>
-                <th>Adres</th>
-                <th>Telefon</th>
-                <th>İşlemler</th>
-            </tr>
-        </thead>
+    <div class="admin-okul-summary">
 
-        <tbody>
-            @foreach (var okul in Model)
-            {
-                <tr>
-                    <td>@okul.Id</td>
-                    <td>@okul.Ad</td>
-                    <td>@okul.Adres</td>
-                    <td>@okul.Telefon</td>
-                    <td>
-                        <a asp-action="Edit"
-                           asp-route-id="@okul.Id"
-                           class="btn btn-warning btn-sm">
-                            ✏️ Düzenle
-                        </a>
+        <span class="admin-okul-summary-badge">
+            @Model.Count()
+        </span>
 
-                        <form asp-action="Delete"
-                              method="post"
-                              style="display:inline;">
+        <span>
+            Kayıtlı okul
+        </span>
 
-                            <input type="hidden"
-                                   name="id"
-                                   value="@okul.Id" />
+    </div>
 
-                            <button type="submit"
-                                    class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Bu okulu silmek istediğinize emin misiniz?');">
-                                🗑️ Sil
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="admin-okul-table-card">
+
+        <div class="admin-okul-table-wrapper">
+
+            <table class="admin-okul-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Okul Adı</th>
+
+                        <th>Adres</th>
+
+                        <th>Telefon</th>
+
+                        <th>İşlemler</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model.Any())
+                    {
+                        @foreach (var okul in Model)
+                        {
+                            <tr>
+                                <td class="admin-okul-name">
+
+                                    <div class="admin-okul-name-wrap">
+
+                                        <div class="admin-okul-mini-icon">
+                                            🏫
+                                        </div>
+
+                                        <span>
+                                            @okul.Ad
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                                <td class="admin-okul-address">
+                                    @okul.Adres
+                                </td>
+
+                                <td class="admin-okul-phone">
+                                    @okul.Telefon
+                                </td>
+
+                                <td class="admin-okul-actions">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@okul.Id"
+                                       class="admin-okul-edit">
+
+                                        <span>✏️</span>
+                                        <span>Düzenle</span>
+
+                                    </a>
+
+
+
+
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td colspan="4"
+                                class="admin-okul-empty">
+
+                                <div class="admin-okul-empty-icon">
+                                    🏫
+                                </div>
+
+                                <span class="admin-okul-empty-title">
+                                    Henüz okul bulunmuyor
+                                </span>
+
+                                <span class="admin-okul-empty-text">
+                                    Yeni bir okul eklemek için "Okul Ekle" butonunu kullanabilirsiniz.
+                                </span>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>

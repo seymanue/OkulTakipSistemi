@@ -49,7 +49,7 @@ body {
 
 .attendance-header h1 {
     margin: 0;
-    color: #176b3a;
+    color: #9b593b;
     font-size: 38px;
     font-weight: 800;
 }
@@ -61,12 +61,12 @@ body {
 }
 
 .attendance-header p strong {
-    color: #176b3a;
+    color: #9b593b;
 }
 
 .back-button {
     text-decoration: none;
-    color: #176b3a;
+    color: #9b593b;
     background: #e7f3ea;
     border: 1px solid #cde5d3;
     padding: 11px 20px;
@@ -103,7 +103,7 @@ body {
 
 .attendance-card-header h2 {
     margin: 0;
-    color: #176b3a;
+    color: #9b593b;
     font-size: 21px;
     font-weight: 750;
 }
@@ -115,8 +115,8 @@ body {
 }
 
 .student-count {
-    background: #e5f2e8;
-    color: #176b3a;
+    background: #f0ddd1;
+    color: #9b593b;
     padding: 9px 15px;
     border-radius: 20px;
     font-size: 13px;
@@ -392,7 +392,7 @@ body {
 
 .profile-header h1 {
     margin: 0;
-    color: #176b3a;
+    color: #9b593b;
     font-size: 36px;
     font-weight: 800;
 }
@@ -405,7 +405,7 @@ body {
 
 .profile-back-button {
     text-decoration: none;
-    color: #176b3a;
+    color: #9b593b;
     background: #e7f3ea;
     border: 1px solid #cfe5d5;
     padding: 11px 18px;
@@ -416,7 +416,7 @@ body {
 
 .profile-back-button:hover {
     background: #d9eddf;
-    color: #176b3a;
+    color: #9b593b;
 }
 
 .profile-layout {
@@ -427,7 +427,7 @@ body {
 }
 
 .profile-summary {
-    background: #176b3a;
+    background: #9b593b;
     border-radius: 22px;
     padding: 42px 30px;
     color: white;
@@ -437,7 +437,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 25px rgba(23,107,58,.14);
+    box-shadow: 0 8px 25px rgba(91,48,31,.14);
 }
 
 .profile-avatar {
@@ -471,7 +471,7 @@ body {
 .profile-teacher-badge {
     display: inline-block;
     background: white;
-    color: #176b3a;
+    color: #9b593b;
     padding: 7px 16px;
     border-radius: 30px;
     font-size: 11px;
@@ -499,7 +499,7 @@ body {
     border: 1px solid #e1e7e2;
     border-radius: 22px;
     padding: 32px;
-    box-shadow: 0 5px 20px rgba(35,91,53,.06);
+    box-shadow: 0 5px 20px rgba(91,48,31,.06);
 }
 
 .profile-form-header {
@@ -515,7 +515,7 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 12px;
-    background: #e5f2e8;
+    background: #f0ddd1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -628,7 +628,7 @@ body {
     height: 34px;
     border-radius: 9px;
     background: #dcefe1;
-    color: #176b3a;
+    color: #9b593b;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -789,7 +789,7 @@ body {
 
 .attendance-header h1 {
     margin: 0;
-    color: #176b3a;
+    color: #9b593b;
     font-size: 40px;
     font-weight: 800;
 }
@@ -801,12 +801,12 @@ body {
 }
 
 .attendance-header p strong {
-    color: #176b3a;
+    color: #9b593b;
 }
 
 .back-button {
     text-decoration: none;
-    color: #176b3a;
+    color: #9b593b;
     background: #ffffff;
     border: 1px solid #dce7df;
     padding: 12px 18px;
@@ -856,7 +856,7 @@ body {
 
 .student-count {
     background: #e2f2e7;
-    color: #176b3a;
+    color: #9b593b;
     padding: 9px 15px;
     border-radius: 20px;
     font-size: 13px;
@@ -1720,7 +1720,13 @@ body.teacher-layout {
     background:
         radial-gradient(circle at 8% 10%, rgba(255, 221, 190, .28), transparent 28%),
         radial-gradient(circle at 92% 88%, rgba(91, 48, 31, .24), transparent 32%),
-        linear-gradient(135deg, #c98a65 0%, #b87854 43%, #9a6248 72%, #81503e 100%) !important;
+        linear-gradient(
+            135deg,
+            #e8b08a 0%,
+            #dda078 43%,
+            #d5946d 72%,
+            #cc8965 100%
+        ) !important;
     min-height: 100vh;
 }
 
@@ -1872,8 +1878,12 @@ body.teacher-layout main {
     gap: 32px;
     border-radius: 23px;
     background:
-        radial-gradient(circle at 53% 0%, rgba(255,255,255,.24), transparent 30%),
-        rgba(255, 247, 239, .88);
+        radial-gradient(circle at 53% 0%, rgba(255,255,255,.42), transparent 32%),
+        linear-gradient(
+            135deg,
+            rgba(255, 229, 207, .98),
+            rgba(250, 210, 177, .94)
+        );
     border: 1px solid rgba(255,255,255,.60);
     box-shadow: 0 18px 40px rgba(83, 43, 27, .14);
     overflow: hidden;
@@ -2896,5 +2906,2104 @@ body:has(.teacher-profile-page) main {
 .teacher-profile-page .profile-input-wrapper > svg polyline {
     stroke: #7a4935 !important;
     fill: none !important;
+}
+
+
+/* Hızlı İşlemler - 3 kart aynı renk */
+.teacher-layout .action-card,
+.teacher-layout .action-card:nth-child(1),
+.teacher-layout .action-card:nth-child(2),
+.teacher-layout .action-card:nth-child(3) {
+    background: rgba(255, 252, 248, 0.92) !important;
+    border-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.teacher-layout .action-card:hover {
+    background: rgba(255, 250, 245, 0.98) !important;
+}
+
+
+
+/* =========================================================
+   HIZLI İŞLEMLER — ÜÇ KART AYNI RENK
+   ========================================================= */
+
+body.teacher-layout .action-card,
+body.teacher-layout .action-card:nth-child(1),
+body.teacher-layout .action-card:nth-child(2),
+body.teacher-layout .action-card:nth-child(3) {
+    background: #fffaf5 !important;
+    border: 1px solid #ead8ca !important;
+    box-shadow: 0 8px 24px rgba(91, 48, 31, 0.08) !important;
+}
+
+body.teacher-layout .action-card:hover,
+body.teacher-layout .action-card:nth-child(1):hover,
+body.teacher-layout .action-card:nth-child(2):hover,
+body.teacher-layout .action-card:nth-child(3):hover {
+    background: #fffaf5 !important;
+    border-color: #dfc5b3 !important;
+}
+
+/* SINIF SAYFALARI - ÜST NAVBAR */
+body:has(.students-page) > .navbar,
+body:has(.students-page) nav.navbar,
+body:has(.students-page) .navbar {
+    background: linear-gradient(
+        135deg,
+        #8f4f32 0%,
+        #a95f3b 50%,
+        #b96c43 100%
+    ) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+body:has(.students-page) .navbar *,
+body:has(.students-page) .navbar a,
+body:has(.students-page) .navbar span {
+    color: #fff8f1 !important;
+}
+
+body:has(.students-page) .navbar a:hover {
+    color: #ffe2c7 !important;
+}
+
+/* Sınıf Öğrencileri üst barı ile aynı ton */
+body:has(.students-page) .students-topbar {
+    background: linear-gradient(
+        135deg,
+        #8f4f32 0%,
+        #a95f3b 50%,
+        #b96c43 100%
+    ) !important;
+}
+
+/* Sınıflarım ve Sınıf Öğrencileri - aynı geri dönüş butonu */
+.page-container .back-btn,
+.students-page .students-back-btn {
+    background: rgba(255, 245, 235, 0.14) !important;
+    color: #fff8f1 !important;
+    border: 1px solid rgba(255, 245, 235, 0.32) !important;
+}
+
+.page-container .back-btn:hover,
+.students-page .students-back-btn:hover {
+    background: rgba(255, 245, 235, 0.22) !important;
+}
+
+/* SINIFLARIM + SINIF ÖĞRENCİLERİ GERİ BUTONLARI
+   Aynı görünüm ve aynı renk */
+.page-container .back-btn,
+.students-page .students-back-btn {
+    background: rgba(255, 245, 235, 0.14) !important;
+    color: #fff8f1 !important;
+    border: 1px solid rgba(255, 245, 235, 0.32) !important;
+    box-shadow: none !important;
+}
+
+.page-container .back-btn:hover,
+.students-page .students-back-btn:hover {
+    background: rgba(255, 245, 235, 0.22) !important;
+    color: #fff8f1 !important;
+}
+
+/* İki geri dönüş butonu aynı renk */
+.page-container .back-btn,
+.students-page .students-back-btn {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    border: 1px solid #8f4f32 !important;
+    box-shadow: 0 4px 12px rgba(91, 48, 31, 0.15) !important;
+}
+
+.page-container .back-btn:hover,
+.students-page .students-back-btn:hover {
+    background: #8f4f32 !important;
+    color: #fff8f1 !important;
+}
+
+/* GERİ BUTONLARI - BİREBİR AYNI RENK */
+.page-container .back-btn,
+.students-page .students-back-btn,
+.page-container .back-btn:hover,
+.students-page .students-back-btn:hover,
+.page-container .back-btn:focus,
+.students-page .students-back-btn:focus,
+.page-container .back-btn:active,
+.students-page .students-back-btn:active {
+    background: #A95F3B !important;
+    background-image: none !important;
+    color: #FFF8F1 !important;
+    border: 1px solid #A95F3B !important;
+    box-shadow: none !important;
+}
+
+/* GERİ BUTONLARI - BİREBİR AYNI */
+.top-bar > .back-btn,
+.students-topbar > a {
+    background: #a95f3b !important;
+    background-image: none !important;
+    color: #fff8f1 !important;
+    border: 1px solid #a95f3b !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+.top-bar > .back-btn:hover,
+.students-topbar > a:hover {
+    background: #a95f3b !important;
+    background-image: none !important;
+    color: #fff8f1 !important;
+    border-color: #a95f3b !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+.top-bar > .back-btn svg,
+.students-topbar > a svg {
+    stroke: #fff8f1 !important;
+}
+
+/* SINIFLARIM + SINIF ÖĞRENCİLERİ GERİ BUTONLARI - AYNI RENK */
+.page-container > .top-bar > .back-btn,
+.students-page .students-topbar > a,
+.students-page .students-topbar .students-back-btn {
+    background: #a95f3b !important;
+    background-color: #a95f3b !important;
+    background-image: none !important;
+    color: #fff8f1 !important;
+    border: 1px solid #a95f3b !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+.page-container > .top-bar > .back-btn:hover,
+.students-page .students-topbar > a:hover,
+.students-page .students-topbar .students-back-btn:hover {
+    background: #a95f3b !important;
+    background-color: #a95f3b !important;
+    background-image: none !important;
+    color: #fff8f1 !important;
+    border-color: #a95f3b !important;
+    box-shadow: none !important;
+}
+
+.page-container > .top-bar > .back-btn svg,
+.students-page .students-topbar > a svg,
+.students-page .students-topbar .students-back-btn svg {
+    stroke: #fff8f1 !important;
+}
+
+
+/* Geri butonları — Yoklama Al butonlarıyla aynı sıcak turuncu */
+.page-container > .top-bar > .back-btn,
+.students-page .students-topbar > a,
+.students-page .students-topbar .students-back-btn {
+    background: #a96849 !important;
+    background-color: #a96849 !important;
+    background-image: none !important;
+    color: #fff !important;
+    border: 1px solid #a96849 !important;
+    box-shadow: none !important;
+}
+
+.page-container > .top-bar > .back-btn:hover,
+.students-page .students-topbar > a:hover,
+.students-page .students-topbar .students-back-btn:hover {
+    background: #a96849 !important;
+    background-color: #a96849 !important;
+    background-image: none !important;
+    color: #fff !important;
+    border-color: #a96849 !important;
+    box-shadow: none !important;
+}
+
+.page-container > .top-bar > .back-btn svg,
+.students-page .students-topbar > a svg,
+.students-page .students-topbar .students-back-btn svg {
+    stroke: #fff !important;
+}
+
+
+/* TÜM YOKLAMA AL BUTONLARI AYNI RENK */
+.classes-grid .class-card a[href*="Yoklama"],
+.classes-grid .class-card a[href*="yoklama"],
+.classes-grid .class-card .attendance-btn,
+.classes-grid .class-card .class-attendance-btn,
+.classes-grid .class-card button {
+    background: #b86a48 !important;
+    background-color: #b86a48 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    border-color: #b86a48 !important;
+}
+
+.classes-grid .class-card a[href*="Yoklama"]:hover,
+.classes-grid .class-card a[href*="yoklama"]:hover,
+.classes-grid .class-card .attendance-btn:hover,
+.classes-grid .class-card .class-attendance-btn:hover,
+.classes-grid .class-card button:hover {
+    background: #b86a48 !important;
+    background-color: #b86a48 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    border-color: #b86a48 !important;
+}
+
+
+/* =========================================================
+   YOKLAMA SAYFASI - LAYOUT DÜZELTME
+   ========================================================= */
+
+body.attendance-layout {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh;
+}
+
+body.attendance-layout > header {
+    display: none !important;
+}
+
+body.attendance-layout > .container-fluid {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.attendance-layout main {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.attendance-layout .attendance-page {
+    width: 100% !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 30px 0 60px !important;
+}
+
+body.attendance-layout .attendance-page .page-header {
+    margin-top: 0 !important;
+}
+
+
+/* YOKLAMA - KENAR BOŞLUKLARINI KALDIR */
+body.attendance-layout,
+body.attendance-layout html {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+body.attendance-layout > .container-fluid {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.attendance-layout > .container-fluid > main {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.attendance-layout .attendance-page {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 30px 40px 50px !important;
+}
+
+body.attendance-layout .attendance-page .container {
+    width: 100% !important;
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+
+/* =========================================================
+   YOKLAMA SAYFASI - SON TEMİZ DÜZEN
+   ========================================================= */
+
+html:has(body.attendance-layout),
+body.attendance-layout {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    background: #f5eee8 !important;
+}
+
+body.attendance-layout > header {
+    display: none !important;
+}
+
+body.attendance-layout > .container-fluid,
+body.attendance-layout > .container-fluid > main {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.attendance-layout .attendance-page {
+    width: 100% !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 24px 32px 40px !important;
+    background: #f5eee8 !important;
+}
+
+body.attendance-layout .attendance-page > .container {
+    width: min(1120px, 100%) !important;
+    max-width: 1120px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+body.attendance-layout .attendance-page .page-header {
+    width: 100% !important;
+    min-height: 126px !important;
+    margin: 0 0 22px !important;
+    padding: 22px 26px !important;
+    background: #9b593b !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 22px rgba(91,48,31,.14) !important;
+}
+
+body.attendance-layout .attendance-page .page-header-inner {
+    min-height: 80px !important;
+}
+
+body.attendance-layout .attendance-page h1 {
+    margin: 0 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+    letter-spacing: -.3px !important;
+}
+
+body.attendance-layout .attendance-page .class-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    width: 100% !important;
+}
+
+body.attendance-layout .attendance-page .class-card {
+    min-height: 190px !important;
+    padding: 22px !important;
+    border-radius: 16px !important;
+}
+
+body.attendance-layout .attendance-page .class-icon {
+    width: 54px !important;
+    height: 54px !important;
+    margin-bottom: 14px !important;
+}
+
+body.attendance-layout .attendance-page .class-info h2 {
+    font-size: 20px !important;
+    line-height: 1.25 !important;
+    margin-bottom: 6px !important;
+}
+
+body.attendance-layout .attendance-page .class-info p {
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+}
+
+body.attendance-layout .attendance-page .back-btn {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+
+@media (max-width: 900px) {
+    body.attendance-layout .attendance-page {
+        padding: 20px !important;
+    }
+
+    body.attendance-layout .attendance-page .class-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    body.attendance-layout .attendance-page {
+        padding: 16px !important;
+    }
+
+    body.attendance-layout .attendance-page .class-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+
+
+/* Öğretmen paneli - isim ve alt çizgi */
+.teacher-layout .welcome-title {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    margin: 0 !important;
+}
+
+.teacher-layout .welcome-greeting {
+    display: block !important;
+}
+
+.teacher-layout .welcome-name {
+    position: relative !important;
+    display: inline-block !important;
+    width: fit-content !important;
+    padding: 0 !important;
+    margin-top: 5px !important;
+    border: 0 !important;
+    line-height: 1.05 !important;
+}
+
+.teacher-layout .welcome-name::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    bottom: -20px !important;
+    width: 100% !important;
+    height: 5px !important;
+    border-radius: 5px !important;
+    background: #b85d2b !important;
+}
+
+/* İsim - çizgi - açıklama aralıkları */
+.teacher-layout .welcome-name {
+    display: inline-block !important;
+    width: fit-content !important;
+    padding-bottom: 16px !important;
+    border-bottom: 5px solid #b85d2b !important;
+    line-height: 1.05 !important;
+    margin-bottom: 10px !important;
+}
+
+.teacher-layout .welcome-message {
+    margin-top: 4px !important;
+}
+
+/* İsim - çizgi - açıklama aralıkları */
+.teacher-layout .welcome-name {
+    display: inline-block !important;
+    width: fit-content !important;
+    padding-bottom: 16px !important;
+    border-bottom: 5px solid #b85d2b !important;
+    line-height: 1.05 !important;
+    margin-bottom: 10px !important;
+}
+
+.teacher-layout .welcome-message {
+    margin-top: 4px !important;
+}
+
+/* Karşılama alanındaki ikinci çizgiyi kaldır */
+.teacher-layout .welcome-message {
+    border-top: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.teacher-layout .welcome-message::before,
+.teacher-layout .welcome-message::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* İSİM ALTINDA TEK ÇİZGİ */
+.teacher-layout .welcome-name {
+    position: relative !important;
+    display: inline-block !important;
+    width: fit-content !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    line-height: 1.05 !important;
+}
+
+.teacher-layout .welcome-name::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    bottom: -14px !important;
+    width: 100% !important;
+    height: 5px !important;
+    border-radius: 5px !important;
+    background: #b85d2b !important;
+}
+
+.teacher-layout .welcome-message {
+    margin-top: 22px !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Öğretmen bilgileri - Kaydet butonu */
+.save-profile-button {
+    background: #a95f3b !important;
+    background-image: none !important;
+    color: #fff8f1 !important;
+    border: 1px solid #a95f3b !important;
+}
+
+.save-profile-button:hover,
+.save-profile-button:focus,
+.save-profile-button:active {
+    background: #8f4f32 !important;
+    background-image: none !important;
+    color: #fff8f1 !important;
+    border-color: #8f4f32 !important;
+}
+
+.save-profile-button svg {
+    stroke: #fff8f1 !important;
+}
+
+/* Öğretmen profilindeki yeşil avatar alanı */
+.profile-avatar {
+    background: #ead4c5 !important;
+    background-image: none !important;
+    color: #9b593b !important;
+    border-color: #dfc0ad !important;
+}
+
+.profile-avatar svg {
+    stroke: #9b593b !important;
+    fill: none !important;
+}
+
+/* Öğretmen profilindeki yeşil avatar alanını kaldır */
+.teacher-profile-page .profile-avatar,
+.profile-page .profile-avatar,
+.profile-avatar {
+    background: #ead4c5 !important;
+    background-color: #ead4c5 !important;
+    background-image: none !important;
+    border-color: #d7b9a8 !important;
+    color: #9b593b !important;
+    box-shadow: none !important;
+}
+
+.profile-avatar svg {
+    stroke: #9b593b !important;
+    fill: none !important;
+}
+
+/* Öğretmen Bilgileri - sol profil alanı renk uyumu */
+.profile-summary {
+    background: linear-gradient(145deg, #8f4f32 0%, #a95f3b 55%, #b96c43 100%) !important;
+    background-image: none !important;
+    color: #fff8f1 !important;
+    border-color: #8f4f32 !important;
+}
+
+.profile-summary .profile-avatar {
+    background: rgba(255, 238, 222, 0.18) !important;
+    background-color: rgba(255, 238, 222, 0.18) !important;
+    border-color: rgba(255, 245, 235, 0.35) !important;
+    color: #ffe2c7 !important;
+}
+
+.profile-summary .profile-avatar svg,
+.profile-summary .profile-avatar svg * {
+    stroke: #ffe2c7 !important;
+    fill: none !important;
+}
+
+.profile-summary h2 {
+    color: #fff8f1 !important;
+}
+
+.profile-summary .profile-teacher-badge {
+    background: #ead4c5 !important;
+    color: #8f4f32 !important;
+    border-color: #ead4c5 !important;
+}
+
+.profile-summary .profile-summary-line {
+    background: rgba(255, 245, 235, 0.35) !important;
+}
+
+.profile-summary p {
+    color: #f5ddd0 !important;
+}
+
+/* Üst menüde öğretmen adı - sade görünüm */
+.teacher-layout .topbar-name {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.teacher-layout .topbar-name:hover {
+    text-decoration: none !important;
+    border-bottom: none !important;
+}
+
+/* Öğretmen adı - çıkış butonu gibi küçük baloncuk */
+.teacher-layout .topbar-name {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 42px !important;
+    padding: 0 18px !important;
+    border-radius: 12px !important;
+
+    background: rgba(255, 248, 241, 0.16) !important;
+    border: 1px solid rgba(255, 248, 241, 0.28) !important;
+
+    color: #fff8f1 !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    white-space: nowrap !important;
+}
+
+.teacher-layout .topbar-name:hover {
+    background: rgba(255, 248, 241, 0.22) !important;
+    color: #fff8f1 !important;
+    text-decoration: none !important;
+}
+
+/* Üst menü - sade öğretmen adı */
+.teacher-layout .topbar-name {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: auto !important;
+    padding: 4px 22px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #fff8f1 !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    white-space: nowrap !important;
+}
+
+/* İsim ile çıkış butonu arasındaki ayırıcı */
+.teacher-layout .topbar-name {
+    border-right: 1px solid rgba(255, 248, 241, 0.45) !important;
+    margin-right: 20px !important;
+    padding-right: 22px !important;
+}
+
+.teacher-layout .topbar-name:hover {
+    background: transparent !important;
+    color: #fff8f1 !important;
+    text-decoration: none !important;
+}
+
+/* İsim iki ayırıcının tam ortasında */
+.teacher-layout .topbar-name {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: auto !important;
+
+    padding: 4px 24px !important;
+    margin: 0 !important;
+
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    color: #fff8f1 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+}
+
+/* Sağdaki çizgi */
+.teacher-layout .topbar-name::after {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    right: -1px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 1px !important;
+    height: 34px !important;
+    background: rgba(255, 248, 241, 0.45) !important;
+}
+
+/* İsmin konumunu sabitle */
+.teacher-layout .topbar-name {
+    position: relative !important;
+    margin-left: 4px !important;
+    margin-right: 4px !important;
+}
+
+/* Üst menü: isim iki çizginin tam ortasında */
+.teacher-layout .topbar-name {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 4px 24px !important;
+    margin: 0 24px !important;
+
+    min-height: 36px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    color: #fff8f1 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+}
+
+/* İsmin solundaki çizgi */
+.teacher-layout .topbar-name::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    width: 1px !important;
+    height: 34px !important;
+    background: rgba(255, 248, 241, 0.45) !important;
+}
+
+/* İsmin sağındaki çizgi */
+.teacher-layout .topbar-name::after {
+    content: "" !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    width: 1px !important;
+    height: 34px !important;
+    background: rgba(255, 248, 241, 0.45) !important;
+}
+
+/* Önceki sağ kenarlık kuralını tamamen kapat */
+.teacher-layout .topbar-name {
+    border-right: none !important;
+}
+
+/* Üst menüde sadece isimden sonraki çizgi kalsın */
+.teacher-layout .topbar-divider {
+    display: none !important;
+}
+
+.teacher-layout .topbar-name::before {
+    display: none !important;
+    content: none !important;
+}
+
+/* İsimden sonraki tek çizgi */
+.teacher-layout .topbar-name::after {
+    display: block !important;
+    content: "" !important;
+    position: absolute !important;
+    right: -24px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 1px !important;
+    height: 34px !important;
+    background: rgba(255, 248, 241, 0.45) !important;
+}
+
+/* Öğretmen adı: iki tarafındaki çizgiler kalsın */
+.teacher-layout .topbar-name {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 4px 24px !important;
+    margin: 0 24px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #fff8f1 !important;
+    text-decoration: none !important;
+}
+
+.teacher-layout .topbar-name::before,
+.teacher-layout .topbar-name::after {
+    display: block !important;
+    content: "" !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 1px !important;
+    height: 34px !important;
+    background: rgba(255, 248, 241, 0.45) !important;
+}
+
+.teacher-layout .topbar-name::before {
+    left: 0 !important;
+}
+
+.teacher-layout .topbar-name::after {
+    right: 0 !important;
+}
+
+/* KARŞILAMA YAZILARI - SON RENK AYARI */
+body.teacher-layout .welcome-greeting {
+    color: #70412D !important;
+}
+
+body.teacher-layout .welcome-name {
+    color: #9A4F2C !important;
+}
+
+body.teacher-layout .welcome-name::after {
+    background: #D9783F !important;
+}
+
+body.teacher-layout .welcome-message {
+    color: #765D50 !important;
+}
+
+body.teacher-layout .welcome-sun {
+    color: #D9783F !important;
+}
+
+
+/* KARŞILAMA YAZILARI - DAHA AÇIK TON */
+body.teacher-layout .welcome-greeting {
+    color: #8A6858 !important;
+}
+
+body.teacher-layout .welcome-name {
+    color: #A9785E !important;
+}
+
+body.teacher-layout .welcome-name::after {
+    background: #E2A47E !important;
+}
+
+body.teacher-layout .welcome-message {
+    color: #8C756A !important;
+}
+
+body.teacher-layout .welcome-sun {
+    color: #E2A47E !important;
+}
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ - AÇIK KART RENKLERİ
+   BUGÜN KARTI + KARŞILAMA ALANI
+   ========================================================= */
+
+body.teacher-layout .teacher-hero {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 250, 245, .98),
+            rgba(247, 231, 216, .96)
+        ) !important;
+    border: 1px solid rgba(255, 255, 255, .75) !important;
+}
+
+/* BUGÜN kartı - istatistik kartlarıyla aynı açık ton */
+body.teacher-layout .today-card {
+    background:
+        linear-gradient(
+            135deg,
+            #fffaf5,
+            #f5e8dc
+        ) !important;
+    border: 1px solid rgba(255, 255, 255, .85) !important;
+    box-shadow:
+        0 12px 28px rgba(83, 43, 27, .10) !important;
+}
+
+/* Bugün başlığı */
+body.teacher-layout .today-title,
+body.teacher-layout .today-title span {
+    color: #7f543f !important;
+}
+
+/* Tarih */
+body.teacher-layout .today-header strong {
+    color: #81523b !important;
+}
+
+/* Saat / Gün / Ay / Yıl */
+body.teacher-layout .date-item strong {
+    color: #8d5639 !important;
+}
+
+body.teacher-layout .date-item small {
+    color: #8b7569 !important;
+}
+
+/* İkonlar */
+body.teacher-layout .today-card svg,
+body.teacher-layout .date-item svg {
+    stroke: #b56d43 !important;
+    color: #b56d43 !important;
+}
+
+/* Ayırıcı çizgiler */
+body.teacher-layout .today-divider {
+    background: rgba(151, 104, 77, .18) !important;
+}
+
+body.teacher-layout .date-item {
+    border-color: rgba(151, 104, 77, .18) !important;
+}
+
+/* Hoş geldiniz alanındaki yazılar */
+body.teacher-layout .welcome-greeting {
+    color: #806454 !important;
+}
+
+body.teacher-layout .welcome-name {
+    color: #9a6548 !important;
+}
+
+body.teacher-layout .welcome-name::after {
+    background: #d99a72 !important;
+}
+
+body.teacher-layout .welcome-message {
+    color: #89766b !important;
+}
+
+body.teacher-layout .welcome-sun {
+    color: #c9845c !important;
+}
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ - YATAY KAYDIRMAYI KALDIR
+   ========================================================= */
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden !important;
+}
+
+body.teacher-layout {
+    width: 100%;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+}
+
+body.teacher-layout .container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+}
+
+body.teacher-layout main {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+}
+
+body.teacher-layout .teacher-dashboard {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+}
+
+body.teacher-layout .teacher-hero,
+body.teacher-layout .teacher-stats,
+body.teacher-layout .action-grid,
+body.teacher-layout .quick-actions {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+body.teacher-layout img,
+body.teacher-layout svg {
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ - TAM EKRAN / YATAY TAŞMA KESİN ÇÖZÜM
+   ========================================================= */
+
+html {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: clip !important;
+}
+
+body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: clip !important;
+}
+
+body.teacher-layout {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: clip !important;
+}
+
+body.teacher-layout main,
+body.teacher-layout .container-fluid,
+body.teacher-layout .teacher-dashboard {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: clip !important;
+}
+
+/* Üst menü */
+body.teacher-layout .teacher-topbar {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Ana üst kart */
+body.teacher-layout .teacher-hero {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr) !important;
+}
+
+/* Karşılama alanı */
+body.teacher-layout .hero-welcome {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Bugün kartı */
+body.teacher-layout .today-card {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Tarih alanı */
+body.teacher-layout .date-details {
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+/* İstatistikler */
+body.teacher-layout .teacher-stats {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+body.teacher-layout .stat-card {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Kartların içindeki yazıların genişliği taşmasın */
+body.teacher-layout .stat-info,
+body.teacher-layout .stat-info span,
+body.teacher-layout .stat-info small {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+}
+
+/* Hızlı işlemler */
+body.teacher-layout .action-grid {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+body.teacher-layout .action-card {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Her şey kutunun dışına çıkamasın */
+body.teacher-layout * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Uzun yazılar yatay taşma oluşturmasın */
+body.teacher-layout h1,
+body.teacher-layout h2,
+body.teacher-layout h3,
+body.teacher-layout p,
+body.teacher-layout span,
+body.teacher-layout strong,
+body.teacher-layout small {
+    overflow-wrap: break-word;
+}
+
+/* Küçük ekran */
+@media (max-width: 1000px) {
+    body.teacher-layout .teacher-hero {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    body.teacher-layout .teacher-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    body.teacher-layout .action-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    body.teacher-layout .teacher-stats {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+}
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ - DAHA CANLI SICAK RENK PALETİ
+   ========================================================= */
+
+/* Sayfanın genel arka planı */
+body.teacher-layout {
+    background:
+        radial-gradient(
+            circle at 8% 10%,
+            rgba(255, 190, 130, .30),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 92% 88%,
+            rgba(194, 103, 49, .20),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #e7a36f 0%,
+            #d99563 45%,
+            #cf895b 72%,
+            #c77d51 100%
+        ) !important;
+}
+
+/* Ana karşılama alanı */
+body.teacher-layout .teacher-hero {
+    background:
+        linear-gradient(
+            135deg,
+            #fffaf4 0%,
+            #fff1e4 55%,
+            #ffe5d1 100%
+        ) !important;
+}
+
+/* Hoş geldiniz */
+body.teacher-layout .welcome-greeting {
+    color: #8c5a40 !important;
+}
+
+/* İsim */
+body.teacher-layout .welcome-name {
+    color: #b45f32 !important;
+}
+
+/* İsim altındaki çizgi */
+body.teacher-layout .welcome-name::after {
+    background: #e1844c !important;
+}
+
+/* Açıklama */
+body.teacher-layout .welcome-message {
+    color: #876657 !important;
+}
+
+/* Güneş ikonu */
+body.teacher-layout .welcome-sun {
+    color: #df7c42 !important;
+}
+
+/* BUGÜN kartı */
+body.teacher-layout .today-card {
+    background:
+        linear-gradient(
+            135deg,
+            #fff8f1 0%,
+            #ffead9 100%
+        ) !important;
+}
+
+/* Bugün başlığı */
+body.teacher-layout .today-title,
+body.teacher-layout .today-title span {
+    color: #a75b35 !important;
+}
+
+/* Tarih ve rakamlar */
+body.teacher-layout .today-header strong,
+body.teacher-layout .date-item strong {
+    color: #a9572f !important;
+}
+
+/* Alt açıklamalar */
+body.teacher-layout .date-item small {
+    color: #8b6959 !important;
+}
+
+/* Bugün ikonları */
+body.teacher-layout .today-card svg,
+body.teacher-layout .date-item svg {
+    stroke: #d8753d !important;
+    color: #d8753d !important;
+}
+
+/* İstatistik kartlarının ikonları */
+body.teacher-layout .stat-icon {
+    background: #fff0e3 !important;
+    color: #bd6337 !important;
+}
+
+/* İstatistik başlıkları */
+body.teacher-layout .stat-info span {
+    color: #76594b !important;
+}
+
+/* İstatistik rakamları */
+body.teacher-layout .stat-info strong {
+    color: #a9572f !important;
+}
+
+/* İstatistik açıklamaları */
+body.teacher-layout .stat-info small {
+    color: #91776a !important;
+}
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ — SON SICAK / MODERN RENK PALETİ
+   ========================================================= */
+
+body.teacher-layout {
+    background:
+        radial-gradient(
+            circle at 5% 5%,
+            rgba(255, 220, 188, .65),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 95% 95%,
+            rgba(225, 151, 105, .28),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #f0c7a8 0%,
+            #e9b796 48%,
+            #dfaa85 100%
+        ) !important;
+}
+
+/* Ana karşılama kutusu */
+body.teacher-layout .teacher-hero {
+    background:
+        linear-gradient(
+            135deg,
+            #fffdf9 0%,
+            #fff8f2 55%,
+            #fcebdd 100%
+        ) !important;
+    border-color: rgba(255,255,255,.9) !important;
+    box-shadow:
+        0 18px 42px rgba(119, 70, 45, .12) !important;
+}
+
+/* Hoş geldiniz */
+body.teacher-layout .welcome-greeting {
+    color: #765b4d !important;
+}
+
+/* İsim */
+body.teacher-layout .welcome-name {
+    color: #a85e3a !important;
+}
+
+/* İsim altındaki çizgi */
+body.teacher-layout .welcome-name::after {
+    background: #d98255 !important;
+}
+
+/* Açıklama */
+body.teacher-layout .welcome-message {
+    color: #806b60 !important;
+}
+
+/* Güneş */
+body.teacher-layout .welcome-sun {
+    color: #d98255 !important;
+}
+
+/* BUGÜN kartı */
+body.teacher-layout .today-card {
+    background:
+        linear-gradient(
+            145deg,
+            #fffdf9 0%,
+            #fff4eb 100%
+        ) !important;
+    border: 1px solid rgba(255,255,255,.95) !important;
+    box-shadow:
+        0 12px 30px rgba(119, 70, 45, .10) !important;
+}
+
+/* BUGÜN başlığı */
+body.teacher-layout .today-title,
+body.teacher-layout .today-title span {
+    color: #a85e3a !important;
+}
+
+/* Tarih */
+body.teacher-layout .today-header strong {
+    color: #8d5a43 !important;
+}
+
+/* Tarih rakamları */
+body.teacher-layout .date-item strong {
+    color: #a85e3a !important;
+}
+
+/* Saat / Gün / Ay / Yıl */
+body.teacher-layout .date-item small {
+    color: #92786a !important;
+}
+
+/* İkonlar */
+body.teacher-layout .today-card svg,
+body.teacher-layout .date-item svg {
+    stroke: #c8754d !important;
+}
+
+/* İstatistik kartları */
+body.teacher-layout .stat-card {
+    background: #fffdf9 !important;
+    border-color: rgba(232, 204, 184, .65) !important;
+    box-shadow:
+        0 10px 25px rgba(119, 70, 45, .08) !important;
+}
+
+/* İstatistik ikon kutuları */
+body.teacher-layout .stat-icon {
+    background: #fce9db !important;
+    color: #b86640 !important;
+}
+
+/* İstatistik başlıkları */
+body.teacher-layout .stat-info span {
+    color: #795f51 !important;
+}
+
+/* İstatistik rakamları */
+body.teacher-layout .stat-info strong {
+    color: #a85e3a !important;
+}
+
+/* İstatistik açıklamaları */
+body.teacher-layout .stat-info small {
+    color: #92796b !important;
+}
+
+
+body.teacher-layout {
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(255, 255, 255, .65),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #F8EEE8 0%,
+            #F5E8DE 50%,
+            #F1E1D6 100%
+        ) !important;
+}
+
+
+/* Üst menü - Okul Takip Sistemi yazısı */
+body.teacher-layout .teacher-brand,
+body.teacher-layout .teacher-brand span {
+    color: #f9eee6 !important;
+}
+
+body.teacher-layout .teacher-brand:hover,
+body.teacher-layout .teacher-brand:hover span {
+    color: #fff8f3 !important;
+}
+
+
+/* ÜST MENÜ - DAHA AÇIK RENK */
+body.teacher-layout .teacher-topbar {
+    background:
+        linear-gradient(
+            135deg,
+            #f3d0b8 0%,
+            #edc2a5 50%,
+            #e7b593 100%
+        ) !important;
+
+    border-color: rgba(255,255,255,.65) !important;
+    box-shadow:
+        0 8px 25px rgba(119,70,45,.10) !important;
+}
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ — DAHA CANLI SICAK PALET
+   ========================================================= */
+
+/* ÜST BAR */
+body.teacher-layout .teacher-topbar {
+    background:
+        linear-gradient(
+            135deg,
+            #e9a06d 0%,
+            #df8d5b 50%,
+            #d67e4d 100%
+        ) !important;
+    border-color: rgba(255,255,255,.55) !important;
+    box-shadow: 0 8px 24px rgba(137,72,42,.15) !important;
+}
+
+/* ÜST BAR YAZILARI */
+body.teacher-layout .teacher-brand,
+body.teacher-layout .teacher-brand span,
+body.teacher-layout .topbar-name {
+    color: #fff8f2 !important;
+}
+
+body.teacher-layout .topbar-logout {
+    color: #fff8f2 !important;
+}
+
+/* ANA ARKA PLAN */
+body.teacher-layout {
+    background:
+        radial-gradient(
+            circle at 8% 8%,
+            rgba(255,255,255,.72),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 92% 90%,
+            rgba(218,126,75,.22),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f7e8dc 0%,
+            #f3ddd0 50%,
+            #eed4c3 100%
+        ) !important;
+}
+
+/* ANA KARŞILAMA KARTI */
+body.teacher-layout .teacher-hero {
+    background:
+        linear-gradient(
+            135deg,
+            #fffdf9 0%,
+            #fff6ed 55%,
+            #ffe5d3 100%
+        ) !important;
+}
+
+/* HOŞ GELDİNİZ */
+body.teacher-layout .welcome-greeting {
+    color: #80543e !important;
+}
+
+body.teacher-layout .welcome-name {
+    color: #c36638 !important;
+}
+
+body.teacher-layout .welcome-name::after {
+    background: #e47d46 !important;
+}
+
+body.teacher-layout .welcome-message {
+    color: #806256 !important;
+}
+
+body.teacher-layout .welcome-sun {
+    color: #e17b42 !important;
+}
+
+/* BUGÜN KARTI */
+body.teacher-layout .today-card {
+    background:
+        linear-gradient(
+            135deg,
+            #fffaf5 0%,
+            #ffe8d6 100%
+        ) !important;
+}
+
+body.teacher-layout .today-title,
+body.teacher-layout .today-title span {
+    color: #b75b32 !important;
+}
+
+body.teacher-layout .today-header strong,
+body.teacher-layout .date-item strong {
+    color: #c26336 !important;
+}
+
+body.teacher-layout .date-item small {
+    color: #8a6859 !important;
+}
+
+body.teacher-layout .today-card svg,
+body.teacher-layout .date-item svg {
+    stroke: #db713c !important;
+}
+
+/* İSTATİSTİK KARTLARI */
+body.teacher-layout .stat-card {
+    background: #fffdf9 !important;
+    border-color: #efd7c6 !important;
+}
+
+body.teacher-layout .stat-icon {
+    background: #ffe5d3 !important;
+    color: #c56738 !important;
+}
+
+body.teacher-layout .stat-info strong {
+    color: #c26336 !important;
+}
+
+body.teacher-layout .stat-info span {
+    color: #795b4d !important;
+}
+
+body.teacher-layout .stat-info small {
+    color: #92776a !important;
+}
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ — CANLI VE SICAK RENK PALETİ
+   ========================================================= */
+
+body.teacher-layout {
+    background:
+        radial-gradient(
+            circle at 8% 8%,
+            rgba(255, 196, 139, .55),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 92% 90%,
+            rgba(203, 91, 42, .25),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #f1b27f 0%,
+            #e9a06c 45%,
+            #df8e5c 100%
+        ) !important;
+}
+
+/* ÜST BAR */
+body.teacher-layout .teacher-topbar {
+    background:
+        linear-gradient(
+            135deg,
+            #d96f32 0%,
+            #c95d29 55%,
+            #b95027 100%
+        ) !important;
+
+    border-color: rgba(255,255,255,.35) !important;
+    box-shadow: 0 10px 28px rgba(121,55,28,.22) !important;
+}
+
+/* ÜST BAR YAZILARI */
+body.teacher-layout .teacher-brand,
+body.teacher-layout .teacher-brand span,
+body.teacher-layout .topbar-name,
+body.teacher-layout .topbar-logout {
+    color: #fffaf5 !important;
+}
+
+/* ANA KARŞILAMA ALANI */
+body.teacher-layout .teacher-hero {
+    background:
+        linear-gradient(
+            135deg,
+            #fffaf3 0%,
+            #ffecd9 50%,
+            #ffd9bd 100%
+        ) !important;
+
+    border-color: rgba(255,255,255,.8) !important;
+    box-shadow: 0 18px 42px rgba(120,60,30,.16) !important;
+}
+
+/* HOŞ GELDİNİZ */
+body.teacher-layout .welcome-greeting {
+    color: #74462f !important;
+}
+
+body.teacher-layout .welcome-name {
+    color: #bd572b !important;
+}
+
+body.teacher-layout .welcome-name::after {
+    background: #e26f35 !important;
+}
+
+body.teacher-layout .welcome-message {
+    color: #765547 !important;
+}
+
+body.teacher-layout .welcome-sun {
+    color: #e36d32 !important;
+}
+
+/* BUGÜN KARTI */
+body.teacher-layout .today-card {
+    background:
+        linear-gradient(
+            135deg,
+            #fff9f1 0%,
+            #ffe2ca 100%
+        ) !important;
+
+    border-color: rgba(255,255,255,.85) !important;
+    box-shadow: 0 12px 30px rgba(119,59,31,.13) !important;
+}
+
+body.teacher-layout .today-title,
+body.teacher-layout .today-title span {
+    color: #a94b27 !important;
+}
+
+body.teacher-layout .today-header strong {
+    color: #934625 !important;
+}
+
+body.teacher-layout .date-item strong {
+    color: #b9552b !important;
+}
+
+body.teacher-layout .date-item small {
+    color: #795c4d !important;
+}
+
+body.teacher-layout .today-card svg,
+body.teacher-layout .date-item svg {
+    stroke: #d9652f !important;
+}
+
+/* İSTATİSTİK KARTLARI */
+body.teacher-layout .stat-card {
+    background: #fffaf5 !important;
+    border-color: #e9c5aa !important;
+    box-shadow: 0 10px 25px rgba(120,60,30,.12) !important;
+}
+
+body.teacher-layout .stat-icon {
+    background: #ffd9bf !important;
+    color: #c45b2d !important;
+}
+
+body.teacher-layout .stat-info span {
+    color: #704f40 !important;
+}
+
+body.teacher-layout .stat-info strong {
+    color: #bd572b !important;
+}
+
+body.teacher-layout .stat-info small {
+    color: #8a6b5b !important;
+}
+
+/* KART HOVER */
+body.teacher-layout .stat-card:hover {
+    border-color: #df8050 !important;
+    box-shadow: 0 15px 30px rgba(120,60,30,.17) !important;
+}
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ — KREM ALT ARKA PLAN + ÇIKIŞ YAZISI
+   ========================================================= */
+
+/* Kartların bulunduğu alt bölüm / sayfa zemini */
+body.teacher-layout {
+    background:
+        radial-gradient(
+            circle at 8% 5%,
+            rgba(255, 224, 196, .55),
+            transparent 28%
+        ),
+        linear-gradient(
+            180deg,
+            #f8eee5 0%,
+            #f5ebe2 45%,
+            #f2e7dc 100%
+        ) !important;
+}
+
+/* Çıkış Yap yazısı kesin görünür */
+body.teacher-layout .topbar-logout {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    color: #ffffff !important;
+    background: #c95d2c !important;
+    border: 1px solid #c95d2c !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+body.teacher-layout .topbar-logout span {
+    display: inline !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+body.teacher-layout .topbar-logout svg {
+    display: block !important;
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+body.teacher-layout .topbar-logout:hover {
+    background: #b94f25 !important;
+    color: #ffffff !important;
+}
+
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ - EK RESPONSIVE DÜZEN
+   Mevcut tasarıma dokunmaz, sadece ekran küçüldüğünde
+   elemanların düzgün yerleşmesini sağlar.
+   ========================================================= */
+
+/* ORTA EKRANLAR */
+@media (max-width: 1100px) and (min-width: 761px) {
+
+    .teacher-dashboard {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .teacher-topbar {
+        gap: 18px;
+    }
+
+    .teacher-hero {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 30px;
+    }
+
+    .hero-welcome {
+        padding-left: 10px;
+    }
+
+    .today-card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .teacher-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .stat-card {
+        min-width: 0;
+    }
+
+    .action-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .action-card {
+        min-width: 0;
+    }
+}
+
+
+/* DAHA DAR EKRANLAR */
+@media (max-width: 900px) and (min-width: 761px) {
+
+    .teacher-dashboard {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .teacher-topbar {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .teacher-brand {
+        font-size: 19px;
+    }
+
+    .teacher-hero {
+        padding: 26px 24px;
+    }
+
+    .hero-welcome h1 {
+        font-size: 42px;
+    }
+
+    .today-card {
+        padding: 22px 20px;
+    }
+
+    .date-details {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 18px;
+    }
+
+    .stat-info span {
+        font-size: 14px;
+    }
+
+    .stat-info strong {
+        font-size: 27px;
+    }
+}
+
+
+/* TELEFON / ÇOK DAR EKRAN */
+@media (max-width: 600px) {
+
+    .teacher-dashboard {
+        width: 100%;
+        padding: 10px 10px 18px;
+        overflow-x: hidden;
+    }
+
+    .teacher-topbar {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .teacher-brand {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .teacher-topbar-right {
+        min-width: 0;
+    }
+
+    .teacher-hero {
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .hero-welcome h1 {
+        font-size: clamp(30px, 8vw, 38px);
+    }
+
+    .welcome-message {
+        font-size: 14px;
+    }
+
+    .today-card {
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .date-details {
+        width: 100%;
+    }
+
+    .date-item {
+        min-width: 0;
+    }
+
+    .date-item strong {
+        font-size: 22px;
+    }
+
+    .stat-card,
+    .action-card {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .quick-actions {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
+/* HİÇBİR GENİŞLİKTE YATAY TAŞMA OLMASIN */
+body.teacher-layout {
+    overflow-x: hidden;
+}
+
+body.teacher-layout .teacher-dashboard,
+body.teacher-layout .teacher-hero,
+body.teacher-layout .teacher-stats,
+body.teacher-layout .quick-actions,
+body.teacher-layout .action-grid {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   ÖĞRETMEN PANELİ - EKRAN BOYUTU DEĞİŞİNCE DÜZEN SABİT
+   ========================================================= */
+
+@media (max-width: 1100px) {
+    .teacher-dashboard {
+        padding-left: 34px !important;
+        padding-right: 34px !important;
+    }
+
+    .teacher-hero {
+        grid-template-columns: 1.25fr .9fr !important;
+        gap: 35px !important;
+        padding: 38px 42px !important;
+    }
+
+    .teacher-stats {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 17px !important;
+    }
+
+    .action-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 15px !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .teacher-dashboard {
+        padding-left: 34px !important;
+        padding-right: 34px !important;
+    }
+
+    .teacher-hero {
+        padding: 38px 42px !important;
+    }
+
+    .hero-welcome h1 {
+        font-size: 48px !important;
+    }
+
+    .today-card {
+        padding: 28px 26px !important;
+    }
+
+    .stat-card {
+        padding: 20px !important;
+    }
+
+    .stat-info span {
+        font-size: 14px !important;
+    }
+
+    .stat-info strong {
+        font-size: 28px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .teacher-dashboard {
+        width: 100% !important;
+        min-width: 1120px !important;
+        padding: 30px 34px 45px !important;
+        box-sizing: border-box !important;
+    }
+
+    .teacher-hero {
+        min-width: 1050px !important;
+        grid-template-columns: 1.25fr .9fr !important;
+    }
+
+    .teacher-stats {
+        min-width: 1050px !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+
+    .quick-actions {
+        min-width: 1050px !important;
+    }
+
+    .action-grid {
+        min-width: 1050px !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+
+/* =========================================================
+   ÖĞRETMEN + YÖNETİCİ TÜM PANEL SAYFALARI
+   Pencere boyutu değişince masaüstü yerleşimi korunur.
+   ========================================================= */
+
+html:has(body.teacher-layout) {
+    min-width: 1200px !important;
+}
+
+body.teacher-layout {
+    min-width: 1200px !important;
+}
+
+body.teacher-layout .teacher-dashboard {
+    min-width: 1200px !important;
 }
 

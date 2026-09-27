@@ -1,152 +1,408 @@
 @model IEnumerable<OkulTakipSistemi.Models.Sinif>
 
-<div class="container mt-4">
+@{
+    ViewData["Title"] = "Sınıflar";
+}
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2>Sınıflar</h2>
-            <p class="text-muted mb-0">
-                Okullara bağlı sınıfları yönetin.
-            </p>
+<style>
+    .sinif-page {
+        padding: 30px 38px 40px;
+    }
+
+    .sinif-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 28px;
+    }
+
+    .sinif-title-area {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .sinif-title-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #62afe4, #1e5b99);
+        color: white;
+        font-size: 24px;
+        box-shadow: 0 8px 20px rgba(30, 91, 153, .18);
+    }
+
+    .sinif-title {
+        margin: 0;
+        color: #17375e;
+        font-size: 27px;
+        font-weight: 700;
+    }
+
+    .sinif-subtitle {
+        margin: 5px 0 0;
+        color: #8a9bad;
+        font-size: 13px;
+    }
+
+    .sinif-add-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 18px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #2878e8, #174ea6);
+        color: white;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: 0 6px 16px rgba(23, 78, 166, .18);
+        transition: .2s ease;
+    }
+
+    .sinif-add-btn:hover {
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(23, 78, 166, .24);
+    }
+
+    .sinif-summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 16px;
+        padding: 9px 14px;
+        border-radius: 10px;
+        background: #edf6ff;
+        color: #315f8d;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .sinif-summary-icon {
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 7px;
+        background: #d8ecff;
+    }
+
+    .sinif-card {
+        background: white;
+        border: 1px solid #e5edf4;
+        border-radius: 17px;
+        box-shadow: 0 7px 25px rgba(38, 67, 95, .07);
+        overflow: hidden;
+    }
+
+    .sinif-table {
+        width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+    }
+
+    .sinif-table thead {
+        background: #f5f9fd;
+    }
+
+    .sinif-table th {
+        padding: 15px 20px;
+        border-bottom: 1px solid #e4ecf3;
+        color: #7890a5;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+    }
+
+    .sinif-table td {
+        padding: 17px 20px;
+        border-bottom: 1px solid #edf1f5;
+        color: #34495e;
+        font-size: 13px;
+        vertical-align: middle;
+    }
+
+    .sinif-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .sinif-table tbody tr {
+        transition: background .18s ease;
+    }
+
+    .sinif-table tbody tr:hover {
+        background: #f9fbfe;
+    }
+
+    .sinif-name {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        color: #203c59;
+        font-weight: 650;
+    }
+
+    .sinif-name-icon {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: #edf6ff;
+        color: #2671b7;
+        font-size: 16px;
+    }
+
+    .sinif-school {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #526b82;
+        font-weight: 550;
+    }
+
+    .sinif-school-icon {
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        background: #f0f5fa;
+        font-size: 14px;
+    }
+
+    .sinif-edit-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 13px;
+        border-radius: 8px;
+        background: #eef6ff;
+        color: #2867a3;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 600;
+        transition: .2s ease;
+    }
+
+    .sinif-edit-btn:hover {
+        background: #dceeff;
+        color: #174f85;
+    }
+
+    .sinif-empty {
+        padding: 55px 20px !important;
+        text-align: center;
+    }
+
+    .sinif-empty-icon {
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        background: #edf6ff;
+        font-size: 25px;
+    }
+
+    .sinif-empty-title {
+        margin-bottom: 5px;
+        color: #38546f;
+        font-size: 15px;
+        font-weight: 650;
+    }
+
+    .sinif-empty-text {
+        color: #91a0ae;
+        font-size: 12px;
+    }
+
+    @@media (max-width: 800px) {
+        .sinif-page {
+            padding: 22px 18px 30px;
+        }
+
+        .sinif-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .sinif-add-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .sinif-card {
+            overflow-x: auto;
+        }
+
+        .sinif-table {
+            min-width: 600px;
+        }
+    }
+</style>
+
+<div class="sinif-page">
+
+    <div class="sinif-header">
+
+        <div class="sinif-title-area">
+
+            <div class="sinif-title-icon">
+                📚
+            </div>
+
+            <div>
+                <h1 class="sinif-title">
+                    Sınıflar
+                </h1>
+
+                <p class="sinif-subtitle">
+                    Sistemde kayıtlı sınıfları görüntüleyin ve yönetin.
+                </p>
+            </div>
+
         </div>
 
         <a asp-controller="Sinif"
            asp-action="Create"
-           class="btn btn-primary">
-            ➕ Yeni Sınıf Ekle
+           class="sinif-add-btn">
+            <span>＋</span>
+            <span>Sınıf Ekle</span>
         </a>
+
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
 
-            <table class="table table-bordered table-hover align-middle">
+    <div class="sinif-summary">
 
-                <thead>
+        <span class="sinif-summary-icon">
+            📚
+        </span>
+
+        <span>
+            Toplam @Model.Count() sınıf
+        </span>
+
+    </div>
+
+
+    <div class="sinif-card">
+
+        <table class="sinif-table">
+
+            <thead>
+                <tr>
+                    <th>Sınıf</th>
+                    <th>Bağlı Olduğu Okul</th>
+                    <th style="width: 130px;">İşlem</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (!Model.Any())
+                {
                     <tr>
-                        <th>ID</th>
-                        <th>Sınıf Adı</th>
-                        <th>Okul</th>
-                        <th>Durum</th>
-                        <th style="width: 280px;">İşlemler</th>
+                        <td colspan="3" class="sinif-empty">
+
+                            <div class="sinif-empty-icon">
+                                📚
+                            </div>
+
+                            <div class="sinif-empty-title">
+                                Henüz sınıf bulunmuyor
+                            </div>
+
+                            <div class="sinif-empty-text">
+                                Yeni bir sınıf ekleyerek başlayabilirsiniz.
+                            </div>
+
+                        </td>
                     </tr>
-                </thead>
-
-                <tbody>
-
-                    @if (!Model.Any())
+                }
+                else
+                {
+                    foreach (var sinif in Model)
                     {
                         <tr>
-                            <td colspan="5" class="text-center">
-                                Henüz sınıf bulunmuyor.
+
+                            <td>
+
+                                <div class="sinif-name">
+
+                                    <div class="sinif-name-icon">
+                                        📖
+                                    </div>
+
+                                    <span>
+                                        @sinif.Ad
+                                    </span>
+
+                                </div>
+
                             </td>
+
+
+                            <td>
+
+                                @if (sinif.Okul != null)
+                                {
+                                    <div class="sinif-school">
+
+                                        <span class="sinif-school-icon">
+                                            🏫
+                                        </span>
+
+                                        <span>
+                                            @sinif.Okul.Ad
+                                        </span>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">
+                                        Okul atanmadı
+                                    </span>
+                                }
+
+                            </td>
+
+
+                            <td>
+
+                                <a asp-controller="Sinif"
+                                   asp-action="Edit"
+                                   asp-route-id="@sinif.Id"
+                                   class="sinif-edit-btn">
+
+                                    <span>✏️</span>
+                                    <span>Düzenle</span>
+
+                                </a>
+
+                            </td>
+
                         </tr>
                     }
-                    else
-                    {
-                        @foreach (var sinif in Model)
-                        {
-                            <tr>
+                }
 
-                                <td>
-                                    @sinif.Id
-                                </td>
+            </tbody>
 
-                                <td>
-                                    <strong>@sinif.Ad</strong>
-                                </td>
+        </table>
 
-                                <td>
-                                    @if (sinif.Okul != null)
-                                    {
-                                        @sinif.Okul.Ad
-                                    }
-                                    else
-                                    {
-                                        <span class="text-danger">
-                                            Okul atanmadı
-                                        </span>
-                                    }
-                                </td>
-
-                                <td>
-                                    @if (sinif.Aktif)
-                                    {
-                                        <span class="badge bg-success">
-                                            Aktif
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-secondary">
-                                            Pasif
-                                        </span>
-                                    }
-                                </td>
-
-                                <td>
-
-                                    <a asp-controller="Sinif"
-                                       asp-action="Edit"
-                                       asp-route-id="@sinif.Id"
-                                       class="btn btn-warning btn-sm">
-                                        ✏️ Düzenle
-                                    </a>
-
-                                    <form asp-controller="Sinif"
-                                          asp-action="AktifPasif"
-                                          method="post"
-                                          style="display:inline;">
-
-                                        <input type="hidden"
-                                               name="id"
-                                               value="@sinif.Id" />
-
-                                        @if (sinif.Aktif)
-                                        {
-                                            <button type="submit"
-                                                    class="btn btn-secondary btn-sm">
-                                                Pasif Yap
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            <button type="submit"
-                                                    class="btn btn-success btn-sm">
-                                                Aktif Yap
-                                            </button>
-                                        }
-
-                                    </form>
-
-                                    <form asp-controller="Sinif"
-                                          asp-action="Delete"
-                                          method="post"
-                                          style="display:inline;">
-
-                                        <input type="hidden"
-                                               name="id"
-                                               value="@sinif.Id" />
-
-                                        <button type="submit"
-                                                class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Bu sınıfı silmek istediğinize emin misiniz?');">
-                                            🗑️ Sil
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
-                            </tr>
-                        }
-                    }
-
-                </tbody>
-
-            </table>
-
-        </div>
     </div>
 
 </div>

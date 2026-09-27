@@ -1,0 +1,239 @@
+@using OkulTakipSistemi.Models
+@{
+    ViewData["Title"] = "Yönetim";
+
+    var okullar = ViewBag.Okullar as List<Okul> ?? new List<Okul>();
+    var siniflar = ViewBag.Siniflar as List<Sinif> ?? new List<Sinif>();
+    var ogrenciler = ViewBag.Ogrenciler as List<Ogrenci> ?? new List<Ogrenci>();
+    var okulUcretleri = ViewBag.OkulUcretleri as List<OkulUcreti> ?? new List<OkulUcreti>();
+}
+
+<div style="padding:35px;">
+    <h1>Yönetim</h1>
+    <p>Okul, sınıf ve öğrencileri tek ekrandan yönetin.</p>
+
+    <div style="display:flex;gap:10px;margin:25px 0;">
+        <button type="button" onclick="showTab('okullar')">Okullar</button>
+        <button type="button" onclick="showTab('siniflar')">Sınıflar</button>
+        <button type="button" onclick="showTab('ogrenciler')">Öğrenciler</button>
+        <button type="button" onclick="showTab('okulUcretleri')">Okul Ücretleri</button>
+    </div>
+
+    <section id="okullar">
+        <h2>Okullar</h2>
+
+        @foreach (var okul in okullar)
+        {
+            <div style="padding:15px;border:1px solid #ddd;margin:10px 0;border-radius:10px;">
+                <strong>@okul.Ad</strong>
+                <div>@okul.Adres</div>
+                <div>@okul.Telefon</div>
+            </div>
+        }
+    </section>
+
+    <section id="siniflar" style="display:none;">
+        <h2>Sınıflar</h2>
+
+        <select id="sinifOkulSec" onchange="filterClasses()">
+            <option value="">Tüm okullar</option>
+
+            @foreach (var okul in okullar)
+            {
+                <option value="@okul.Id">@okul.Ad</option>
+            }
+        </select>
+
+        <div id="sinifListesi" style="margin-top:20px;">
+            @foreach (var sinif in siniflar)
+            {
+                <div class="sinif-item"
+                     data-okul-id="@sinif.OkulId"
+                     style="padding:15px;border:1px solid #ddd;margin:10px 0;border-radius:10px;">
+                    <strong>@sinif.Ad</strong>
+                    <div>@sinif.Okul?.Ad</div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section id="okulUcretleri" style="display:none;">
+        <h2>Okul Ücretleri</h2>
+        <p>Her okul için normal yıllık ücreti buradan belirleyebilirsiniz.</p>
+
+        @if (TempData["Basari"] != null)
+        {
+            <div style="padding:12px 15px;background:#e8f7ee;color:#176b3a;border-radius:10px;margin:15px 0;">
+                @TempData["Basari"]
+            </div>
+        }
+
+        @if (TempData["Hata"] != null)
+        {
+            <div style="padding:12px 15px;background:#fdecec;color:#a12626;border-radius:10px;margin:15px 0;">
+                @TempData["Hata"]
+            </div>
+        }
+
+        <form asp-controller="Yonetim"
+              asp-action="OkulUcretiKaydet"
+              method="post"
+              style="max-width:500px;padding:25px;border:1px solid #ddd;border-radius:14px;margin-top:20px;">
+
+            <div style="margin-bottom:18px;">
+                <label style="display:block;font-weight:600;margin-bottom:7px;">
+                    Okul
+                </label>
+
+                <select name="okulId"
+                        required
+                        style="width:100%;padding:11px;border:1px solid #ccc;border-radius:8px;">
+
+                    <option value="">Okul seçiniz</option>
+
+                    @foreach (var okul in okullar)
+                    {
+                        <option value="@okul.Id">@okul.Ad</option>
+                    }
+                </select>
+            </div>
+
+            <div style="margin-bottom:18px;">
+                <label style="display:block;font-weight:600;margin-bottom:7px;">
+                    Normal Yıllık Ücret
+                </label>
+
+                <input type="number"
+                       name="normalUcret"
+                       min="0"
+                       step="0.01"
+                       placeholder="Örn. 60000"
+                       required
+                       style="width:100%;padding:11px;border:1px solid #ccc;border-radius:8px;" />
+            </div>
+
+            <button type="submit"
+                    style="padding:12px 22px;border:0;border-radius:8px;background:#2563eb;color:white;font-weight:600;cursor:pointer;">
+                Ücreti Kaydet
+            </button>
+        </form>
+
+        @if (okulUcretleri.Any())
+        {
+            <h3 style="margin-top:30px;">Tanımlanan Okul Ücretleri</h3>
+
+            @foreach (var ucret in okulUcretleri)
+            {
+                <div style="padding:15px;border:1px solid #ddd;margin:10px 0;border-radius:10px;">
+                    <strong>@ucret.Okul?.Ad</strong>
+                    <div>Normal Yıllık Ücret: <strong>@ucret.StandartVeliUcreti?.ToString("N2") TL</strong></div>
+                </div>
+            }
+        }
+    </section>
+
+    <section id="ogrenciler" style="display:none;">
+        <h2>Öğrenciler</h2>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+
+            <select id="ogrenciOkulSec" onchange="filterStudents()">
+                <option value="">Tüm okullar</option>
+
+                @foreach (var okul in okullar)
+                {
+                    <option value="@okul.Id">@okul.Ad</option>
+                }
+            </select>
+
+            <select id="ogrenciSinifSec" onchange="filterStudents()">
+                <option value="">Tüm sınıflar</option>
+
+                @foreach (var sinif in siniflar)
+                {
+                    <option value="@sinif.Id"
+                            data-okul-id="@sinif.OkulId">
+                        @sinif.Ad
+                    </option>
+                }
+            </select>
+
+            <input id="ogrenciAra"
+                   type="text"
+                   placeholder="Öğrenci ara..."
+                   oninput="filterStudents()" />
+        </div>
+
+        <div id="ogrenciListesi">
+
+            @foreach (var ogrenci in ogrenciler)
+            {
+                <div class="ogrenci-item"
+                     data-okul-id="@ogrenci.Sinif?.OkulId"
+                     data-sinif-id="@ogrenci.SinifId"
+                     data-ad="@ogrenci.AdSoyad.ToLowerInvariant()"
+                     style="padding:18px;border:1px solid #ddd;margin:10px 0;border-radius:10px;">
+
+                    <strong>@ogrenci.AdSoyad</strong>
+
+                    <div>Öğrenci No: @ogrenci.OgrenciNo</div>
+                    <div>Okul: @ogrenci.Sinif?.Okul?.Ad</div>
+                    <div>Sınıf: @ogrenci.Sinif?.Ad</div>
+
+                    <div style="margin-top:8px;">
+                        👨‍👩‍👧 <strong>Veli:</strong> —
+                    </div>
+
+                    <div>
+                        📞 <strong>Telefon:</strong> —
+                    </div>
+                </div>
+            }
+
+        </div>
+    </section>
+</div>
+
+<script>
+    function showTab(tab) {
+        document.getElementById("okullar").style.display = "none";
+        document.getElementById("siniflar").style.display = "none";
+        document.getElementById("ogrenciler").style.display = "none";
+        document.getElementById("okulUcretleri").style.display = "none";
+
+        document.getElementById(tab).style.display = "block";
+    }
+
+    function filterClasses() {
+        const okulId = document.getElementById("sinifOkulSec").value;
+
+        document.querySelectorAll(".sinif-item").forEach(item => {
+            item.style.display =
+                !okulId || item.dataset.okulId === okulId
+                    ? "block"
+                    : "none";
+        });
+    }
+
+    function filterStudents() {
+        const okulId = document.getElementById("ogrenciOkulSec").value;
+        const sinifId = document.getElementById("ogrenciSinifSec").value;
+        const search = document.getElementById("ogrenciAra").value.toLowerCase();
+
+        document.querySelectorAll(".ogrenci-item").forEach(item => {
+            const matchesOkul =
+                !okulId || item.dataset.okulId === okulId;
+
+            const matchesSinif =
+                !sinifId || item.dataset.sinifId === sinifId;
+
+            const matchesSearch =
+                !search || item.dataset.ad.includes(search);
+
+            item.style.display =
+                matchesOkul && matchesSinif && matchesSearch
+                    ? "block"
+                    : "none";
+        });
+    }
+</script>

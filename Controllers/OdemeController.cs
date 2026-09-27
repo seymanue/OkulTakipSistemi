@@ -43,6 +43,7 @@ namespace OkulTakipSistemi.Controllers
 
             // Seçilen öğrenciyi bul
             var ogrenci = _context.Ogrenciler
+                .Include(x => x.Sinif)
                 .FirstOrDefault(x => x.Id == ogrenciId);
 
             if (ogrenci == null)
@@ -51,6 +52,15 @@ namespace OkulTakipSistemi.Controllers
             }
 
             ViewBag.Ogrenci = ogrenci;
+
+            // Öğrencinin velisini getir
+            var veli = _context.OgrenciVeliler
+                .Include(x => x.Veli)
+                .Where(x => x.OgrenciId == ogrenciId)
+                .Select(x => x.Veli)
+                .FirstOrDefault();
+
+            ViewBag.Veli = veli;
 
             // Öğrencinin aktif okul kaydını getir
             var kayit = _context.OgrenciKayitlari
@@ -68,6 +78,8 @@ namespace OkulTakipSistemi.Controllers
 
             var borclar = _context.AylikBorclar
                 .Include(x => x.OgrenciKaydi)
+                .Include(x => x.OdemeDagilimlari)
+                    .ThenInclude(x => x.Odeme)
                 .Where(x =>
                     x.OgrenciKaydi != null &&
                     x.OgrenciKaydi.OgrenciId == ogrenciId)
@@ -504,6 +516,39 @@ namespace OkulTakipSistemi.Controllers
                 {
                     ogrenciId = ogrenciId
                 });
+        }
+
+
+        // ============================================================
+        // AYLIK BORÇ ÖDEME TARİHİNİ GÜNCELLE
+        // ============================================================
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult OdemeTarihiGuncelle(int id, DateTime odemeTarihi)
+        {
+            var borc = _context.AylikBorclar.FirstOrDefault(x => x.Id == id);
+
+            if (borc == null)
+            {
+                TempData["Hata"] = "Aylık borç kaydı bulunamadı.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            borc.OdemeTarihi = odemeTarihi;
+            _context.SaveChanges();
+
+            TempData["Basarili"] = "Ödeme tarihi güncellendi.";
+
+            var ogrenciId = _context.OgrenciKayitlari
+                .Where(x => x.Id == borc.OgrenciKaydiId)
+                .Select(x => x.OgrenciId)
+                .FirstOrDefault();
+
+            return RedirectToAction(
+                nameof(Index),
+                new { ogrenciId = ogrenciId }
+            );
         }
 
 

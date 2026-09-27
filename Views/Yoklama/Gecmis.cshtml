@@ -1,250 +1,403 @@
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    background: #f5eee8 !important;
+    color: #4f3328 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+}
+
+/* BU SAYFADA ÜST NAVBAR YOK */
+body:has(.yoklama-history-page) > header {
+    display: none !important;
+}
+
+body:has(.yoklama-history-page) > .container-fluid {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body:has(.yoklama-history-page) main {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* ANA ALAN */
+.yoklama-history-page {
+    width: 100% !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 28px 32px 45px !important;
+    background: #f5eee8 !important;
+}
+
+.history-container {
+    width: min(1120px, 100%) !important;
+    max-width: 1120px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* ÜST PANEL */
+.history-header {
+    width: 100% !important;
+    min-height: 125px !important;
+    margin: 0 0 20px !important;
+    padding: 23px 26px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+
+    background: #9b593b !important;
+    border: 0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 22px rgba(91,48,31,.14) !important;
+}
+
+.history-kicker {
+    display: none !important;
+}
+
+.history-header h1 {
+    margin: 0 !important;
+    color: #fff8f1 !important;
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+    letter-spacing: -.3px !important;
+}
+
+.history-header p {
+    margin: 7px 0 0 !important;
+    color: #f3d8c5 !important;
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+}
+
+/* GERİ BUTONU */
+.history-back {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-height: 42px !important;
+    padding: 0 17px !important;
+
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    border: 1px solid rgba(255,245,235,.4) !important;
+    border-radius: 10px !important;
+
+    text-decoration: none !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+
+    transition: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.history-back:hover {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    border-color: rgba(255,245,235,.4) !important;
+    transform: none !important;
+}
+
+/* SINIF KARTLARI */
+.history-grid {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+}
+
+.history-class-card {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 190px !important;
+    padding: 21px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+
+    background: rgba(255,255,255,.84) !important;
+    border: 1px solid rgba(155,89,59,.16) !important;
+    border-radius: 16px !important;
+
+    box-shadow: 0 7px 20px rgba(91,48,31,.08) !important;
+    overflow: hidden !important;
+    transition: none !important;
+}
+
+.history-class-card::before {
+    height: 3px !important;
+    background: #a95f3b !important;
+}
+
+/* SINIF ÜST KISMI */
+.history-class-top {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+}
+
+.history-class-icon {
+    width: 52px !important;
+    height: 52px !important;
+    flex: 0 0 52px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #ead4c5 !important;
+    color: #9b593b !important;
+    border: 1px solid #dfc3b2 !important;
+    border-radius: 13px !important;
+}
+
+.history-class-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.7 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+.history-class-info h2 {
+    margin: 0 !important;
+    color: #4f3328 !important;
+    font-size: 20px !important;
+    line-height: 1.25 !important;
+    font-weight: 700 !important;
+}
+
+.history-school {
+    margin-top: 4px !important;
+    color: #80665a !important;
+    font-size: 13px !important;
+}
+
+/* AYIRICI */
+.history-divider {
+    width: 100% !important;
+    height: 1px !important;
+    margin: 15px 0 !important;
+    background: #eaded5 !important;
+}
+
+/* BUTON */
+.history-button {
+    width: 100% !important;
+    min-height: 42px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+
+    padding: 0 14px !important;
+
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+
+    text-decoration: none !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+
+    box-shadow: none !important;
+    transition: none !important;
+}
+
+.history-button:hover {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    transform: none !important;
+}
+
+.history-button svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.8 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+/* BOŞ DURUM */
+.history-empty {
+    width: 100% !important;
+    padding: 40px 25px !important;
+    text-align: center !important;
+    background: rgba(255,255,255,.84) !important;
+    border: 1px solid rgba(155,89,59,.16) !important;
+    border-radius: 16px !important;
+}
+
+.history-empty-icon {
+    width: 55px !important;
+    height: 55px !important;
+    margin: 0 auto 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #ead4c5 !important;
+    color: #9b593b !important;
+    border-radius: 13px !important;
+}
+
+.history-empty-icon svg {
+    width: 29px !important;
+    height: 29px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+.history-empty strong {
+    display: block !important;
+    margin-bottom: 6px !important;
+    color: #4f3328 !important;
+    font-size: 16px !important;
+}
+
+.history-empty span {
+    display: block !important;
+    color: #80665a !important;
+    font-size: 13px !important;
+}
+
+/* RESPONSIVE */
+@@media (max-width: 750px) {
+    .yoklama-history-page {
+        padding: 20px !important;
+    }
+
+    .history-header {
+        align-items: flex-start !important;
+        flex-direction: column !important;
+    }
+
+    .history-back {
+        width: auto !important;
+    }
+
+    .history-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@@media (max-width: 500px) {
+    .yoklama-history-page {
+        padding: 16px !important;
+    }
+
+    .history-header {
+        padding: 20px !important;
+    }
+
+    .history-header h1 {
+        font-size: 25px !important;
+    }
+
+    .history-class-card {
+        min-height: 185px !important;
+        padding: 19px !important;
+    }
+}
+</style>
+
 @model IEnumerable<OkulTakipSistemi.Models.Sinif>
 
 @{
     ViewData["Title"] = "Yoklama Listesi";
 }
 
-<style>
-    .yoklama-page {
-        min-height: calc(100vh - 100px);
-        background: #f3f8f5;
-        padding: 45px 0;
-    }
 
-    .page-header {
-        background: #198754;
-        color: white;
-        border-radius: 18px;
-        padding: 28px 32px;
-        margin-bottom: 30px;
-        box-shadow: 0 8px 20px rgba(25, 135, 84, 0.15);
-    }
 
-    .page-header h1 {
-        margin: 0;
-        font-size: 30px;
-        font-weight: 700;
-    }
+<div class="yoklama-history-page">
 
-    .page-header p {
-        margin: 7px 0 0;
-        opacity: .9;
-        font-size: 15px;
-    }
+    <div class="history-container">
 
-    .back-btn {
-        background: white;
-        color: #198754;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 18px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-block;
-        transition: .2s ease;
-    }
+        <div class="history-header">
 
-    .back-btn:hover {
-        background: #e9f5ef;
-        color: #146c43;
-        transform: translateY(-1px);
-    }
+            <div>
+                <h1>Yoklama Listesi</h1>
 
-    .class-card {
-        background: white;
-        border: 1px solid #dceee4;
-        border-radius: 18px;
-        padding: 24px;
-        height: 100%;
-        box-shadow: 0 5px 15px rgba(0,0,0,.05);
-        transition: .2s ease;
-    }
-
-    .class-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(0,0,0,.08);
-        border-color: #b9dcc8;
-    }
-
-    .class-top {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .class-icon {
-        width: 50px;
-        height: 50px;
-        flex-shrink: 0;
-        border-radius: 14px;
-        background: #e9f7ef;
-        color: #198754;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 23px;
-    }
-
-    .class-info h4 {
-        margin: 0;
-        color: #146c43;
-        font-size: 19px;
-        font-weight: 700;
-    }
-
-    .school-name {
-        margin-top: 5px;
-        color: #7a857f;
-        font-size: 13px;
-    }
-
-    .class-divider {
-        height: 1px;
-        background: #edf1ee;
-        margin: 20px 0;
-    }
-
-    .history-btn {
-        width: 100%;
-        min-height: 43px;
-        border-radius: 10px;
-        padding: 10px 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 600;
-        background: #edf8f2;
-        color: #198754;
-        border: 1px solid #cce8d8;
-        transition: .2s ease;
-    }
-
-    .history-btn:hover {
-        background: #dff2e7;
-        color: #146c43;
-        border-color: #b9dcc8;
-    }
-
-    .empty-message {
-        background: white;
-        border: 1px solid #dceee4;
-        border-radius: 16px;
-        padding: 40px 25px;
-        color: #6c757d;
-        text-align: center;
-        box-shadow: 0 5px 15px rgba(0,0,0,.04);
-    }
-
-    .empty-icon {
-        width: 58px;
-        height: 58px;
-        margin: 0 auto 15px;
-        border-radius: 50%;
-        background: #edf3ef;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 25px;
-    }
-
-    .empty-message strong {
-        display: block;
-        color: #344039;
-        font-size: 16px;
-        margin-bottom: 6px;
-    }
-
-    .empty-message span {
-        font-size: 14px;
-        color: #89938d;
-    }
-
-    @@media (max-width: 768px) {
-        .yoklama-page {
-            padding: 25px 0;
-        }
-
-        .page-header {
-            padding: 22px;
-        }
-
-        .page-header .d-flex {
-            flex-direction: column;
-            align-items: flex-start !important;
-            gap: 18px;
-        }
-
-        .back-btn {
-            width: 100%;
-            text-align: center;
-        }
-    }
-</style>
-
-<div class="yoklama-page">
-
-    <div class="container">
-
-        <div class="page-header">
-
-            <div class="d-flex justify-content-between align-items-center">
-
-                <div>
-                    <div style="font-size:12px; font-weight:800; letter-spacing:1.5px; opacity:.85; margin-bottom:6px;">
-                        YOKLAMA
-                    </div>
-
-                    <h1>Yoklama Listesi</h1>
-
-                    <p>
-                        Yoklama geçmişini görüntülemek istediğiniz sınıfı seçiniz.
-                    </p>
-                </div>
-
-                <a asp-controller="Home"
-                   asp-action="OgretmenPanel"
-                   class="back-btn">
-                    ← Ana Sayfaya Dön
-                </a>
-
+                <p>
+                    Yoklama geçmişini görüntülemek istediğiniz sınıfı seçiniz.
+                </p>
             </div>
+
+            <a asp-controller="Home"
+               asp-action="OgretmenPanel"
+               class="history-back">
+                ← Ana Sayfaya Dön
+            </a>
 
         </div>
 
         @if (Model != null && Model.Any())
         {
-            <div class="row g-4">
+            <div class="history-grid">
 
                 @foreach (var sinif in Model)
                 {
-                    <div class="col-md-6 col-lg-4">
+                    <div class="history-class-card">
 
-                        <div class="class-card">
+                        <div>
 
-                            <div class="class-top">
+                            <div class="history-class-top">
 
-                                <div class="class-icon">
-                                    📋
+                                <div class="history-class-icon">
+
+                                    <svg viewBox="0 0 24 24">
+
+                                        <rect x="5" y="3" width="14" height="18" rx="2" />
+
+                                        <path d="M8 7h8" />
+                                        <path d="M8 11h8" />
+                                        <path d="M8 15h5" />
+
+                                    </svg>
+
                                 </div>
 
-                                <div class="class-info">
+                                <div class="history-class-info">
 
-                                    <h4>
+                                    <h2>
                                         @sinif.Ad
-                                    </h4>
+                                    </h2>
 
                                     @if (sinif.Okul != null)
                                     {
-                                        <div class="school-name">
+                                        <div class="history-school">
                                             Okul: @sinif.Okul.Ad
                                         </div>
                                     }
                                     else
                                     {
-                                        <div class="school-name">
+                                        <div class="history-school">
                                             Okul bilgisi bulunmuyor
                                         </div>
                                     }
@@ -253,20 +406,25 @@
 
                             </div>
 
-                            <div class="class-divider"></div>
-
-                            <a asp-controller="Yoklama"
-                               asp-action="SinifGecmis"
-                               asp-route-id="@sinif.Id"
-                               class="history-btn">
-
-                                📋 Yoklama Geçmişini Gör
-
-                                <span>→</span>
-
-                            </a>
+                            <div class="history-divider"></div>
 
                         </div>
+
+                        <a asp-controller="Yoklama"
+                           asp-action="SinifGecmis"
+                           asp-route-id="@sinif.Id"
+                           class="history-button">
+
+                            <span>
+                                Yoklama Geçmişini Gör
+                            </span>
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M5 12h14" />
+                                <path d="m13 6 6 6-6 6" />
+                            </svg>
+
+                        </a>
 
                     </div>
                 }
@@ -275,10 +433,19 @@
         }
         else
         {
-            <div class="empty-message">
+            <div class="history-empty">
 
-                <div class="empty-icon">
-                    📋
+                <div class="history-empty-icon">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <rect x="5" y="3" width="14" height="18" rx="2" />
+                        <path d="M8 7h8" />
+                        <path d="M8 11h8" />
+                        <path d="M8 15h5" />
+
+                    </svg>
+
                 </div>
 
                 <strong>
@@ -295,3 +462,1459 @@
     </div>
 
 </div>
+
+
+
+
+<style>
+/* =========================================================
+   YOKLAMA GEÇMİŞİ
+   YOKLAMA AL SAYFASIYLA AYNI TASARIM
+   ========================================================= */
+
+.yoklama-history-page {
+    background:
+        radial-gradient(circle at 10% 15%, rgba(194,111,55,.12), transparent 28%),
+        radial-gradient(circle at 90% 80%, rgba(151,91,54,.10), transparent 30%),
+        #f6eee7 !important;
+}
+
+/* ÜST PANEL */
+.history-header {
+    position: relative !important;
+    overflow: hidden !important;
+
+    min-height: 135px !important;
+    padding: 28px 32px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #b95f2c 0%,
+            #c8753c 48%,
+            #a9572d 100%
+        ) !important;
+
+    border-radius: 24px !important;
+
+    box-shadow:
+        0 18px 40px rgba(110,58,35,.18) !important;
+}
+
+.history-header::before {
+    content: "" !important;
+    position: absolute !important;
+    width: 180px !important;
+    height: 180px !important;
+    right: -65px !important;
+    top: -95px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.10) !important;
+}
+
+.history-header::after {
+    content: "" !important;
+    position: absolute !important;
+    width: 110px !important;
+    height: 110px !important;
+    right: 28% !important;
+    bottom: -80px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.07) !important;
+}
+
+.history-header h1,
+.history-header p {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.history-header h1 {
+    color: #fffaf5 !important;
+    font-size: 34px !important;
+    font-weight: 800 !important;
+}
+
+.history-header p {
+    color: rgba(255,250,245,.88) !important;
+}
+
+/* GERİ BUTONU */
+.history-back {
+    position: relative !important;
+    z-index: 5 !important;
+
+    background: rgba(255,255,255,.13) !important;
+    border: 1px solid rgba(255,255,255,.28) !important;
+    border-radius: 14px !important;
+
+    color: #fffaf5 !important;
+
+    transition: all .2s ease !important;
+}
+
+.history-back:hover {
+    background: rgba(255,255,255,.22) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* =========================================================
+   3'LÜ KART DÜZENİ
+   ========================================================= */
+
+.history-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+}
+
+/* KART */
+.history-class-card {
+    position: relative !important;
+    overflow: hidden !important;
+
+    min-height: 205px !important;
+    padding: 22px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.97),
+            rgba(249,239,231,.94)
+        ) !important;
+
+    border: 1px solid rgba(183,108,65,.20) !important;
+    border-radius: 24px !important;
+
+    box-shadow:
+        0 10px 28px rgba(91,54,37,.10) !important;
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        border-color .22s ease !important;
+}
+
+.history-class-card::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 4px !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #b65c2d,
+            #d48745
+        ) !important;
+}
+
+.history-class-card:hover {
+    transform: translateY(-7px) !important;
+
+    box-shadow:
+        0 18px 38px rgba(91,54,37,.17) !important;
+
+    border-color: rgba(184,93,43,.35) !important;
+}
+
+/* KART KÖŞE DEKORU */
+.history-class-card::after {
+    content: "" !important;
+    position: absolute !important;
+
+    width: 110px !important;
+    height: 110px !important;
+
+    right: -45px !important;
+    top: -45px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(201,120,70,.10) !important;
+
+    pointer-events: none !important;
+}
+
+/* İKON */
+.history-class-icon {
+    width: 56px !important;
+    height: 56px !important;
+    flex: 0 0 56px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f5ddca,
+            #efd0b9
+        ) !important;
+
+    color: #a45831 !important;
+
+    border: 1px solid rgba(165,85,47,.16) !important;
+    border-radius: 16px !important;
+
+    box-shadow:
+        0 6px 15px rgba(133,73,43,.10) !important;
+
+    transition:
+        transform .22s ease !important;
+}
+
+.history-class-card:hover .history-class-icon {
+    transform: rotate(-4deg) scale(1.07) !important;
+}
+
+/* SINIF BİLGİSİ */
+.history-class-info h2 {
+    color: #4b3025 !important;
+    font-size: 21px !important;
+    font-weight: 800 !important;
+}
+
+.history-school {
+    color: #86695a !important;
+}
+
+/* AYIRICI */
+.history-divider {
+    background: #ead7c9 !important;
+}
+
+/* BUTON */
+.history-button {
+    min-height: 46px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #b95e2d,
+            #c97036
+        ) !important;
+
+    color: #fffaf5 !important;
+
+    border: none !important;
+    border-radius: 13px !important;
+
+    box-shadow:
+        0 7px 15px rgba(142,72,39,.18) !important;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        filter .18s ease !important;
+}
+
+.history-button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #a95229,
+            #bd632f
+        ) !important;
+
+    color: #fffaf5 !important;
+
+    transform: translateY(-2px) !important;
+
+    box-shadow:
+        0 11px 21px rgba(142,72,39,.25) !important;
+}
+
+.history-button:hover svg {
+    transform: translateX(4px) !important;
+}
+
+.history-button svg {
+    transition: transform .18s ease !important;
+}
+
+/* KARTLARDA HAFİF RENK FARKI */
+.history-class-card:nth-child(3n+1) .history-class-icon {
+    background: #f3ddce !important;
+    color: #a45630 !important;
+}
+
+.history-class-card:nth-child(3n+2) .history-class-icon {
+    background: #f5e4c4 !important;
+    color: #a16b2e !important;
+}
+
+.history-class-card:nth-child(3n) .history-class-icon {
+    background: #eadbd3 !important;
+    color: #895844 !important;
+}
+
+/* MOBİL */
+@@media (max-width: 850px) {
+    .history-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@@media (max-width: 600px) {
+    .yoklama-history-page {
+        padding: 20px 15px 40px !important;
+    }
+
+    .history-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
+
+
+<style>
+
+/* =========================================================
+   ORTAK ÖĞRETMEN SAYFASI TASARIMI
+   TARÇIN + KAHVE + TURUNCU
+   ========================================================= */
+
+:root {
+    --cinnamon: #b85d2b;
+    --cinnamon-dark: #8f452b;
+    --terracotta: #d97832;
+    --orange: #e59a32;
+    --cream: #fff8f1;
+    --cream-2: #f8eee6;
+    --coffee: #51342a;
+    --muted: #80665a;
+    --line: #eadbd0;
+}
+
+/* =========================
+   SINIFLARIM
+   ========================= */
+
+body:has(.siniflarim-page) {
+    background: #f5eee8 !important;
+}
+
+.siniflarim-page {
+    background:
+        radial-gradient(circle at 8% 8%, rgba(239,167,111,.72), transparent 25%),
+        radial-gradient(circle at 92% 12%, rgba(218,127,91,.55), transparent 26%),
+        radial-gradient(circle at 15% 90%, rgba(193,112,78,.38), transparent 27%),
+        radial-gradient(circle at 88% 90%, rgba(238,178,126,.44), transparent 25%),
+        linear-gradient(135deg,#d99a73 0%,#b97658 43%,#875448 72%,#674239 100%) !important;
+}
+
+.siniflarim-page .top-bar {
+    background: rgba(255,248,242,.25) !important;
+    border-color: rgba(255,239,227,.55) !important;
+    border-radius: 24px !important;
+}
+
+.siniflarim-page .page-heading h1 {
+    color: #fffaf6 !important;
+}
+
+.siniflarim-page .heading-label {
+    background: rgba(120,57,39,.28) !important;
+}
+
+.siniflarim-page .classes-grid {
+    gap: 20px !important;
+}
+
+.siniflarim-page .class-card {
+    position: relative !important;
+    overflow: hidden !important;
+    background: rgba(255,250,246,.94) !important;
+    border: 1px solid rgba(255,255,255,.72) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 14px 35px rgba(74,38,27,.16) !important;
+    transition: transform .22s ease, box-shadow .22s ease !important;
+}
+
+.siniflarim-page .class-card::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 6px !important;
+    background: linear-gradient(90deg,#b85d2b,#e59a32) !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2)::before {
+    background: linear-gradient(90deg,#d97832,#e9b044) !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n)::before {
+    background: linear-gradient(90deg,#8f452b,#b85d2b) !important;
+}
+
+.siniflarim-page .class-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 20px 42px rgba(74,38,27,.22) !important;
+}
+
+.siniflarim-page .class-icon {
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+    border-color: #dfc0ad !important;
+    border-radius: 16px !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2) .class-icon {
+    background: #f7e7c3 !important;
+    color: #c17b14 !important;
+    border-color: #ecd59e !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n) .class-icon {
+    background: #ead1c7 !important;
+    color: #8f452b !important;
+    border-color: #dcb7aa !important;
+}
+
+.siniflarim-page .class-info h2,
+.siniflarim-page .class-info h3 {
+    color: var(--coffee) !important;
+}
+
+.siniflarim-page .school-name {
+    color: var(--muted) !important;
+}
+
+.siniflarim-page .class-divider {
+    background: var(--line) !important;
+}
+
+.siniflarim-page .class-view {
+    background: linear-gradient(135deg,#b85d2b,#d97832) !important;
+    color: #fff !important;
+    border-radius: 13px !important;
+    box-shadow: 0 7px 16px rgba(184,93,43,.20) !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2) .class-view {
+    background: linear-gradient(135deg,#d38a19,#e5a52e) !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n) .class-view {
+    background: linear-gradient(135deg,#8f452b,#b85d2b) !important;
+}
+
+.siniflarim-page .empty-message {
+    background: rgba(255,250,246,.94) !important;
+    border-radius: 22px !important;
+    border-color: rgba(184,93,43,.18) !important;
+}
+
+.siniflarim-page .empty-icon {
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+}
+
+
+/* =========================================================
+   YOKLAMA AL
+   ========================================================= */
+
+body:has(.attendance-page) {
+    background: #f5eee8 !important;
+}
+
+.attendance-page {
+    min-height: 100vh !important;
+    padding: 30px 32px 50px !important;
+    background:
+        radial-gradient(circle at 5% 5%,rgba(239,167,111,.28),transparent 23%),
+        radial-gradient(circle at 95% 10%,rgba(218,127,91,.22),transparent 25%),
+        linear-gradient(135deg,#f8eee7,#f2e2d6) !important;
+}
+
+.attendance-page .attendance-header {
+    max-width: 1180px !important;
+    margin: 0 auto 20px !important;
+    padding: 25px 28px !important;
+    border-radius: 22px !important;
+    background: linear-gradient(135deg,#a9572f,#d97832) !important;
+    border: 1px solid rgba(255,255,255,.28) !important;
+    box-shadow: 0 14px 32px rgba(91,48,31,.16) !important;
+}
+
+.attendance-page .page-kicker {
+    color: #ffe6d4 !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.1px !important;
+}
+
+.attendance-page .attendance-header h1 {
+    color: #fffaf6 !important;
+}
+
+.attendance-page .attendance-header p {
+    color: #f8ded0 !important;
+}
+
+.attendance-page .back-button {
+    background: rgba(255,248,242,.18) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.35) !important;
+    border-radius: 13px !important;
+}
+
+.attendance-page .attendance-card {
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+    background: rgba(255,250,246,.96) !important;
+    border: 1px solid rgba(184,93,43,.16) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 14px 35px rgba(91,48,31,.12) !important;
+}
+
+.attendance-page .attendance-card-header {
+    padding: 22px 25px !important;
+    background: linear-gradient(135deg,#fff9f4,#f8eee6) !important;
+    border-bottom: 1px solid #eadbd0 !important;
+}
+
+.attendance-page .attendance-card-header h2 {
+    color: #51342a !important;
+}
+
+.attendance-page .attendance-card-header p {
+    color: #80665a !important;
+}
+
+.attendance-page .student-count {
+    background: #f0d8c9 !important;
+    color: #9b4d29 !important;
+    border-radius: 999px !important;
+    border: 1px solid #dfc0ad !important;
+}
+
+.attendance-page .student-row {
+    margin: 10px 15px !important;
+    padding: 14px 16px !important;
+    border: 1px solid #eadbd0 !important;
+    border-radius: 16px !important;
+    background: #fffdfb !important;
+    transition: transform .18s ease, box-shadow .18s ease !important;
+}
+
+.attendance-page .student-row:hover {
+    transform: translateX(3px) !important;
+    box-shadow: 0 7px 18px rgba(91,48,31,.09) !important;
+}
+
+.attendance-page .student-icon {
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+    border-radius: 13px !important;
+}
+
+.attendance-page .student-info strong {
+    color: #51342a !important;
+}
+
+.attendance-page .student-info span {
+    color: #80665a !important;
+}
+
+.attendance-page .attendance-button {
+    border-radius: 11px !important;
+}
+
+.attendance-page .attendance-button.present.active {
+    background: #b85d2b !important;
+    color: #fff !important;
+    border-color: #b85d2b !important;
+}
+
+.attendance-page .attendance-button.absent.active {
+    background: #8f452b !important;
+    color: #fff !important;
+    border-color: #8f452b !important;
+}
+
+.attendance-page .attendance-footer {
+    padding: 20px 25px !important;
+    background: #fbf4ef !important;
+    border-top: 1px solid #eadbd0 !important;
+}
+
+.attendance-page .save-attendance {
+    background: linear-gradient(135deg,#b85d2b,#d97832) !important;
+    color: #fff !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 9px 20px rgba(184,93,43,.22) !important;
+}
+
+.attendance-page .empty-students {
+    color: #51342a !important;
+}
+
+
+/* =========================================================
+   YOKLAMA GEÇMİŞİ
+   ========================================================= */
+
+body:has(.yoklama-history-page) {
+    background: #f5eee8 !important;
+}
+
+.yoklama-history-page {
+    background:
+        radial-gradient(circle at 7% 7%,rgba(239,167,111,.25),transparent 24%),
+        radial-gradient(circle at 93% 12%,rgba(218,127,91,.20),transparent 25%),
+        linear-gradient(135deg,#f8eee7,#f2e2d6) !important;
+}
+
+.yoklama-history-page .history-header {
+    min-height: 145px !important;
+    border-radius: 22px !important;
+    background: linear-gradient(135deg,#a9572f,#d97832) !important;
+    box-shadow: 0 14px 32px rgba(91,48,31,.16) !important;
+}
+
+.yoklama-history-page .history-header h1 {
+    font-size: 30px !important;
+}
+
+.yoklama-history-page .history-grid {
+    grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+    gap: 20px !important;
+}
+
+.yoklama-history-page .history-class-card {
+    min-height: 205px !important;
+    border-radius: 21px !important;
+    background: rgba(255,250,246,.96) !important;
+    box-shadow: 0 13px 30px rgba(91,48,31,.11) !important;
+    transition: transform .22s ease,box-shadow .22s ease !important;
+}
+
+.yoklama-history-page .history-class-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 20px 40px rgba(91,48,31,.17) !important;
+}
+
+.yoklama-history-page .history-class-card::before {
+    height: 6px !important;
+    background: linear-gradient(90deg,#b85d2b,#d97832) !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n+2)::before {
+    background: linear-gradient(90deg,#d38a19,#e5a52e) !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n)::before {
+    background: linear-gradient(90deg,#8f452b,#b85d2b) !important;
+}
+
+.yoklama-history-page .history-class-icon {
+    border-radius: 16px !important;
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n+2) .history-class-icon {
+    background: #f7e7c3 !important;
+    color: #c17b14 !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n) .history-class-icon {
+    background: #ead1c7 !important;
+    color: #8f452b !important;
+}
+
+.yoklama-history-page .history-class-info h2 {
+    color: #51342a !important;
+}
+
+.yoklama-history-page .history-school {
+    color: #80665a !important;
+}
+
+.yoklama-history-page .history-divider {
+    background: #eadbd0 !important;
+}
+
+.yoklama-history-page .history-button {
+    border-radius: 13px !important;
+    background: linear-gradient(135deg,#b85d2b,#d97832) !important;
+    box-shadow: 0 7px 16px rgba(184,93,43,.18) !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n+2) .history-button {
+    background: linear-gradient(135deg,#d38a19,#e5a52e) !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n) .history-button {
+    background: linear-gradient(135deg,#8f452b,#b85d2b) !important;
+}
+
+.yoklama-history-page .history-empty {
+    border-radius: 21px !important;
+    background: rgba(255,250,246,.96) !important;
+}
+
+.yoklama-history-page .history-empty-icon {
+    border-radius: 16px !important;
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+}
+
+
+/* =========================================================
+   MOBİL
+   ========================================================= */
+
+@@media (max-width: 850px) {
+    .yoklama-history-page .history-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    }
+
+    .attendance-page {
+        padding: 20px 15px 35px !important;
+    }
+}
+
+@@media (max-width: 600px) {
+    .yoklama-history-page .history-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .siniflarim-page {
+        padding: 20px 15px 35px !important;
+    }
+
+    .siniflarim-page .classes-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .attendance-page .attendance-header {
+        padding: 21px !important;
+    }
+
+    .attendance-page .student-row {
+        margin: 8px 10px !important;
+        padding: 12px !important;
+    }
+}
+
+</style>
+
+<style>
+
+/* =========================================================
+   YOKLAMA LİSTESİ — ANA TASARIM
+   ========================================================= */
+
+body:has(.yoklama-history-page) {
+    margin: 0 !important;
+    background: #f8eee5 !important;
+    color: #4d2920 !important;
+}
+
+/* ANA ARKA PLAN */
+.yoklama-history-page {
+    position: relative !important;
+    min-height: 100vh !important;
+    padding: 34px 36px 55px !important;
+    overflow: hidden !important;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(238,169,117,.28),
+            transparent 24%
+        ),
+        radial-gradient(
+            circle at 0% 100%,
+            rgba(239,166,113,.25),
+            transparent 23%
+        ),
+        radial-gradient(
+            circle at 92% 88%,
+            rgba(244,184,135,.22),
+            transparent 20%
+        ),
+        linear-gradient(
+            135deg,
+            #fffaf6 0%,
+            #f9efe7 52%,
+            #f5e7db 100%
+        ) !important;
+}
+
+/* ÜST PANEL */
+.history-header {
+    position: relative !important;
+    overflow: hidden !important;
+
+    width: 100% !important;
+    min-height: 170px !important;
+    margin: 0 0 28px !important;
+    padding: 30px 34px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 25px !important;
+
+    border: 0 !important;
+    border-radius: 25px !important;
+
+    background:
+        radial-gradient(
+            circle at 78% -20%,
+            rgba(255,213,171,.22),
+            transparent 27%
+        ),
+        radial-gradient(
+            circle at 54% 115%,
+            rgba(255,207,162,.17),
+            transparent 24%
+        ),
+        linear-gradient(
+            135deg,
+            #d86e2d 0%,
+            #e57b2c 48%,
+            #d96827 100%
+        ) !important;
+
+    box-shadow:
+        0 16px 36px rgba(139,70,36,.17),
+        inset 0 1px 0 rgba(255,255,255,.16) !important;
+}
+
+/* ÜST PANELDEKİ DEKOR */
+.history-header::before {
+    content: "" !important;
+    position: absolute !important;
+
+    width: 190px !important;
+    height: 190px !important;
+
+    right: 110px !important;
+    top: -125px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255,225,196,.12) !important;
+    pointer-events: none !important;
+}
+
+.history-header::after {
+    content: "" !important;
+    position: absolute !important;
+
+    width: 170px !important;
+    height: 170px !important;
+
+    left: 45% !important;
+    bottom: -125px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255,220,183,.10) !important;
+    pointer-events: none !important;
+}
+
+/* BAŞLIK */
+.history-header > div:first-child {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.history-header h1 {
+    margin: 0 !important;
+
+    color: #fffaf6 !important;
+    font-size: 38px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+    letter-spacing: -.8px !important;
+}
+
+.history-header p {
+    margin: 10px 0 0 !important;
+
+    color: rgba(255,246,238,.88) !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+}
+
+/* GERİ BUTONU */
+.history-back {
+    position: relative !important;
+    z-index: 3 !important;
+
+    min-height: 58px !important;
+    padding: 0 22px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+
+    text-decoration: none !important;
+
+    transition:
+        background .2s ease,
+        transform .2s ease !important;
+}
+
+.history-back:hover {
+    color: #fff !important;
+    background: rgba(255,248,241,.20) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* =========================================================
+   KARTLAR
+   ========================================================= */
+
+.history-grid {
+    width: 100% !important;
+
+    display: grid !important;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr)) !important;
+
+    gap: 22px !important;
+}
+
+/* KART */
+.history-class-card {
+    position: relative !important;
+    overflow: hidden !important;
+
+    min-height: 245px !important;
+    padding: 25px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.98),
+            rgba(255,251,247,.94)
+        ) !important;
+
+    border: 1px solid rgba(255,255,255,.95) !important;
+    border-radius: 21px !important;
+
+    box-shadow:
+        0 10px 25px rgba(89,47,30,.09),
+        0 2px 5px rgba(89,47,30,.05) !important;
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease !important;
+}
+
+/* KART DEKORASYON */
+.history-class-card::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    width: 105px !important;
+    height: 105px !important;
+
+    right: -48px !important;
+    top: -48px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(231,161,113,.10) !important;
+
+    pointer-events: none !important;
+}
+
+/* ÜST RENKLİ ŞERİT */
+.history-class-card::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: 0 !important;
+    top: 0 !important;
+
+    width: 62% !important;
+    height: 5px !important;
+
+    border-radius: 0 0 10px 0 !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #d96928,
+            #e98a3c
+        ) !important;
+}
+
+/* 2. KART */
+.history-class-card:nth-child(3n + 2)::before {
+    background:
+        linear-gradient(
+            90deg,
+            #e0a20c,
+            #f0bb32
+        ) !important;
+}
+
+/* 3. KART */
+.history-class-card:nth-child(3n)::before {
+    background:
+        linear-gradient(
+            90deg,
+            #c45d29,
+            #e27c30
+        ) !important;
+}
+
+.history-class-card:hover {
+    transform: translateY(-5px) !important;
+
+    box-shadow:
+        0 18px 34px rgba(89,47,30,.14),
+        0 4px 8px rgba(89,47,30,.06) !important;
+}
+
+/* KART ÜST */
+.history-class-top {
+    position: relative !important;
+    z-index: 2 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 18px !important;
+}
+
+/* İKON */
+.history-class-icon {
+    width: 74px !important;
+    height: 74px !important;
+    flex: 0 0 74px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #f8dfd0 !important;
+    color: #c45d29 !important;
+
+    border: 0 !important;
+    border-radius: 17px !important;
+}
+
+.history-class-card:nth-child(3n + 2)
+.history-class-icon {
+    background: #faf0c9 !important;
+    color: #c68a08 !important;
+}
+
+.history-class-card:nth-child(3n)
+.history-class-icon {
+    background: #f1ddd4 !important;
+    color: #9d5135 !important;
+}
+
+.history-class-icon svg {
+    width: 34px !important;
+    height: 34px !important;
+
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.7 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+/* SINIF BİLGİLERİ */
+.history-class-info {
+    min-width: 0 !important;
+}
+
+.history-class-info h2 {
+    margin: 0 !important;
+
+    color: #43241c !important;
+    font-size: 23px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+}
+
+.history-school {
+    margin-top: 7px !important;
+
+    color: #80665b !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+/* AYIRICI */
+.history-divider {
+    position: relative !important;
+    z-index: 2 !important;
+
+    width: 100% !important;
+    height: 1px !important;
+
+    margin: 18px 0 !important;
+
+    background: #eaded6 !important;
+}
+
+/* BUTON */
+.history-button {
+    position: relative !important;
+    z-index: 2 !important;
+
+    width: 100% !important;
+    min-height: 54px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 0 17px !important;
+
+    color: #fffaf5 !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #c65e29,
+            #dd742e
+        ) !important;
+
+    border: 0 !important;
+    border-radius: 14px !important;
+
+    font-size: 14px !important;
+    font-weight: 750 !important;
+
+    text-decoration: none !important;
+
+    box-shadow:
+        0 7px 15px rgba(194,91,39,.18) !important;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease !important;
+}
+
+.history-class-card:nth-child(3n + 2)
+.history-button {
+    background:
+        linear-gradient(
+            135deg,
+            #d99908,
+            #e8a915
+        ) !important;
+}
+
+.history-class-card:nth-child(3n)
+.history-button {
+    background:
+        linear-gradient(
+            135deg,
+            #b9552a,
+            #d56d2e
+        ) !important;
+}
+
+.history-button:hover {
+    color: #fff !important;
+
+    transform: translateY(-2px) !important;
+
+    box-shadow:
+        0 11px 20px rgba(194,91,39,.24) !important;
+}
+
+.history-button svg {
+    width: 22px !important;
+    height: 22px !important;
+
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+/* =========================================================
+   BOŞ DURUM
+   ========================================================= */
+
+.history-empty {
+    border-radius: 21px !important;
+    background: rgba(255,255,255,.95) !important;
+    border: 1px solid rgba(184,93,43,.12) !important;
+    box-shadow: 0 12px 28px rgba(89,47,30,.08) !important;
+}
+
+.history-empty-icon {
+    background: #f8dfd0 !important;
+    color: #c45d29 !important;
+}
+
+
+/* =========================================================
+   MOBİL
+   ========================================================= */
+
+@@media (max-width: 900px) {
+
+    .yoklama-history-page {
+        padding: 25px 20px 40px !important;
+    }
+
+    .history-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@@media (max-width: 620px) {
+
+    .yoklama-history-page {
+        padding: 18px 14px 30px !important;
+    }
+
+    .history-header {
+        min-height: 0 !important;
+        padding: 25px 22px !important;
+
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .history-header h1 {
+        font-size: 30px !important;
+    }
+
+    .history-header p {
+        font-size: 14px !important;
+    }
+
+    .history-back {
+        width: 100% !important;
+    }
+
+    .history-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .history-class-card {
+        min-height: 220px !important;
+    }
+}
+
+</style>
+
+
+<style>
+/* =========================================
+   GERİ / ANA SAYFA / PANEL BUTONLARI
+   ÜÇ SAYFADA TAMAMEN AYNI
+   ========================================= */
+
+.siniflarim-page .back-btn,
+.attendance-page .back-button,
+.yoklama-history-page .history-back {
+    width: auto !important;
+    min-width: 150px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    padding: 0 20px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    background: #c96a2b !important;
+    color: #fff8f1 !important;
+
+    border: 1px solid rgba(255,255,255,.55) !important;
+    border-radius: 14px !important;
+
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+    box-shadow: 0 6px 15px rgba(112,55,30,.16) !important;
+
+    transform: none !important;
+    transition: .2s ease !important;
+}
+
+.siniflarim-page .back-btn:hover,
+.attendance-page .back-button:hover,
+.yoklama-history-page .history-back:hover {
+    background: #c96a2b !important;
+    color: #fff8f1 !important;
+    border-color: rgba(255,255,255,.7) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* OK İKONLARI DA AYNI BOY */
+.siniflarim-page .back-btn svg,
+.attendance-page .back-button svg,
+.yoklama-history-page .history-back svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+}
+</style>
+
+
+<style id="common-return-buttons">
+.siniflarim-page .top-bar > .back-btn,
+.attendance-page .attendance-header > .back-button,
+.yoklama-history-page .history-header > .history-back {
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+
+    padding: 0 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    box-sizing: border-box !important;
+
+    background: #a95f3b !important;
+    background-color: #a95f3b !important;
+    background-image: none !important;
+
+    color: #fff8f1 !important;
+
+    border: 1px solid rgba(255,245,235,.40) !important;
+    border-radius: 14px !important;
+
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    box-shadow: none !important;
+    text-decoration: none !important;
+    transform: none !important;
+}
+
+.siniflarim-page .top-bar > .back-btn:hover,
+.attendance-page .attendance-header > .back-button:hover,
+.yoklama-history-page .history-header > .history-back:hover {
+    width: 150px !important;
+    height: 50px !important;
+    background: #a95f3b !important;
+    background-color: #a95f3b !important;
+    color: #fff8f1 !important;
+    transform: translateY(-2px) !important;
+}
+
+.siniflarim-page .top-bar > .back-btn svg,
+.attendance-page .attendance-header > .back-button svg,
+.yoklama-history-page .history-header > .history-back svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+}
+</style>
+
+
+<style id="YOKLAMA-GECMIS-ANA-SAYFA-BUTONU-FINAL">
+
+.yoklama-history-page .history-header > .history-back {
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow: visible !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+
+    box-shadow: none !important;
+
+    transform: none !important;
+
+    transition:
+        transform .22s ease,
+        background .22s ease,
+        border-color .22s ease !important;
+}
+
+.yoklama-history-page .history-header > .history-back:hover {
+    background: rgba(255,248,241,.22) !important;
+    border-color: rgba(255,235,217,.70) !important;
+    transform: translateY(-2px) !important;
+}
+
+.yoklama-history-page .history-header > .history-back svg {
+    flex: 0 0 auto !important;
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.yoklama-history-page .history-header > .history-back span {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+}
+
+</style>

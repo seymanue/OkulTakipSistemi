@@ -4,51 +4,309 @@
     ViewData["Title"] = "Öğretmen Ekle";
 }
 
-<div class="container mt-4">
+<style>
+    .ogretmen-ekle-page {
+        padding: 10px 4px 40px;
+    }
 
-    <h2>Öğretmen Ekle</h2>
+    .ogretmen-ekle-card {
+        max-width: 760px;
+        margin: 25px auto 0;
+        background: #ffffff;
+        border: 1px solid #dbeafe;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 14px 35px rgba(30, 64, 175, 0.08);
+    }
 
-    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+    .ogretmen-ekle-header {
+        padding: 28px 32px;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        border-bottom: 1px solid #dbeafe;
+        display: flex;
+        align-items: center;
+        gap: 17px;
+    }
 
-    <form asp-controller="Ogretmen" asp-action="Create" method="post">
+    .ogretmen-ekle-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 27px;
+        background: linear-gradient(135deg, #60a5fa, #2563eb, #1e3a8a);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
+    }
 
-        <div class="mb-3">
-            <label asp-for="AdSoyad" class="form-label">Ad Soyad</label>
-            <input asp-for="AdSoyad" class="form-control" />
-            <span asp-validation-for="AdSoyad" class="text-danger"></span>
+    .ogretmen-ekle-title h2 {
+        margin: 0;
+        color: #172554;
+        font-size: 25px;
+        font-weight: 750;
+    }
+
+    .ogretmen-ekle-title p {
+        margin: 5px 0 0;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    .ogretmen-ekle-body {
+        padding: 30px 32px 32px;
+    }
+
+    .ogretmen-ekle-errors {
+        margin-bottom: 20px;
+        color: #b91c1c;
+        font-size: 13px;
+    }
+
+    .ogretmen-ekle-errors:empty {
+        display: none;
+    }
+
+    .ogretmen-form-info {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 13px 15px;
+        margin-bottom: 25px;
+        border-radius: 12px;
+        background: #f8fbff;
+        border: 1px solid #dbeafe;
+        color: #475569;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .ogretmen-form-info span:first-child {
+        font-size: 17px;
+    }
+
+    .ogretmen-field {
+        margin-bottom: 20px;
+    }
+
+    .ogretmen-field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #1e3a8a;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .ogretmen-input,
+    .ogretmen-select {
+        width: 100%;
+        height: 48px;
+        box-sizing: border-box;
+        padding: 0 14px;
+        border: 1px solid #cbd5e1;
+        border-radius: 11px;
+        outline: none;
+        background: #ffffff;
+        color: #1e293b;
+        font-size: 14px;
+        transition: all .2s ease;
+    }
+
+    .ogretmen-input:focus,
+    .ogretmen-select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    }
+
+    .ogretmen-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .ogretmen-validation {
+        display: block;
+        margin-top: 6px;
+        color: #dc2626;
+        font-size: 12px;
+    }
+
+    .ogretmen-form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 28px;
+        padding-top: 22px;
+        border-top: 1px solid #eef2f7;
+    }
+
+    .ogretmen-save-btn,
+    .ogretmen-cancel-btn {
+        min-height: 44px;
+        padding: 0 18px;
+        border-radius: 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        transition: all .2s ease;
+    }
+
+    .ogretmen-save-btn {
+        border: none;
+        color: #ffffff;
+        background: linear-gradient(135deg, #2563eb, #1e3a8a);
+        box-shadow: 0 7px 18px rgba(37, 99, 235, 0.20);
+        cursor: pointer;
+    }
+
+    .ogretmen-save-btn:hover {
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 23px rgba(37, 99, 235, 0.28);
+    }
+
+    .ogretmen-cancel-btn {
+        color: #475569;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+    }
+
+    .ogretmen-cancel-btn:hover {
+        color: #1e293b;
+        background: #f1f5f9;
+        transform: translateY(-1px);
+    }
+
+    @@media (max-width: 650px) {
+        .ogretmen-ekle-card {
+            margin-top: 15px;
+            border-radius: 18px;
+        }
+
+        .ogretmen-ekle-header {
+            padding: 22px;
+        }
+
+        .ogretmen-ekle-body {
+            padding: 24px 20px;
+        }
+
+        .ogretmen-form-actions {
+            flex-direction: column;
+        }
+
+        .ogretmen-save-btn,
+        .ogretmen-cancel-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="ogretmen-ekle-page">
+
+    <div class="ogretmen-ekle-card">
+
+        <div class="ogretmen-ekle-header">
+
+            <div class="ogretmen-ekle-icon">
+                👩‍🏫
+            </div>
+
+            <div class="ogretmen-ekle-title">
+                <h2>Öğretmen Ekle</h2>
+                <p>Sisteme yeni bir öğretmen kaydı oluşturun.</p>
+            </div>
+
         </div>
 
-        <div class="mb-3">
-            <label asp-for="Branş" class="form-label">Branş</label>
-            <input asp-for="Branş" class="form-control" />
-            <span asp-validation-for="Branş" class="text-danger"></span>
+        <div class="ogretmen-ekle-body">
+
+            <div asp-validation-summary="All"
+                 class="ogretmen-ekle-errors">
+            </div>
+
+            <div class="ogretmen-form-info">
+                <span>ℹ️</span>
+                <span>
+                    Öğretmeni mevcut bir kullanıcı hesabıyla eşleştirebilirsiniz.
+                    Okul ve sınıf atamaları daha sonra yönetim panelinden yapılabilir.
+                </span>
+            </div>
+
+            <form asp-controller="Ogretmen"
+                  asp-action="Create"
+                  method="post">
+
+                <div class="ogretmen-field">
+
+                    <label asp-for="AdSoyad">
+                        Ad Soyad
+                    </label>
+
+                    <input asp-for="AdSoyad"
+                           class="ogretmen-input"
+                           placeholder="Öğretmenin adını ve soyadını giriniz" />
+
+                    <span asp-validation-for="AdSoyad"
+                          class="ogretmen-validation">
+                    </span>
+
+                </div>
+
+                <div class="ogretmen-field">
+
+
+
+                </div>
+
+                <div class="ogretmen-field">
+
+                    <label asp-for="KullaniciId">
+                        Kullanıcı Hesabı
+                    </label>
+
+                    <select asp-for="KullaniciId"
+                            class="ogretmen-select">
+
+                        <option value="0">
+                            Kullanıcı seçiniz
+                        </option>
+
+                        @foreach (var kullanici in ViewBag.Kullanicilar)
+                        {
+                            <option value="@kullanici.Id">
+                                @kullanici.AdSoyad - @kullanici.KullaniciAdi
+                            </option>
+                        }
+
+                    </select>
+
+                    <span asp-validation-for="KullaniciId"
+                          class="ogretmen-validation">
+                    </span>
+
+                </div>
+
+                <div class="ogretmen-form-actions">
+
+                    <button type="submit"
+                            class="ogretmen-save-btn">
+                        ✓ Öğretmeni Kaydet
+                    </button>
+
+                    <a asp-controller="Ogretmen"
+                       asp-action="Index"
+                       class="ogretmen-cancel-btn">
+                        ← İptal
+                    </a>
+
+                </div>
+
+            </form>
+
         </div>
 
-        <div class="mb-3">
-            <label asp-for="KullaniciId" class="form-label">Kullanıcı</label>
-
-            <select asp-for="KullaniciId" class="form-select">
-                <option value="0">Kullanıcı seçiniz</option>
-
-                @foreach (var kullanici in ViewBag.Kullanicilar)
-                {
-                    <option value="@kullanici.Id">
-                        @kullanici.KullaniciAdi
-                    </option>
-                }
-            </select>
-
-            <span asp-validation-for="KullaniciId" class="text-danger"></span>
-        </div>
-
-        <button type="submit" class="btn btn-primary">
-            Kaydet
-        </button>
-
-        <a asp-controller="Ogretmen" asp-action="Index" class="btn btn-secondary">
-            İptal
-        </a>
-
-    </form>
+    </div>
 
 </div>

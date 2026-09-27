@@ -1,89 +1,638 @@
-@model OkulTakipSistemi.Models.Ogrenci
+@model OkulTakipSistemi.Models.OgrenciKayitFormViewModel
 
 @{
     ViewData["Title"] = "Öğrenci Kaydı";
 }
 
-<div class="container mt-4">
+<style>
+    .kayit-page {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 0 20px 40px;
+    }
 
-    <div class="mb-4">
-        <h2>Öğrenci Kaydı</h2>
-        <p class="text-muted">
-            Öğrenciyi okul ve sınıfa kaydedin.
-        </p>
+    .page-title-box {
+        display: flex;
+        align-items: center;
+        gap: 17px;
+        margin-bottom: 26px;
+        padding: 26px 30px;
+        border: 1px solid #d9eaf8;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #eaf5ff 0%, #d8ecff 55%, #c7e3fb 100%);
+        box-shadow: 0 8px 25px rgba(26, 64, 99, 0.07);
+    }
+
+    .page-title-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 54px;
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 5px 15px rgba(25, 87, 145, 0.10);
+        font-size: 26px;
+    }
+
+    .page-title-box h2 {
+        margin: 0 0 5px;
+        color: #163b61;
+        font-size: 27px;
+        font-weight: 800;
+    }
+
+    .page-title-box p {
+        margin: 0;
+        color: #607b95;
+        font-size: 14px;
+    }
+
+    .validation-summary {
+        background: #fff1f2;
+        border: 1px solid #fecdd3;
+        color: #be123c;
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin-bottom: 20px;
+    }
+
+    .validation-summary ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .okul-ucret-box {
+        margin-top: 18px;
+        background: linear-gradient(135deg, #eff6ff, #f8fafc);
+        border: 1px solid #bfdbfe;
+        border-radius: 14px;
+        padding: 18px;
+        display: none;
+    }
+
+    .okul-ucret-box.active {
+        display: block;
+    }
+
+    .okul-ucret-baslik {
+        font-weight: 700;
+        color: #172554;
+        margin-bottom: 12px;
+    }
+
+    .okul-ucret-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .okul-ucret-item {
+        background: white;
+        border-radius: 10px;
+        padding: 12px;
+        border: 1px solid #dbeafe;
+    }
+
+    .okul-ucret-item small {
+        display: block;
+        color: #64748b;
+        margin-bottom: 4px;
+    }
+
+    .okul-ucret-item strong {
+        color: #172554;
+        font-size: 16px;
+    }
+
+    .odeme-onizleme {
+        margin-top: 22px;
+        background: white;
+        border: 1px solid #dbeafe;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .odeme-onizleme-baslik {
+        padding: 15px 18px;
+        background: linear-gradient(135deg, #eff6ff, #dbeafe);
+        color: #172554;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .odeme-ozet {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 16px 18px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .odeme-ozet-item {
+        background: #f8fafc;
+        border-radius: 10px;
+        padding: 12px;
+    }
+
+    .odeme-ozet-item small {
+        display: block;
+        color: #64748b;
+        margin-bottom: 4px;
+    }
+
+    .odeme-ozet-item strong {
+        color: #172554;
+        font-size: 17px;
+    }
+
+    .aylik-odeme-listesi {
+        padding: 8px 18px 16px;
+    }
+
+    .aylik-odeme-satir {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 5px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .aylik-odeme-satir:last-child {
+        border-bottom: none;
+    }
+
+    .aylik-odeme-ay {
+        font-weight: 600;
+        color: #334155;
+    }
+
+    .aylik-odeme-tutar {
+        font-weight: 700;
+        color: #1d4ed8;
+    }
+
+    .odeme-onizleme-yok {
+        padding: 18px;
+        color: #64748b;
+        text-align: center;
+    }
+
+    .okul-ucret-yok {
+        margin-top: 14px;
+        color: #b45309;
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        border-radius: 10px;
+        padding: 12px;
+        display: none;
+    }
+
+    @@media (max-width: 768px) {
+        .okul-ucret-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .kayit-card {
+        background: #fff;
+        border-radius: 18px;
+        padding: 28px;
+        margin-bottom: 22px;
+        box-shadow: 0 8px 25px rgba(15, 23, 42, .08);
+        border: 1px solid #e2e8f0;
+    }
+
+    .kayit-card-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .kayit-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #60a5fa, #1d4ed8);
+        color: white;
+        font-size: 20px;
+    }
+
+    .kayit-card-title h4 {
+        margin: 0;
+        color: #172554;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 7px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 45px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
+    }
+
+    .ucret-box {
+        background: #f8fafc;
+        border-radius: 14px;
+        padding: 20px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .checkbox-row {
+        display: flex;
+        gap: 25px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+    }
+
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #334155;
+        font-weight: 600;
+    }
+
+    .checkbox-item input {
+        width: 18px;
+        height: 18px;
+    }
+
+    .kayit-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .btn-kaydet {
+        background: linear-gradient(135deg, #2563eb, #172554);
+        border: none;
+        color: white;
+        border-radius: 10px;
+        padding: 11px 25px;
+        font-weight: 600;
+    }
+
+    .btn-kaydet:hover {
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 15px rgba(37, 99, 235, .25);
+    }
+
+    .btn-iptal {
+        border-radius: 10px;
+        padding: 11px 22px;
+    }
+</style>
+
+<div class="kayit-page">
+
+    <div class="page-title-box">
+
+        <div class="page-title-icon">
+            👤
+        </div>
+
+        <div>
+            <h2>Öğrenci Kaydı</h2>
+            <p>Öğrenci, veli, okul ve ücret bilgilerini tek ekrandan oluşturun.</p>
+        </div>
+
     </div>
 
-    <div class="card">
-        <div class="card-body">
+    @if (TempData["Basarili"] != null)
+    {
+        <div class="alert alert-success rounded-3">
+            @TempData["Basarili"]
+        </div>
+    }
 
-            <div class="mb-3">
-                <label class="form-label">Öğrenci</label>
-                <input class="form-control"
-                       value="@Model.AdSoyad - @Model.OgrenciNo"
-                       readonly />
+    @if (!ViewData.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "validation-summary" })
+    }
+
+    <form asp-controller="Ogrenci" asp-action="Kayit" method="post">
+
+        <!-- ÖĞRENCİ BİLGİLERİ -->
+        <div class="kayit-card">
+            <div class="kayit-card-title">
+                <div class="kayit-icon">👤</div>
+                <h4>Öğrenci Bilgileri</h4>
             </div>
 
-            <form asp-action="Kayit" method="post">
+            <div class="row g-3">
 
-                <input type="hidden"
-                       name="ogrenciId"
-                       value="@Model.Id" />
+                <div class="col-md-6">
+                    <label class="form-label">Ad Soyad</label>
+                    <input asp-for="AdSoyad"
+                           class="form-control"
+                           placeholder="Öğrencinin adı ve soyadı" />
+                    <span asp-validation-for="AdSoyad" class="text-danger"></span>
+                </div>
 
-                <div class="mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Öğrenci No</label>
+                    <input asp-for="OgrenciNo"
+                           class="form-control"
+                           placeholder="Öğrenci numarası" />
+                    <span asp-validation-for="OgrenciNo" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Doğum Tarihi</label>
+                    <input asp-for="DogumTarihi"
+                           type="date"
+                           class="form-control" />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Cinsiyet</label>
+                    <select asp-for="Cinsiyet" class="form-select">
+                        <option value="">Seçiniz</option>
+                        <option value="Kadın">Kadın</option>
+                        <option value="Erkek">Erkek</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Telefon</label>
+                    <input asp-for="Telefon"
+                           class="form-control"
+                           placeholder="Öğrenci telefonu" />
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">Adres</label>
+                    <textarea asp-for="Adres"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Öğrencinin adresi"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- OKUL / SINIF -->
+        <div class="kayit-card">
+            <div class="kayit-card-title">
+                <div class="kayit-icon">🏫</div>
+                <h4>Okul ve Sınıf Bilgileri</h4>
+            </div>
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
                     <label class="form-label">Okul</label>
-
-                    <select name="okulId"
+                    <select asp-for="OkulId"
                             id="okulId"
-                            class="form-select"
-                            required>
-
+                            class="form-select">
                         <option value="">Okul seçiniz</option>
 
-                        @foreach (var okul in ViewBag.Okullar)
+                        @foreach (var okul in Model.Okullar)
                         {
-                            <option value="@okul.Id">
-                                @okul.Ad
-                            </option>
+                            <option value="@okul.Id">@okul.Ad — @okul.Adres</option>
                         }
-
                     </select>
+                    <span asp-validation-for="OkulId" class="text-danger"></span>
                 </div>
 
-                <div class="mb-3">
+                <div class="col-md-6">
                     <label class="form-label">Sınıf</label>
-
-                    <select name="sinifId"
+                    <select asp-for="SinifId"
                             id="sinifId"
-                            class="form-select"
-                            required>
-
+                            class="form-select">
                         <option value="">Önce okul seçiniz</option>
+                    </select>
 
-                        @foreach (var sinif in ViewBag.Siniflar)
-                        {
-                            <option value="@sinif.Id"
-                                    data-okul="@sinif.OkulId">
-                                @sinif.Ad
-                            </option>
-                        }
+                    <script id="sinifVerileri" type="application/json">
+                        @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                            Model.Siniflar.Select(x => new
+                            {
+                                id = x.Id,
+                                ad = x.Ad,
+                                okulId = x.OkulId
+                            })
+                        ))
+                    </script>
+                </div>
 
+            </div>
+
+            <div class="okul-ucret-box" id="okulUcretBox">
+
+                <div class="okul-ucret-baslik">
+                    Seçilen Okulun Ücret Bilgisi
+                </div>
+
+                <div class="okul-ucret-grid">
+
+                    <div class="okul-ucret-item">
+                        <small>Standart Okul Ücreti</small>
+                        <strong id="okulToplamUcret">-</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="okul-ucret-yok" id="okulUcretYok">
+                Bu okul için henüz ücret tanımlanmamış.
+                Özel fiyat girebilir veya önce Ücret ve Ödemeler bölümünden okul ücretini tanımlayabilirsiniz.
+            </div>
+        </div>
+
+
+        <!-- VELİ BİLGİLERİ -->
+        <div class="kayit-card">
+            <div class="kayit-card-title">
+                <div class="kayit-icon">👨‍👩‍👧</div>
+                <h4>Veli Bilgileri</h4>
+            </div>
+
+            <div class="row g-3">
+
+                <div class="col-md-5">
+                    <label class="form-label">Veli Ad Soyad</label>
+                    <input asp-for="VeliAdSoyad"
+                           class="form-control"
+                           placeholder="Veli adı ve soyadı" />
+                    <span asp-validation-for="VeliAdSoyad" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Veli Telefon</label>
+                    <input asp-for="VeliTelefon"
+                           class="form-control"
+                           placeholder="05XX XXX XX XX" />
+                    <span asp-validation-for="VeliTelefon" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Yakınlık</label>
+                    <select asp-for="VeliYakinlik" class="form-select">
+                        <option value="">Seçiniz</option>
+                        <option value="Anne">Anne</option>
+                        <option value="Baba">Baba</option>
+                        <option value="Vasi">Vasi</option>
+                        <option value="Diğer">Diğer</option>
                     </select>
                 </div>
 
-                <button type="submit"
-                        class="btn btn-primary">
-                    Kaydı Oluştur
-                </button>
-
-                <a asp-action="Index"
-                   class="btn btn-secondary">
-                    İptal
-                </a>
-
-            </form>
-
+            </div>
         </div>
-    </div>
+
+
+        <!-- ÜCRET PLANI -->
+        <div class="kayit-card">
+            <div class="kayit-card-title">
+                <div class="kayit-icon">💳</div>
+                <h4>Ücret Planı</h4>
+            </div>
+
+            <div class="ucret-box">
+
+                <div class="checkbox-row">
+
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <label class="form-label">Ödeme Şekli</label>
+                        <select asp-for="OdemeSekli"
+                                id="odemeSekli"
+                                class="form-select">
+                            <option value="Taksitli">Taksitli</option>
+                            <option value="Pesin">Peşin</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Taksit Sayısı</label>
+                        <select asp-for="TaksitSayisi"
+                                id="taksitSayisi"
+                                class="form-select">
+                            @for (int i = 1; i <= 8; i++)
+                            {
+                                <option value="@i">@i Taksit</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Aylık Ödeme Günü</label>
+                        <select asp-for="OdemeGunu"
+                                class="form-select">
+                            @for (int gun = 1; gun <= 31; gun++)
+                            {
+                                <option value="@gun">@gun</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Başlangıç Ayı</label>
+                        <select asp-for="BaslangicAyi"
+                                class="form-select">
+                            <option value="10">Ekim</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <label class="form-label">Özel Fiyat (₺)</label>
+                        <input asp-for="OzelFiyat"
+                               type="number"
+                               min="0"
+                               step="0.01"
+                               class="form-control"
+                               placeholder="Örn. 60000" />
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Açıklama</label>
+                        <textarea asp-for="UcretAciklama"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="İndirim, özel fiyat veya ücret planı ile ilgili açıklama"></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="odeme-onizleme" id="odemeOnizleme">
+
+                            <div class="odeme-onizleme-baslik">
+                                Ödeme Planı Önizleme
+                            </div>
+
+                            <div class="odeme-ozet">
+
+                                <div class="odeme-ozet-item">
+                                    <small>Toplam Ücret</small>
+                                    <strong id="onizlemeToplam">-</strong>
+                                </div>
+
+                                <div class="odeme-ozet-item">
+                                    <small>Ödeme Şekli</small>
+                                    <strong id="onizlemeSekil">-</strong>
+                                </div>
+
+                                <div class="odeme-ozet-item">
+                                    <small>Aylık Tutar</small>
+                                    <strong id="onizlemeAylik">-</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="aylik-odeme-listesi"
+                                 id="aylikOdemeListesi">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="kayit-actions">
+            <a asp-controller="Home"
+               asp-action="AdminPanel"
+               class="btn btn-outline-secondary btn-iptal">
+                ← İptal
+            </a>
+
+            <button type="submit"
+                    class="btn btn-kaydet">
+                Kaydı Oluştur
+            </button>
+        </div>
+
+    </form>
 
 </div>
 
@@ -91,28 +640,260 @@
     const okulSelect = document.getElementById("okulId");
     const sinifSelect = document.getElementById("sinifId");
 
-    okulSelect.addEventListener("change", function () {
+    const sinifVerileri = JSON.parse(
+        document.getElementById("sinifVerileri").textContent
+    );
 
-        const okulId = this.value;
+    function siniflariGuncelle() {
+        const okulId = okulSelect.value;
 
-        const options = sinifSelect.querySelectorAll("option");
+        sinifSelect.innerHTML = "";
 
-        sinifSelect.value = "";
+        const ilkOption = document.createElement("option");
+        ilkOption.value = "";
 
-        options.forEach(function (option, index) {
+        if (!okulId) {
+            ilkOption.textContent = "Önce okul seçiniz";
+            sinifSelect.appendChild(ilkOption);
+            return;
+        }
 
-            if (index === 0) {
-                option.style.display = "block";
-                return;
+        ilkOption.textContent = "Sınıf seçiniz";
+        sinifSelect.appendChild(ilkOption);
+
+        sinifVerileri
+            .filter(function (sinif) {
+                return String(sinif.okulId) === String(okulId);
+            })
+            .forEach(function (sinif) {
+                const option = document.createElement("option");
+
+                option.value = sinif.id;
+                option.textContent = sinif.ad;
+
+                sinifSelect.appendChild(option);
+            });
+    }
+
+    okulSelect.addEventListener("change", siniflariGuncelle);
+
+    siniflariGuncelle();
+
+    const odemeSekli = document.getElementById("odemeSekli");
+    const taksitSayisi = document.getElementById("taksitSayisi");
+
+    function odemeSekliKontrolu() {
+        if (odemeSekli.value === "Pesin") {
+            taksitSayisi.value = "1";
+            taksitSayisi.disabled = true;
+        } else {
+            taksitSayisi.disabled = false;
+            if (taksitSayisi.value === "1") {
+                taksitSayisi.value = "8";
+            }
+        }
+    }
+
+    odemeSekli.addEventListener("change", odemeSekliKontrolu);
+    odemeSekliKontrolu();
+
+    const okulUcretleri = [
+        @foreach (var ucret in Model.OkulUcretleri)
+        {
+            <text>{
+                okulId: @ucret.OkulId,
+                toplam: @ucret.UygulanacakStandartVeliUcreti.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                odeme: "@ucret.OdemeSekli",
+                taksit: @ucret.TaksitAySayisi
+            },</text>
+        }
+    ];
+
+    const okulUcretBox = document.getElementById("okulUcretBox");
+    const okulUcretYok = document.getElementById("okulUcretYok");
+    const okulToplamUcret = document.getElementById("okulToplamUcret");
+
+    function okulUcretiniGoster() {
+
+        const secilenOkul = parseInt(okulSelect.value);
+
+        if (!secilenOkul) {
+            okulUcretBox.classList.remove("active");
+            okulUcretYok.style.display = "none";
+            return;
+        }
+
+        const ucret = okulUcretleri.find(x => x.okulId === secilenOkul);
+
+        if (!ucret) {
+            okulUcretBox.classList.remove("active");
+            okulUcretYok.style.display = "block";
+            return;
+        }
+
+        okulUcretYok.style.display = "none";
+        okulUcretBox.classList.add("active");
+
+        okulToplamUcret.textContent =
+            Number(ucret.toplam).toLocaleString("tr-TR", {
+                minimumFractionDigits: 2
+            }) + " ₺";
+
+
+    }
+
+    okulSelect.addEventListener("change", okulUcretiniGoster);
+
+    okulUcretiniGoster();
+
+
+    const indirimli = document.getElementById("Indirimli");
+    const ucretsiz = document.getElementById("Ucretsiz");
+    const indirimOrani = document.getElementById("IndirimOrani");
+    const ozelFiyat = document.getElementById("OzelFiyat");
+
+    const onizlemeToplam = document.getElementById("onizlemeToplam");
+    const onizlemeSekil = document.getElementById("onizlemeSekil");
+    const onizlemeAylik = document.getElementById("onizlemeAylik");
+    const aylikOdemeListesi = document.getElementById("aylikOdemeListesi");
+
+    const ayIsimleri = [
+        "Ocak", "Şubat", "Mart", "Nisan",
+        "Mayıs", "Haziran", "Temmuz", "Ağustos",
+        "Eylül", "Ekim", "Kasım", "Aralık"
+    ];
+
+    function paraFormatla(tutar) {
+        return Number(tutar).toLocaleString("tr-TR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + " ₺";
+    }
+
+    function seciliOkulUcreti() {
+        const secilenOkul = parseInt(okulSelect.value);
+
+        if (!secilenOkul || typeof okulUcretleri === "undefined") {
+            return 0;
+        }
+
+        const ucret = okulUcretleri.find(x => x.okulId === secilenOkul);
+
+        return ucret ? Number(ucret.toplam) : 0;
+    }
+
+    function odemePlaniniGoster() {
+
+        if (!onizlemeToplam) {
+            return;
+        }
+
+        let toplam = 0;
+
+        if (ucretsiz && ucretsiz.checked) {
+            toplam = 0;
+        }
+        else if (ozelFiyat && ozelFiyat.value &&
+                 Number(ozelFiyat.value) > 0) {
+            toplam = Number(ozelFiyat.value);
+        }
+        else {
+            toplam = seciliOkulUcreti();
+        }
+
+        if (indirimli &&
+            indirimli.checked &&
+            indirimOrani &&
+            Number(indirimOrani.value) > 0) {
+
+            toplam = toplam *
+                (1 - Number(indirimOrani.value) / 100);
+        }
+
+        toplam = Math.round((toplam + Number.EPSILON) * 100) / 100;
+
+        const sekil = odemeSekli.value;
+        let taksit = Number(taksitSayisi.value);
+
+        if (sekil === "Pesin") {
+            taksit = 1;
+        }
+
+        if (!toplam) {
+            onizlemeToplam.textContent = "Ücret girilmedi";
+            onizlemeSekil.textContent = sekil === "Pesin" ? "Peşin" : "Taksitli";
+            onizlemeAylik.textContent = "-";
+            aylikOdemeListesi.innerHTML =
+                '<div class="odeme-onizleme-yok">Önce okul seçin veya özel fiyat girin.</div>';
+            return;
+        }
+
+        const aylik =
+            Math.round((toplam / taksit + Number.EPSILON) * 100) / 100;
+
+        onizlemeToplam.textContent = paraFormatla(toplam);
+        onizlemeSekil.textContent =
+            sekil === "Pesin"
+                ? "Peşin"
+                : taksit + " Taksit";
+        onizlemeAylik.textContent =
+            paraFormatla(aylik);
+
+        const acikAylar = [
+            { ay: 10, yil: new Date().getFullYear() },
+            { ay: 11, yil: new Date().getFullYear() },
+            { ay: 12, yil: new Date().getFullYear() },
+            { ay: 1, yil: new Date().getFullYear() + 1 },
+            { ay: 2, yil: new Date().getFullYear() + 1 },
+            { ay: 3, yil: new Date().getFullYear() + 1 },
+            { ay: 4, yil: new Date().getFullYear() + 1 },
+            { ay: 5, yil: new Date().getFullYear() + 1 }
+        ];
+
+        const kullanilacakAylar =
+            acikAylar.slice(0, taksit);
+
+        let html = "";
+        let biriken = 0;
+
+        kullanilacakAylar.forEach((item, index) => {
+
+            let tutar;
+
+            if (index === kullanilacakAylar.length - 1) {
+                tutar =
+                    Math.round(
+                        (toplam - biriken + Number.EPSILON) * 100
+                    ) / 100;
+            }
+            else {
+                tutar = aylik;
+                biriken += tutar;
             }
 
-            if (option.dataset.okul === okulId) {
-                option.style.display = "block";
-            } else {
-                option.style.display = "none";
-            }
-
+            html += `
+                <div class="aylik-odeme-satir">
+                    <span class="aylik-odeme-ay">
+                        ${ayIsimleri[item.ay - 1]} ${item.yil}
+                    </span>
+                    <span class="aylik-odeme-tutar">
+                        ${paraFormatla(tutar)}
+                    </span>
+                </div>
+            `;
         });
 
-    });
+        aylikOdemeListesi.innerHTML = html;
+    }
+
+    [okulSelect, odemeSekli, taksitSayisi,
+     indirimli, ucretsiz, indirimOrani, ozelFiyat]
+        .filter(x => x)
+        .forEach(x => {
+            x.addEventListener("change", odemePlaniniGoster);
+            x.addEventListener("input", odemePlaniniGoster);
+        });
+
+    odemePlaniniGoster();
+
 </script>

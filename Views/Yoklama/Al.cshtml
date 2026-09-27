@@ -179,3 +179,560 @@
     }
 
 </div>
+
+
+<style>
+
+/* =========================================================
+   ORTAK ÖĞRETMEN SAYFASI TASARIMI
+   TARÇIN + KAHVE + TURUNCU
+   ========================================================= */
+
+:root {
+    --cinnamon: #b85d2b;
+    --cinnamon-dark: #8f452b;
+    --terracotta: #d97832;
+    --orange: #e59a32;
+    --cream: #fff8f1;
+    --cream-2: #f8eee6;
+    --coffee: #51342a;
+    --muted: #80665a;
+    --line: #eadbd0;
+}
+
+/* =========================
+   SINIFLARIM
+   ========================= */
+
+body:has(.siniflarim-page) {
+    background: #f5eee8 !important;
+}
+
+.siniflarim-page {
+    background:
+        radial-gradient(circle at 8% 8%, rgba(239,167,111,.72), transparent 25%),
+        radial-gradient(circle at 92% 12%, rgba(218,127,91,.55), transparent 26%),
+        radial-gradient(circle at 15% 90%, rgba(193,112,78,.38), transparent 27%),
+        radial-gradient(circle at 88% 90%, rgba(238,178,126,.44), transparent 25%),
+        linear-gradient(135deg,#d99a73 0%,#b97658 43%,#875448 72%,#674239 100%) !important;
+}
+
+.siniflarim-page .top-bar {
+    background: rgba(255,248,242,.25) !important;
+    border-color: rgba(255,239,227,.55) !important;
+    border-radius: 24px !important;
+}
+
+.siniflarim-page .page-heading h1 {
+    color: #fffaf6 !important;
+}
+
+.siniflarim-page .heading-label {
+    background: rgba(120,57,39,.28) !important;
+}
+
+.siniflarim-page .classes-grid {
+    gap: 20px !important;
+}
+
+.siniflarim-page .class-card {
+    position: relative !important;
+    overflow: hidden !important;
+    background: rgba(255,250,246,.94) !important;
+    border: 1px solid rgba(255,255,255,.72) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 14px 35px rgba(74,38,27,.16) !important;
+    transition: transform .22s ease, box-shadow .22s ease !important;
+}
+
+.siniflarim-page .class-card::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 6px !important;
+    background: linear-gradient(90deg,#b85d2b,#e59a32) !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2)::before {
+    background: linear-gradient(90deg,#d97832,#e9b044) !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n)::before {
+    background: linear-gradient(90deg,#8f452b,#b85d2b) !important;
+}
+
+.siniflarim-page .class-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 20px 42px rgba(74,38,27,.22) !important;
+}
+
+.siniflarim-page .class-icon {
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+    border-color: #dfc0ad !important;
+    border-radius: 16px !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2) .class-icon {
+    background: #f7e7c3 !important;
+    color: #c17b14 !important;
+    border-color: #ecd59e !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n) .class-icon {
+    background: #ead1c7 !important;
+    color: #8f452b !important;
+    border-color: #dcb7aa !important;
+}
+
+.siniflarim-page .class-info h2,
+.siniflarim-page .class-info h3 {
+    color: var(--coffee) !important;
+}
+
+.siniflarim-page .school-name {
+    color: var(--muted) !important;
+}
+
+.siniflarim-page .class-divider {
+    background: var(--line) !important;
+}
+
+.siniflarim-page .class-view {
+    background: linear-gradient(135deg,#b85d2b,#d97832) !important;
+    color: #fff !important;
+    border-radius: 13px !important;
+    box-shadow: 0 7px 16px rgba(184,93,43,.20) !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2) .class-view {
+    background: linear-gradient(135deg,#d38a19,#e5a52e) !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n) .class-view {
+    background: linear-gradient(135deg,#8f452b,#b85d2b) !important;
+}
+
+.siniflarim-page .empty-message {
+    background: rgba(255,250,246,.94) !important;
+    border-radius: 22px !important;
+    border-color: rgba(184,93,43,.18) !important;
+}
+
+.siniflarim-page .empty-icon {
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+}
+
+
+/* =========================================================
+   YOKLAMA AL
+   ========================================================= */
+
+body:has(.attendance-page) {
+    background: #f5eee8 !important;
+}
+
+.attendance-page {
+    min-height: 100vh !important;
+    padding: 30px 32px 50px !important;
+    background:
+        radial-gradient(circle at 5% 5%,rgba(239,167,111,.28),transparent 23%),
+        radial-gradient(circle at 95% 10%,rgba(218,127,91,.22),transparent 25%),
+        linear-gradient(135deg,#f8eee7,#f2e2d6) !important;
+}
+
+.attendance-page .attendance-header {
+    max-width: 1180px !important;
+    margin: 0 auto 20px !important;
+    padding: 25px 28px !important;
+    border-radius: 22px !important;
+    background: linear-gradient(135deg,#a9572f,#d97832) !important;
+    border: 1px solid rgba(255,255,255,.28) !important;
+    box-shadow: 0 14px 32px rgba(91,48,31,.16) !important;
+}
+
+.attendance-page .page-kicker {
+    color: #ffe6d4 !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.1px !important;
+}
+
+.attendance-page .attendance-header h1 {
+    color: #fffaf6 !important;
+}
+
+.attendance-page .attendance-header p {
+    color: #f8ded0 !important;
+}
+
+.attendance-page .back-button {
+    background: rgba(255,248,242,.18) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,.35) !important;
+    border-radius: 13px !important;
+}
+
+.attendance-page .attendance-card {
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+    background: rgba(255,250,246,.96) !important;
+    border: 1px solid rgba(184,93,43,.16) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 14px 35px rgba(91,48,31,.12) !important;
+}
+
+.attendance-page .attendance-card-header {
+    padding: 22px 25px !important;
+    background: linear-gradient(135deg,#fff9f4,#f8eee6) !important;
+    border-bottom: 1px solid #eadbd0 !important;
+}
+
+.attendance-page .attendance-card-header h2 {
+    color: #51342a !important;
+}
+
+.attendance-page .attendance-card-header p {
+    color: #80665a !important;
+}
+
+.attendance-page .student-count {
+    background: #f0d8c9 !important;
+    color: #9b4d29 !important;
+    border-radius: 999px !important;
+    border: 1px solid #dfc0ad !important;
+}
+
+.attendance-page .student-row {
+    margin: 10px 15px !important;
+    padding: 14px 16px !important;
+    border: 1px solid #eadbd0 !important;
+    border-radius: 16px !important;
+    background: #fffdfb !important;
+    transition: transform .18s ease, box-shadow .18s ease !important;
+}
+
+.attendance-page .student-row:hover {
+    transform: translateX(3px) !important;
+    box-shadow: 0 7px 18px rgba(91,48,31,.09) !important;
+}
+
+.attendance-page .student-icon {
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+    border-radius: 13px !important;
+}
+
+.attendance-page .student-info strong {
+    color: #51342a !important;
+}
+
+.attendance-page .student-info span {
+    color: #80665a !important;
+}
+
+.attendance-page .attendance-button {
+    border-radius: 11px !important;
+}
+
+.attendance-page .attendance-button.present.active {
+    background: #b85d2b !important;
+    color: #fff !important;
+    border-color: #b85d2b !important;
+}
+
+.attendance-page .attendance-button.absent.active {
+    background: #8f452b !important;
+    color: #fff !important;
+    border-color: #8f452b !important;
+}
+
+.attendance-page .attendance-footer {
+    padding: 20px 25px !important;
+    background: #fbf4ef !important;
+    border-top: 1px solid #eadbd0 !important;
+}
+
+.attendance-page .save-attendance {
+    background: linear-gradient(135deg,#b85d2b,#d97832) !important;
+    color: #fff !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 9px 20px rgba(184,93,43,.22) !important;
+}
+
+.attendance-page .empty-students {
+    color: #51342a !important;
+}
+
+
+/* =========================================================
+   YOKLAMA GEÇMİŞİ
+   ========================================================= */
+
+body:has(.yoklama-history-page) {
+    background: #f5eee8 !important;
+}
+
+.yoklama-history-page {
+    background:
+        radial-gradient(circle at 7% 7%,rgba(239,167,111,.25),transparent 24%),
+        radial-gradient(circle at 93% 12%,rgba(218,127,91,.20),transparent 25%),
+        linear-gradient(135deg,#f8eee7,#f2e2d6) !important;
+}
+
+.yoklama-history-page .history-header {
+    min-height: 145px !important;
+    border-radius: 22px !important;
+    background: linear-gradient(135deg,#a9572f,#d97832) !important;
+    box-shadow: 0 14px 32px rgba(91,48,31,.16) !important;
+}
+
+.yoklama-history-page .history-header h1 {
+    font-size: 30px !important;
+}
+
+.yoklama-history-page .history-grid {
+    grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+    gap: 20px !important;
+}
+
+.yoklama-history-page .history-class-card {
+    min-height: 205px !important;
+    border-radius: 21px !important;
+    background: rgba(255,250,246,.96) !important;
+    box-shadow: 0 13px 30px rgba(91,48,31,.11) !important;
+    transition: transform .22s ease,box-shadow .22s ease !important;
+}
+
+.yoklama-history-page .history-class-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 20px 40px rgba(91,48,31,.17) !important;
+}
+
+.yoklama-history-page .history-class-card::before {
+    height: 6px !important;
+    background: linear-gradient(90deg,#b85d2b,#d97832) !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n+2)::before {
+    background: linear-gradient(90deg,#d38a19,#e5a52e) !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n)::before {
+    background: linear-gradient(90deg,#8f452b,#b85d2b) !important;
+}
+
+.yoklama-history-page .history-class-icon {
+    border-radius: 16px !important;
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n+2) .history-class-icon {
+    background: #f7e7c3 !important;
+    color: #c17b14 !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n) .history-class-icon {
+    background: #ead1c7 !important;
+    color: #8f452b !important;
+}
+
+.yoklama-history-page .history-class-info h2 {
+    color: #51342a !important;
+}
+
+.yoklama-history-page .history-school {
+    color: #80665a !important;
+}
+
+.yoklama-history-page .history-divider {
+    background: #eadbd0 !important;
+}
+
+.yoklama-history-page .history-button {
+    border-radius: 13px !important;
+    background: linear-gradient(135deg,#b85d2b,#d97832) !important;
+    box-shadow: 0 7px 16px rgba(184,93,43,.18) !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n+2) .history-button {
+    background: linear-gradient(135deg,#d38a19,#e5a52e) !important;
+}
+
+.yoklama-history-page .history-class-card:nth-child(3n) .history-button {
+    background: linear-gradient(135deg,#8f452b,#b85d2b) !important;
+}
+
+.yoklama-history-page .history-empty {
+    border-radius: 21px !important;
+    background: rgba(255,250,246,.96) !important;
+}
+
+.yoklama-history-page .history-empty-icon {
+    border-radius: 16px !important;
+    background: #f0d8c9 !important;
+    color: #b85d2b !important;
+}
+
+
+/* =========================================================
+   MOBİL
+   ========================================================= */
+
+@@media (max-width: 850px) {
+    .yoklama-history-page .history-grid {
+        grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    }
+
+    .attendance-page {
+        padding: 20px 15px 35px !important;
+    }
+}
+
+@@media (max-width: 600px) {
+    .yoklama-history-page .history-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .siniflarim-page {
+        padding: 20px 15px 35px !important;
+    }
+
+    .siniflarim-page .classes-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .attendance-page .attendance-header {
+        padding: 21px !important;
+    }
+
+    .attendance-page .student-row {
+        margin: 8px 10px !important;
+        padding: 12px !important;
+    }
+}
+
+</style>
+
+
+<style>
+/* =========================================
+   GERİ / ANA SAYFA / PANEL BUTONLARI
+   ÜÇ SAYFADA TAMAMEN AYNI
+   ========================================= */
+
+.siniflarim-page .back-btn,
+.attendance-page .back-button,
+.yoklama-history-page .history-back {
+    width: auto !important;
+    min-width: 150px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    padding: 0 20px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    background: #c96a2b !important;
+    color: #fff8f1 !important;
+
+    border: 1px solid rgba(255,255,255,.55) !important;
+    border-radius: 14px !important;
+
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+    box-shadow: 0 6px 15px rgba(112,55,30,.16) !important;
+
+    transform: none !important;
+    transition: .2s ease !important;
+}
+
+.siniflarim-page .back-btn:hover,
+.attendance-page .back-button:hover,
+.yoklama-history-page .history-back:hover {
+    background: #c96a2b !important;
+    color: #fff8f1 !important;
+    border-color: rgba(255,255,255,.7) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* OK İKONLARI DA AYNI BOY */
+.siniflarim-page .back-btn svg,
+.attendance-page .back-button svg,
+.yoklama-history-page .history-back svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+}
+</style>
+
+
+<style id="common-return-buttons">
+.siniflarim-page .top-bar > .back-btn,
+.attendance-page .attendance-header > .back-button,
+.yoklama-history-page .history-header > .history-back {
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+
+    padding: 0 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    box-sizing: border-box !important;
+
+    background: #a95f3b !important;
+    background-color: #a95f3b !important;
+    background-image: none !important;
+
+    color: #fff8f1 !important;
+
+    border: 1px solid rgba(255,245,235,.40) !important;
+    border-radius: 14px !important;
+
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    box-shadow: none !important;
+    text-decoration: none !important;
+    transform: none !important;
+}
+
+.siniflarim-page .top-bar > .back-btn:hover,
+.attendance-page .attendance-header > .back-button:hover,
+.yoklama-history-page .history-header > .history-back:hover {
+    width: 150px !important;
+    height: 50px !important;
+    background: #a95f3b !important;
+    background-color: #a95f3b !important;
+    color: #fff8f1 !important;
+    transform: translateY(-2px) !important;
+}
+
+.siniflarim-page .top-bar > .back-btn svg,
+.attendance-page .attendance-header > .back-button svg,
+.yoklama-history-page .history-header > .history-back svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+}
+</style>
+

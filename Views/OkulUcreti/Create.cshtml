@@ -1,313 +1,295 @@
 @model OkulTakipSistemi.Models.OkulUcreti
 
 @{
-    ViewData["Title"] = "Okul Ücreti Ekle";
+    ViewData["Title"] = "Yeni Okul ve Ücret";
 }
 
-<div class="container-fluid py-4">
+<style>
+.okul-ucreti-page{padding:30px 26px 45px!important;min-height:calc(100vh - 72px);}
+.okul-ucreti-page>.mb-4{position:relative;overflow:hidden;padding:24px 28px!important;margin-bottom:24px!important;border:1px solid #dcecfb;border-radius:22px;background:linear-gradient(135deg,#e7f4ff 0%,#d7ecff 55%,#c5e3fb 100%);box-shadow:0 10px 30px rgba(42,104,153,.08);}
+.okul-ucreti-page>.mb-4:after{content:"🏫";position:absolute;right:28px;top:50%;transform:translateY(-50%);width:64px;height:64px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:rgba(255,255,255,.8);font-size:28px;box-shadow:0 8px 20px rgba(55,112,160,.08);}
+.okul-ucreti-page>.mb-4 h2{position:relative;z-index:2;margin:0 0 5px!important;color:#173f68;font-size:30px!important;font-weight:800!important;letter-spacing:-.4px;}
+.okul-ucreti-page>.mb-4 p{position:relative;z-index:2;margin:0;color:#62809d!important;font-size:14px;}
+.okul-ucreti-page>.card{border:1px solid #e1ebf4!important;border-radius:22px!important;background:#fff;box-shadow:0 10px 30px rgba(32,74,108,.07)!important;overflow:hidden;}
+.okul-ucreti-page>.card>.card-body{padding:28px!important;}
+.okul-ucreti-page .form-label{display:flex;align-items:center;gap:7px;margin-bottom:8px;color:#234869;font-size:14px;font-weight:700;}
+.okul-ucreti-page .form-control{min-height:48px;border:1px solid #d7e3ed!important;border-radius:13px!important;background:#fbfdff!important;color:#263f56!important;box-shadow:none!important;transition:border-color .2s,box-shadow .2s,background .2s;}
+.okul-ucreti-page textarea.form-control{min-height:102px;resize:vertical;}
+.okul-ucreti-page .form-control:focus{border-color:#70afe0!important;background:#fff!important;box-shadow:0 0 0 4px rgba(73,145,205,.10)!important;}
+.okul-ucreti-page .input-group-text{border:1px solid #d7e3ed;border-left:0;border-radius:0 13px 13px 0;background:#f1f7fc;color:#315875;font-weight:700;}
+.okul-ucreti-page .input-group .form-control{border-radius:13px 0 0 13px!important;}
+
+.sinif-ekleme-box{
+    margin-top:8px;
+    padding:18px;
+    border:1px solid #dceaf5;
+    border-radius:16px;
+    background:#f8fbfe;
+}
+
+.sinif-ekleme-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.sinif-ekleme-row input{
+    flex:1;
+}
+
+.sinif-ekle-btn{
+    min-height:48px;
+    padding:0 20px;
+    border:0;
+    border-radius:12px;
+    background:#e8f3ff;
+    border:1px solid #cfe4f7;
+    color:#246ba9;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.sinif-ekle-btn:hover{
+    background:#dceeff;
+}
+
+.sinif-listesi{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:14px;
+}
+
+.sinif-item{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 11px;
+    border-radius:9px;
+    background:white;
+    border:1px solid #d7e5f0;
+    color:#315d85;
+    font-size:13px;
+    font-weight:700;
+}
+
+.sinif-sil{
+    border:0;
+    background:transparent;
+    color:#9aa9b6;
+    font-size:16px;
+    line-height:1;
+    cursor:pointer;
+    padding:0;
+}
+
+.sinif-sil:hover{
+    color:#c94f4f;
+}
+
+.sinif-bos{
+    margin-top:12px;
+    color:#91a0ae;
+    font-size:12px;
+}
+
+.okul-ucreti-action-buttons{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:24px;
+}
+
+.okul-ucreti-save-button,
+.okul-ucreti-cancel-button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height:50px;
+    padding:0 28px;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:700;
+    line-height:1;
+    text-decoration:none;
+    box-sizing:border-box;
+}
+
+.okul-ucreti-save-button{
+    color:#fff;
+    background:#1683e8;
+    border:1px solid #1683e8;
+    box-shadow:0 5px 14px rgba(22,131,232,.18);
+    cursor:pointer;
+}
+
+.okul-ucreti-save-button:hover{
+    background:#0d73d1;
+    border-color:#0d73d1;
+    transform:translateY(-1px);
+}
+
+.okul-ucreti-cancel-button{
+    color:#667789;
+    background:#fff;
+    border:1px solid #9aa8b5;
+}
+
+.okul-ucreti-cancel-button:hover{
+    color:#40566c;
+    background:#f5f8fb;
+    border-color:#7f91a2;
+}
+
+@@media(max-width:600px){
+    .okul-ucreti-page{padding:22px 18px 35px!important;}
+    .okul-ucreti-page>.mb-4:after{display:none;}
+    .okul-ucreti-page>.mb-4 h2{font-size:25px!important;}
+    .okul-ucreti-page>.card>.card-body{padding:20px!important;}
+    .sinif-ekleme-row{flex-direction:column;align-items:stretch;}
+    .sinif-ekle-btn{width:100%;}
+    .okul-ucreti-action-buttons{flex-direction:column;align-items:stretch;}
+    .okul-ucreti-save-button,.okul-ucreti-cancel-button{width:100%;}
+}
+</style>
+
+<div class="container-fluid py-4 okul-ucreti-page">
 
     <div class="mb-4">
         <h2 class="fw-bold mb-1">
-            Okul Ücreti Tanımla
+            Yeni Okul ve Ücret
         </h2>
 
-        <p class="text-muted">
-            Okul ücretini peşin veya taksitli olarak belirleyebilirsiniz.
+        <p class="text-muted mb-0">
+            Yeni okul bilgilerini, sınıfları ve yıllık eğitim ücretini aynı ekrandan belirleyin.
         </p>
     </div>
 
     <div class="card shadow-sm border-0">
-        <div class="card-body">
+
+        <div class="card-body p-4">
 
             <form asp-action="Create" method="post">
 
                 @Html.AntiForgeryToken()
 
                 <div asp-validation-summary="ModelOnly"
-                     class="alert alert-danger">
+                     class="text-danger mb-3">
                 </div>
 
-                <!-- OKUL -->
-
-                <div class="mb-3">
-
-                    <label class="form-label fw-semibold">
-                        Okul
+                <div class="mb-4">
+                    <label for="okulAdi"
+                           class="form-label fw-semibold">
+                        Okul Adı
                     </label>
 
-                    <select asp-for="OkulId"
-                            class="form-select"
-                            required>
-
-                        <option value="">
-                            -- Okul Seçin --
-                        </option>
-
-                        @foreach (var okul in ViewBag.Okullar)
-                        {
-                            <option value="@okul.Id">
-                                @okul.Ad
-                            </option>
-                        }
-
-                    </select>
-
-                    <span asp-validation-for="OkulId"
-                          class="text-danger">
-                    </span>
-
+                    <input type="text"
+                           id="okulAdi"
+                           name="okulAdi"
+                           class="form-control"
+                           placeholder="Örn. Atatürk İlkokulu"
+                           required />
                 </div>
 
+                <div class="mb-4">
+                    <label for="adres"
+                           class="form-label fw-semibold">
+                        Adres
+                    </label>
 
-                <!-- TOPLAM ÜCRET -->
+                    <textarea id="adres"
+                              name="adres"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Okul adresini giriniz"></textarea>
+                </div>
 
-                <div class="mb-3">
+                <div class="mb-4">
+                    <label for="telefon"
+                           class="form-label fw-semibold">
+                        Telefon
+                    </label>
 
-                    <label class="form-label fw-semibold">
-                        Toplam Okul Ücreti
+                    <input type="text"
+                           id="telefon"
+                           name="telefon"
+                           class="form-control"
+                           placeholder="Örn. 0212 123 45 67" />
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ToplamUcret"
+                           class="form-label fw-semibold">
+                        Yıllık Eğitim Ücreti
                     </label>
 
                     <div class="input-group">
-
                         <input asp-for="ToplamUcret"
-                               id="ToplamUcret"
                                class="form-control"
                                type="number"
                                step="0.01"
-                               min="0"
+                               min="0.01"
+                               placeholder="Örn. 60000"
                                required />
 
                         <span class="input-group-text">
                             ₺
                         </span>
-
                     </div>
 
                     <span asp-validation-for="ToplamUcret"
                           class="text-danger">
                     </span>
-
                 </div>
-
-
-                <!-- ÖDEME ŞEKLİ -->
-
-                <div class="mb-3">
-
-                    <label class="form-label fw-semibold">
-                        Ödeme Şekli
-                    </label>
-
-                    <select asp-for="OdemeSekli"
-                            id="OdemeSekli"
-                            class="form-select">
-
-                        <option value="Taksitli">
-                            Taksitli Ödeme
-                        </option>
-
-                        <option value="Pesin">
-                            Peşin Ödeme
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- TAKSİT SAYISI -->
-
-                <div class="mb-3"
-                     id="taksitAlani">
-
-                    <label class="form-label fw-semibold">
-                        Kaç Ay Taksit?
-                    </label>
-
-                    <select asp-for="TaksitAySayisi"
-                            id="TaksitAySayisi"
-                            class="form-select">
-
-                        <option value="2">
-                            2 Ay
-                        </option>
-
-                        <option value="3">
-                            3 Ay
-                        </option>
-
-                        <option value="4">
-                            4 Ay
-                        </option>
-
-                        <option value="5">
-                            5 Ay
-                        </option>
-
-                        <option value="6">
-                            6 Ay
-                        </option>
-
-                        <option value="7">
-                            7 Ay
-                        </option>
-
-                        <option value="8">
-                            8 Ay
-                        </option>
-
-                        <option value="9">
-                            9 Ay
-                        </option>
-
-                        <option value="10">
-                            10 Ay
-                        </option>
-
-                        <option value="11">
-                            11 Ay
-                        </option>
-
-                        <option value="12" selected>
-                            12 Ay
-                        </option>
-
-                    </select>
-
-                    <small class="text-muted">
-                        Toplam ücretin kaç ayda ödeneceğini seçin.
-                    </small>
-
-                </div>
-
-
-                <!-- BAŞLANGIÇ AYI -->
-
-                <div class="mb-3"
-                     id="baslangicAyiAlani">
-
-                    <label class="form-label fw-semibold">
-                        Ödeme Başlangıç Ayı
-                    </label>
-
-                    <select asp-for="BaslangicAyi"
-                            id="BaslangicAyi"
-                            class="form-select">
-
-                        <option value="1">
-                            Ocak
-                        </option>
-
-                        <option value="2">
-                            Şubat
-                        </option>
-
-                        <option value="3">
-                            Mart
-                        </option>
-
-                        <option value="4">
-                            Nisan
-                        </option>
-
-                        <option value="5">
-                            Mayıs
-                        </option>
-
-                        <option value="6">
-                            Haziran
-                        </option>
-
-                        <option value="7">
-                            Temmuz
-                        </option>
-
-                        <option value="8">
-                            Ağustos
-                        </option>
-
-                        <option value="9" selected>
-                            Eylül
-                        </option>
-
-                        <option value="10">
-                            Ekim
-                        </option>
-
-                        <option value="11">
-                            Kasım
-                        </option>
-
-                        <option value="12">
-                            Aralık
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- GEÇERLİLİK TARİHİ -->
-
-                <div class="mb-3">
-
-                    <label class="form-label fw-semibold">
-                        Geçerlilik Tarihi
-                    </label>
-
-                    <input asp-for="GecerlilikTarihi"
-                           class="form-control"
-                           type="date"
-                           required />
-
-                </div>
-
-
-                <!-- AÇIKLAMA -->
 
                 <div class="mb-4">
 
-                    <label class="form-label fw-semibold">
-                        Açıklama
+                    <label class="form-label">
+                        📚 Sınıflar
                     </label>
 
-                    <textarea asp-for="Aciklama"
-                              class="form-control"
-                              rows="3"
-                              placeholder="Örneğin: 2026-2027 eğitim öğretim yılı"></textarea>
+                    <div class="sinif-ekleme-box">
 
-                </div>
+                        <div class="sinif-ekleme-row">
 
+                            <input type="text"
+                                   id="sinifInput"
+                                   class="form-control"
+                                   placeholder="Örn. 1-A" />
 
-                <!-- ÖDEME PLANI -->
+                            <button type="button"
+                                    id="sinifEkleBtn"
+                                    class="sinif-ekle-btn">
+                                ＋ Sınıf Ekle
+                            </button>
 
-                <div class="alert alert-info">
+                        </div>
 
-                    <strong>Ödeme Planı:</strong>
+                        <div id="sinifListesi"
+                             class="sinif-listesi">
+                        </div>
 
-                    <div id="hesaplama"
-                         class="mt-2">
+                        <div id="sinifBos"
+                             class="sinif-bos">
+                            Henüz sınıf eklenmedi.
+                        </div>
+
                     </div>
 
                 </div>
 
+                <div id="sinifHiddenInputs"></div>
 
-                <!-- BUTONLAR -->
-
-                <div class="d-flex gap-2">
+                <div class="okul-ucreti-action-buttons">
 
                     <button type="submit"
-                            class="btn btn-primary">
-
-                        Ücreti Kaydet ve Ödeme Planını Oluştur
-
+                            class="okul-ucreti-save-button">
+                        Kaydet
                     </button>
 
                     <a asp-action="Index"
-                       class="btn btn-outline-secondary">
-
-                        Vazgeç
-
+                       class="okul-ucreti-cancel-button">
+                        ← İptal
                     </a>
 
                 </div>
@@ -315,122 +297,100 @@
             </form>
 
         </div>
+
     </div>
 
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const input = document.getElementById("sinifInput");
+    const ekleBtn = document.getElementById("sinifEkleBtn");
+    const liste = document.getElementById("sinifListesi");
+    const bos = document.getElementById("sinifBos");
+    const hiddenInputs = document.getElementById("sinifHiddenInputs");
+
+    let siniflar = [];
+
+    function listeyiGuncelle() {
+
+        liste.innerHTML = "";
+        hiddenInputs.innerHTML = "";
+
+        bos.style.display = siniflar.length === 0 ? "block" : "none";
+
+        siniflar.forEach(function (sinif, index) {
+
+            const item = document.createElement("div");
+            item.className = "sinif-item";
+
+            const ad = document.createElement("span");
+            ad.textContent = sinif;
+
+            const sil = document.createElement("button");
+            sil.type = "button";
+            sil.className = "sinif-sil";
+            sil.textContent = "×";
+
+            sil.addEventListener("click", function () {
+                siniflar.splice(index, 1);
+                listeyiGuncelle();
+            });
+
+            item.appendChild(ad);
+            item.appendChild(sil);
+            liste.appendChild(item);
+
+            const hidden = document.createElement("input");
+            hidden.type = "hidden";
+            hidden.name = "sinifAdlari";
+            hidden.value = sinif;
+
+            hiddenInputs.appendChild(hidden);
+        });
+    }
+
+    function sinifEkle() {
+
+        const ad = input.value.trim();
+
+        if (!ad) {
+            input.focus();
+            return;
+        }
+
+        const mevcut = siniflar.some(function (x) {
+            return x.toLowerCase() === ad.toLowerCase();
+        });
+
+        if (mevcut) {
+            input.value = "";
+            input.focus();
+            return;
+        }
+
+        siniflar.push(ad);
+        input.value = "";
+
+        listeyiGuncelle();
+        input.focus();
+    }
+
+    ekleBtn.addEventListener("click", sinifEkle);
+
+    input.addEventListener("keydown", function (event) {
+
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sinifEkle();
+        }
+
+    });
+
+});
+</script>
 
 @section Scripts {
-
     <partial name="_ValidationScriptsPartial" />
-
-    <script>
-
-        function hesapla() {
-
-            var toplam =
-                parseFloat(
-                    document.getElementById("ToplamUcret").value
-                ) || 0;
-
-            var odemeSekli =
-                document.getElementById("OdemeSekli").value;
-
-            var ay =
-                parseInt(
-                    document.getElementById("TaksitAySayisi").value
-                ) || 12;
-
-
-            if (odemeSekli === "Pesin") {
-
-                document.getElementById("hesaplama").innerHTML =
-                    "Toplam " +
-                    toplam.toLocaleString("tr-TR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }) +
-                    " ₺ <strong>peşin</strong> olarak ödenecektir.";
-
-            }
-            else {
-
-                var aylik = toplam / ay;
-
-                document.getElementById("hesaplama").innerHTML =
-                    "Toplam " +
-                    toplam.toLocaleString("tr-TR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }) +
-                    " ₺ / " +
-                    ay +
-                    " ay = <strong>" +
-                    aylik.toLocaleString("tr-TR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }) +
-                    " ₺ / ay</strong>";
-
-            }
-        }
-
-
-        function odemeSekliDegisti() {
-
-            var odemeSekli =
-                document.getElementById("OdemeSekli").value;
-
-            var taksitAlani =
-                document.getElementById("taksitAlani");
-
-            var baslangicAlani =
-                document.getElementById("baslangicAyiAlani");
-
-
-            if (odemeSekli === "Pesin") {
-
-                taksitAlani.style.display = "none";
-
-                baslangicAlani.style.display = "none";
-
-                // Backend peşin ödemeyi 1 taksit olarak kabul edecek.
-                document.getElementById("TaksitAySayisi").value = "1";
-
-            }
-            else {
-
-                taksitAlani.style.display = "block";
-
-                baslangicAlani.style.display = "block";
-
-                if (
-                    document.getElementById("TaksitAySayisi").value === "1"
-                ) {
-                    document.getElementById("TaksitAySayisi").value = "12";
-                }
-            }
-
-            hesapla();
-        }
-
-
-        document
-            .getElementById("ToplamUcret")
-            .addEventListener("input", hesapla);
-
-
-        document
-            .getElementById("TaksitAySayisi")
-            .addEventListener("change", hesapla);
-
-
-        document
-            .getElementById("OdemeSekli")
-            .addEventListener("change", odemeSekliDegisti);
-
-
-        odemeSekliDegisti();
-
-    </script>
 }

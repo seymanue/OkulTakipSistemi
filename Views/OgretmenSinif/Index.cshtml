@@ -5,724 +5,509 @@
 }
 
 <style>
-
-    * {
-        box-sizing: border-box;
+    .os-page {
+        min-height: calc(100vh - 80px);
+        padding: 30px 32px 50px;
+        background: #f4f7fb;
     }
 
-    body {
-        margin: 0;
-        min-height: 100vh;
-
-        font-family: "Inter",
-                     -apple-system,
-                     BlinkMacSystemFont,
-                     "Segoe UI",
-                     sans-serif;
-
-        color: #ffffff;
-
-        background:
-            radial-gradient(
-                circle at 80% 10%,
-                rgba(233,120,69,0.22),
-                transparent 30%
-            ),
-            radial-gradient(
-                circle at 15% 80%,
-                rgba(185,75,40,0.18),
-                transparent 32%
-            ),
-            linear-gradient(
-                135deg,
-                #211713 0%,
-                #2d1b15 45%,
-                #1b110e 100%
-            );
-
-        background-attachment: fixed;
-    }
-
-
-    /* =====================================================
-       ANA KAPSAYICI
-       ===================================================== */
-
-    .sinif-page {
-        width: 100%;
-        max-width: 1250px;
-
-        margin: 0 auto;
-        padding: 45px 28px 60px;
-    }
-
-
-    /* =====================================================
-       ÜST BAŞLIK
-       ===================================================== */
-
-    .page-header {
-
+    .os-header {
         display: flex;
-
-        justify-content: space-between;
         align-items: center;
-
-        gap: 25px;
-
-        margin-bottom: 28px;
-
-        padding: 28px 30px;
-
-        border-radius: 24px;
-
-        background:
-            rgba(255,255,255,0.075);
-
-        border:
-            1px solid rgba(255,210,185,0.18);
-
-        backdrop-filter: blur(22px);
-        -webkit-backdrop-filter: blur(22px);
-
-        box-shadow:
-            0 20px 60px rgba(0,0,0,0.20);
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
     }
 
-
-    .page-title-area h2 {
-
-        margin: 0 0 8px;
-
-        font-size: 28px;
-
-        font-weight: 800;
-
-        letter-spacing: -0.5px;
-
-        color: #ffffff;
+    .os-title {
+        display: flex;
+        align-items: center;
+        gap: 15px;
     }
 
-
-    .page-title-area p {
-
-        margin: 0;
-
-        color: rgba(255,255,255,0.62);
-
-        font-size: 14px;
-    }
-
-
-    /* =====================================================
-       SINIF ATA BUTONU
-       ===================================================== */
-
-    .add-button {
-
-        display: inline-flex;
-
+    .os-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 15px;
+        display: flex;
         align-items: center;
         justify-content: center;
-
-        padding: 13px 20px;
-
-        border-radius: 13px;
-
-        color: #ffffff !important;
-
-        text-decoration: none;
-
-        font-size: 14px;
-        font-weight: 700;
-
-        background:
-            linear-gradient(
-                135deg,
-                #e97845,
-                #b94b28
-            );
-
-        border:
-            1px solid rgba(255,210,185,0.28);
-
-        box-shadow:
-            0 10px 28px rgba(185,75,40,0.25);
-
-        transition:
-            transform .2s ease,
-            box-shadow .2s ease;
+        flex-shrink: 0;
+        font-size: 26px;
+        background: linear-gradient(135deg, #60a5fa, #2563eb, #1e3a8a);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, .18);
     }
 
-
-    .add-button:hover {
-
-        color: #ffffff !important;
-
-        transform: translateY(-2px);
-
-        box-shadow:
-            0 14px 35px rgba(185,75,40,0.35);
-    }
-
-
-    /* =====================================================
-       TABLO KARTI
-       ===================================================== */
-
-    .table-card {
-
-        overflow: hidden;
-
-        border-radius: 24px;
-
-        background:
-            rgba(255,255,255,0.065);
-
-        border:
-            1px solid rgba(255,210,185,0.17);
-
-        backdrop-filter: blur(22px);
-        -webkit-backdrop-filter: blur(22px);
-
-        box-shadow:
-            0 20px 60px rgba(0,0,0,0.20);
-    }
-
-
-    .assignment-table {
-
-        width: 100%;
-
+    .os-title h2 {
         margin: 0;
-
-        border-collapse: collapse;
-
-        color: #ffffff;
+        color: #172554;
+        font-size: 26px;
+        font-weight: 750;
     }
 
-
-    /* =====================================================
-       TABLO BAŞLIĞI
-       ===================================================== */
-
-    .assignment-table thead {
-
-        background:
-            rgba(233,120,69,0.13);
+    .os-title p {
+        margin: 4px 0 0;
+        color: #64748b;
+        font-size: 13px;
     }
 
+    .os-add {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 43px;
+        padding: 0 17px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #2563eb, #1e3a8a);
+        color: #fff !important;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        box-shadow: 0 7px 18px rgba(37, 99, 235, .20);
+        transition: all .2s ease;
+    }
 
-    .assignment-table thead th {
+    .os-add:hover {
+        color: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 23px rgba(37, 99, 235, .28);
+    }
 
-        padding: 18px 20px;
+    .os-card {
+        background: #fff;
+        border: 1px solid #dbeafe;
+        border-radius: 19px;
+        overflow: hidden;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, .055);
+    }
 
-        border: none;
+    .os-card-head {
+        min-height: 62px;
+        padding: 0 21px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        background: linear-gradient(135deg, #f8fbff, #eff6ff);
+        border-bottom: 1px solid #dbeafe;
+    }
 
-        color: rgba(255,220,200,0.90);
+    .os-card-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #1e3a8a;
+        font-size: 14px;
+        font-weight: 750;
+    }
 
+    .os-card-title-icon {
+        width: 29px;
+        height: 29px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #dbeafe;
+        font-size: 15px;
+    }
+
+    .os-count {
+        padding: 5px 11px;
+        border-radius: 20px;
+        background: #dbeafe;
+        color: #1d4ed8;
         font-size: 11px;
-
-        font-weight: 800;
-
-        text-transform: uppercase;
-
-        letter-spacing: 1px;
-
+        font-weight: 750;
         white-space: nowrap;
     }
 
-
-    /* =====================================================
-       TABLO SATIRLARI
-       ===================================================== */
-
-    .assignment-table tbody tr {
-
-        border-top:
-            1px solid rgba(255,255,255,0.075);
-
-        transition:
-            background .2s ease;
+    .os-table-wrap {
+        width: 100%;
+        overflow-x: auto;
     }
 
-
-    .assignment-table tbody tr:hover {
-
-        background:
-            rgba(233,120,69,0.075);
+    .os-table {
+        width: 100%;
+        min-width: 850px;
+        margin: 0;
+        border-collapse: collapse;
     }
 
+    .os-table th {
+        padding: 13px 18px;
+        background: #fbfdff;
+        border-bottom: 1px solid #e2e8f0;
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 750;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        white-space: nowrap;
+        text-align: left;
+    }
 
-    .assignment-table tbody td {
-
-        padding: 18px 20px;
-
-        border: none;
-
-        color: rgba(255,255,255,0.82);
-
-        font-size: 14px;
-
+    .os-table td {
+        padding: 15px 18px;
+        border-bottom: 1px solid #eef2f7;
+        color: #334155;
+        font-size: 13px;
         vertical-align: middle;
     }
 
-
-    /* ID */
-
-    .id-badge {
-
-        display: inline-flex;
-
-        align-items: center;
-        justify-content: center;
-
-        min-width: 38px;
-        height: 30px;
-
-        padding: 0 9px;
-
-        border-radius: 9px;
-
-        color: #f3a276;
-
-        background:
-            rgba(233,120,69,0.12);
-
-        border:
-            1px solid rgba(233,120,69,0.20);
-
-        font-size: 12px;
-
-        font-weight: 700;
+    .os-table tbody tr {
+        transition: background .18s ease;
     }
 
-
-    /* ÖĞRETMEN */
-
-    .teacher-cell {
-
-        color: #ffffff !important;
-
-        font-weight: 700;
+    .os-table tbody tr:hover {
+        background: #f8fbff;
     }
 
-
-    /* SINIF */
-
-    .class-badge {
-
-        display: inline-flex;
-
-        align-items: center;
-
-        padding: 7px 12px;
-
-        border-radius: 10px;
-
-        color: #ffd4bc;
-
-        background:
-            rgba(233,120,69,0.11);
-
-        border:
-            1px solid rgba(233,120,69,0.18);
-
-        font-size: 12px;
-
-        font-weight: 700;
+    .os-table tbody tr:last-child td {
+        border-bottom: none;
     }
-
-
-    /* OKUL */
-
-    .school-cell {
-
-        color:
-            rgba(255,255,255,0.65) !important;
-    }
-
-
-    /* =====================================================
-       İŞLEM BUTONLARI
-       ===================================================== */
-
-    .action-area {
-
+    .os-teacher {
         display: flex;
-
         align-items: center;
-
-        gap: 8px;
+        gap: 10px;
+        color: #1e293b !important;
+        font-weight: 700;
+        white-space: nowrap;
     }
 
-
-    .edit-button,
-    .delete-button {
-
+    .os-avatar {
+        width: 37px;
+        height: 37px;
+        border-radius: 11px;
         display: inline-flex;
-
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        color: #1d4ed8;
+        font-size: 13px;
+        font-weight: 800;
+    }
 
-        padding: 9px 13px;
-
-        border-radius: 10px;
-
-        font-size: 12px;
-
+    .os-class {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        color: #1d4ed8;
+        font-size: 11px;
         font-weight: 700;
+        white-space: nowrap;
+    }
 
+    .os-school {
+        color: #475569 !important;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .os-actions {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .os-edit {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 10px;
+        border-radius: 9px;
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        color: #1d4ed8 !important;
         text-decoration: none;
-
-        border: 1px solid transparent;
-
-        transition:
-            transform .2s ease,
-            background .2s ease;
+        font-size: 11px;
+        font-weight: 700;
+        transition: all .2s ease;
     }
 
-
-    .edit-button {
-
-        color: #ffd4bc !important;
-
-        background:
-            rgba(233,120,69,0.13);
-
-        border-color:
-            rgba(233,120,69,0.22);
-    }
-
-
-    .edit-button:hover {
-
-        color: #ffffff !important;
-
-        background:
-            rgba(233,120,69,0.24);
-
+    .os-edit:hover {
+        background: #dbeafe;
         transform: translateY(-1px);
     }
 
-
-    .delete-button {
-
-        color: #ffb5a5;
-
-        background:
-            rgba(170,55,40,0.14);
-
-        border-color:
-            rgba(220,90,65,0.20);
-
+    .os-delete {
+        border: 1px solid #fecaca;
+        padding: 7px 10px;
+        border-radius: 9px;
+        background: #fef2f2;
+        color: #b91c1c;
+        font-size: 11px;
+        font-weight: 700;
         cursor: pointer;
+        transition: all .2s ease;
     }
 
-
-    .delete-button:hover {
-
-        color: #ffffff;
-
-        background:
-            rgba(190,60,42,0.25);
-
+    .os-delete:hover {
+        background: #fee2e2;
         transform: translateY(-1px);
     }
 
-
-    /* =====================================================
-       BOŞ DURUM
-       ===================================================== */
-
-    .empty-row {
-
-        padding: 55px 20px !important;
-
+    .os-empty {
+        padding: 50px 20px !important;
         text-align: center;
+        color: #94a3b8 !important;
+    }
 
-        color:
-            rgba(255,255,255,0.45) !important;
+    .os-empty-icon {
+        display: block;
+        margin-bottom: 9px;
+        font-size: 31px;
+    }
 
+    .os-back {
+        margin-top: 18px;
+    }
+
+    .os-back a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 9px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        color: #64748b !important;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 650;
+        transition: all .2s ease;
+    }
+
+    .os-back a:hover {
+        background: #eff6ff;
+        border-color: #dbeafe;
+        color: #1d4ed8 !important;
+        transform: translateY(-1px);
+    }
+
+    @@media (max-width: 700px) {
+        .os-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .os-add {
+            width: 100%;
+        }
+
+        .os-title h2 {
+            font-size: 23px;
+        }
+    }
+
+    .page-title-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 26px;
+        padding: 26px 30px;
+        border: 1px solid #d9eaf8;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #eaf5ff 0%, #d8ecff 55%, #c7e3fb 100%);
+        box-shadow: 0 8px 25px rgba(26, 64, 99, 0.07);
+    }
+
+    .page-title-content {
+        display: flex;
+        align-items: center;
+        gap: 17px;
+        min-width: 0;
+    }
+
+    .page-title-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 54px;
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 5px 15px rgba(25, 87, 145, 0.10);
+        font-size: 26px;
+    }
+
+    .page-title-box h1,
+    .page-title-box h2 {
+        margin: 0 0 5px;
+        color: #163b61;
+        font-size: 27px;
+        font-weight: 800;
+    }
+
+    .page-title-box p {
+        margin: 0;
+        color: #607b95;
         font-size: 14px;
     }
 
-
-    /* =====================================================
-       GERİ DÖN
-       ===================================================== */
-
-    .back-area {
-
-        margin-top: 22px;
+    .page-title-action {
+        flex-shrink: 0;
     }
 
-
-    .back-button {
-
-        display: inline-flex;
-
-        align-items: center;
-
-        gap: 8px;
-
-        padding: 11px 17px;
-
-        border-radius: 12px;
-
-        color:
-            rgba(255,255,255,0.72) !important;
-
-        text-decoration: none;
-
-        font-size: 13px;
-
-        font-weight: 600;
-
-        background:
-            rgba(255,255,255,0.065);
-
-        border:
-            1px solid rgba(255,255,255,0.13);
-
-        backdrop-filter: blur(12px);
-
-        transition:
-            background .2s ease,
-            transform .2s ease;
-    }
-
-
-    .back-button:hover {
-
-        color: #ffffff !important;
-
-        background:
-            rgba(255,255,255,0.11);
-
-        transform: translateY(-1px);
-    }
-
-
-    /* =====================================================
-       MOBİL
-       ===================================================== */
-
-    @@media (max-width: 800px) {
-
-        .sinif-page {
-
-            padding:
-                25px 15px 40px;
-        }
-
-
-        .page-header {
-
-            flex-direction: column;
-
+    @@media (max-width: 700px) {
+        .page-title-box {
             align-items: flex-start;
-
+            flex-direction: column;
             padding: 22px;
         }
 
-
-        .page-title-area h2 {
-
-            font-size: 23px;
+        .page-title-action {
+            width: 100%;
         }
-
-
-        .table-card {
-
-            overflow-x: auto;
-        }
-
-
-        .assignment-table {
-
-            min-width: 850px;
-        }
-
     }
 
 </style>
 
+<div class="os-page">
 
-<div class="sinif-page">
+    <div class="page-title-box">
 
+        <div class="page-title-content">
 
-    <!-- =====================================================
-         BAŞLIK
-         ===================================================== -->
+            <div class="page-title-icon">
+                🔗
+            </div>
 
-    <div class="page-header">
-
-        <div class="page-title-area">
-
-            <h2>
-                Öğretmen-Sınıf Atamaları
-            </h2>
-
-            <p>
-                Öğretmenlerin görev yaptığı sınıfları yönetin.
-            </p>
+            <div>
+                <h2>Öğretmen - Sınıf</h2>
+                <p>Öğretmenlerin görev yapacağı sınıfları yönetin.</p>
+            </div>
 
         </div>
 
-
-        <a asp-action="Create"
-           class="add-button">
-
-            + Sınıf Ata
-
-        </a>
+        <div class="page-title-action">
+            <a asp-action="Create" class="os-add">
+                ＋ Sınıf Ata
+            </a>
+        </div>
 
     </div>
 
+    <div class="os-card">
 
-    <!-- =====================================================
-         TABLO
-         ===================================================== -->
+        <div class="os-card-head">
 
-    <div class="table-card">
+            <div class="os-card-title">
+                <span class="os-card-title-icon">🔗</span>
+                Atama Listesi
+            </div>
 
-        <table class="assignment-table">
+            <div class="os-count">
+                @Model.Count() Atama
+            </div>
 
-            <thead>
+        </div>
 
-                <tr>
+        <div class="os-table-wrap">
 
-                    <th>ID</th>
+            <table class="os-table">
 
-                    <th>Öğretmen</th>
-
-                    <th>Sınıf</th>
-
-                    <th>Okul</th>
-
-                    <th>İşlem</th>
-
-                </tr>
-
-            </thead>
-
-
-            <tbody>
-
-                @if (!Model.Any())
-                {
+                <thead>
                     <tr>
-
-                        <td colspan="5"
-                            class="empty-row">
-
-                            Henüz öğretmen-sınıf ataması yapılmamış.
-
-                        </td>
-
+                        <th>Öğretmen</th>
+                        <th>Sınıf</th>
+                        <th>Okul</th>
+                        <th>İşlemler</th>
                     </tr>
-                }
-                else
-                {
-                    @foreach (var atama in Model)
+                </thead>
+
+                <tbody>
+
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            var adSoyad = item.Ogretmen?.AdSoyad ?? "Öğretmen";
+                            var ilkHarf = string.IsNullOrWhiteSpace(adSoyad)
+                                ? "Ö"
+                                : adSoyad.Substring(0, 1).ToUpper();
+
+                            <tr>
+                                <td>
+                                    <div class="os-teacher">
+                                        <span class="os-avatar">
+                                            @ilkHarf
+                                        </span>
+                                        <span>@adSoyad</span>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <span class="os-class">
+                                        🎓 @(item.Sinif?.Ad ?? "Sınıf belirtilmemiş")
+                                    </span>
+                                </td>
+
+                                <td class="os-school">
+                                    🏫 @(item.Sinif?.Okul?.Ad ?? "Okul belirtilmemiş")
+                                </td>
+
+                                <td>
+
+                                    <div class="os-actions">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.Id"
+                                           class="os-edit">
+                                            ✏️ Düzenle
+                                        </a>
+
+                                        <form asp-action="Delete"
+                                              method="post"
+                                              style="display:inline;"
+                                              onsubmit="return confirm('Bu atamayı silmek istediğinize emin misiniz?');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@item.Id" />
+
+                                            <button type="submit"
+                                                    class="os-delete">
+                                                🗑️ Sil
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-
-                            <td>
-
-                                <span class="id-badge">
-                                    @atama.Id
-                                </span>
-
+                            <td colspan="4" class="os-empty">
+                                <span class="os-empty-icon">🔗</span>
+                                Henüz öğretmen-sınıf ataması bulunmuyor.
                             </td>
-
-
-                            <td class="teacher-cell">
-
-                                @(atama.Ogretmen?.AdSoyad ?? "Bilinmiyor")
-
-                            </td>
-
-
-                            <td>
-
-                                <span class="class-badge">
-
-                                    @(atama.Sinif?.Ad ?? "Bilinmiyor")
-
-                                </span>
-
-                            </td>
-
-
-                            <td class="school-cell">
-
-                                @(atama.Sinif?.Okul?.Ad ?? "Bilinmiyor")
-
-                            </td>
-
-
-                            <td>
-
-                                <div class="action-area">
-
-                                    <a asp-action="Edit"
-                                       asp-route-id="@atama.Id"
-                                       class="edit-button">
-
-                                        ✏️ Düzenle
-
-                                    </a>
-
-
-                                    <form asp-action="Delete"
-                                          method="post"
-                                          style="display:inline;"
-                                          onsubmit="return confirm('Bu atamayı silmek istediğinize emin misiniz?');">
-
-                                        <input type="hidden"
-                                               name="id"
-                                               value="@atama.Id" />
-
-                                        <button type="submit"
-                                                class="delete-button">
-
-                                            🗑️ Sil
-
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
-
                         </tr>
                     }
-                }
 
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
 
-    </div>
-
-
-    <!-- =====================================================
-         GERİ DÖN
-         ===================================================== -->
-
-    <div class="back-area">
-
-        <a asp-controller="Home"
-           asp-action="AdminPanel"
-           class="back-button">
-
-            ← Yönetici Paneline Dön
-
-        </a>
+        </div>
 
     </div>
+
+
 
 </div>

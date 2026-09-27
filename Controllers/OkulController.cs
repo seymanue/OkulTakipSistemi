@@ -111,16 +111,39 @@ namespace OkulTakipSistemi.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
+            Console.WriteLine("================================");
+            Console.WriteLine("OKUL DELETE ÇAĞRILDI");
+            Console.WriteLine("GELEN ID: " + id);
+
             var okul = _context.Okullar
                 .FirstOrDefault(x => x.Id == id);
 
             if (okul == null)
             {
+                Console.WriteLine("OKUL BULUNAMADI!");
                 return NotFound();
             }
 
-            _context.Okullar.Remove(okul);
-            _context.SaveChanges();
+            Console.WriteLine("BULUNAN OKUL: " + okul.Ad);
+
+            try
+            {
+                _context.Okullar.Remove(okul);
+                _context.SaveChanges();
+
+                Console.WriteLine("OKUL BAŞARIYLA SİLİNDİ!");
+
+                TempData["DeleteSuccess"] =
+                    okul.Ad + " okulu başarıyla silindi.";
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
+            {
+                Console.WriteLine("DELETE HATASI: " + ex.InnerException?.Message);
+                Console.WriteLine("ANA HATA: " + ex.Message);
+
+                TempData["DeleteError"] =
+                    okul.Ad + " okulu silinemedi. Bu okula bağlı kayıtlar bulunmaktadır.";
+            }
 
             return RedirectToAction(nameof(Index));
         }

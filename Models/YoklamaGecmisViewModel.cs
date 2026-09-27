@@ -9,6 +9,8 @@ namespace OkulTakipSistemi.Models
         public string SinifAdi { get; set; }
         public DateTime Tarih { get; set; }
 
+        public string? Aciklama { get; set; }
+
         public List<OgrenciYoklamaViewModel> Ogrenciler { get; set; }
     }
 

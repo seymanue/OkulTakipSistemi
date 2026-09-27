@@ -35,3 +35,37 @@ Icon*
 
 # Tüm numaralı yedekler
 *.backup*
+
+# Geliştirme sırasında oluşturulan yedek dosyalar
+*.before
+*.before-*
+*.onceki
+*.onceki-*
+*.yedek
+*.yedek-*
+*_yedek*
+*.tasarim-oncesi*
+*.suanki-bozuk
+Views_TASARIM_YEDEK/
+
+# ============================================================
+# GELİŞTİRME YEDEKLERİ / GEÇİCİ DOSYALAR
+# ============================================================
+*.bak*
+*.backup*
+*.before*
+*.onceki*
+*.yedek*
+*.test*
+*.save*
+*.bozuk*
+*.eski*
+*.tasarim-oncesi*
+*.suanki-bozuk
+*backup*
+*yedek*
+*oncesi*
+Views_TASARIM_YEDEK/
+
+# Tekil eski tasarım yedeği
+Views/Account/Login.cshtml.son-giris-tasarim-yedegi

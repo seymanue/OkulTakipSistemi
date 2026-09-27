@@ -5,322 +5,469 @@
 }
 
 <style>
-    .attendance-page {
-        min-height: calc(100vh - 100px);
-        background: #f3f8f5;
-        padding: 45px 0 60px;
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    background: #f5eee8 !important;
+    color: #4f3328 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+}
+
+/* BU SAYFADA ÜST NAVBAR YOK */
+body:has(.yoklama-al-page) > header {
+    display: none !important;
+}
+
+body:has(.yoklama-al-page) > .container-fluid {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body:has(.yoklama-al-page) main {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* ANA ALAN */
+.yoklama-al-page {
+    width: 100% !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 28px 32px 45px !important;
+    background: #f5eee8 !important;
+}
+
+.yoklama-al-container {
+    width: min(1120px, 100%) !important;
+    max-width: 1120px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* =========================
+   ÜST PANEL
+   GECMİS İLE AYNI
+========================= */
+
+.yoklama-al-header {
+    width: 100% !important;
+    min-height: 125px !important;
+    margin: 0 0 20px !important;
+    padding: 23px 26px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+
+    background: #9b593b !important;
+    border: 0 !important;
+    border-radius: 16px !important;
+
+    box-shadow: 0 8px 22px rgba(91,48,31,.14) !important;
+}
+
+.yoklama-al-header-content {
+    min-width: 0 !important;
+}
+
+.yoklama-al-header h1 {
+    margin: 0 !important;
+
+    color: #fff8f1 !important;
+
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+    letter-spacing: -.3px !important;
+}
+
+.yoklama-al-header p {
+    margin: 7px 0 0 !important;
+
+    color: #f3d8c5 !important;
+
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+}
+
+/* GERİ BUTONU */
+
+.yoklama-al-back {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-height: 42px !important;
+    padding: 0 17px !important;
+
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+
+    border: 1px solid rgba(255,245,235,.4) !important;
+    border-radius: 10px !important;
+
+    text-decoration: none !important;
+
+    font-size: 14px !important;
+    font-weight: 600 !important;
+
+    transition: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+
+    white-space: nowrap !important;
+}
+
+.yoklama-al-back:hover {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    border-color: rgba(255,245,235,.4) !important;
+    transform: none !important;
+}
+
+
+/* =========================
+   SINIF KARTLARI
+   GECMİS İLE AYNI
+========================= */
+
+.yoklama-al-grid {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 18px !important;
+}
+
+.yoklama-al-card {
+    position: relative !important;
+
+    width: 100% !important;
+    min-height: 190px !important;
+
+    padding: 21px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+
+    background: rgba(255,255,255,.84) !important;
+
+    border: 1px solid rgba(155,89,59,.16) !important;
+    border-radius: 16px !important;
+
+    box-shadow: 0 7px 20px rgba(91,48,31,.08) !important;
+
+    overflow: hidden !important;
+
+    transition: none !important;
+}
+
+/* ÜST ÇİZGİ */
+
+.yoklama-al-card::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: 0 !important;
+    top: 0 !important;
+
+    width: 100% !important;
+    height: 3px !important;
+
+    background: #a95f3b !important;
+}
+
+
+/* =========================
+   LOGO + SINIF BİLGİSİ
+   GECMİS İLE AYNI
+========================= */
+
+.yoklama-al-top {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+}
+
+
+/* LOGO */
+
+.yoklama-al-icon {
+    width: 52px !important;
+    height: 52px !important;
+
+    flex: 0 0 52px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #ead4c5 !important;
+    color: #9b593b !important;
+
+    border: 1px solid #dfc3b2 !important;
+    border-radius: 13px !important;
+}
+
+.yoklama-al-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+
+    fill: none !important;
+    stroke: currentColor !important;
+
+    stroke-width: 1.7 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+
+/* SINIF BİLGİSİ */
+
+.yoklama-al-info {
+    min-width: 0 !important;
+}
+
+.yoklama-al-info h2 {
+    margin: 0 !important;
+
+    color: #4f3328 !important;
+
+    font-size: 20px !important;
+    line-height: 1.25 !important;
+    font-weight: 700 !important;
+}
+
+.yoklama-al-school {
+    margin-top: 4px !important;
+
+    color: #80665a !important;
+
+    font-size: 13px !important;
+}
+
+
+/* AYIRICI */
+
+.yoklama-al-divider {
+    width: 100% !important;
+    height: 1px !important;
+
+    margin: 15px 0 !important;
+
+    background: #eaded5 !important;
+}
+
+
+/* =========================
+   YOKLAMA AL BUTONU
+========================= */
+
+.yoklama-al-button {
+    width: 100% !important;
+    min-height: 42px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 10px !important;
+
+    padding: 0 14px !important;
+
+    background: #a95f3b !important;
+
+    color: #fff8f1 !important;
+
+    border: 0 !important;
+    border-radius: 10px !important;
+
+    text-decoration: none !important;
+
+    font-size: 13px !important;
+    font-weight: 600 !important;
+
+    box-shadow: none !important;
+
+    transition: none !important;
+}
+
+.yoklama-al-button:hover {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    transform: none !important;
+}
+
+.yoklama-al-button svg {
+    width: 17px !important;
+    height: 17px !important;
+
+    flex: 0 0 17px !important;
+
+    fill: none !important;
+    stroke: currentColor !important;
+
+    stroke-width: 1.8 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+
+
+
+
+/* =========================
+   BOŞ DURUM
+========================= */
+
+.yoklama-al-empty {
+    width: 100% !important;
+
+    padding: 40px 25px !important;
+
+    text-align: center !important;
+
+    background: rgba(255,255,255,.84) !important;
+
+    border: 1px solid rgba(155,89,59,.16) !important;
+
+    border-radius: 16px !important;
+
+    box-shadow: 0 7px 20px rgba(91,48,31,.08) !important;
+}
+
+.yoklama-al-empty-icon {
+    width: 55px !important;
+    height: 55px !important;
+
+    margin: 0 auto 14px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #ead4c5 !important;
+    color: #9b593b !important;
+
+    border-radius: 13px !important;
+}
+
+.yoklama-al-empty-icon svg {
+    width: 29px !important;
+    height: 29px !important;
+
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+.yoklama-al-empty strong {
+    display: block !important;
+
+    margin-bottom: 6px !important;
+
+    color: #4f3328 !important;
+
+    font-size: 16px !important;
+}
+
+.yoklama-al-empty span {
+    display: block !important;
+
+    color: #80665a !important;
+
+    font-size: 13px !important;
+}
+
+
+/* =========================
+   MOBİL
+========================= */
+
+@@media (max-width: 750px) {
+
+    .yoklama-al-page {
+        padding: 20px !important;
     }
 
-    /* YEŞİL BAŞLIK */
-
-    .page-header {
-        background: #198754;
-        color: white;
-        border-radius: 18px;
-        padding: 28px 32px;
-        margin-bottom: 30px;
-        box-shadow: 0 8px 20px rgba(25, 135, 84, 0.15);
+    .yoklama-al-header {
+        align-items: flex-start !important;
+        flex-direction: column !important;
     }
 
-    .page-header-inner {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 20px;
+    .yoklama-al-back {
+        width: auto !important;
     }
 
-    .page-header h1 {
-        margin: 0;
-        font-size: 30px;
-        font-weight: 700;
+    .yoklama-al-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@@media (max-width: 500px) {
+
+    .yoklama-al-page {
+        padding: 16px !important;
     }
 
-    .page-header p {
-        margin: 7px 0 0;
-        opacity: .9;
-        font-size: 15px;
+    .yoklama-al-header {
+        padding: 20px !important;
     }
 
-    .page-kicker {
-        font-size: 12px;
-        font-weight: 800;
-        letter-spacing: 1.5px;
-        margin-bottom: 8px;
-        opacity: .9;
+    .yoklama-al-header h1 {
+        font-size: 25px !important;
     }
 
-    .back-btn {
-        background: white;
-        color: #198754;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 18px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-block;
-        white-space: nowrap;
-        transition: .2s ease;
+    .yoklama-al-card {
+        min-height: 185px !important;
+        padding: 19px !important;
     }
+}
 
-    .back-btn:hover {
-        background: #e9f5ef;
-        color: #146c43;
-        transform: translateY(-1px);
-    }
-
-
-    /* SINIFLAR */
-
-    .class-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 24px;
-    }
-
-
-    /* SINIF KARTI */
-
-    .class-card {
-        background: white;
-        border: 1px solid #dceee4;
-        border-radius: 18px;
-        padding: 24px;
-        min-height: 310px;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        box-shadow: 0 5px 15px rgba(0,0,0,.05);
-
-        transition: .2s ease;
-    }
-
-    .class-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(0,0,0,.08);
-        border-color: #b9dcc8;
-    }
-
-
-    /* İKON */
-
-    .class-icon {
-        width: 64px;
-        height: 64px;
-        border-radius: 17px;
-        background: #e9f7ef;
-        color: #198754;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .class-icon svg {
-        width: 36px;
-        height: 36px;
-        stroke: currentColor;
-    }
-
-
-    /* SINIF BİLGİSİ */
-
-    .class-info {
-        margin-top: 25px;
-    }
-
-    .class-info h2 {
-        margin: 0 0 7px;
-        color: #146c43;
-        font-size: 25px;
-        font-weight: 700;
-    }
-
-    .class-info p {
-        margin: 0;
-        color: #7a857f;
-        font-size: 14px;
-    }
-
-
-    /* YOKLAMA BUTONU */
-
-    .attendance-button {
-        width: 100%;
-        min-height: 48px;
-
-        margin-top: 25px;
-        padding: 12px 16px;
-
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        box-sizing: border-box;
-
-        background: #198754;
-        color: white !important;
-
-        border: 1px solid #198754;
-        border-radius: 10px;
-
-        text-decoration: none;
-
-        font-size: 15px;
-        font-weight: 600;
-
-        transition: .2s ease;
-    }
-
-    .attendance-button:hover {
-        background: #146c43;
-        border-color: #146c43;
-        color: white !important;
-        transform: translateY(-1px);
-    }
-
-    .attendance-button .arrow {
-        font-size: 21px;
-        line-height: 1;
-    }
-
-
-    /* BOŞ DURUM */
-
-    .empty-card {
-        background: white;
-        border: 1px solid #dceee4;
-        border-radius: 18px;
-        padding: 45px 25px;
-        text-align: center;
-        box-shadow: 0 5px 15px rgba(0,0,0,.04);
-    }
-
-    .empty-icon {
-        width: 60px;
-        height: 60px;
-        margin: 0 auto 15px;
-
-        border-radius: 50%;
-        background: #e9f7ef;
-        color: #198754;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .empty-icon svg {
-        width: 32px;
-        height: 32px;
-    }
-
-    .empty-card h3 {
-        margin: 0 0 7px;
-        color: #344039;
-        font-size: 18px;
-    }
-
-    .empty-card p {
-        margin: 0;
-        color: #89938d;
-        font-size: 14px;
-    }
-
-
-    /* TABLET */
-
-    @@media (max-width: 768px) {
-
-        .attendance-page {
-            padding: 25px 0 40px;
-        }
-
-        .page-header {
-            padding: 22px;
-        }
-
-        .page-header-inner {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 18px;
-        }
-
-        .back-btn {
-            width: 100%;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        .class-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-
-    /* TELEFON */
-
-    @@media (max-width: 500px) {
-
-        .page-header h1 {
-            font-size: 26px;
-        }
-
-        .class-card {
-            padding: 20px;
-        }
-
-        .class-icon {
-            width: 58px;
-            height: 58px;
-        }
-
-        .class-icon svg {
-            width: 32px;
-            height: 32px;
-        }
-
-        .class-info h2 {
-            font-size: 23px;
-        }
-    }
 </style>
 
 
-<div class="attendance-page">
+<div class="yoklama-al-page">
 
-    <div class="container">
+    <div class="yoklama-al-container">
 
-        <!-- YEŞİL BAŞLIK -->
+        <!-- ÜST PANEL -->
 
-        <div class="page-header">
+        <div class="yoklama-al-header">
 
-            <div class="page-header-inner">
+            <div class="yoklama-al-header-content">
 
-                <div>
+                <h1>
+                    Yoklama Al
+                </h1>
 
-                    <div class="page-kicker">
-                        YOKLAMA
-                    </div>
-
-                    <h1>
-                        Yoklama Al
-                    </h1>
-
-                    <p>
-                        Yoklama almak istediğiniz sınıfı seçiniz.
-                    </p>
-
-                </div>
-
-                <a asp-controller="Home"
-                   asp-action="OgretmenPanel"
-                   class="back-btn">
-                    ← Ana Sayfaya Dön
-                </a>
+                <p>
+                    Yoklama almak istediğiniz sınıfı seçiniz.
+                </p>
 
             </div>
+
+            <a asp-controller="Home"
+               asp-action="OgretmenPanel"
+               class="yoklama-al-back">
+                ← Ana Sayfaya Dön
+            </a>
 
         </div>
 
@@ -329,58 +476,64 @@
 
         @if (Model != null && Model.Any())
         {
-            <div class="class-grid">
+            <div class="yoklama-al-grid">
 
                 @foreach (var sinif in Model)
                 {
-                    <div class="class-card">
+                    <div class="yoklama-al-card">
 
                         <div>
 
-                            <div class="class-icon">
+                            <div class="yoklama-al-top">
 
-                                <svg viewBox="0 0 24 24"
-                                     fill="none"
-                                     stroke="currentColor"
-                                     stroke-width="1.8"
-                                     stroke-linecap="round"
-                                     stroke-linejoin="round">
+                                <div class="yoklama-al-icon">
 
-                                    <path d="M3 21h18" />
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="5" y="4" width="14" height="17" rx="2"
+          fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M9 4.5V3h6v1.5"
+          fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round"/>
+    <path d="M8 10l1.5 1.5L12 9"
+          fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M14 10h2"
+          fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round"/>
+    <path d="M8 15l1.5 1.5L12 14"
+          fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M14 15h2"
+          fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round"/>
+</svg>
 
-                                    <path d="M5 21V8l7-5 7 5v13" />
+                                </div>
 
-                                    <path d="M9 21v-6h6v6" />
+                                <div class="yoklama-al-info">
 
-                                    <path d="M8 10h.01" />
-                                    <path d="M12 10h.01" />
-                                    <path d="M16 10h.01" />
+                                    <h2>
+                                        @sinif.Ad
+                                    </h2>
 
-                                </svg>
+                                    @if (sinif.Okul != null)
+                                    {
+                                        <div class="yoklama-al-school">
+                                            Okul: @sinif.Okul.Ad
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="yoklama-al-school">
+                                            Okul bilgisi bulunmuyor
+                                        </div>
+                                    }
+
+                                </div>
 
                             </div>
 
-
-                            <div class="class-info">
-
-                                <h2>
-                                    @sinif.Ad
-                                </h2>
-
-                                @if (sinif.Okul != null)
-                                {
-                                    <p>
-                                        Okul: @sinif.Okul.Ad
-                                    </p>
-                                }
-                                else
-                                {
-                                    <p>
-                                        Sınıf bilgileri
-                                    </p>
-                                }
-
-                            </div>
+                            <div class="yoklama-al-divider"></div>
 
                         </div>
 
@@ -390,15 +543,16 @@
                         <a asp-controller="Ogretmen"
                            asp-action="YoklamaAl"
                            asp-route-id="@sinif.Id"
-                           class="attendance-button">
+                           class="yoklama-al-button">
 
                             <span>
                                 Yoklama Al
                             </span>
 
-                            <span class="arrow">
-                                →
-                            </span>
+                            <svg viewBox="0 0 24 24">
+                                <path d="M5 12h14" />
+                                <path d="m13 6 6 6-6 6" />
+                            </svg>
 
                         </a>
 
@@ -409,32 +563,33 @@
         }
         else
         {
-            <div class="empty-card">
+            <div class="yoklama-al-empty">
 
-                <div class="empty-icon">
+                <div class="yoklama-al-empty-icon">
 
-                    <svg viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.8"
-                         stroke-linecap="round"
-                         stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24">
 
-                        <path d="M3 21h18" />
-                        <path d="M5 21V8l7-5 7 5v13" />
-                        <path d="M9 21v-6h6v6" />
+                        <rect x="5"
+                              y="3"
+                              width="14"
+                              height="18"
+                              rx="2" />
+
+                        <path d="M8 7h8" />
+                        <path d="M8 11h8" />
+                        <path d="M8 15h5" />
 
                     </svg>
 
                 </div>
 
-                <h3>
-                    Atanmış sınıf bulunamadı
-                </h3>
+                <strong>
+                    Atanmış sınıf bulunamadı.
+                </strong>
 
-                <p>
+                <span>
                     Şu anda size atanmış herhangi bir sınıf bulunmamaktadır.
-                </p>
+                </span>
 
             </div>
         }
@@ -442,3 +597,595 @@
     </div>
 
 </div>
+
+
+<style id="yoklama-al-kare-kartlar">
+
+/* =========================================
+   YOKLAMA AL — 3 SÜTUN / KARE KART TASARIMI
+   ========================================= */
+
+.yoklama-al-page {
+    padding: 34px 36px 55px !important;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(238,169,117,.28), transparent 24%),
+        radial-gradient(circle at 0% 100%, rgba(239,166,113,.25), transparent 23%),
+        radial-gradient(circle at 92% 88%, rgba(244,184,135,.22), transparent 20%),
+        linear-gradient(135deg,#fffaf6 0%,#f9efe7 52%,#f5e7db 100%) !important;
+}
+
+.yoklama-al-container {
+    width: 100% !important;
+    max-width: 1180px !important;
+    margin: 0 auto !important;
+}
+
+/* ÜST PANEL */
+
+.yoklama-al-header {
+    min-height: 170px !important;
+    margin-bottom: 28px !important;
+    padding: 30px 34px !important;
+
+    border-radius: 25px !important;
+
+    background:
+        radial-gradient(circle at 78% -20%,rgba(255,213,171,.22),transparent 27%),
+        radial-gradient(circle at 54% 115%,rgba(255,207,162,.17),transparent 24%),
+        linear-gradient(135deg,#d86e2d 0%,#e57b2c 48%,#d96827 100%) !important;
+
+    border: 0 !important;
+
+    box-shadow:
+        0 16px 36px rgba(139,70,36,.17),
+        inset 0 1px 0 rgba(255,255,255,.16) !important;
+}
+
+.yoklama-al-header h1 {
+    font-size: 38px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+    letter-spacing: -.8px !important;
+}
+
+.yoklama-al-header p {
+    margin-top: 10px !important;
+    font-size: 16px !important;
+    color: rgba(255,246,238,.88) !important;
+}
+
+/* GERİ BUTONU */
+
+.yoklama-al-back {
+    min-width: 175px !important;
+    width: 175px !important;
+    height: 58px !important;
+    min-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    border-radius: 15px !important;
+    border: 2px solid rgba(255,235,217,.58) !important;
+
+    background: rgba(255,248,241,.12) !important;
+    color: #fffaf6 !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+}
+
+/* =========================================
+   KARTLAR
+   ========================================= */
+
+.yoklama-al-grid {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr)) !important;
+
+    gap: 22px !important;
+}
+
+/* KAREYE YAKIN KART */
+
+.yoklama-al-card {
+    position: relative !important;
+
+    min-height: 245px !important;
+
+    padding: 25px !important;
+
+    border-radius: 21px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.98),
+            rgba(255,251,247,.94)
+        ) !important;
+
+    border: 1px solid rgba(255,255,255,.95) !important;
+
+    box-shadow:
+        0 10px 25px rgba(89,47,30,.09),
+        0 2px 5px rgba(89,47,30,.05) !important;
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease !important;
+}
+
+/* ÜST RENKLİ ÇİZGİ */
+
+.yoklama-al-card::before {
+    height: 5px !important;
+    width: 62% !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            #d96928,
+            #e98a3c
+        ) !important;
+
+    border-radius: 0 0 10px 0 !important;
+}
+
+/* 2. KART SARI */
+
+.yoklama-al-card:nth-child(3n + 2)::before {
+    background:
+        linear-gradient(
+            90deg,
+            #e0a20c,
+            #f0bb32
+        ) !important;
+}
+
+/* 3. KART KOYU TURUNCU */
+
+.yoklama-al-card:nth-child(3n)::before {
+    background:
+        linear-gradient(
+            90deg,
+            #c45d29,
+            #e27c30
+        ) !important;
+}
+
+/* =========================================
+   İKON
+   ========================================= */
+
+.yoklama-al-top {
+    gap: 18px !important;
+}
+
+.yoklama-al-icon {
+    width: 74px !important;
+    height: 74px !important;
+
+    flex: 0 0 74px !important;
+
+    border-radius: 17px !important;
+
+    background: #f8dfd0 !important;
+    color: #c45d29 !important;
+
+    border: 0 !important;
+}
+
+.yoklama-al-icon svg {
+    width: 34px !important;
+    height: 34px !important;
+}
+
+/* 2. KART İKONU */
+
+.yoklama-al-card:nth-child(3n + 2) .yoklama-al-icon {
+    background: #faf0c9 !important;
+    color: #c68a08 !important;
+}
+
+/* 3. KART İKONU */
+
+.yoklama-al-card:nth-child(3n) .yoklama-al-icon {
+    background: #f1ddd4 !important;
+    color: #9d5135 !important;
+}
+
+/* =========================================
+   SINIF YAZISI
+   ========================================= */
+
+.yoklama-al-info h2 {
+    font-size: 23px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+
+    color: #43241c !important;
+}
+
+.yoklama-al-school {
+    margin-top: 7px !important;
+
+    color: #80665b !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+/* AYIRICI */
+
+.yoklama-al-divider {
+    margin: 18px 0 !important;
+    background: #eaded6 !important;
+}
+
+/* =========================================
+   YOKLAMA AL BUTONU
+   ========================================= */
+
+.yoklama-al-button {
+    min-height: 54px !important;
+
+    padding: 0 17px !important;
+
+    border-radius: 14px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #c65e29,
+            #dd742e
+        ) !important;
+
+    color: #fffaf5 !important;
+
+    font-size: 14px !important;
+    font-weight: 750 !important;
+
+    box-shadow:
+        0 7px 15px rgba(194,91,39,.18) !important;
+}
+
+/* 2. KART BUTONU */
+
+.yoklama-al-card:nth-child(3n + 2) .yoklama-al-button {
+    background:
+        linear-gradient(
+            135deg,
+            #d99908,
+            #e8a915
+        ) !important;
+}
+
+/* 3. KART BUTONU */
+
+.yoklama-al-card:nth-child(3n) .yoklama-al-button {
+    background:
+        linear-gradient(
+            135deg,
+            #b9552a,
+            #d56d2e
+        ) !important;
+}
+
+.yoklama-al-button svg {
+    width: 22px !important;
+    height: 22px !important;
+}
+
+/* =========================================
+   MOBİL
+   ========================================= */
+
+@@media (max-width: 900px) {
+
+    .yoklama-al-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@@media (max-width: 620px) {
+
+    .yoklama-al-page {
+        padding: 18px 14px 30px !important;
+    }
+
+    .yoklama-al-header {
+        min-height: 0 !important;
+        padding: 25px 22px !important;
+
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .yoklama-al-header h1 {
+        font-size: 30px !important;
+    }
+
+    .yoklama-al-back {
+        width: 100% !important;
+    }
+
+    .yoklama-al-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    .yoklama-al-card {
+        min-height: 220px !important;
+    }
+}
+
+</style>
+
+<style id="yoklama-al-balonlar">
+
+/* =========================================
+   KARTLARIN SAĞ ÜST BALONLARI
+   ========================================= */
+
+.yoklama-al-card::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    width: 105px !important;
+    height: 105px !important;
+
+    right: -48px !important;
+    top: -48px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(231,161,113,.12) !important;
+
+    pointer-events: none !important;
+    z-index: 1 !important;
+}
+
+/* 2. KART — SARI BALON */
+
+.yoklama-al-card:nth-child(3n + 2)::after {
+    background: rgba(226,184,82,.13) !important;
+}
+
+/* 3. KART — KOYU TURUNCU BALON */
+
+.yoklama-al-card:nth-child(3n)::after {
+    background: rgba(191,103,70,.12) !important;
+}
+
+
+/* =========================================
+   ÜST BAŞLIKTAKİ BALONLAR
+   ========================================= */
+
+.yoklama-al-header {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.yoklama-al-header::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    width: 190px !important;
+    height: 190px !important;
+
+    right: 110px !important;
+    top: -125px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255,225,196,.12) !important;
+
+    pointer-events: none !important;
+}
+
+.yoklama-al-header::after {
+    content: "" !important;
+
+    position: absolute !important;
+
+    width: 170px !important;
+    height: 170px !important;
+
+    left: 45% !important;
+    bottom: -125px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255,220,183,.10) !important;
+
+    pointer-events: none !important;
+}
+
+/* Yazı ve buton balonların üzerinde kalsın */
+
+.yoklama-al-header > div,
+.yoklama-al-header > a {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+</style>
+
+
+
+
+<style id="yoklama-hover-balon">
+.yoklama-al-card::after {
+}
+
+.yoklama-al-card:hover::after {
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="yoklama-butonu-hover">
+
+.yoklama-al-button {
+    transform-origin: center center !important;
+}
+
+.yoklama-al-button:hover {
+    animation: yoklamaButonOyna .55s ease-in-out !important;
+}
+
+@@keyframes yoklamaButonOyna {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    20% {
+        transform: translateX(-4px) rotate(-1deg);
+    }
+
+    40% {
+        transform: translateX(4px) rotate(1deg);
+    }
+
+    60% {
+        transform: translateX(-3px) rotate(-0.7deg);
+    }
+
+    80% {
+        transform: translateX(2px) rotate(0.4deg);
+    }
+
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+}
+
+.yoklama-al-button svg {
+    animation: none !important;
+    transform: none !important;
+}
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="yoklama-al-siniflarim-hover">
+
+.yoklama-al-card {
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease !important;
+}
+
+.yoklama-al-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow:
+        0 18px 34px rgba(89,47,30,.14),
+        0 4px 8px rgba(89,47,30,.06) !important;
+}
+
+</style>
+
+
+
+
+<style id="yoklama-logo-kutusu-ayni-hareket">
+
+.yoklama-al-card:hover .yoklama-al-icon {
+    transform: translate(-5px, -5px) scale(1.06) !important;
+    transition: transform .22s ease !important;
+}
+
+</style>
+
+
+
+
+
+
+
+
+<style id="anasayfaya-don-hover">
+
+.yoklama-al-back {
+    transition:
+        background .22s ease,
+        border-color .22s ease,
+        box-shadow .22s ease,
+        color .22s ease,
+        transform .22s ease !important;
+}
+
+.yoklama-al-back:hover {
+    background: rgba(255,255,255,.16) !important;
+    color: #fff8f1 !important;
+    border-color: rgba(255,255,255,.60) !important;
+    box-shadow:
+        0 5px 12px rgba(89,47,30,.12) !important;
+    transform: translateY(-2px) scale(1.015) !important;
+}
+
+</style>
+
+<style id="yoklama-al-butonu-hover-renk-sabit">
+
+.yoklama-al-card:nth-child(3n + 1) .yoklama-al-button:hover {
+    background: linear-gradient(135deg, #c95f24, #df762e) !important;
+    color: #fffaf5 !important;
+}
+
+.yoklama-al-card:nth-child(3n + 2) .yoklama-al-button:hover {
+    background: linear-gradient(135deg, #d99908, #e8a915) !important;
+    color: #fffaf5 !important;
+}
+
+.yoklama-al-card:nth-child(3n) .yoklama-al-button:hover {
+    background: linear-gradient(135deg, #b9552a, #d56d2e) !important;
+    color: #fffaf5 !important;
+}
+
+</style>

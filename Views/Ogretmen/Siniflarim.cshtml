@@ -8,17 +8,12 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Sınıflarım - Okul Takip Sistemi</title>
-
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>Sınıflarım</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -26,625 +21,1662 @@
         html,
         body {
             margin: 0;
-            padding: 0;
             min-height: 100%;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
 
         body {
+            color: #4d3026;
+            background: #f4e6dc;
+        }
 
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
+        a {
+            text-decoration: none;
+        }
 
-            color: #ffffff;
+        /* =========================
+           ANA SAYFA
+        ========================= */
+
+        .siniflarim-page {
+            min-height: 100vh;
+            padding: 34px 34px 50px;
+            position: relative;
+            overflow: hidden;
 
             background:
                 radial-gradient(
-                    circle at 85% 15%,
-                    rgba(224, 111, 62, 0.22),
-                    transparent 30%
+                    circle at 8% 8%,
+                    rgba(239, 167, 111, .75),
+                    transparent 25%
                 ),
                 radial-gradient(
-                    circle at 10% 85%,
-                    rgba(143, 69, 42, 0.20),
-                    transparent 32%
+                    circle at 92% 12%,
+                    rgba(218, 127, 91, .58),
+                    transparent 26%
+                ),
+                radial-gradient(
+                    circle at 15% 90%,
+                    rgba(193, 112, 78, .42),
+                    transparent 27%
+                ),
+                radial-gradient(
+                    circle at 88% 90%,
+                    rgba(238, 178, 126, .46),
+                    transparent 25%
                 ),
                 linear-gradient(
                     135deg,
-                    #211612 0%,
-                    #382017 48%,
-                    #1b100d 100%
+                    #d99a73 0%,
+                    #b97658 43%,
+                    #875448 72%,
+                    #674239 100%
                 );
-
-            background-attachment: fixed;
         }
 
-
-        /* ==========================================
-           SAYFA
-           ========================================== */
-
-        .siniflarim-page {
-
-            min-height: 100vh;
-
-            padding:
-                42px 30px 60px;
+        .siniflarim-page::before {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            top: -210px;
+            right: -150px;
+            border-radius: 50%;
+            background: rgba(255, 236, 217, .12);
+            filter: blur(4px);
+            pointer-events: none;
         }
 
+        .siniflarim-page::after {
+            content: "";
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            bottom: -180px;
+            left: -120px;
+            border-radius: 50%;
+            background: rgba(255, 201, 156, .13);
+            pointer-events: none;
+        }
 
         .page-container {
-
-            width: 100%;
-
-            max-width: 1180px;
-
+            width: min(1180px, 100%);
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
-
-        /* ==========================================
+        /* =========================
            ÜST BAR
-           ========================================== */
+        ========================= */
 
         .top-bar {
-
+            min-height: 76px;
+            padding: 14px 18px;
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
-
             gap: 20px;
 
-            margin-bottom: 32px;
+            border: 1px solid rgba(255, 239, 227, .55);
+            border-radius: 24px;
 
-            padding:
-                18px 22px;
-
-            border-radius: 18px;
-
-            background:
-                rgba(255,255,255,0.065);
-
-            border:
-                1px solid rgba(255,210,185,0.15);
-
+            background: rgba(255, 248, 242, .24);
             backdrop-filter: blur(22px);
             -webkit-backdrop-filter: blur(22px);
 
             box-shadow:
-                0 15px 40px rgba(0,0,0,0.18);
+                0 20px 55px rgba(70, 35, 25, .18),
+                inset 0 1px 0 rgba(255,255,255,.22);
         }
-
 
         .brand {
-
             display: flex;
-
             align-items: center;
-
-            gap: 12px;
-        }
-
-
-        .brand-icon {
-
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 12px;
-
-            background:
-                rgba(224,111,62,0.13);
-
-            border:
-                1px solid rgba(224,111,62,0.20);
-
-            font-size: 19px;
-        }
-
-
-        .brand-text {
-
-            display: flex;
-
-            flex-direction: column;
-        }
-
-
-        .brand-title {
-
-            color: #ffffff;
-
-            font-size: 14px;
-
-            font-weight: 700;
-        }
-
-
-        .brand-subtitle {
-
-            margin-top: 2px;
-
-            color:
-                rgba(255,255,255,0.43);
-
-            font-size: 11px;
-        }
-
-
-        .back-btn {
-
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            padding:
-                10px 16px;
-
-            border-radius: 11px;
-
-            color:
-                rgba(255,255,255,0.80) !important;
-
-            background:
-                rgba(255,255,255,0.06);
-
-            border:
-                1px solid rgba(255,255,255,0.13);
-
-            text-decoration: none;
-
-            font-size: 12px;
-
-            font-weight: 600;
-
-            transition: .2s ease;
-        }
-
-
-        .back-btn:hover {
-
-            color: #ffffff !important;
-
-            background:
-                rgba(224,111,62,0.15);
-
-            border-color:
-                rgba(224,111,62,0.30);
-
-            transform:
-                translateY(-1px);
-        }
-
-
-        /* ==========================================
-           BAŞLIK
-           ========================================== */
-
-        .page-heading {
-
-            margin-bottom: 26px;
-        }
-
-
-        .page-heading h1 {
-
-            margin: 0;
-
-            color: #ffffff;
-
-            font-size: 32px;
-
-            font-weight: 800;
-
-            letter-spacing: -0.7px;
-        }
-
-
-        .page-heading p {
-
-            margin:
-                7px 0 0;
-
-            color:
-                rgba(255,255,255,0.52);
-
-            font-size: 13px;
-        }
-
-
-        /* ==========================================
-           SINIF GRID
-           ========================================== */
-
-        .classes-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-
-            gap: 20px;
-        }
-
-
-        /* ==========================================
-           SINIF KARTI
-           ========================================== */
-
-        .class-card {
-
-            position: relative;
-
-            min-height: 205px;
-
-            padding: 23px;
-
-            border-radius: 20px;
-
-            background:
-                rgba(255,255,255,0.065);
-
-            border:
-                1px solid rgba(255,210,185,0.15);
-
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-
-            box-shadow:
-                0 18px 45px rgba(0,0,0,0.18);
-
-            transition:
-                transform .22s ease,
-                border-color .22s ease,
-                box-shadow .22s ease;
-        }
-
-
-        .class-card::before {
-
-            content: "";
-
-            position: absolute;
-
-            top: 0;
-            left: 24px;
-            right: 24px;
-
-            height: 1px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    transparent,
-                    rgba(255,190,145,0.35),
-                    transparent
-                );
-        }
-
-
-        .class-card:hover {
-
-            transform:
-                translateY(-5px);
-
-            border-color:
-                rgba(224,111,62,0.32);
-
-            box-shadow:
-                0 25px 55px rgba(0,0,0,0.27);
-        }
-
-
-        /* ==========================================
-           SINIF ÜST
-           ========================================== */
-
-        .class-top {
-
-            display: flex;
-
-            align-items: center;
-
             gap: 14px;
         }
 
-
-        .class-icon {
-
-            width: 50px;
-            height: 50px;
-
-            flex-shrink: 0;
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
 
             display: flex;
-
             align-items: center;
             justify-content: center;
 
-            border-radius: 15px;
+            background: linear-gradient(
+                145deg,
+                rgba(127, 60, 39, .72),
+                rgba(205, 111, 67, .56)
+            );
 
-            background:
-                rgba(224,111,62,0.12);
+            border: 1px solid rgba(255, 225, 207, .52);
 
-            border:
-                1px solid rgba(224,111,62,0.20);
-
-            color: #f2a277;
-
-            font-size: 22px;
+            box-shadow:
+                0 9px 22px rgba(94, 44, 29, .22),
+                inset 0 1px 0 rgba(255,255,255,.25);
         }
 
+        .brand-icon svg {
+            width: 27px;
+            height: 27px;
+            stroke: #fff4ea;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .brand-title {
+            margin: 0;
+            color: #fffaf6;
+            font-size: 18px;
+            font-weight: 750;
+            letter-spacing: -.2px;
+        }
+
+        .brand-subtitle {
+            margin-top: 3px;
+            color: rgba(255, 242, 232, .70);
+            font-size: 12px;
+        }
+
+        .back-btn {
+            min-height: 42px;
+            padding: 0 16px;
+
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            color: #fff6ee;
+
+            border: 1px solid rgba(255, 229, 211, .45);
+            border-radius: 13px;
+
+            background: rgba(117, 55, 37, .25);
+
+            transition:
+                transform .22s ease,
+                background .22s ease,
+                border-color .22s ease;
+        }
+
+        .back-btn svg {
+            width: 17px;
+            height: 17px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(132, 61, 39, .46);
+            border-color: rgba(255, 235, 219, .70);
+        }
+
+        /* =========================
+           BAŞLIK
+        ========================= */
+
+        .page-heading {
+            padding: 54px 6px 32px;
+        }
+
+        .heading-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 13px;
+            padding: 7px 12px;
+
+            color: #fff2e7;
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+
+            border: 1px solid rgba(255, 230, 213, .38);
+            border-radius: 999px;
+
+            background: rgba(120, 57, 39, .24);
+            backdrop-filter: blur(12px);
+        }
+
+        .heading-label-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ffd0ad;
+            box-shadow: 0 0 12px rgba(255, 208, 173, .7);
+        }
+
+        .page-heading h1 {
+            margin: 0;
+            color: #fffaf6;
+            font-size: clamp(34px, 5vw, 48px);
+            line-height: 1.05;
+            letter-spacing: -1.8px;
+            font-weight: 800;
+
+            text-shadow: 0 8px 25px rgba(71, 34, 24, .20);
+        }
+
+        .page-heading p {
+            max-width: 650px;
+            margin: 13px 0 0;
+
+            color: rgba(255, 239, 227, .78);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           SINIF GRID
+        ========================= */
+
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        /* =========================
+           SINIF KARTI
+        ========================= */
+
+        .class-card {
+            position: relative;
+            min-height: 245px;
+            padding: 23px;
+
+            display: flex;
+            flex-direction: column;
+
+            overflow: hidden;
+
+            border: 1px solid rgba(255, 237, 223, .48);
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 250, 246, .36),
+                    rgba(255, 222, 201, .18)
+                );
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 22px 50px rgba(72, 35, 24, .18),
+                inset 0 1px 0 rgba(255,255,255,.22);
+
+            transition:
+                transform .28s ease,
+                box-shadow .28s ease,
+                border-color .28s ease,
+                background .28s ease;
+        }
+
+        .class-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 227, 208, .75);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 251, 247, .48),
+                    rgba(255, 220, 195, .27)
+                );
+
+            box-shadow:
+                0 32px 68px rgba(67, 31, 22, .26),
+                inset 0 1px 0 rgba(255,255,255,.30);
+        }
+
+        .class-card::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            top: -105px;
+            right: -75px;
+            border-radius: 50%;
+            background: rgba(255, 198, 153, .18);
+            pointer-events: none;
+        }
+
+        .class-top {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* =========================
+           YENİ SINIF LOGOSU
+        ========================= */
+
+        .class-icon {
+            width: 66px;
+            height: 66px;
+            min-width: 66px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 21px;
+
+            border: 1px solid rgba(255, 232, 215, .58);
+
+            background: linear-gradient(
+                145deg,
+                rgba(126, 57, 38, .72),
+                rgba(211, 116, 70, .50)
+            );
+
+            box-shadow:
+                0 12px 28px rgba(95, 42, 27, .22),
+                inset 0 1px 0 rgba(255,255,255,.28);
+
+            transition:
+                transform .28s ease,
+                border-radius .28s ease;
+        }
+
+        .class-card:hover .class-icon {
+            transform: rotate(-4deg) scale(1.07);
+            border-radius: 18px;
+        }
+
+        .class-icon svg {
+            width: 35px;
+            height: 35px;
+
+            fill: none;
+            stroke: #fff2e7;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+
+            filter: drop-shadow(
+                0 3px 5px rgba(72, 31, 20, .20)
+            );
+        }
 
         .class-info {
-
             min-width: 0;
         }
 
-
         .class-info h4 {
-
             margin: 0;
-
-            color: #ffffff;
-
-            font-size: 18px;
-
+            color: #fffaf6;
+            font-size: 20px;
             font-weight: 750;
+            letter-spacing: -.3px;
         }
-
 
         .school-name {
-
-            margin-top: 5px;
-
-            color:
-                rgba(255,255,255,0.46);
-
-            font-size: 12px;
-        }
-
-
-        /* ==========================================
-           AYIRICI
-           ========================================== */
-
-        .class-divider {
-
-            width: 100%;
-
-            height: 1px;
-
-            margin:
-                21px 0;
-
-            background:
-                rgba(255,255,255,0.09);
-        }
-
-
-        /* ==========================================
-           ÖĞRENCİLERİ GÖR
-           ========================================== */
-
-        .class-view {
-
-            width: 100%;
-
-            min-height: 43px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 8px;
-
-            padding:
-                10px 14px;
-
-            border-radius: 11px;
-
-            color: #ffd3ba !important;
-
-            background:
-                rgba(224,111,62,0.10);
-
-            border:
-                1px solid rgba(224,111,62,0.20);
-
-            text-decoration: none;
-
-            font-size: 12px;
-
-            font-weight: 700;
-
-            transition: .2s ease;
-        }
-
-
-        .class-view:hover {
-
-            color: #ffffff !important;
-
-            background:
-                rgba(224,111,62,0.22);
-
-            border-color:
-                rgba(224,111,62,0.34);
-        }
-
-
-        .class-view span {
-
-            font-size: 16px;
-
-            transition:
-                transform .2s ease;
-        }
-
-
-        .class-view:hover span {
-
-            transform:
-                translateX(3px);
-        }
-
-
-        /* ==========================================
-           BOŞ DURUM
-           ========================================== */
-
-        .empty-message {
-
-            padding:
-                50px 25px;
-
-            text-align: center;
-
-            border-radius: 20px;
-
-            background:
-                rgba(255,255,255,0.065);
-
-            border:
-                1px solid rgba(255,210,185,0.15);
-
-            backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-
-            box-shadow:
-                0 18px 45px rgba(0,0,0,0.18);
-        }
-
-
-        .empty-icon {
-
-            width: 60px;
-            height: 60px;
-
-            margin:
-                0 auto 16px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 17px;
-
-            background:
-                rgba(224,111,62,0.12);
-
-            border:
-                1px solid rgba(224,111,62,0.20);
-
-            font-size: 25px;
-        }
-
-
-        .empty-message strong {
-
-            display: block;
-
-            margin-bottom: 7px;
-
-            color: #ffffff;
-
-            font-size: 16px;
-        }
-
-
-        .empty-message span {
-
-            color:
-                rgba(255,255,255,0.45);
-
+            margin-top: 6px;
+            color: rgba(255, 236, 224, .72);
             font-size: 13px;
         }
 
+        .class-divider {
+            height: 1px;
+            margin: 23px 0 18px;
 
-        /* ==========================================
-           TABLET
-           ========================================== */
-
-        @@media (max-width: 900px) {
-
-            .classes-grid {
-
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
+            background: linear-gradient(
+                90deg,
+                rgba(255, 225, 207, .05),
+                rgba(255, 225, 207, .45),
+                rgba(255, 225, 207, .05)
+            );
         }
 
+        /* =========================
+           ÖĞRENCİLER BUTONU
+        ========================= */
 
-        /* ==========================================
-           MOBİL
-           ========================================== */
+        .class-view {
+            margin-top: auto;
+            min-height: 46px;
+            padding: 0 14px;
 
-        @@media (max-width: 600px) {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
 
-            .siniflarim-page {
+            color: #fff5ed !important;
+            font-size: 13px;
+            font-weight: 700;
 
-                padding:
-                    22px 15px 40px;
+            border: 1px solid rgba(255, 226, 208, .42);
+            border-radius: 14px;
+
+            background: rgba(126, 58, 39, .34);
+
+            transition:
+                background .22s ease,
+                transform .22s ease,
+                border-color .22s ease;
+        }
+
+        .class-view-content {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .student-icon {
+            width: 19px;
+            height: 19px;
+
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .class-view .arrow {
+            font-size: 20px;
+            line-height: 1;
+            color: #ffd5b9;
+
+            transition: transform .22s ease;
+        }
+
+        .class-view:hover {
+            transform: translateY(-2px);
+            background: rgba(142, 64, 40, .55);
+            border-color: rgba(255, 231, 216, .65);
+        }
+
+        .class-view:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        /* =========================
+           FARKLI KART RENKLERİ
+        ========================= */
+
+        .class-card:nth-child(3n+1) .class-icon {
+            background: linear-gradient(
+                145deg,
+                rgba(125, 56, 38, .76),
+                rgba(214, 113, 66, .52)
+            );
+        }
+
+        .class-card:nth-child(3n+2) .class-icon {
+            background: linear-gradient(
+                145deg,
+                rgba(143, 70, 55, .76),
+                rgba(216, 126, 93, .52)
+            );
+        }
+
+        .class-card:nth-child(3n) .class-icon {
+            background: linear-gradient(
+                145deg,
+                rgba(162, 78, 43, .76),
+                rgba(228, 143, 82, .52)
+            );
+        }
+
+        /* =========================
+           BOŞ DURUM
+        ========================= */
+
+        .empty-message {
+            padding: 58px 25px;
+            text-align: center;
+
+            border: 1px solid rgba(255, 234, 218, .48);
+            border-radius: 27px;
+
+            background: rgba(255, 248, 242, .25);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 24px 58px rgba(72, 35, 24, .18);
+        }
+
+        .empty-icon {
+            width: 78px;
+            height: 78px;
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 24px;
+
+            background: linear-gradient(
+                145deg,
+                rgba(126, 57, 38, .65),
+                rgba(218, 124, 76, .45)
+            );
+
+            border: 1px solid rgba(255, 227, 207, .55);
+        }
+
+        .empty-icon svg {
+            width: 38px;
+            height: 38px;
+            fill: none;
+            stroke: #fff1e5;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .empty-message strong {
+            display: block;
+            color: #fffaf6;
+            font-size: 17px;
+        }
+
+        .empty-message span {
+            display: block;
+            margin-top: 8px;
+            color: rgba(255, 236, 224, .70);
+            font-size: 13px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @@media (max-width: 950px) {
+            .classes-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
+        }
 
+        @@media (max-width: 680px) {
+            .siniflarim-page {
+                padding: 18px 15px 35px;
+            }
 
             .top-bar {
-
-                flex-direction: column;
-
-                align-items: stretch;
+                padding: 12px;
+                border-radius: 19px;
             }
 
+            .brand-subtitle {
+                display: none;
+            }
 
             .back-btn {
-
-                width: 100%;
+                width: 42px;
+                padding: 0;
+                justify-content: center;
+                font-size: 0;
             }
 
+            .back-btn svg {
+                width: 19px;
+                height: 19px;
+            }
+
+            .page-heading {
+                padding: 40px 4px 25px;
+            }
 
             .page-heading h1 {
-
-                font-size: 27px;
+                font-size: 36px;
             }
 
-
             .classes-grid {
-
-                grid-template-columns:
-                    1fr;
-
+                grid-template-columns: 1fr;
                 gap: 15px;
             }
 
-
             .class-card {
-
-                min-height: auto;
-
+                min-height: 225px;
                 padding: 20px;
+                border-radius: 22px;
             }
-
         }
+    
 
-    </style>
+/* ÜST KISIM - TURUNCU / KAHVE */
+.top-bar {
+    background: linear-gradient(135deg, #9a5638 0%, #b86b45 55%, #c8794c 100%) !important;
+    border: none !important;
+    box-shadow: 0 8px 24px rgba(91, 48, 31, 0.12) !important;
+}
+
+/* Üst yazıların mevcut renklerini koru */
+.top-bar .brand-title,
+.top-bar .brand-subtitle,
+.top-bar .brand,
+.top-bar .back-btn {
+    color: inherit !important;
+}
+
+/* Geri butonu */
+.top-bar .back-btn {
+    background: rgba(255,255,255,.12) !important;
+    border-color: rgba(255,255,255,.28) !important;
+}
+
+</style>
+
+<style>
+/* ==========================================
+   SINIFLARIM - UYUMLU MAVİ / BEYAZ TASARIM
+   ========================================== */
+
+html,
+body {
+    background: #f4f8fd !important;
+    color: #172b4d !important;
+}
+
+/* Ana arka plan */
+.siniflarim-page {
+    min-height: 100vh !important;
+
+    background:
+        radial-gradient(
+            circle at 8% 5%,
+            rgba(104, 164, 235, .18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 92% 8%,
+            rgba(164, 194, 235, .20),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 80% 90%,
+            rgba(123, 167, 225, .13),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f7faff 0%,
+            #eef5fc 48%,
+            #e8f1fb 100%
+        ) !important;
+}
+
+/* Üst bar */
+.top-bar {
+    background: rgba(255,255,255,.82) !important;
+    border: 1px solid rgba(191,211,235,.72) !important;
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 12px 35px rgba(35,73,115,.09),
+        inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+
+/* Logo */
+.brand-icon {
+    background: linear-gradient(
+        145deg,
+        #234f86,
+        #347dcc
+    ) !important;
+
+    border: none !important;
+
+    box-shadow:
+        0 10px 24px rgba(37,100,169,.25) !important;
+}
+
+.brand-icon svg {
+    stroke: #ffffff !important;
+}
+
+.brand-title {
+    color: #172b4d !important;
+}
+
+.brand-subtitle {
+    color: #7185a0 !important;
+}
+
+/* Geri butonu */
+.back-btn {
+    color: #31577f !important;
+    background: #f4f8fd !important;
+    border: 1px solid #d5e2f1 !important;
+}
+
+.back-btn:hover {
+    color: #ffffff !important;
+    background: #347dcc !important;
+    border-color: #347dcc !important;
+}
+
+/* Başlık */
+.heading-label {
+    color: #37699a !important;
+    background: rgba(72,132,198,.09) !important;
+    border: 1px solid rgba(72,132,198,.16) !important;
+}
+
+.heading-label-dot {
+    background: #3d86cf !important;
+    box-shadow: 0 0 12px rgba(61,134,207,.45) !important;
+}
+
+.page-heading h1 {
+    color: #142b4b !important;
+    text-shadow: none !important;
+}
+
+.page-heading p {
+    color: #607895 !important;
+}
+
+/* Kartlar */
+.class-card {
+    min-height: 245px !important;
+
+    background: rgba(255,255,255,.91) !important;
+
+    border: 1px solid #e0e9f3 !important;
+    border-radius: 22px !important;
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    box-shadow:
+        0 10px 30px rgba(41,76,111,.09),
+        0 2px 8px rgba(41,76,111,.04) !important;
+}
+
+.class-card::before {
+    background: rgba(93,151,214,.07) !important;
+}
+
+.class-card:hover {
+    background: #ffffff !important;
+    border-color: #c6dcef !important;
+
+    transform: translateY(-6px) !important;
+
+    box-shadow:
+        0 20px 42px rgba(39,86,132,.14),
+        0 4px 12px rgba(39,86,132,.06) !important;
+}
+
+/* Sınıf logosu */
+.class-icon {
+    width: 66px !important;
+    height: 66px !important;
+
+    border-radius: 50% !important;
+
+    background: linear-gradient(
+        145deg,
+        #e1efff,
+        #cfe4fa
+    ) !important;
+
+    border: none !important;
+
+    box-shadow: none !important;
+}
+
+.class-icon svg {
+    stroke: #2874bd !important;
+    filter: none !important;
+}
+
+.class-card:nth-child(3n+1) .class-icon {
+    background: linear-gradient(
+        145deg,
+        #e1efff,
+        #d4e8fb
+    ) !important;
+}
+
+.class-card:nth-child(3n+2) .class-icon {
+    background: linear-gradient(
+        145deg,
+        #e0f7ed,
+        #ccefe0
+    ) !important;
+}
+
+.class-card:nth-child(3n) .class-icon {
+    background: linear-gradient(
+        145deg,
+        #fff0df,
+        #ffe3c9
+    ) !important;
+}
+
+.class-card:nth-child(3n+1) .class-icon svg {
+    stroke: #2874bd !important;
+}
+
+.class-card:nth-child(3n+2) .class-icon svg {
+    stroke: #27966d !important;
+}
+
+.class-card:nth-child(3n) .class-icon svg {
+    stroke: #d77a2d !important;
+}
+
+/* Sınıf bilgileri */
+.class-info h4 {
+    color: #152c4c !important;
+    text-shadow: none !important;
+}
+
+.school-name {
+    color: #7185a0 !important;
+}
+
+/* Çizgi */
+.class-divider {
+    background: #e5edf6 !important;
+}
+
+/* Öğrenci butonu */
+.class-view {
+    min-height: 46px !important;
+
+    color: #ffffff !important;
+
+    background: linear-gradient(
+        135deg,
+        #2675c5,
+        #3489d9
+    ) !important;
+
+    border: none !important;
+    border-radius: 11px !important;
+
+    box-shadow:
+        0 7px 17px rgba(42,116,190,.20) !important;
+}
+
+.class-view:hover {
+    color: #ffffff !important;
+
+    background: linear-gradient(
+        135deg,
+        #216ab5,
+        #2d7fcb
+    ) !important;
+
+    transform: translateY(-2px) !important;
+
+    box-shadow:
+        0 11px 23px rgba(42,116,190,.27) !important;
+}
+
+.class-view .arrow {
+    color: #ffffff !important;
+}
+
+.student-icon {
+    stroke: currentColor !important;
+}
+
+/* Boş durum */
+.empty-message {
+    background: rgba(255,255,255,.72) !important;
+    border: 1px dashed #bfd2e7 !important;
+    border-radius: 22px !important;
+
+    box-shadow:
+        0 12px 30px rgba(43,81,119,.07) !important;
+}
+
+.empty-icon {
+    background: #edf4fb !important;
+    border: none !important;
+}
+
+.empty-icon svg {
+    stroke: #6382a4 !important;
+}
+
+.empty-message strong {
+    color: #172d4c !important;
+}
+
+.empty-message span {
+    color: #7185a0 !important;
+}
+
+/* Hafif renkli kart üst ışıkları */
+.class-card:nth-child(3n+1)::before {
+    background: rgba(70,139,215,.09) !important;
+}
+
+.class-card:nth-child(3n+2)::before {
+    background: rgba(62,173,128,.08) !important;
+}
+
+.class-card:nth-child(3n)::before {
+    background: rgba(234,151,79,.09) !important;
+}
+
+/* Mobil */
+@@media (max-width: 680px) {
+    .siniflarim-page {
+        padding: 18px 15px 35px !important;
+    }
+
+    .class-card {
+        border-radius: 19px !important;
+    }
+}
+</style>
+
+
+<style>
+/* ==========================================
+   SINIFLARIM — SICAK KREM / TURUNCU / KAHVE
+   ========================================== */
+
+html,
+body {
+    background: #f8f1e9 !important;
+    color: #3d2419 !important;
+}
+
+/* ANA ARKA PLAN */
+.siniflarim-page {
+    min-height: 100vh !important;
+    background:
+        radial-gradient(circle at 88% 8%,
+            rgba(236, 160, 101, .22),
+            transparent 25%),
+        radial-gradient(circle at 12% 88%,
+            rgba(214, 150, 103, .16),
+            transparent 25%),
+        radial-gradient(circle at 75% 95%,
+            rgba(247, 201, 116, .16),
+            transparent 25%),
+        linear-gradient(
+            135deg,
+            #faf5ef 0%,
+            #f7eee5 48%,
+            #f2e6da 100%
+        ) !important;
+}
+
+/* ÜST BAR */
+.top-bar {
+    background: rgba(255, 252, 248, .88) !important;
+    border: 1px solid #eadbcd !important;
+    box-shadow:
+        0 10px 30px rgba(92, 54, 35, .08),
+        inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+
+/* ANA LOGO */
+.brand-icon {
+    background: linear-gradient(
+        145deg,
+        #8b4024,
+        #c9682e
+    ) !important;
+    border: none !important;
+    box-shadow:
+        0 9px 22px rgba(170, 83, 38, .22) !important;
+}
+
+.brand-icon svg {
+    stroke: #fff8f0 !important;
+}
+
+.brand-title {
+    color: #3b2117 !important;
+}
+
+.brand-subtitle {
+    color: #9a7865 !important;
+}
+
+/* GERİ BUTONU */
+.back-btn {
+    color: #70402b !important;
+    background: #faf4ed !important;
+    border: 1px solid #e4d2c2 !important;
+}
+
+.back-btn:hover {
+    color: #fff !important;
+    background: #b85d2b !important;
+    border-color: #b85d2b !important;
+}
+
+/* BAŞLIK */
+.heading-label {
+    color: #a45428 !important;
+    background: rgba(190, 102, 48, .08) !important;
+    border: 1px solid rgba(190, 102, 48, .18) !important;
+}
+
+.heading-label-dot {
+    background: #d77a31 !important;
+    box-shadow: 0 0 12px rgba(215,122,49,.45) !important;
+}
+
+.page-heading h1 {
+    color: #351d14 !important;
+    text-shadow: none !important;
+}
+
+.page-heading p {
+    color: #80695b !important;
+}
+
+/* KARTLAR */
+.class-card {
+    background: rgba(255, 253, 250, .94) !important;
+    border: 1px solid #eaded3 !important;
+    border-radius: 22px !important;
+
+    box-shadow:
+        0 12px 32px rgba(83, 49, 33, .08),
+        0 2px 8px rgba(83, 49, 33, .04) !important;
+}
+
+.class-card:hover {
+    background: #fff !important;
+    border-color: #dfc7b5 !important;
+    transform: translateY(-7px) !important;
+
+    box-shadow:
+        0 22px 44px rgba(100, 56, 32, .13),
+        0 4px 12px rgba(100, 56, 32, .05) !important;
+}
+
+.class-card::before {
+    background: rgba(222, 139, 77, .08) !important;
+}
+
+/* SINIF LOGOSU */
+.class-icon {
+    width: 68px !important;
+    height: 68px !important;
+    min-width: 68px !important;
+    border-radius: 50% !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Turuncu */
+.class-card:nth-child(3n+1) .class-icon {
+    background: linear-gradient(
+        145deg,
+        #ffe0ca,
+        #ffd0b0
+    ) !important;
+}
+
+.class-card:nth-child(3n+1) .class-icon svg {
+    stroke: #c75b24 !important;
+}
+
+/* Sarı */
+.class-card:nth-child(3n+2) .class-icon {
+    background: linear-gradient(
+        145deg,
+        #ffedbf,
+        #ffe3a0
+    ) !important;
+}
+
+.class-card:nth-child(3n+2) .class-icon svg {
+    stroke: #bd7410 !important;
+}
+
+/* Kahve */
+.class-card:nth-child(3n) .class-icon {
+    background: linear-gradient(
+        145deg,
+        #f1d9cb,
+        #e9c8b7
+    ) !important;
+}
+
+.class-card:nth-child(3n) .class-icon svg {
+    stroke: #754027 !important;
+}
+
+.class-icon svg {
+    width: 36px !important;
+    height: 36px !important;
+    fill: none !important;
+    stroke-width: 1.8 !important;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: none !important;
+}
+
+/* SINIF BİLGİLERİ */
+.class-info h4 {
+    color: #301b13 !important;
+    text-shadow: none !important;
+}
+
+.school-name {
+    color: #92796a !important;
+}
+
+/* AYIRICI */
+.class-divider {
+    background: #eee2d8 !important;
+}
+
+/* ÖĞRENCİ İKONU */
+.student-icon {
+    stroke: #b65b2b !important;
+}
+
+/* BUTONLAR */
+.class-view {
+    color: #fff !important;
+    border: none !important;
+    border-radius: 11px !important;
+
+    background: linear-gradient(
+        135deg,
+        #c6612a,
+        #d97832
+    ) !important;
+
+    box-shadow:
+        0 7px 18px rgba(190, 87, 36, .18) !important;
+}
+
+.class-view:hover {
+    color: #fff !important;
+    background: linear-gradient(
+        135deg,
+        #b75321,
+        #ca6828
+    ) !important;
+
+    box-shadow:
+        0 11px 24px rgba(177, 75, 28, .25) !important;
+}
+
+.class-view .arrow {
+    color: #fff !important;
+}
+
+/* HER KARTTA BUTON DA HAFİF RENK DEĞİŞTİRSİN */
+.class-card:nth-child(3n+2) .class-view {
+    background: linear-gradient(
+        135deg,
+        #d28a1e,
+        #e0a13a
+    ) !important;
+}
+
+.class-card:nth-child(3n+2) .class-view:hover {
+    background: linear-gradient(
+        135deg,
+        #bd7814,
+        #d39222
+    ) !important;
+}
+
+.class-card:nth-child(3n) .class-view {
+    background: linear-gradient(
+        135deg,
+        #805039,
+        #9b6248
+    ) !important;
+}
+
+.class-card:nth-child(3n) .class-view:hover {
+    background: linear-gradient(
+        135deg,
+        #70432f,
+        #8b553e
+    ) !important;
+}
+
+/* BOŞ KART */
+.empty-message {
+    background: rgba(255, 252, 248, .78) !important;
+    border: 1px dashed #d7bdaa !important;
+    border-radius: 22px !important;
+
+    box-shadow:
+        0 12px 30px rgba(83, 49, 33, .06) !important;
+}
+
+.empty-icon {
+    background: #f5e8dd !important;
+    border: none !important;
+}
+
+.empty-icon svg {
+    stroke: #8d634d !important;
+}
+
+.empty-message strong {
+    color: #392219 !important;
+}
+
+.empty-message span {
+    color: #91786a !important;
+}
+
+/* KART HOVERDA LOGO */
+.class-card:hover .class-icon {
+    transform: rotate(-3deg) scale(1.06) !important;
+}
+
+/* MOBİL */
+@@media (max-width: 680px) {
+    .siniflarim-page {
+        padding: 18px 15px 35px !important;
+    }
+
+    .class-card {
+        border-radius: 19px !important;
+    }
+}
+</style>
+
+
+<style id="yoklama-listesi-ile-birebir-tema">
+
+/* =========================================================
+   YOKLAMA LİSTESİ İLE AYNI ANA TEMA
+   ========================================================= */
+
+.siniflarim-page,
+.attendance-page {
+    min-height: 100vh !important;
+    background: #f6eee7 !important;
+    color: #51372c !important;
+}
+
+/* =========================================================
+   ÜST TURUNCU PANEL
+   ========================================================= */
+
+.siniflarim-page .page-container > .top-bar,
+.attendance-page .page-header {
+    position: relative !important;
+    overflow: hidden !important;
+
+    min-height: 145px !important;
+    padding: 28px 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+
+    background: #c96a2b !important;
+    border-radius: 20px !important;
+
+    box-shadow: 0 12px 30px rgba(126, 72, 42, .14) !important;
+}
+
+/* Yumuşak dekoratif şekiller */
+.siniflarim-page .page-container > .top-bar::before,
+.attendance-page .page-header::before {
+    content: "" !important;
+    position: absolute !important;
+    width: 260px !important;
+    height: 260px !important;
+    right: -70px !important;
+    top: -150px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.10) !important;
+    pointer-events: none !important;
+}
+
+.siniflarim-page .page-container > .top-bar::after,
+.attendance-page .page-header::after {
+    content: "" !important;
+    position: absolute !important;
+    width: 180px !important;
+    height: 180px !important;
+    right: 90px !important;
+    bottom: -130px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.07) !important;
+    pointer-events: none !important;
+}
+
+/* =========================================================
+   BAŞLIK YAZILARI
+   ========================================================= */
+
+.siniflarim-page .brand-title,
+.attendance-page .page-header h1 {
+    position: relative !important;
+    z-index: 2 !important;
+
+    color: #fffaf5 !important;
+    font-size: 30px !important;
+    font-weight: 800 !important;
+    letter-spacing: -.5px !important;
+}
+
+.siniflarim-page .brand-subtitle,
+.attendance-page .page-header p {
+    position: relative !important;
+    z-index: 2 !important;
+
+    color: rgba(255,250,245,.88) !important;
+}
+
+/* Sınıflarım'daki ayrı eski başlığı kaldır,
+   üst paneldeki başlığı kullan */
+.siniflarim-page .page-heading {
+    padding: 22px 4px 20px !important;
+}
+
+.siniflarim-page .page-heading h1 {
+    color: #51372c !important;
+}
+
+/* =========================================================
+   GERİ / ANASAYFA BUTONU
+   ========================================================= */
+
+.siniflarim-page .page-container > .top-bar .back-btn,
+.attendance-page .page-header .back-btn {
+    position: relative !important;
+    z-index: 5 !important;
+
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    box-sizing: border-box !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+
+    text-decoration: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.siniflarim-page .page-container > .top-bar .back-btn:hover,
+.attendance-page .page-header .back-btn:hover {
+    background: rgba(255,248,241,.20) !important;
+    color: #fff !important;
+    transform: translateY(-2px) !important;
+}
+
+.siniflarim-page .back-btn svg,
+.attendance-page .back-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+    stroke: currentColor !important;
+}
+
+/* =========================================================
+   KART ALANI
+   ========================================================= */
+
+.siniflarim-page .class-grid,
+.attendance-page .class-grid {
+    width: 100% !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+    gap: 22px !important;
+}
+
+/* =========================================================
+   KART
+   ========================================================= */
+
+.siniflarim-page .class-card,
+.attendance-page .class-card {
+    position: relative !important;
+    overflow: hidden !important;
+
+    min-height: 205px !important;
+    padding: 22px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+
+    background: rgba(255,255,255,.88) !important;
+
+    border: 1px solid rgba(126,72,42,.08) !important;
+    border-radius: 20px !important;
+
+    box-shadow: 0 10px 26px rgba(91,55,38,.09) !important;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease !important;
+}
+
+/* Kart üst renk şeridi */
+.siniflarim-page .class-card::before,
+.attendance-page .class-card::before {
+    content: "" !important;
+
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    height: 5px !important;
+
+    background: #c96a2b !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2)::before,
+.attendance-page .class-card:nth-child(3n+2)::before {
+    background: #e0a000 !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n)::before,
+.attendance-page .class-card:nth-child(3n)::before {
+    background: #b85d2b !important;
+}
+
+.siniflarim-page .class-card:hover,
+.attendance-page .class-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 16px 32px rgba(91,55,38,.13) !important;
+}
+
+/* =========================================================
+   İKON KUTUSU
+   ========================================================= */
+
+.siniflarim-page .class-icon,
+.attendance-page .class-icon,
+.attendance-page .icon-box {
+    width: 78px !important;
+    height: 78px !important;
+
+    flex: 0 0 78px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 16px !important;
+
+    background: #f2e3da !important;
+    color: #a95f3b !important;
+
+    box-shadow: none !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2) .class-icon,
+.attendance-page .class-card:nth-child(3n+2) .class-icon,
+.attendance-page .class-card:nth-child(3n+2) .icon-box {
+    background: #f8efd9 !important;
+    color: #d08b00 !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n) .class-icon,
+.attendance-page .class-card:nth-child(3n) .class-icon,
+.attendance-page .class-card:nth-child(3n) .icon-box {
+    background: #f1ddd3 !important;
+    color: #b85d2b !important;
+}
+
+.siniflarim-page .class-icon svg,
+.attendance-page .class-icon svg,
+.attendance-page .icon-box svg {
+    width: 32px !important;
+    height: 32px !important;
+
+    stroke: currentColor !important;
+    fill: none !important;
+}
+
+/* =========================================================
+   SINIF BİLGİLERİ
+   ========================================================= */
+
+.siniflarim-page .class-info h2,
+.siniflarim-page .class-info h3,
+.siniflarim-page .class-name,
+.attendance-page .class-info h2,
+.attendance-page .class-info h3,
+.attendance-page .class-name {
+    color: #51372c !important;
+    font-size: 25px !important;
+    font-weight: 800 !important;
+}
+
+.siniflarim-page .class-info p,
+.siniflarim-page .school-name,
+.attendance-page .class-info p,
+.attendance-page .school-name {
+    color: #806d63 !important;
+}
+
+/* =========================================================
+   ANA KART BUTONLARI
+   ========================================================= */
+
+.siniflarim-page .class-view,
+.attendance-page .attendance-button {
+    width: 100% !important;
+    min-height: 58px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+
+    padding: 0 18px !important;
+
+    border: none !important;
+    border-radius: 14px !important;
+
+    background: #c96a2b !important;
+    color: #fffaf5 !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+
+    text-decoration: none !important;
+
+    box-shadow: none !important;
+    transition: transform .2s ease, filter .2s ease !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2) .class-view,
+.attendance-page .class-card:nth-child(3n+2) .attendance-button {
+    background: #e0a000 !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n) .class-view,
+.attendance-page .class-card:nth-child(3n) .attendance-button {
+    background: #b85d2b !important;
+}
+
+.siniflarim-page .class-view:hover,
+.attendance-page .attendance-button:hover {
+    filter: brightness(1.06) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* =========================================================
+   MOBİL
+   ========================================================= */
+
+@@media (max-width: 900px) {
+    .siniflarim-page .class-grid,
+    .attendance-page .class-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@@media (max-width: 600px) {
+    .siniflarim-page .class-grid,
+    .attendance-page .class-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .siniflarim-page .page-container > .top-bar,
+    .attendance-page .page-header {
+        min-height: 130px !important;
+        padding: 22px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .siniflarim-page .page-container > .top-bar .back-btn,
+    .attendance-page .page-header .back-btn {
+        width: 150px !important;
+        min-width: 150px !important;
+    }
+}
+
+</style>
 
 </head>
-
 
 <body>
 
@@ -652,147 +1684,119 @@
 
     <div class="page-container">
 
-
         <!-- ÜST BAR -->
-
         <div class="top-bar">
 
             <div class="brand">
+                <div>
+                    <div class="brand-title">Sınıflarım</div>
 
-                <div class="brand-icon">
-                    🏫
+                    <p class="brand-description">
+                        Size atanmış sınıfları buradan görüntüleyebilir,
+                        öğrencilerinize hızlıca ulaşabilirsiniz.
+                    </p>
                 </div>
-
-                <div class="brand-text">
-
-                    <div class="brand-title">
-                        Okul Takip Sistemi
-                    </div>
-
-                    <div class="brand-subtitle">
-                        Öğretmen Paneli
-                    </div>
-
-                </div>
-
             </div>
 
-
-            <a href="/Home/OgretmenPanel"
-               class="back-btn">
-
-                ← Ana Sayfaya Dön
-
+            <a href="/Home/OgretmenPanel" class="back-btn">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 12H5"/>
+                    <path d="m11 18-6-6 6-6"/>
+                </svg>
+                <span>Anasayfaya Dön</span>
             </a>
 
         </div>
 
-
-        <!-- BAŞLIK -->
-
-        <div class="page-heading">
-
-            <h1>
-                Sınıflarım
-            </h1>
-
-            <p>
-                Size atanmış sınıflar
-            </p>
-
-        </div>
-
-
+        <!-- SINIFLAR -->
         @if (Model != null && Model.Any())
         {
-
             <div class="classes-grid">
 
                 @foreach (var sinif in Model)
                 {
-
                     <div class="class-card">
-
 
                         <div class="class-top">
 
                             <div class="class-icon">
-                                📚
-                            </div>
 
+                                <svg viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M8 15.5 24 8l16 7.5L24 23 8 15.5Z"/>
+                                    <path d="M12 18v12l12 7 12-7V18"/>
+                                    <path d="M40 17v11"/>
+                                    <path d="M18 26l6 3.5 6-3.5"/>
+                                </svg>
+
+                            </div>
 
                             <div class="class-info">
 
-                                <h4>
-                                    @sinif.Ad
-                                </h4>
-
+                                <h4>@sinif.Ad</h4>
 
                                 @if (sinif.Okul != null)
                                 {
-
                                     <div class="school-name">
-                                        Okul: @sinif.Okul.Ad
+                                        @sinif.Okul.Ad
                                     </div>
-
                                 }
                                 else
                                 {
-
                                     <div class="school-name">
                                         Okul bilgisi bulunmuyor
                                     </div>
-
                                 }
 
                             </div>
 
                         </div>
 
-
                         <div class="class-divider"></div>
-
 
                         <a href="/Ogretmen/SinifOgrencileri/@sinif.Id"
                            class="class-view">
 
-                            👥 Öğrencileri Gör
+                            <span class="class-view-content">
 
-                            <span>
-                                →
+                                Öğrencileri Gör
+
                             </span>
+
+                            <span class="arrow">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 12h14"/>
+        <path d="m13 6 6 6-6 6"/>
+    </svg>
+</span>
 
                         </a>
 
-
                     </div>
-
                 }
 
             </div>
-
         }
         else
         {
-
             <div class="empty-message">
 
                 <div class="empty-icon">
-                    📚
+
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                        <path d="M8 15.5 24 8l16 7.5L24 23 8 15.5Z"/>
+                        <path d="M12 18v12l12 7 12-7V18"/>
+                        <path d="M40 17v11"/>
+                    </svg>
+
                 </div>
 
-
-                <strong>
-                    Size atanmış sınıf bulunmamaktadır.
-                </strong>
-
+                <strong>Size atanmış sınıf bulunmamaktadır.</strong>
 
                 <span>
                     Size bir sınıf atandığında burada görüntülenecektir.
                 </span>
 
             </div>
-
         }
 
     </div>
@@ -800,8 +1804,789 @@
 </div>
 
 
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<style id="siniflarim-baslik-aciklama">
+    .page-heading .heading-label {
+        display: block !important;
+        margin-bottom: 8px !important;
+    }
+
+    .page-heading .siniflarim-aciklama {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.6 !important;
+    }
+</style>
 
 </body>
-
 </html>
+
+<style>
+/* =========================================================
+   SINIFLARIM - ÜST BAR SON RENK
+   ========================================================= */
+
+.page-container > .top-bar {
+    background: linear-gradient(
+        135deg,
+        #8f4f32 0%,
+        #a95f3b 50%,
+        #b96c43 100%
+    ) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 8px 24px rgba(91, 48, 31, 0.18) !important;
+}
+
+/* Yazılar kaybolmasın */
+.page-container > .top-bar .brand-title {
+    color: #fff8f1 !important;
+}
+
+.page-container > .top-bar .brand-subtitle {
+    color: #f3d8c5 !important;
+}
+
+.page-container > .top-bar .brand-icon {
+    background: rgba(255, 235, 215, 0.16) !important;
+    border-color: rgba(255, 235, 215, 0.25) !important;
+    color: #fff4e8 !important;
+}
+
+.page-container > .top-bar .brand-icon svg {
+    stroke: #fff4e8 !important;
+}
+
+.page-container > .top-bar .back-btn {
+    background: rgba(255, 245, 235, 0.12) !important;
+    color: #fff8f1 !important;
+    border-color: rgba(255, 245, 235, 0.30) !important;
+}
+
+.page-container > .top-bar .back-btn:hover {
+    background: rgba(255, 245, 235, 0.20) !important;
+}
+</style>
+
+<style>
+/* Anasayfaya Dön - Sınıflara Dön ile aynı renk */
+.page-container .back-btn {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    border: 1px solid rgba(255, 245, 235, 0.40) !important;
+    box-shadow: none !important;
+}
+
+.page-container .back-btn:hover {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+}
+</style>
+
+<style>
+/* GERİ BUTONU - ANASAYFAYA DÖN */
+.top-bar > .back-btn {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    border: 1px solid rgba(255,255,255,.35) !important;
+    box-shadow: none !important;
+}
+
+.top-bar > .back-btn:hover {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+}
+
+/* GERİ BUTONLARI - YOKLAMA AL RENGİ */
+.top-bar a.back-btn,
+.students-topbar a,
+.students-topbar a.students-back-btn,
+.students-topbar a:has(span) {
+    background: #b86a48 !important;
+    background-color: #b86a48 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    border-color: #b86a48 !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+.top-bar a.back-btn:hover,
+.students-topbar a:hover,
+.students-topbar a.students-back-btn:hover,
+.students-topbar a:has(span):hover {
+    background: #b86a48 !important;
+    background-color: #b86a48 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    border-color: #b86a48 !important;
+    box-shadow: none !important;
+}
+
+.top-bar a.back-btn svg,
+.students-topbar a svg,
+.students-topbar a.students-back-btn svg {
+    stroke: #ffffff !important;
+}
+
+</style>
+
+<style>
+/* İkonun kendisine dokunma — sadece arka kutunun şeklini değiştir */
+.siniflarim-page .class-icon {
+    border-radius: 16px !important;
+}
+
+/* SVG/ikon aynı kalır */
+.siniflarim-page .class-icon svg {
+    border-radius: 0 !important;
+}
+</style>
+
+<style>
+/* Panele / Ana Sayfaya dönüş butonları — ortak görünüm */
+
+.siniflarim-page .back-btn,
+.history-back,
+.attendance-page .back-button {
+    min-height: 50px !important;
+    height: 50px !important;
+    padding: 0 20px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    background: #c96a2b !important;
+    color: #fff8f1 !important;
+
+    border: 1px solid rgba(255,255,255,.45) !important;
+    border-radius: 14px !important;
+
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+
+    box-shadow: 0 7px 16px rgba(139,70,36,.16) !important;
+    transition: .2s ease !important;
+}
+
+.siniflarim-page .back-btn:hover,
+.history-back:hover,
+.attendance-page .back-button:hover {
+    background: #c96a2b !important;
+    color: #fff8f1 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 20px rgba(139,70,36,.20) !important;
+}
+</style>
+
+
+<style>
+/* =========================================
+   GERİ / ANA SAYFA / PANEL BUTONLARI
+   ÜÇ SAYFADA TAMAMEN AYNI
+   ========================================= */
+
+.siniflarim-page .back-btn,
+.attendance-page .back-button,
+.yoklama-history-page .history-back {
+    width: auto !important;
+    min-width: 150px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    padding: 0 20px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    background: #c96a2b !important;
+    color: #fff8f1 !important;
+
+    border: 1px solid rgba(255,255,255,.55) !important;
+    border-radius: 14px !important;
+
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+    box-shadow: 0 6px 15px rgba(112,55,30,.16) !important;
+
+    transform: none !important;
+    transition: .2s ease !important;
+}
+
+.siniflarim-page .back-btn:hover,
+.attendance-page .back-button:hover,
+.yoklama-history-page .history-back:hover {
+    background: #c96a2b !important;
+    color: #fff8f1 !important;
+    border-color: rgba(255,255,255,.7) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* OK İKONLARI DA AYNI BOY */
+.siniflarim-page .back-btn svg,
+.attendance-page .back-button svg,
+.yoklama-history-page .history-back svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+}
+</style>
+
+
+<style id="common-return-buttons">
+.siniflarim-page .top-bar > .back-btn,
+.attendance-page .attendance-header > .back-button,
+.yoklama-history-page .history-header > .history-back {
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+
+    padding: 0 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    box-sizing: border-box !important;
+
+    background: #a95f3b !important;
+    background-color: #a95f3b !important;
+    background-image: none !important;
+
+    color: #fff8f1 !important;
+
+    border: 1px solid rgba(255,245,235,.40) !important;
+    border-radius: 14px !important;
+
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    box-shadow: none !important;
+    text-decoration: none !important;
+    transform: none !important;
+}
+
+.siniflarim-page .top-bar > .back-btn:hover,
+.attendance-page .attendance-header > .back-button:hover,
+.yoklama-history-page .history-header > .history-back:hover {
+    width: 150px !important;
+    height: 50px !important;
+    background: #a95f3b !important;
+    background-color: #a95f3b !important;
+    color: #fff8f1 !important;
+    transform: translateY(-2px) !important;
+}
+
+.siniflarim-page .top-bar > .back-btn svg,
+.attendance-page .attendance-header > .back-button svg,
+.yoklama-history-page .history-header > .history-back svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 17px !important;
+}
+</style>
+
+
+<style id="SINIFLARIM-EGLENCELI-TEMA-FINAL">
+
+/* =====================================================
+   SINIFLARIM - YOKLAMA LİSTESİNE UYUMLU EĞLENCELİ TEMA
+   ===================================================== */
+
+/* =====================================================
+   ÜST PANEL
+   ===================================================== */
+
+.siniflarim-page .top-bar {
+    min-height: 145px !important;
+    padding: 28px 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    background: #c96a2b !important;
+    border-radius: 20px !important;
+
+    overflow: hidden !important;
+}
+
+/* BAŞLIK */
+.siniflarim-page .brand-title {
+    color: #fffaf5 !important;
+    font-size: 30px !important;
+    font-weight: 800 !important;
+}
+
+/* =====================================================
+   ANASAYFAYA DÖN
+   TEK SATIR
+   ===================================================== */
+
+.siniflarim-page .top-bar > .back-btn,
+.siniflarim-page .page-container > .top-bar > .back-btn {
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow: visible !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.siniflarim-page .top-bar > .back-btn span,
+.siniflarim-page .page-container > .top-bar > .back-btn span {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    width: auto !important;
+}
+
+.siniflarim-page .top-bar > .back-btn svg,
+.siniflarim-page .page-container > .top-bar > .back-btn svg {
+    flex: 0 0 auto !important;
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.siniflarim-page .top-bar > .back-btn:hover,
+.siniflarim-page .page-container > .top-bar > .back-btn:hover {
+    background: rgba(255,248,241,.22) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* =====================================================
+   SINIF KARTLARI
+   ===================================================== */
+
+.siniflarim-page .class-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 22px !important;
+}
+
+/* KART */
+.siniflarim-page .class-card {
+    position: relative !important;
+    overflow: hidden !important;
+
+    min-height: 205px !important;
+    padding: 22px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+
+    background: rgba(255,255,255,.90) !important;
+
+    border: 1px solid rgba(126,72,42,.08) !important;
+    border-radius: 20px !important;
+
+    box-shadow: 0 10px 26px rgba(91,55,38,.12) !important;
+
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease !important;
+}
+
+/* RENKLİ ÜST ÇİZGİLER */
+.siniflarim-page .class-card::before {
+    content: "" !important;
+
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    height: 5px !important;
+
+    background: #c96a2b !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2)::before {
+    background: #e0a000 !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n)::before {
+    background: #b85d2b !important;
+}
+
+/* DEKORATİF YUMUŞAK DAİRELER */
+.siniflarim-page .class-card::after {
+    content: "" !important;
+
+    position: absolute !important;
+    width: 95px !important;
+    height: 95px !important;
+
+    right: -42px !important;
+    top: -42px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(201,106,43,.08) !important;
+
+    pointer-events: none !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2)::after {
+    background: rgba(224,160,0,.10) !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n)::after {
+    background: rgba(184,93,43,.09) !important;
+}
+
+.siniflarim-page .class-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 17px 34px rgba(91,55,38,.16) !important;
+}
+
+/* =====================================================
+   İKONLAR - KARE
+   ===================================================== */
+
+.siniflarim-page .class-icon {
+    width: 78px !important;
+    height: 78px !important;
+
+    flex: 0 0 78px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 16px !important;
+
+    background: #f2e3da !important;
+    color: #a95f3b !important;
+
+    box-shadow: none !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2) .class-icon {
+    background: #f8efd9 !important;
+    color: #d08b00 !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n) .class-icon {
+    background: #f1ddd3 !important;
+    color: #b85d2b !important;
+}
+
+.siniflarim-page .class-icon svg {
+    width: 32px !important;
+    height: 32px !important;
+
+    stroke: currentColor !important;
+    fill: none !important;
+}
+
+/* =====================================================
+   SINIF YAZILARI
+   ===================================================== */
+
+.siniflarim-page .class-info h2,
+.siniflarim-page .class-info h3,
+.siniflarim-page .class-name {
+    color: #51372c !important;
+    font-size: 25px !important;
+    font-weight: 800 !important;
+}
+
+.siniflarim-page .class-info p,
+.siniflarim-page .school-name {
+    color: #806d63 !important;
+}
+
+/* =====================================================
+   ÖĞRENCİLERİ GÖR
+   ===================================================== */
+
+.siniflarim-page .class-view {
+    width: 100% !important;
+    min-height: 58px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 9px !important;
+
+    padding: 0 18px !important;
+
+    background: #c96a2b !important;
+    color: #fffaf5 !important;
+
+    border: none !important;
+    border-radius: 14px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+
+    text-decoration: none !important;
+
+    box-shadow: none !important;
+
+    transition:
+        transform .2s ease,
+        filter .2s ease !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n+2) .class-view {
+    background: #e0a000 !important;
+}
+
+.siniflarim-page .class-card:nth-child(3n) .class-view {
+    background: #b85d2b !important;
+}
+
+.siniflarim-page .class-view:hover {
+    filter: brightness(1.07) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* =====================================================
+   MOBİL
+   ===================================================== */
+
+@@media (max-width: 900px) {
+    .siniflarim-page .class-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@@media (max-width: 600px) {
+    .siniflarim-page .class-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .siniflarim-page .top-bar {
+        min-height: 130px !important;
+        padding: 22px !important;
+    }
+
+    .siniflarim-page .top-bar > .back-btn {
+        width: 175px !important;
+        min-width: 175px !important;
+    }
+}
+
+</style>
+
+
+<style id="siniflarim-logo-hareket">
+
+.siniflarim-page .class-icon svg {
+    animation: sinifLogoHareket 2.8s ease-in-out infinite !important;
+    transform-origin: center center !important;
+}
+
+@@keyframes sinifLogoHareket {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-3px) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    75% {
+        transform: translateY(-3px) rotate(2deg);
+    }
+}
+
+</style>
+
+<style id="siniflarim-logo-hareket">
+
+.siniflarim-page .class-icon svg {
+    animation: sinifLogoHareket 2.8s ease-in-out infinite !important;
+    transform-origin: center center !important;
+}
+
+@@keyframes sinifLogoHareket {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-3px) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    75% {
+        transform: translateY(-3px) rotate(2deg);
+    }
+}
+
+</style>
+
+<style id="siniflarim-ust-panel-aciklama-final">
+
+.siniflarim-page .top-bar .brand-description {
+    position: relative !important;
+    z-index: 2 !important;
+
+    display: block !important;
+
+    margin: 8px 0 0 !important;
+    padding: 0 !important;
+
+    color: rgba(255,250,245,.88) !important;
+
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+}
+
+</style>
+
+
+
+
+<style id="siniflarim-baslik-kart-boslugu">
+.classes-grid {
+    margin-top: 22px !important;
+}
+</style>
+
+<style id="siniflarim-button-hover-renk-sabit">
+
+.class-card .class-view:hover {
+    filter: none !important;
+    background: inherit !important;
+    color: inherit !important;
+    border-color: inherit !important;
+}
+
+.class-card:nth-child(3n+1) .class-view:hover {
+    background: #d96928 !important;
+    color: #fffaf5 !important;
+}
+
+.class-card:nth-child(3n+2) .class-view:hover {
+    background: #d99908 !important;
+    color: #fffaf5 !important;
+}
+
+.class-card:nth-child(3n) .class-view:hover {
+    background: #b9552a !important;
+    color: #fffaf5 !important;
+}
+
+</style>
+
+<style id="siniflarim-butonu-hover-son">
+
+/* Fare üzerine gelince butonun rengi DEĞİŞMESİN */
+.class-card .class-view:hover {
+    transform: translateY(-2px) !important;
+    border-color: inherit !important;
+}
+
+/* Turuncu kartlar */
+.class-card:nth-child(3n+1) .class-view:hover {
+    background: linear-gradient(
+        135deg,
+        #b75321,
+        #ca6828
+    ) !important;
+}
+
+/* Sarı kartlar */
+.class-card:nth-child(3n+2) .class-view:hover {
+    background: linear-gradient(
+        135deg,
+        #d28a1e,
+        #e0a13a
+    ) !important;
+}
+
+/* Koyu turuncu kartlar */
+.class-card:nth-child(3n) .class-view:hover {
+    background: linear-gradient(
+        135deg,
+        #b75321,
+        #ca6828
+    ) !important;
+}
+
+/* Sadece ok hafifçe sağa gitsin */
+.class-view:hover .arrow {
+    transform: translateX(5px) !important;
+}
+
+</style>
+
+<style id="siniflarim-ince-ok">
+
+.class-view .arrow {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #fff !important;
+}
+
+.class-view .arrow svg {
+    width: 22px !important;
+    height: 22px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.7 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+    display: block !important;
+}
+
+.class-view:hover .arrow {
+    transform: translateX(5px) !important;
+}
+
+</style>

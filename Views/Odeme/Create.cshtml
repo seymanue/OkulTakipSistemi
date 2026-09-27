@@ -1,3 +1,130 @@
+
+<style>
+.odeme-action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 26px;
+}
+
+.odeme-back-button,
+.odeme-save-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.odeme-back-button {
+    color: #5f6f82;
+    background: #ffffff;
+    border: 1px solid #cfd8e3;
+    box-shadow: 0 3px 10px rgba(26, 64, 99, 0.06);
+}
+
+.odeme-back-button:hover {
+    color: #163b61;
+    background: #f4f8fc;
+    border-color: #b8c9da;
+    transform: translateY(-2px);
+}
+
+.odeme-save-button {
+    color: #ffffff;
+    background: linear-gradient(135deg, #1677f2 0%, #0d6efd 100%);
+    border: 1px solid #0d6efd;
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.20);
+    cursor: pointer;
+}
+
+.odeme-save-button:hover {
+    background: linear-gradient(135deg, #0d6efd 0%, #0959c7 100%);
+    box-shadow: 0 7px 18px rgba(13, 110, 253, 0.25);
+    transform: translateY(-2px);
+}
+
+.odeme-back-button:active,
+.odeme-save-button:active {
+    transform: translateY(0);
+}
+
+@@media (max-width: 600px) {
+    .odeme-action-buttons {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .odeme-back-button,
+    .odeme-save-button {
+        width: 100%;
+    }
+}
+</style>
+
+
+<style>
+.page-title-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 26px;
+    padding: 26px 30px;
+    border: 1px solid #d9eaf8;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #eaf5ff 0%, #d8ecff 55%, #c7e3fb 100%);
+    box-shadow: 0 8px 25px rgba(26, 64, 99, 0.07);
+}
+
+.page-title-content {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    min-width: 0;
+}
+
+.page-title-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 54px;
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 5px 15px rgba(25, 87, 145, 0.10);
+    font-size: 26px;
+}
+
+.page-title-box h1 {
+    margin: 0 0 5px;
+    color: #163b61;
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.page-title-box p {
+    margin: 0;
+    color: #607b95;
+    font-size: 14px;
+}
+
+@@media (max-width: 700px) {
+    .page-title-box {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 22px;
+    }
+}
+</style>
+
 @model OkulTakipSistemi.Models.Odeme
 
 @{
@@ -6,13 +133,14 @@
 
 <div class="container py-4">
 
-    <div class="mb-4">
-        <h2 class="fw-bold">Yeni Ödeme</h2>
-
-        <p class="text-muted">
-            Öğrenciden alınan ödemeyi sisteme kaydedin.
-            Ödeme, öğrencinin açık borçlarına otomatik olarak dağıtılacaktır.
-        </p>
+    <div class="page-title-box">
+        <div class="page-title-content">
+            <div class="page-title-icon">💳</div>
+            <div>
+                <h1>Yeni Ödeme</h1>
+                <p>Öğrenciden alınan ödemeyi sisteme kaydedin. Ödeme, öğrencinin açık borçlarına otomatik olarak dağıtılacaktır.</p>
+            </div>
+        </div>
     </div>
 
     <div class="card shadow-sm border-0">
@@ -157,15 +285,15 @@
                 </div>
 
                 <!-- BUTONLAR -->
-                <div class="d-flex justify-content-between">
+                <div class="odeme-action-buttons">
 
                     <a asp-action="Index"
-                       class="btn btn-outline-secondary">
+                       class="odeme-back-button">
                         ← Geri
                     </a>
 
                     <button type="submit"
-                            class="btn btn-primary px-4">
+                            class="odeme-save-button">
                         Ödemeyi Kaydet
                     </button>
 

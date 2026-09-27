@@ -8,171 +8,651 @@
 }
 
 <style>
-    .ogretmen-page {
-        min-height: calc(100vh - 100px);
-        background: #f3f8f5;
-        padding: 45px 0;
+    * {
+        box-sizing: border-box;
     }
 
-    .page-header {
-        background: #198754;
-        color: white;
-        border-radius: 18px;
-        padding: 28px 32px;
-        margin-bottom: 30px;
-        box-shadow: 0 8px 20px rgba(25, 135, 84, 0.15);
-    }
-
-    .page-header h1 {
+    html,
+    body {
         margin: 0;
-        font-size: 30px;
-        font-weight: 700;
+        min-height: 100%;
+        background: #f8f1e9;
     }
 
-    .page-header p {
-        margin: 7px 0 0;
-        opacity: 0.9;
+    body {
+        color: #3d2419;
     }
 
-    .back-btn {
-        background: white;
-        color: #198754;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 18px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-block;
+    .students-page {
+        min-height: 100vh;
+        padding: 34px 20px 55px;
+
+        background:
+            radial-gradient(
+                circle at 8% 5%,
+                rgba(239, 170, 111, .24),
+                transparent 28%
+            ),
+            radial-gradient(
+                circle at 92% 8%,
+                rgba(224, 139, 83, .18),
+                transparent 28%
+            ),
+            radial-gradient(
+                circle at 80% 92%,
+                rgba(238, 190, 111, .15),
+                transparent 30%
+            ),
+            linear-gradient(
+                135deg,
+                #faf5ef 0%,
+                #f7eee5 50%,
+                #f1e4d8 100%
+            );
     }
 
-    .back-btn:hover {
-        background: #e9f5ef;
-        color: #146c43;
+    .students-container {
+        width: min(1120px, 100%);
+        margin: 0 auto;
     }
 
-    .student-card {
-        background: white;
-        border: 1px solid #dceee4;
-        border-radius: 16px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
-    }
+    /* =================================
+       ÜST BAR
+    ================================= */
 
-    .student-card-header {
-        padding: 22px 25px;
-        border-bottom: 1px solid #dceee4;
+    .students-topbar {
+        min-height: 72px;
+        padding: 12px 16px;
+
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+
+        background: rgba(255, 252, 248, .88);
+        border: 1px solid #eadbcd;
+        border-radius: 21px;
+
+        box-shadow:
+            0 10px 30px rgba(92, 54, 35, .08),
+            inset 0 1px 0 rgba(255,255,255,.9);
     }
 
-    .student-card-header h4 {
-        color: #146c43;
-        font-weight: 700;
+    .students-brand {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .students-brand-icon {
+        width: 46px;
+        height: 46px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 15px;
+
+        background: linear-gradient(
+            145deg,
+            #88401f,
+            #c96930
+        );
+
+        box-shadow:
+            0 8px 20px rgba(171, 82, 37, .20);
+    }
+
+    .students-brand-icon svg {
+        width: 25px;
+        height: 25px;
+
+        fill: none;
+        stroke: #fff7ef;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .students-brand-title {
+        color: #3b2117;
+        font-size: 17px;
+        font-weight: 750;
+    }
+
+    .students-brand-subtitle {
+        margin-top: 3px;
+        color: #9a7865;
+        font-size: 12px;
+    }
+
+    .back-button {
+        min-height: 42px;
+        padding: 0 15px;
+
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        color: #70402b;
+        font-size: 13px;
+        font-weight: 650;
+
+        background: #faf4ed;
+        border: 1px solid #e4d2c2;
+        border-radius: 12px;
+
+        transition: .22s ease;
+    }
+
+    .back-button svg {
+        width: 17px;
+        height: 17px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .back-button:hover {
+        color: white;
+        background: #b85d2b;
+        border-color: #b85d2b;
+        transform: translateY(-2px);
+    }
+
+    /* =================================
+       BAŞLIK
+    ================================= */
+
+    .students-heading {
+        padding: 46px 5px 28px;
+    }
+
+    .heading-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        padding: 7px 12px;
+        margin-bottom: 13px;
+
+        color: #a45428;
+        background: rgba(190, 102, 48, .08);
+        border: 1px solid rgba(190, 102, 48, .18);
+        border-radius: 999px;
+
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .heading-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #d77a31;
+        box-shadow: 0 0 12px rgba(215,122,49,.45);
+    }
+
+    .students-heading h1 {
         margin: 0;
+
+        color: #351d14;
+        font-size: clamp(32px, 5vw, 44px);
+        line-height: 1.08;
+        font-weight: 800;
+        letter-spacing: -1.4px;
+    }
+
+    .students-heading p {
+        margin: 11px 0 0;
+        color: #80695b;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    /* =================================
+       ÖĞRENCİ ANA KART
+    ================================= */
+
+    .students-card {
+        overflow: hidden;
+
+        background: rgba(255, 253, 250, .95);
+        border: 1px solid #eaded3;
+        border-radius: 23px;
+
+        box-shadow:
+            0 14px 36px rgba(83, 49, 33, .08),
+            0 2px 8px rgba(83, 49, 33, .04);
+    }
+
+    .students-card-header {
+        min-height: 82px;
+        padding: 18px 23px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+
+        border-bottom: 1px solid #eee1d6;
+    }
+
+    .students-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .students-title-icon {
+        width: 43px;
+        height: 43px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 13px;
+        background: #fff0df;
+    }
+
+    .students-title-icon svg {
+        width: 23px;
+        height: 23px;
+
+        fill: none;
+        stroke: #c56a2c;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .students-card-header h2 {
+        margin: 0;
+        color: #3a2117;
+        font-size: 17px;
+        font-weight: 750;
+    }
+
+    .students-card-header small {
+        display: block;
+        margin-top: 3px;
+        color: #a08676;
+        font-size: 11px;
     }
 
     .student-count {
-        background: #198754;
-        color: white;
-        padding: 7px 13px;
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: 600;
+        padding: 8px 12px;
+
+        color: #8d4a24;
+        background: #fff1e4;
+        border: 1px solid #f0d5bd;
+        border-radius: 999px;
+
+        font-size: 12px;
+        font-weight: 750;
+        white-space: nowrap;
     }
 
-    .table {
-        margin-bottom: 0;
+    /* =================================
+       TABLO
+    ================================= */
+
+    .students-table-wrap {
+        overflow-x: auto;
     }
 
-    .table thead th {
-        background: #e9f5ef;
-        color: #146c43;
-        font-weight: 700;
-        border-bottom: 2px solid #cfe7da;
-        padding: 15px;
+    .students-table {
+        width: 100%;
+        border-collapse: collapse;
     }
 
-    .table tbody td {
-        padding: 15px;
+    .students-table thead th {
+        padding: 15px 20px;
+
+        color: #8d6b58;
+        background: #fbf6f1;
+
+        border-bottom: 1px solid #eaded3;
+
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: .7px;
+        text-transform: uppercase;
+
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .students-table tbody td {
+        padding: 17px 20px;
+
+        color: #5e4437;
+        border-bottom: 1px solid #f1e8e0;
+
+        font-size: 14px;
         vertical-align: middle;
-        border-color: #edf4ef;
     }
 
-    .table tbody tr:hover {
-        background: #f6fbf8;
+    .students-table tbody tr {
+        transition: background .18s ease;
     }
 
+    .students-table tbody tr:hover {
+        background: #fff9f4;
+    }
+
+    .students-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* SIRA */
+    .row-number {
+        width: 65px;
+    }
+
+    .number-badge {
+        width: 30px;
+        height: 30px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #a75a2d;
+        background: #fff0e1;
+        border-radius: 9px;
+
+        font-size: 12px;
+        font-weight: 750;
+    }
+
+    /* ÖĞRENCİ NO */
     .student-number {
-        color: #198754;
-        font-weight: 600;
+        color: #b45b28 !important;
+        font-weight: 700;
+    }
+
+    /* AD SOYAD */
+    .student-name-cell {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .student-avatar {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        background: linear-gradient(
+            145deg,
+            #f7dfcd,
+            #f0cdb8
+        );
+    }
+
+    .student-avatar svg {
+        width: 20px;
+        height: 20px;
+
+        fill: none;
+        stroke: #8a4b2d;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
     }
 
     .student-name {
-        color: #212529;
-        font-weight: 600;
+        color: #392219;
+        font-weight: 700;
     }
 
-    .empty-message {
-        background: white;
-        border: 1px solid #dceee4;
-        border-radius: 14px;
-        padding: 25px;
-        color: #6c757d;
+    /* =================================
+       BOŞ DURUM
+    ================================= */
+
+    .empty-state {
+        padding: 65px 25px;
         text-align: center;
+
+        background: rgba(255,253,250,.95);
+        border: 1px dashed #d9bfac;
+        border-radius: 23px;
+
+        box-shadow:
+            0 14px 35px rgba(83,49,33,.06);
     }
+
+    .empty-icon {
+        width: 76px;
+        height: 76px;
+        margin: 0 auto 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 23px;
+        background: #f7e9de;
+    }
+
+    .empty-icon svg {
+        width: 36px;
+        height: 36px;
+
+        fill: none;
+        stroke: #95654c;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .empty-state strong {
+        display: block;
+        color: #3d251a;
+        font-size: 16px;
+    }
+
+    .empty-state span {
+        display: block;
+        margin-top: 7px;
+        color: #92796a;
+        font-size: 13px;
+    }
+
+    /* =================================
+       MOBİL
+    ================================= */
+
+    @@media (max-width: 680px) {
+
+        .students-page {
+            padding: 17px 13px 35px;
+        }
+
+        .students-topbar {
+            border-radius: 18px;
+        }
+
+        .students-brand-subtitle {
+            display: none;
+        }
+
+        .back-button {
+            width: 42px;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .back-button span {
+            display: none;
+        }
+
+        .students-heading {
+            padding: 37px 3px 23px;
+        }
+
+        .students-heading h1 {
+            font-size: 34px;
+        }
+
+        .students-card {
+            border-radius: 19px;
+        }
+
+        .students-card-header {
+            padding: 16px;
+        }
+
+        .students-table thead th,
+        .students-table tbody td {
+            padding: 13px 15px;
+        }
+
+        .row-number {
+            width: 50px;
+        }
+    }
+
+
+/* ÜST KISIM - TURUNCU / KAHVE */
+.top-bar {
+    background: linear-gradient(135deg, #9a5638 0%, #b86b45 55%, #c8794c 100%) !important;
+    border: none !important;
+    box-shadow: 0 8px 24px rgba(91, 48, 31, 0.12) !important;
+}
+
+/* Üst yazıların mevcut renklerini koru */
+.top-bar .brand-title,
+.top-bar .brand-subtitle,
+.top-bar .brand,
+.top-bar .back-btn {
+    color: inherit !important;
+}
+
+/* Geri butonu */
+.top-bar .back-btn {
+    background: rgba(255,255,255,.12) !important;
+    border-color: rgba(255,255,255,.28) !important;
+}
+
 </style>
 
 
-<div class="ogretmen-page">
+<div class="students-page">
 
-    <div class="container">
+    <div class="students-container">
 
-        <!-- BAŞLIK -->
+        <!-- ÜST BAR -->
+        <div class="students-topbar" style="
+    background:#c96a2b !important;
+    background-color:#c96a2b !important;
+    background-image:none !important;
+    min-height:145px !important;
+    height:145px !important;
+    padding:28px 30px !important;
+    border:none !important;
+    border-radius:20px !important;
+    box-shadow:0 12px 30px rgba(126,72,42,.14) !important;
+">
 
-        <div class="page-header">
+            <div class="students-brand">
 
-            <div class="d-flex justify-content-between align-items-center">
-
-                <div>
-
-                    <h1>
-                        @sinif?.Ad
-                    </h1>
-
-                    @if (sinif?.Okul != null)
-                    {
-                        <p>
-                            Okul: @sinif.Okul.Ad
-                        </p>
-                    }
-
+                <div class="students-brand-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="3"/>
+                        <path d="M5 20c.7-4 3-6 7-6s6.3 2 7 6"/>
+                        <path d="M18 5.5a2.2 2.2 0 0 1 0 4"/>
+                        <path d="M20 18c-.3-2-1.2-3.4-2.7-4.3"/>
+                    </svg>
                 </div>
 
-                <a asp-controller="Ogretmen"
-                   asp-action="Siniflarim"
-                   class="back-btn">
-
-                    ← Sınıflara Dön
-
-                </a>
+                <div>
+                    <div class="students-brand-title">
+                        Sınıf Öğrencileri
+                    </div>
+                </div>
 
             </div>
+
+            <a asp-controller="Ogretmen"
+               asp-action="Siniflarim"
+               class="back-button">
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 12H5"/>
+                    <path d="m11 18-6-6 6-6"/>
+                </svg>
+
+                <span>Sınıflara Dön</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- BAŞLIK -->
+        <div class="students-heading">
+
+            <div class="heading-label">
+                <span class="heading-dot"></span>
+                Öğrenci Yönetimi
+            </div>
+
+            <h1>@sinif?.Ad</h1>
+
+            @if (sinif?.Okul != null)
+            {
+                <p>
+                    @sinif.Okul.Ad sınıfındaki öğrenciler
+                </p>
+            }
+            else
+            {
+                <p>
+                    Bu sınıfta kayıtlı öğrenciler
+                </p>
+            }
 
         </div>
 
 
         <!-- ÖĞRENCİLER -->
-
         @if (Model != null && Model.Any())
         {
-            <div class="student-card">
+            <div class="students-card">
 
-                <div class="student-card-header">
+                <div class="students-card-header">
 
-                    <h4>
-                        Öğrenciler
-                    </h4>
+                    <div class="students-title-wrap">
+
+                        <div class="students-title-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="9" cy="8" r="3"/>
+                                <path d="M3.5 19c.6-3.1 2.4-4.7 5.5-4.7s4.9 1.6 5.5 4.7"/>
+                                <circle cx="17" cy="9" r="2.2"/>
+                                <path d="M15.2 14.8c2.7-.1 4.5 1.3 5.3 3.7"/>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <h2>Öğrenciler</h2>
+                            <small>Bu sınıfa kayıtlı öğrenciler</small>
+                        </div>
+
+                    </div>
 
                     <span class="student-count">
                         @Model.Count() Öğrenci
@@ -181,18 +661,16 @@
                 </div>
 
 
-                <div class="table-responsive">
+                <div class="students-table-wrap">
 
-                    <table class="table align-middle">
+                    <table class="students-table">
 
                         <thead>
-
                             <tr>
-                                <th>#</th>
+                                <th class="row-number">#</th>
                                 <th>Öğrenci No</th>
                                 <th>Ad Soyad</th>
                             </tr>
-
                         </thead>
 
                         <tbody>
@@ -205,16 +683,33 @@
                             {
                                 <tr>
 
-                                    <td>
-                                        @sira
+                                    <td class="row-number">
+                                        <span class="number-badge">
+                                            @sira
+                                        </span>
                                     </td>
 
                                     <td class="student-number">
                                         @ogrenci.OgrenciNo
                                     </td>
 
-                                    <td class="student-name">
-                                        @ogrenci.AdSoyad
+                                    <td>
+
+                                        <div class="student-name-cell">
+
+                                            <div class="student-avatar">
+                                                <svg viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="8" r="3"/>
+                                                    <path d="M5 20c.7-4 3-6 7-6s6.3 2 7 6"/>
+                                                </svg>
+                                            </div>
+
+                                            <span class="student-name">
+                                                @ogrenci.AdSoyad
+                                            </span>
+
+                                        </div>
+
                                     </td>
 
                                 </tr>
@@ -232,9 +727,22 @@
         }
         else
         {
-            <div class="empty-message">
+            <div class="empty-state">
 
-                Bu sınıfta kayıtlı öğrenci bulunmamaktadır.
+                <div class="empty-icon">
+                    <svg viewBox="0 0 48 48">
+                        <circle cx="24" cy="17" r="6"/>
+                        <path d="M12 39c1.2-7 5.2-10.5 12-10.5S34.8 32 36 39"/>
+                    </svg>
+                </div>
+
+                <strong>
+                    Bu sınıfta kayıtlı öğrenci bulunmamaktadır.
+                </strong>
+
+                <span>
+                    Öğrenci kaydı yapıldığında burada görüntülenecektir.
+                </span>
 
             </div>
         }
@@ -242,3 +750,710 @@
     </div>
 
 </div>
+
+<style>
+/* SINIF ÖĞRENCİLERİ - ÜST BAR */
+.page-container > .top-bar {
+    background: linear-gradient(
+        135deg,
+        #8f4f32 0%,
+        #a95f3b 50%,
+        #b96c43 100%
+    ) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 8px 24px rgba(91, 48, 31, 0.18) !important;
+}
+
+.page-container > .top-bar .brand-title {
+    color: #fff8f1 !important;
+}
+
+.page-container > .top-bar .brand-subtitle {
+    color: #f3d8c5 !important;
+}
+
+.page-container > .top-bar .brand-icon {
+    background: rgba(255, 235, 215, 0.16) !important;
+    border-color: rgba(255, 235, 215, 0.25) !important;
+    color: #fff4e8 !important;
+}
+
+.page-container > .top-bar .brand-icon svg {
+    stroke: #fff4e8 !important;
+}
+
+.page-container > .top-bar .back-btn {
+    background: rgba(255, 245, 235, 0.12) !important;
+    color: #fff8f1 !important;
+    border-color: rgba(255, 245, 235, 0.30) !important;
+}
+
+.page-container > .top-bar .back-btn:hover {
+    background: rgba(255, 245, 235, 0.20) !important;
+}
+</style>
+
+<style>
+/* SINIF ÖĞRENCİLERİ - GERÇEK ÜST BAR */
+.students-page .students-topbar {
+    background: linear-gradient(
+        135deg,
+        #8f4f32 0%,
+        #a95f3b 50%,
+        #b96c43 100%
+    ) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    box-shadow: 0 8px 24px rgba(91, 48, 31, 0.18) !important;
+}
+
+.students-page .students-brand-title {
+    color: #fff8f1 !important;
+}
+
+.students-page .students-brand-subtitle {
+    color: #f3d8c5 !important;
+}
+
+.students-page .students-brand-icon {
+    background: rgba(255, 235, 215, 0.16) !important;
+    border-color: rgba(255, 235, 215, 0.25) !important;
+}
+
+.students-page .students-brand-icon svg {
+    stroke: #fff4e8 !important;
+}
+
+.students-page .students-back-btn {
+    background: rgba(255, 245, 235, 0.12) !important;
+    color: #fff8f1 !important;
+    border-color: rgba(255, 245, 235, 0.30) !important;
+}
+</style>
+
+<style>
+/* Sınıf Öğrencileri sayfasında ana navbarı gizle */
+body:has(.students-page) > nav,
+body:has(.students-page) .navbar,
+body:has(.students-page) header.navbar {
+    display: none !important;
+}
+</style>
+
+<style>
+/* Sınıflara Dön - Anasayfaya Dön ile aynı renk */
+.students-page .students-back-btn {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    border: 1px solid rgba(255, 245, 235, 0.40) !important;
+    box-shadow: none !important;
+}
+
+.students-page .students-back-btn:hover {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+}
+</style>
+
+<style>
+/* GERİ BUTONU - SINIFLARA DÖN */
+.students-topbar > a {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+    border: 1px solid rgba(255,255,255,.35) !important;
+    box-shadow: none !important;
+}
+
+.students-topbar > a:hover {
+    background: #a95f3b !important;
+    color: #fff8f1 !important;
+}
+
+.students-topbar > a svg {
+    stroke: #fff8f1 !important;
+}
+
+/* GERİ BUTONLARI - YOKLAMA AL RENGİ */
+.top-bar a.back-btn,
+.students-topbar a,
+.students-topbar a.students-back-btn,
+.students-topbar a:has(span) {
+    background: #b86a48 !important;
+    background-color: #b86a48 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    border-color: #b86a48 !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+
+.top-bar a.back-btn:hover,
+.students-topbar a:hover,
+.students-topbar a.students-back-btn:hover,
+.students-topbar a:has(span):hover {
+    background: #b86a48 !important;
+    background-color: #b86a48 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    border-color: #b86a48 !important;
+    box-shadow: none !important;
+}
+
+.top-bar a.back-btn svg,
+.students-topbar a svg,
+.students-topbar a.students-back-btn svg {
+    stroke: #ffffff !important;
+}
+
+</style>
+
+<style>
+/* =====================================================
+   SINIF ÖĞRENCİLERİ - ÜST PANEL
+   SINIFLARIM TASARIMIYLA AYNI
+   ALTTAKİ ÖĞRENCİ TABLOSUNA DOKUNMA
+   ===================================================== */
+
+.students-page .students-topbar {
+    min-height: 145px !important;
+    padding: 28px 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+
+    background: #c96a2b !important;
+    border: none !important;
+    border-radius: 20px !important;
+
+    box-shadow: 0 12px 30px rgba(126,72,42,.14) !important;
+
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Dekoratif daireler */
+.students-page .students-topbar::before {
+    content: "" !important;
+    position: absolute !important;
+
+    width: 260px !important;
+    height: 260px !important;
+
+    right: -70px !important;
+    top: -150px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255,255,255,.10) !important;
+    pointer-events: none !important;
+}
+
+.students-page .students-topbar::after {
+    content: "" !important;
+    position: absolute !important;
+
+    width: 180px !important;
+    height: 180px !important;
+
+    right: 100px !important;
+    bottom: -135px !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(255,255,255,.07) !important;
+    pointer-events: none !important;
+}
+
+/* Sol taraf */
+.students-page .students-brand {
+    position: relative !important;
+    z-index: 2 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 13px !important;
+}
+
+/* Sol taraftaki eski ikon kalksın */
+.students-page .students-brand-icon {
+    display: none !important;
+}
+
+/* Başlık */
+.students-page .students-brand-title {
+    color: #fffaf5 !important;
+
+    font-size: 30px !important;
+    font-weight: 800 !important;
+
+    letter-spacing: -.5px !important;
+}
+
+/* Alt yazı */
+.students-page .students-brand-subtitle {
+    margin-top: 5px !important;
+
+    color: rgba(255,250,245,.88) !important;
+
+    font-size: 13px !important;
+}
+
+/* Geri butonu */
+.students-page .students-topbar .back-button {
+    position: relative !important;
+    z-index: 5 !important;
+
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.students-page .students-topbar .back-button span {
+    display: inline-block !important;
+    white-space: nowrap !important;
+}
+
+.students-page .students-topbar .back-button svg {
+    flex: 0 0 auto !important;
+
+    width: 18px !important;
+    height: 18px !important;
+
+    stroke: currentColor !important;
+}
+
+.students-page .students-topbar .back-button:hover {
+    color: #fff !important;
+
+    background: rgba(255,248,241,.22) !important;
+
+    border-color: rgba(255,235,217,.75) !important;
+
+    transform: translateY(-2px) !important;
+}
+
+/* Mobil */
+@@media (max-width: 600px) {
+
+    .students-page .students-topbar {
+        min-height: 130px !important;
+        padding: 22px !important;
+    }
+
+    .students-page .students-brand-title {
+        font-size: 25px !important;
+    }
+
+    .students-page .students-topbar .back-button {
+        width: 175px !important;
+        min-width: 175px !important;
+    }
+}
+</style>
+
+
+<style id="sinif-ogrencileri-ust-siniflarim-ayni">
+/* =========================================================
+   SINIF ÖĞRENCİLERİ — SADECE ÜST BÖLÜM
+   SINIFLARIM ÜST TASARIMIYLA AYNI
+   ALT KISMA DOKUNMA
+   ========================================================= */
+
+.students-page .students-topbar {
+    min-height: 145px !important;
+    padding: 28px 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+
+    background: #c96a2b !important;
+    border: none !important;
+    border-radius: 20px !important;
+
+    box-shadow: 0 12px 30px rgba(126,72,42,.14) !important;
+
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Sınıflarım'daki üst bölümdeki yumuşak şekiller */
+.students-page .students-topbar::before {
+    content: "" !important;
+    position: absolute !important;
+    width: 190px !important;
+    height: 190px !important;
+    right: 40px !important;
+    top: -115px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.08) !important;
+    pointer-events: none !important;
+}
+
+.students-page .students-topbar::after {
+    content: "" !important;
+    position: absolute !important;
+    width: 170px !important;
+    height: 170px !important;
+    right: -25px !important;
+    bottom: -125px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.09) !important;
+    pointer-events: none !important;
+}
+
+/* Sol taraf */
+.students-page .students-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Üstteki kitap/ikon yok */
+.students-page .students-brand-icon {
+    display: none !important;
+}
+
+.students-page .students-brand-title {
+    color: #fff8f1 !important;
+    font-size: 30px !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+}
+
+.students-page .students-brand-subtitle {
+    margin-top: 8px !important;
+    color: rgba(255,248,241,.88) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+/* Sınıflarım'daki geri dön butonuyla aynı görünüm */
+.students-page .students-topbar .back-button {
+    width: 175px !important;
+    min-width: 175px !important;
+    height: 58px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+
+    white-space: nowrap !important;
+
+    color: #fff8f1 !important;
+    background: rgba(126,72,42,.30) !important;
+
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 13px !important;
+    font-weight: 750 !important;
+
+    position: relative !important;
+    z-index: 3 !important;
+
+    box-shadow: none !important;
+}
+
+.students-page .students-topbar .back-button:hover {
+    background: rgba(126,72,42,.42) !important;
+    transform: translateY(-1px) !important;
+}
+
+.students-page .students-topbar .back-button svg {
+    width: 17px !important;
+    height: 17px !important;
+    flex: 0 0 auto !important;
+}
+
+@@media (max-width: 700px) {
+    .students-page .students-topbar {
+        min-height: 135px !important;
+        padding: 22px !important;
+    }
+
+    .students-page .students-brand-title {
+        font-size: 25px !important;
+    }
+
+    .students-page .students-topbar .back-button {
+        width: 155px !important;
+        min-width: 155px !important;
+    }
+}
+</style>
+
+
+
+<style id="SINIF-OGRENCILERI-SINIFLARIM-RENK-SON">
+
+.students-page .students-topbar {
+    min-height: 145px !important;
+    height: 145px !important;
+    padding: 28px 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 20px !important;
+
+    /* SINIFLARIM'DAKİ GERÇEK RENK */
+    background: #c96a2b !important;
+    background-color: #c96a2b !important;
+    background-image: none !important;
+
+    border: none !important;
+    border-radius: 20px !important;
+
+    overflow: hidden !important;
+    box-shadow: none !important;
+
+    box-sizing: border-box !important;
+}
+
+/* Sınıflarım'daki dekoratif üst şekil */
+.students-page .students-topbar::before {
+    content: "" !important;
+    position: absolute !important;
+
+    width: 190px !important;
+    height: 190px !important;
+
+    right: 40px !important;
+    top: -115px !important;
+
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.08) !important;
+
+    pointer-events: none !important;
+}
+
+/* Sınıflarım'daki ikinci dekoratif şekil */
+.students-page .students-topbar::after {
+    content: "" !important;
+    position: absolute !important;
+
+    width: 170px !important;
+    height: 170px !important;
+
+    right: -25px !important;
+    bottom: -125px !important;
+
+    border-radius: 50% !important;
+    background: rgba(255,255,255,.09) !important;
+
+    pointer-events: none !important;
+}
+
+/* Başlık */
+.students-page .students-brand {
+    position: relative !important;
+    z-index: 5 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+}
+
+.students-page .students-brand-icon {
+    display: none !important;
+}
+
+.students-page .students-brand-title {
+    color: #fffaf5 !important;
+    font-size: 30px !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+}
+
+/* Öğretmen çalışma alanı tamamen gizli */
+.students-page .students-brand-subtitle {
+    display: none !important;
+}
+
+/* Sınıflarım'daki geri butonu */
+.students-page .students-topbar .back-button {
+    position: relative !important;
+    z-index: 10 !important;
+
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+    background-color: rgba(255,248,241,.12) !important;
+    background-image: none !important;
+
+    border: 1px solid rgba(255,229,211,.45) !important;
+    border-radius: 13px !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.students-page .students-topbar .back-button span {
+    color: #fffaf6 !important;
+    white-space: nowrap !important;
+}
+
+.students-page .students-topbar .back-button svg {
+    width: 17px !important;
+    height: 17px !important;
+    stroke: #fffaf6 !important;
+    flex: 0 0 auto !important;
+}
+
+/* Sınıflarım'daki hover */
+.students-page .students-topbar .back-button:hover {
+    background: rgba(255,248,241,.20) !important;
+    border-color: rgba(255,229,211,.75) !important;
+    transform: translateY(-1px) !important;
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="SINIFLARA-DON-SINIFLARIM-BIREBIR">
+
+.students-page .students-topbar > .back-button {
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow: visible !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+
+    transition:
+        transform .22s ease,
+        background .22s ease,
+        border-color .22s ease !important;
+}
+
+.students-page .students-topbar > .back-button span {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+}
+
+.students-page .students-topbar > .back-button svg {
+    flex: 0 0 auto !important;
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.students-page .students-topbar > .back-button:hover {
+    background: rgba(255,248,241,.22) !important;
+    border-color: rgba(255,235,219,.70) !important;
+    transform: translateY(-2px) !important;
+}
+
+</style>

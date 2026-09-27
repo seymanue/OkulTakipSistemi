@@ -585,7 +585,7 @@ namespace OkulTakipSistemi.Controllers
                         0m,
 
                     Aciklama =
-                        "Otomatik oluşturulan ödeme planı"
+                        ""
                 };
 
                 yeniBorclar.Add(borc);

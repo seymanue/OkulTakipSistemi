@@ -12,6 +12,8 @@ namespace OkulTakipSistemi.Models
 
         public int Ay { get; set; }
 
+        public DateTime OdemeTarihi { get; set; }
+
         public decimal Tutar { get; set; }
 
         public decimal OdenenTutar { get; set; } = 0;

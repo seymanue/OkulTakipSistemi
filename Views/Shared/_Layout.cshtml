@@ -23,14 +23,1014 @@
           href="~/OkulTakipSistemi.styles.css"
           asp-append-version="true" />
 
+    <style>
+
+
+    /* YÖNETİCİ GİRİŞİ - NAVBAR GİZLE */
+    body:has(.admin-login-page) > header {
+        display: none !important;
+    }
+
+    body:has(.admin-login-page) > .container-fluid {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    /* YÖNETİCİ GİRİŞİ - TAM EKRAN */
+    body:has(.admin-login-page) {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+
+    body:has(.admin-login-page) .container-fluid {
+        width: 100vw !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body:has(.admin-login-page) main.pb-3 {
+        width: 100vw !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body:has(.admin-login-page) .admin-login-page {
+        width: 100vw !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+    }
+
+
+        /* =========================================================
+           ADMIN LAYOUT
+           ========================================================= */
+
+        body.admin-layout {
+            margin: 0;
+            background: #f5f9fd;
+            overflow-x: hidden;
+        }
+
+        .admin-shell {
+            min-height: 100vh;
+            display: flex;
+            background: #f5f9fd;
+        }
+
+        /* SOL MENÜ */
+
+        .admin-sidebar {
+            width: 255px;
+            min-width: 255px;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+
+            display: flex;
+            flex-direction: column;
+
+            padding: 28px 16px 20px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #72b9e7 0%,
+                    #428dcc 32%,
+                    #2865a5 65%,
+                    #172f55 100%
+                );
+
+            box-shadow: 8px 0 30px rgba(29, 70, 112, .12);
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 0 10px 28px;
+
+            color: white;
+            text-decoration: none;
+        }
+
+        .admin-brand-icon {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: rgba(255,255,255,.18);
+            border: 1px solid rgba(255,255,255,.24);
+
+            font-size: 21px;
+
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,.15),
+                0 6px 18px rgba(12,42,76,.12);
+        }
+
+        .admin-brand-text {
+            min-width: 0;
+        }
+
+        .admin-brand-title {
+            display: block;
+
+            font-size: 15px;
+            font-weight: 750;
+            letter-spacing: -.2px;
+        }
+
+        .admin-brand-subtitle {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 11px;
+            color: rgba(255,255,255,.72);
+        }
+
+        .admin-menu-title {
+            padding: 0 12px 10px;
+
+            color: rgba(255,255,255,.56);
+
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .admin-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .admin-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            min-height: 45px;
+            padding: 0 13px;
+
+            border-radius: 12px;
+
+            color: rgba(255,255,255,.82);
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 550;
+
+            transition:
+                background .2s ease,
+                color .2s ease,
+                transform .2s ease;
+        }
+
+        .admin-menu-link:hover {
+            color: white;
+            background: rgba(255,255,255,.13);
+            transform: translateX(3px);
+        }
+
+        .admin-menu-link.active {
+            color: #17375e;
+            background: rgba(255,255,255,.94);
+            box-shadow: 0 7px 18px rgba(15,48,83,.13);
+        }
+
+        .admin-menu-icon {
+            width: 24px;
+            height: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+        }
+
+        .admin-menu-link.active .admin-menu-icon {
+            background: #e2f2fc;
+        }
+
+        .admin-sidebar-bottom {
+            margin-top: auto;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,.13);
+        }
+
+        .admin-user-mini {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 10px 11px 14px;
+        }
+
+        .admin-user-avatar {
+            width: 37px;
+            height: 37px;
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.18);
+            color: white;
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .admin-user-name {
+            min-width: 0;
+            color: white;
+            font-size: 12px;
+            font-weight: 650;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .admin-user-role {
+            margin-top: 2px;
+            color: rgba(255,255,255,.58);
+            font-size: 10px;
+        }
+
+        .admin-logout {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            width: 100%;
+            padding: 11px 13px;
+
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 11px;
+
+            background: rgba(255,255,255,.07);
+            color: rgba(255,255,255,.82);
+
+            text-decoration: none;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            transition: .2s ease;
+        }
+
+        .admin-logout:hover {
+            background: rgba(255,255,255,.14);
+            color: white;
+        }
+
+        /* SIDEBAR AÇ / KAPAT */
+
+        .admin-shell.sidebar-collapsed .admin-sidebar {
+            width: 78px !important;
+            min-width: 78px !important;
+        }
+
+        .admin-shell.sidebar-collapsed .admin-brand {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .admin-shell.sidebar-collapsed .admin-brand-text,
+        .admin-shell.sidebar-collapsed .admin-menu-title,
+        .admin-shell.sidebar-collapsed .admin-menu-link-text,
+        .admin-shell.sidebar-collapsed .admin-user-mini,
+        .admin-shell.sidebar-collapsed .admin-logout-text {
+            display: none;
+        }
+
+        .admin-shell.sidebar-collapsed .admin-menu-link {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .admin-shell.sidebar-collapsed .admin-menu-icon {
+            width: 36px;
+            height: 36px;
+        }
+
+        .admin-shell.sidebar-collapsed .admin-sidebar-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .admin-shell.sidebar-collapsed .admin-logout {
+            width: 42px;
+            justify-content: center;
+            padding: 9px;
+        }
+
+        .admin-shell.sidebar-collapsed .admin-main {
+            width: calc(100% - 78px);
+            margin-left: 78px;
+        }
+
+        .admin-sidebar,
+        .admin-main {
+            transition:
+                width .25s ease,
+                min-width .25s ease,
+                margin-left .25s ease;
+        }
+
+        /* Masaüstünde sidebar genişliği korunur */
+            @@media (min-width: 901px) {
+            .admin-sidebar {
+                width: 255px !important;
+                min-width: 255px !important;
+            }
+
+            .admin-main {
+                width: calc(100% - 255px) !important;
+                margin-left: 255px !important;
+            }
+
+            .admin-shell.sidebar-collapsed .admin-sidebar {
+                width: 78px !important;
+                min-width: 78px !important;
+            }
+
+            .admin-shell.sidebar-collapsed .admin-main {
+                width: calc(100% - 78px) !important;
+                margin-left: 78px !important;
+            }
+        }
+
+        .admin-sidebar-toggle {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid #e1eaf3;
+            border-radius: 11px;
+
+            background: #ffffff;
+            color: #315f8d;
+
+            font-size: 20px;
+            line-height: 1;
+
+            cursor: pointer;
+
+            box-shadow: 0 3px 10px rgba(40, 76, 110, .08);
+
+            transition:
+                background .2s ease,
+                color .2s ease,
+                transform .2s ease;
+        }
+
+        .admin-sidebar-toggle:hover {
+            background: #eef6ff;
+            color: #174ea6;
+            transform: translateY(-1px);
+        }
+
+
+        /* ADMIN İÇERİK */
+
+        .admin-main {
+            width: calc(100% - 255px);
+            min-height: 100vh;
+            margin-left: 255px;
+            box-sizing: border-box;
+            background: #f5f9fd;
+        }
+
+        .admin-topbar {
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            padding: 0 38px;
+
+            background: rgba(255,255,255,.94);
+            border-bottom: 1px solid #e6eef5;
+
+            position: sticky;
+            top: 0;
+            z-index: 900;
+
+            backdrop-filter: blur(12px);
+        }
+
+        .admin-topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .admin-page-logo {
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 46px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #eaf5ff 0%, #d5ebff 100%);
+            box-shadow: 0 4px 12px rgba(35, 112, 175, 0.10);
+            font-size: 25px;
+        }
+
+        .admin-page-label {
+            color: #17375e;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .admin-page-label span {
+            display: block;
+            margin-top: 2px;
+            color: #8aa0b4;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .admin-topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-top-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid #e3edf5;
+            border-radius: 11px;
+
+            background: white;
+            color: #47769b;
+
+            font-size: 16px;
+        }
+
+        .admin-top-user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            padding-left: 7px;
+        }
+
+        .admin-top-avatar {
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: linear-gradient(135deg,#8fd0f2,#397bb8);
+            color: white;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .admin-top-user-name {
+            color: #294d6c;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .admin-top-user-role {
+            margin-top: 1px;
+            color: #92a5b5;
+            font-size: 10px;
+        }
+
+        /* ADMIN ANA İÇERİK ALANI */
+
+        .admin-content {
+            min-height: calc(100vh - 76px);
+        }
+
+        /* ÖĞRETMEN / DİĞER SAYFALAR ESKİ YAPIDA KALIR */
+
+        @@media (max-width: 900px) {
+
+            .admin-sidebar {
+                width: 220px;
+                min-width: 220px;
+            }
+
+            .admin-main {
+                width: calc(100% - 220px);
+                margin-left: 220px;
+            }
+
+            .admin-topbar {
+                padding: 0 22px;
+            }
+        }
+
+        @@media (max-width: 500px) {
+
+            .admin-sidebar {
+                width: 72px;
+                min-width: 72px;
+                padding: 22px 10px 15px;
+            }
+
+            .admin-brand {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .admin-brand-text,
+            .admin-menu-title,
+            .admin-menu-link-text,
+            .admin-user-mini,
+            .admin-logout span {
+                display: none;
+            }
+
+            .admin-menu-link {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .admin-menu-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+            .admin-sidebar-bottom {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .admin-logout {
+                width: 42px;
+                justify-content: center;
+                padding: 9px;
+            }
+
+            .admin-main {
+                width: calc(100% - 72px);
+                margin-left: 72px;
+            }
+
+            .admin-topbar {
+                height: 66px;
+                padding: 0 14px;
+            }
+
+            .admin-top-user-name,
+            .admin-top-user-role {
+                display: none;
+            }
+
+            .admin-content {
+                min-height: calc(100vh - 66px);
+            }
+        }
+
+    </style>
+
+<style id="admin-menu-bubble-style">
+.admin-menu-link{
+    position:relative!important;
+    overflow:hidden!important;
+    border-radius:16px!important;
+    isolation:isolate;
+    transition:background .22s ease,color .22s ease,transform .22s ease,box-shadow .22s ease!important;
+}
+.admin-menu-link::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:16px;
+    background:radial-gradient(circle at 85% 50%,rgba(255,255,255,.24) 0%,rgba(255,255,255,.12) 38%,rgba(255,255,255,0) 72%);
+    opacity:0;
+    transform:scale(.96);
+    transition:opacity .22s ease,transform .22s ease;
+    pointer-events:none;
+    z-index:0;
+}
+.admin-menu-link > *{
+    position:relative;
+    z-index:1;
+}
+.admin-menu-link:hover{
+    color:#17375e!important;
+    background:rgba(255,255,255,.92)!important;
+    transform:translateX(3px)!important;
+    box-shadow:0 7px 18px rgba(15,48,83,.10)!important;
+}
+.admin-menu-link:hover::before{
+    opacity:1;
+    transform:scale(1);
+}
+.admin-menu-link.active{
+    color:#17375e!important;
+    background:rgba(255,255,255,.94)!important;
+    box-shadow:0 7px 18px rgba(15,48,83,.13)!important;
+}
+.admin-menu-link.active::before{
+    opacity:.38;
+    transform:scale(1);
+}
+.admin-menu-link.active:hover{
+    color:#17375e!important;
+    background:rgba(255,255,255,.97)!important;
+    transform:translateX(3px)!important;
+}
+.admin-menu-link.active .admin-menu-icon{
+    background:#e2f2fc;
+}
+</style>
+<style id="admin-menu-icon-bubble">
+.admin-menu-icon{
+    width:32px!important;
+    height:32px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    flex-shrink:0!important;
+    border-radius:10px!important;
+    background:#e2f2fc!important;
+    box-shadow:0 3px 8px rgba(15,65,105,.10)!important;
+    font-size:16px!important;
+}
+.admin-menu-link:hover .admin-menu-icon{
+    background:#d7ecfb!important;
+}
+.admin-menu-link.active .admin-menu-icon{
+    background:#d7ecfb!important;
+}
+</style>
+<style id="admin-menu-final">
+.admin-menu-link,
+.admin-menu-link:hover{
+    color:rgba(255,255,255,.88)!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    transform:none!important;
+}
+.admin-menu-link::before{
+    display:none!important;
+}
+.admin-menu-icon{
+    width:34px!important;
+    height:34px!important;
+    border-radius:11px!important;
+    background:#8fc8ed!important;
+    color:#174d78!important;
+    box-shadow:0 4px 10px rgba(8,57,101,.18)!important;
+    font-size:16px!important;
+    transition:background .2s ease,transform .2s ease,box-shadow .2s ease!important;
+}
+.admin-menu-link:hover .admin-menu-icon{
+    background:#a9d8f4!important;
+    transform:translateY(-1px)!important;
+    box-shadow:0 6px 13px rgba(8,57,101,.22)!important;
+}
+.admin-menu-link.active{
+    color:#17375e!important;
+    background:rgba(255,255,255,.94)!important;
+    border-radius:16px!important;
+    box-shadow:0 7px 18px rgba(15,48,83,.13)!important;
+}
+.admin-menu-link.active .admin-menu-icon{
+    background:#d7ecfb!important;
+    color:#174d78!important;
+}
+</style>
+<style id="admin-menu-row-bubbles">
+.admin-menu-link{
+    background:rgba(187,225,247,.22)!important;
+    border-radius:16px!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important;
+    color:rgba(255,255,255,.92)!important;
+}
+.admin-menu-link:hover{
+    background:rgba(199,231,249,.38)!important;
+    color:#fff!important;
+    transform:translateX(3px)!important;
+    box-shadow:0 6px 16px rgba(10,61,105,.12)!important;
+}
+.admin-menu-link.active{
+    background:rgba(255,255,255,.95)!important;
+    color:#17375e!important;
+    box-shadow:0 7px 18px rgba(15,48,83,.13)!important;
+}
+</style>
+
+<style>
+/* Sayısal alanlardaki arttır/azalt oklarını kaldır */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+</style>
+
+
+<style>
+.admin-top-date {
+    color: #6f8498;
+    font-size: 12px;
+    font-weight: 600;
+    padding-right: 8px;
+    white-space: nowrap;
+}
+</style>
+\n
+
+
+
+
+
 </head>
 
-<body class="@(ViewData["Title"] == "Öğretmen Paneli" ? "teacher-layout" : "")">
+@{
+    var layoutTitle = ViewData["Title"]?.ToString();
+    var rol = Context.Session.GetString("Rol");
+    var adSoyad = Context.Session.GetString("AdSoyad");
 
-    @{
-        var rol = Context.Session.GetString("Rol");
-        var adSoyad = Context.Session.GetString("AdSoyad");
-    }
+    var isAdmin = rol == "Admin";
+    var isTeacher = rol == "Öğretmen";
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+    var bodyClass = isAdmin
+        ? "admin-layout"
+        : layoutTitle == "Öğretmen Paneli"
+            ? "teacher-layout"
+            : layoutTitle == "Yoklama Al"
+                ? "attendance-layout"
+                : layoutTitle == "Yoklama Düzenle"
+                    ? "attendance-edit-layout"
+                    : "";
+}
+
+<body class="@bodyClass">
+
+@if (isAdmin)
+{
+    <div class="admin-shell">
+
+        <!-- SOL ADMIN MENÜ -->
+
+        <aside class="admin-sidebar">
+
+            <a class="admin-brand"
+               asp-controller="Home"
+               asp-action="AdminPanel">
+
+                <div class="admin-brand-icon">
+                    🏫
+                </div>
+
+                <div class="admin-brand-text">
+
+                    <span class="admin-brand-title">
+                        Okul Takip Sistemi
+                    </span>
+
+
+                </div>
+
+            </a>
+
+
+            <nav class="admin-menu">
+
+                <a class="admin-menu-link @(currentController == "Home" && currentAction == "AdminPanel" ? "active" : "")"
+                   asp-controller="Home"
+                   asp-action="AdminPanel">
+
+                    <span class="admin-menu-icon">⌂</span>
+                    <span class="admin-menu-link-text">Ana Sayfa</span>
+
+                </a>
+
+                <a class="admin-menu-link @(currentController == "OkulUcreti" && currentAction == "Index" ? "active" : "")"
+                   asp-controller="OkulUcreti"
+                   asp-action="Index">
+
+                    <span class="admin-menu-icon">💰</span>
+                    <span class="admin-menu-link-text">Okul Ücretleri</span>
+
+                </a>
+
+                <a class="admin-menu-link @(currentController == "Ogrenci" && currentAction == "Kayit" ? "active" : "")"
+                   asp-controller="Ogrenci"
+                   asp-action="Kayit">
+
+                    <span class="admin-menu-icon">🎓</span>
+                    <span class="admin-menu-link-text">Öğrenci Kaydı</span>
+
+                </a>
+
+                <a class="admin-menu-link @(currentController == "Ogrenci" && currentAction == "Index" ? "active" : "")"
+                   asp-controller="Ogrenci"
+                   asp-action="Index">
+
+                    <span class="admin-menu-icon">🎓</span>
+                    <span class="admin-menu-link-text">Öğrenci Yönetimi</span>
+
+                </a>
+
+                <a class="admin-menu-link @(currentController == "Odeme" && currentAction == "Index" ? "active" : "")"
+                   asp-controller="Odeme"
+                   asp-action="Index">
+
+                    <span class="admin-menu-icon">💰</span>
+                    <span class="admin-menu-link-text">Ücret ve Ödemeler</span>
+
+                </a>
+
+                <a class="admin-menu-link @(currentController == "Ogretmen" && currentAction == "Index" ? "active" : "")"
+                   asp-controller="Ogretmen"
+                   asp-action="Index">
+
+                    <span class="admin-menu-icon">👩‍🏫</span>
+                    <span class="admin-menu-link-text">Öğretmenler</span>
+
+                </a>
+
+                <a class="admin-menu-link @(currentController == "Kullanici" && currentAction == "Index" ? "active" : "")"
+                   asp-controller="Kullanici"
+                   asp-action="Index">
+
+                    <span class="admin-menu-icon">👤</span>
+                    <span class="admin-menu-link-text">Kullanıcılar</span>
+
+                </a>
+
+                <a class="admin-menu-link @(currentController == "OgretmenSinif" && currentAction == "Index" ? "active" : "")"
+                   asp-controller="OgretmenSinif"
+                   asp-action="Index">
+
+                    <span class="admin-menu-icon">🔗</span>
+                    <span class="admin-menu-link-text">Öğretmen - Sınıf</span>
+
+                </a>
+
+            </nav>
+
+
+            <div class="admin-sidebar-bottom">
+
+                <div class="admin-user-mini">
+
+                    <div class="admin-user-avatar">
+                        @(string.IsNullOrWhiteSpace(adSoyad)
+                            ? "A"
+                            : adSoyad.Substring(0, 1).ToUpper())
+                    </div>
+
+                    <div>
+
+                        <div class="admin-user-name">
+                            @adSoyad
+                        </div>
+
+                        <div class="admin-user-role">
+                            Yönetici
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <a class="admin-logout"
+                   asp-controller="Account"
+                   asp-action="AdminLogout">
+
+                    <span>↪</span>
+                    <span class="admin-logout-text">Çıkış Yap</span>
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ADMIN ANA ALAN -->
+
+        <div class="admin-main">
+
+            <div class="admin-topbar">
+
+                <div class="admin-topbar-left">
+                    <div class="admin-page-logo">
+                        🏫
+                    </div>
+
+                    <div class="admin-page-label">
+                        Yönetim Sayfası
+                        <span>Okul Takip Sistemi</span>
+                    </div>
+                </div>
+
+                <div class="admin-topbar-right">
+
+                    <div class="admin-top-date">
+                        @DateTime.Now.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))
+                    </div>
+
+                    <div class="admin-top-user">
+
+                        <div class="admin-top-avatar">
+                            @(string.IsNullOrWhiteSpace(adSoyad)
+                                ? "A"
+                                : adSoyad.Substring(0, 1).ToUpper())
+                        </div>
+
+                        <div>
+
+                            <div class="admin-top-user-name">
+                                @adSoyad
+                            </div>
+
+                            <div class="admin-top-user-role">
+                                Yönetici · Yönetim Sayfası
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <main role="main" class="admin-content">
+
+                @RenderBody()
+
+            </main>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <!-- ÖĞRETMEN VE DİĞER SAYFALAR -->
 
     <header>
 
@@ -38,19 +1038,7 @@
 
             <div class="container-fluid">
 
-                <!-- SOL TARAF -->
-
-                @if (rol == "Admin")
-                {
-                    <a class="navbar-brand fw-bold"
-                       asp-controller="Home"
-                       asp-action="AdminPanel">
-
-                        Okul Takip Sistemi
-
-                    </a>
-                }
-                else if (rol == "Öğretmen")
+                @if (isTeacher)
                 {
                     <a class="navbar-brand fw-bold"
                        asp-controller="Home"
@@ -71,19 +1059,14 @@
                     </a>
                 }
 
-                <!-- SAĞ TARAF -->
 
                 @if (!string.IsNullOrEmpty(rol))
                 {
                     <div class="ms-auto d-flex align-items-center">
 
-                        <a class="nav-link me-3"
-                           asp-controller="Account"
-                           asp-action="OgretmenBilgileri">
-
+                        <span class="nav-link me-3">
                             @adSoyad
-
-                        </a>
+                        </span>
 
                         <a class="nav-link text-danger"
                            asp-controller="Account"
@@ -102,6 +1085,7 @@
 
     </header>
 
+
     <div class="container-fluid">
 
         <main role="main" class="pb-3">
@@ -111,17 +1095,165 @@
         </main>
 
     </div>
+}
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-    <script src="~/js/site.js"
-            asp-append-version="true"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    @await RenderSectionAsync(
-        "Scripts",
-        required: false)
+<script src="~/js/site.js"
+        asp-append-version="true"></script>
+
+@await RenderSectionAsync(
+    "Scripts",
+    required: false)
+
+
+
+
+
+
+
+<style id="logo-hareket-ortak">
+
+.siniflarim-page .class-icon svg,
+.yoklama-al-page .yoklama-al-icon svg,
+.yoklama-history-page .history-class-icon svg {
+    animation: logoHafifHareket 2.8s ease-in-out infinite !important;
+    transform-origin: center center !important;
+}
+
+@@keyframes logoHafifHareket {
+
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-3px) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    75% {
+        transform: translateY(-3px) rotate(2deg);
+    }
+
+}
+
+
+/* ÖĞRETMEN KAYIT - LAYOUT ZEMİNİ */
+body:has(.register-page) {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #b87952 !important;
+}
+
+body:has(.register-page) .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+}
+
+body:has(.register-page) main {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    background: #b87952 !important;
+}
+
+
+/* ÖĞRETMEN KAYIT - ALT ZEMİN */
+html:has(.register-page),
+body:has(.register-page),
+body:has(.register-page) .container-fluid,
+body:has(.register-page) main {
+    background: #b87952 !important;
+}
+
+
+
+/* ÖĞRETMEN E-POSTA DOĞRULAMA - TAM EKRAN */
+html:has(.teacher-verify-page),
+body:has(.teacher-verify-page) {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh !important;
+    background: #f7eee8 !important;
+}
+
+body:has(.teacher-verify-page) > header {
+    display: none !important;
+}
+
+body:has(.teacher-verify-page) > .container-fluid {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body:has(.teacher-verify-page) main {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+</style>
+
+
+
+
+
+
+
+
+<style id="otomatik-bildirimler">
+    .otomatik-bildirim {
+        transition: opacity 0.4s ease, transform 0.4s ease !important;
+    }
+
+    .otomatik-bildirim.kaybol {
+        opacity: 0 !important;
+        transform: translateY(-8px) !important;
+        pointer-events: none !important;
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const bildirimler = document.querySelectorAll(
+        '.alert, [role="alert"], .school-fee-alert'
+    );
+
+    bildirimler.forEach(function (bildirim) {
+
+        bildirim.classList.add("otomatik-bildirim");
+
+        setTimeout(function () {
+
+            bildirim.classList.add("kaybol");
+
+            setTimeout(function () {
+                if (bildirim && bildirim.parentNode) {
+                    bildirim.remove();
+                }
+            }, 450);
+
+        }, 3500);
+
+    });
+
+});
+</script>
+
 </body>
-
 </html>

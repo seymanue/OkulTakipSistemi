@@ -29,6 +29,9 @@ namespace OkulTakipSistemi.Migrations
                     b.Property<int>("Ay")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("OdemeTarihi")
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("OdenenTutar")
                         .HasColumnType("TEXT");
 
@@ -312,10 +315,6 @@ namespace OkulTakipSistemi.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Branş")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("KullaniciId")
                         .HasColumnType("INTEGER");
 
@@ -480,6 +479,9 @@ namespace OkulTakipSistemi.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Aciklama")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("OgretmenId")
                         .HasColumnType("INTEGER");

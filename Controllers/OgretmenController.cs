@@ -115,21 +115,90 @@ namespace OkulTakipSistemi.Controllers
         // ============================================================
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            var ogretmen =
-                _context.Ogretmenler.Find(id);
+            var ogretmen = _context.Ogretmenler
+                .FirstOrDefault(x => x.Id == id);
 
             if (ogretmen == null)
-            {
                 return NotFound();
+
+            var kullaniciId = ogretmen.KullaniciId;
+
+            var kullanici = _context.Kullanicilar
+                .FirstOrDefault(x => x.Id == kullaniciId);
+
+            // Ana admin hesabı hiçbir şekilde silinmesin.
+            if (kullanici != null && kullanici.KullaniciAdi == "admin")
+            {
+                TempData["Hata"] =
+                    "Ana admin kullanıcısı silinemez.";
+
+                return RedirectToAction(nameof(Index));
             }
 
-            _context.Ogretmenler.Remove(ogretmen);
+            using var transaction = _context.Database.BeginTransaction();
 
-            _context.SaveChanges();
+            try
+            {
+                // 1. Öğretmene ait yoklama detaylarını sil
+                _context.Database.ExecuteSqlInterpolated($"""
+                    DELETE FROM YoklamaDetaylari
+                    WHERE YoklamaId IN (
+                        SELECT Id
+                        FROM Yoklamalar
+                        WHERE OgretmenId = {id}
+                    )
+                    """);
 
-            return RedirectToAction("Index");
+                // 2. Öğretmene ait yoklamaları sil
+                _context.Database.ExecuteSqlInterpolated($"""
+                    DELETE FROM Yoklamalar
+                    WHERE OgretmenId = {id}
+                    """);
+
+                // 3. Öğretmen-sınıf bağlantılarını sil
+                _context.Database.ExecuteSqlInterpolated($"""
+                    DELETE FROM OgretmenSiniflar
+                    WHERE OgretmenId = {id}
+                    """);
+
+                // 4. Öğretmeni sil
+                _context.Database.ExecuteSqlInterpolated($"""
+                    DELETE FROM Ogretmenler
+                    WHERE Id = {id}
+                    """);
+
+                // 5. Öğretmenin kullanıcı hesabını sil
+                if (kullaniciId > 0)
+                {
+                    _context.Database.ExecuteSqlInterpolated($"""
+                        DELETE FROM Kullanicilar
+                        WHERE Id = {kullaniciId}
+                        """);
+                }
+
+                transaction.Commit();
+
+                TempData["Basarili"] =
+                    "Öğretmen ve kullanıcı hesabı başarıyla silindi.";
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+
+                Console.WriteLine("================================");
+                Console.WriteLine("ÖĞRETMEN SİLME HATASI");
+                Console.WriteLine("ÖĞRETMEN ID: " + id);
+                Console.WriteLine("HATA: " + ex.Message);
+                Console.WriteLine("================================");
+
+                TempData["Hata"] =
+                    "Öğretmen silinemedi. İşlem geri alındı.";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // ============================================================
@@ -409,6 +478,7 @@ namespace OkulTakipSistemi.Controllers
         [HttpPost]
         public IActionResult YoklamaKaydet(
             int sinifId,
+            string? aciklama,
             Dictionary<int, bool> durumlar)
         {
             var kullaniciAdi =
@@ -488,7 +558,10 @@ namespace OkulTakipSistemi.Controllers
             {
                 SinifId = sinifId,
                 OgretmenId = ogretmen.Id,
-                Tarih = DateTime.Now
+                Tarih = DateTime.Now,
+                Aciklama = string.IsNullOrWhiteSpace(aciklama)
+                    ? null
+                    : aciklama.Trim()
             };
 
             _context.Yoklamalar.Add(yoklama);

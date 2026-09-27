@@ -1,437 +1,857 @@
+@using OkulTakipSistemi.Data
+@using OkulTakipSistemi.Models
+@using Microsoft.EntityFrameworkCore
+@inject AppDbContext Db
+
 @{
-    ViewData["Title"] = "Yönetici Paneli";
+    ViewData["Title"] = "Ana Sayfa";
+
+    var adSoyad = Context.Session.GetString("AdSoyad") ?? "Yönetici";
+
+    // ============================================================
+    // GERÇEK VERİTABANI VERİLERİ
+    // ============================================================
+
+    var okulSayisi = Db.Okullar.Count();
+
+    var sinifSayisi = Db.Siniflar.Count();
+
+    var aktifOgrenciSayisi = Db.Ogrenciler
+        .Count(x => x.Aktif);
+
+    var ogretmenSayisi = Db.Ogretmenler.Count();
+
+    var veliSayisi = Db.Veliler.Count();
+
+    var kullaniciSayisi = Db.Kullanicilar.Count();
+
+    var toplamOdeme = Db.Odemeler
+        .Where(x => x.Durum == "Ödendi")
+        .Select(x => (decimal?)x.Tutar)
+        .Sum() ?? 0;
+
+    var toplamBorc = Db.AylikBorclar
+        .Select(x => (decimal?)(x.Tutar - x.OdenenTutar))
+        .Sum() ?? 0;
+
+    if (toplamBorc < 0)
+    {
+        toplamBorc = 0;
+    }
+
+    var toplamTahsilEdilecek = Db.AylikBorclar
+        .Select(x => (decimal?)x.Tutar)
+        .Sum() ?? 0;
+
+    var toplamOdenmisBorc = Db.AylikBorclar
+        .Select(x => (decimal?)x.OdenenTutar)
+        .Sum() ?? 0;
+
+    var tahsilatOrani = toplamTahsilEdilecek > 0
+        ? Math.Min(100, Math.Max(0, (double)(toplamOdenmisBorc / toplamTahsilEdilecek * 100)))
+        : 0;
+
+    // ============================================================
+    // SINIFLARA GÖRE ÖĞRENCİ DAĞILIMI
+    // ============================================================
+
+    var sinifOgrenciDagilimi = Db.Siniflar
+        .Select(x => new
+        {
+            SinifAdi = x.Ad,
+            OkulAdi = x.Okul != null ? x.Okul.Ad : "",
+            OgrenciSayisi = Db.Ogrenciler
+                .Count(o => o.Aktif && o.SinifId == x.Id)
+        })
+        .OrderByDescending(x => x.OgrenciSayisi)
+        .Take(6)
+        .ToList();
+
+    var enYuksekSinifOgrenci = sinifOgrenciDagilimi.Any()
+        ? Math.Max(1, sinifOgrenciDagilimi.Max(x => x.OgrenciSayisi))
+        : 1;
+
+    // ============================================================
+    // SON ÖDEMELER
+    // ============================================================
+
+    var sonOdemeler = Db.Odemeler
+        .Include(x => x.Ogrenci)
+        .OrderByDescending(x => x.OdemeTarihi)
+        .Take(5)
+        .ToList();
 }
 
 <style>
-    .admin-page {
-        min-height: calc(100vh - 80px);
-        padding: 45px 0 60px;
+.admin-dashboard {
+    min-height: calc(100vh - 80px);
+    padding: 30px 32px 50px;
+    background: #f4f7fb;
+}
+
+.admin-dashboard-inner {
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+/* KARŞILAMA */
+
+.dashboard-welcome {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 28px;
+    padding: 22px 28px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #eaf5ff 0%, #d9ecff 48%, #c8e3ff 100%);
+    border: 1px solid #d3e8fb;
+    box-shadow: 0 10px 30px rgba(25, 87, 145, 0.08);
+}
+
+.dashboard-welcome h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 5px;
+    color: #12365a;
+    font-size: 25px;
+    font-weight: 750;
+}
+
+.dashboard-welcome p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #55718d;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* ÖZET KARTLARI */
+
+.dashboard-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.dashboard-stat {
+    position: relative;
+    overflow: hidden;
+    min-height: 190px;
+    padding: 22px;
+    border: 1px solid #e5ebf2;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 25px rgba(26, 64, 99, 0.07);
+    transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.dashboard-stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #1d75c9, #69b9f5);
+}
+
+.dashboard-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(26, 64, 99, 0.12);
+}
+
+.dashboard-stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #e3f2ff, #c9e6ff);
+    font-size: 25px;
+}
+
+.dashboard-stat-label {
+    margin-top: 20px;
+    color: #6b7f93;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dashboard-stat-value {
+    margin-top: 4px;
+    color: #163b61;
+    font-size: 31px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+}
+
+.dashboard-stat-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: #1971c2;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.dashboard-stat-link:hover {
+    color: #0d4f8c;
+}
+
+/* PANEL */
+
+.row.g-4 {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 1.5rem;
+}
+
+.dashboard-panel {
+    height: 100%;
+    padding: 24px;
+    border: 1px solid #e5ebf2;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 25px rgba(26, 64, 99, 0.06);
+}
+
+.dashboard-panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.dashboard-panel-title {
+    color: #173d62;
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.dashboard-panel-subtitle {
+    margin-top: 5px;
+    color: #7a8da1;
+    font-size: 13px;
+}
+
+.dashboard-panel-link {
+    color: #1971c2;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dashboard-panel-link:hover {
+    color: #0d4f8c;
+}
+
+/* SINIF DAĞILIMI */
+
+.class-name-area {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.class-school-name {
+    margin-top: 3px;
+    color: #8aa0b5;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.class-row {
+    margin-bottom: 18px;
+}
+
+.class-row:last-child {
+    margin-bottom: 0;
+}
+
+.class-row-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.class-name {
+    color: #294a68;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.class-count {
+    color: #7a8da1;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.class-progress {
+    width: 100%;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: #edf2f7;
+}
+
+.class-progress-bar {
+    height: 100%;
+    min-width: 4px;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #2181d0, #69b9f5);
+    transition: width .4s ease;
+}
+
+/* TAHSİLAT */
+
+
+.dashboard-finance-panel {
+    height: 440px !important;
+    box-sizing: border-box;
+}
+
+
+.finance-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.finance-main-label {
+    color: #7a8da1;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.finance-main-value {
+    margin-top: 5px;
+    color: #173d62;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.finance-percent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #e8f4ff;
+    color: #176db5;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.finance-progress {
+    width: 100%;
+    height: 10px;
+    margin: 24px 0;
+    overflow: hidden;
+    border-radius: 99px;
+    background: #edf2f7;
+}
+
+.finance-progress-bar {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #2181d0, #62b4ee);
+}
+
+.finance-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.finance-detail {
+    padding: 15px;
+    border-radius: 14px;
+    background: #f7faff;
+    border: 1px solid #edf2f7;
+}
+
+.finance-detail-label {
+    color: #7a8da1;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.finance-detail-value {
+    margin-top: 5px;
+    color: #294a68;
+    font-size: 16px;
+    font-weight: 750;
+}
+
+/* GENEL DURUM */
+
+.dashboard-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 32px 0 16px;
+}
+
+.dashboard-section-title h2 {
+    margin: 0;
+    color: #173d62;
+    font-size: 20px;
+    font-weight: 750;
+}
+
+.dashboard-section-title span {
+    color: #8798aa;
+    font-size: 13px;
+}
+
+/* ÖDEMELER */
+
+.payment-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 4px;
+    border-bottom: 1px solid #edf1f5;
+}
+
+.payment-item:last-child {
+    border-bottom: none;
+}
+
+.payment-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #e8f4ff;
+    font-size: 18px;
+}
+
+.payment-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.payment-student {
+    color: #294a68;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.payment-date {
+    margin-top: 3px;
+    color: #8798aa;
+    font-size: 12px;
+}
+
+.payment-amount {
+    color: #168052;
+    font-size: 14px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.empty-data {
+    padding: 28px 15px;
+    text-align: center;
+    color: #8a9bad;
+    font-size: 14px;
+    background: #f8fafc;
+    border-radius: 14px;
+}
+
+/* KULLANILMIYOR AMA ESKİ MARKUP'I BOZMASIN */
+
+.management-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.management-card {
+    padding: 20px;
+    border-radius: 18px;
+    background: #fff;
+}
+
+.report-banner {
+    display: none !important;
+}
+
+/* RESPONSIVE */
+
+@@media (max-width: 1100px) {
+    .dashboard-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@@media (max-width: 800px) {
+    .admin-dashboard {
+        padding: 20px 15px 40px;
     }
 
-    .admin-header {
-        border: 1px solid #ddd;
-        border-radius: 18px;
-        padding: 32px 36px;
-        margin-bottom: 35px;
+    .dashboard-stat-grid {
+        grid-template-columns: 1fr;
     }
 
-    .admin-header h1 {
-        margin: 0;
-        font-size: 32px;
-        font-weight: 700;
+    .dashboard-welcome {
+        padding: 24px;
     }
 
-    .admin-header p {
-        margin: 8px 0 0;
-        font-size: 15px;
+    .dashboard-welcome h1 {
+        font-size: 25px;
     }
 
-    .section-title {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 18px;
-        font-size: 22px;
-        font-weight: 700;
+    .finance-summary {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .section-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        border: 1px solid #ddd;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 19px;
+    .dashboard-section-title {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+@@media (max-width: 500px) {
+    .dashboard-panel-header {
+        flex-direction: column;
+        gap: 8px;
     }
 
-    .admin-card {
-        display: block;
-        height: 100%;
-        border: 1px solid #ddd;
-        border-radius: 18px;
-        padding: 23px;
-        text-decoration: none;
-        color: inherit;
-        transition: .2s ease;
+    .finance-details {
+        grid-template-columns: 1fr;
     }
-
-    .admin-card:hover {
-        color: inherit;
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
-    }
-
-    .card-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 14px;
-        border: 1px solid #ddd;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 23px;
-        margin-bottom: 16px;
-    }
-
-    .admin-card h3 {
-        margin: 0 0 7px;
-        font-size: 18px;
-        font-weight: 700;
-    }
-
-    .admin-card p {
-        margin: 0;
-        font-size: 14px;
-        line-height: 1.5;
-    }
-
-    .card-arrow {
-        margin-top: 15px;
-        text-align: right;
-        font-size: 20px;
-        font-weight: 700;
-    }
-
-    .finance-card {
-        padding: 30px;
-    }
-
-    .finance-card h3 {
-        font-size: 22px;
-    }
-
-    .finance-card > p {
-        max-width: 800px;
-        font-size: 15px;
-    }
-
-    .finance-items {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-        margin-top: 22px;
-    }
-
-    .finance-item {
-        border: 1px solid #ddd;
-        border-radius: 13px;
-        padding: 15px;
-        font-size: 13px;
-    }
-
-    .finance-item strong {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 14px;
-    }
-
-    .finance-button {
-        display: inline-block;
-        margin-top: 22px;
-        padding: 11px 20px;
-        border: 1px solid #ccc;
-        border-radius: 11px;
-        color: inherit;
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-    .logout-area {
-        text-align: center;
-        margin-top: 40px;
-    }
-
-    .logout-button {
-        display: inline-block;
-        padding: 11px 24px;
-        border-radius: 11px;
-        border: 1px solid #ddd;
-        color: inherit;
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-    @@media (max-width: 768px) {
-        .admin-page {
-            padding: 25px 12px 40px;
-        }
-
-        .admin-header {
-            padding: 25px;
-        }
-
-        .admin-header h1 {
-            font-size: 27px;
-        }
-
-        .finance-items {
-            grid-template-columns: 1fr;
-        }
-    }
+}
 </style>
 
-<div class="admin-page">
+<div class="admin-dashboard">
 
-    <div class="container">
+    <div class="admin-dashboard-inner">
 
-        <!-- BAŞLIK -->
+        <!-- ======================================================
+             KARŞILAMA
+             ====================================================== -->
 
-        <div class="admin-header">
+        <section class="dashboard-welcome">
 
-            <h1>Yönetici Paneli</h1>
+            <h1>Ana Sayfa</h1>
 
             <p>
-                Hoş geldiniz, @Context.Session.GetString("AdSoyad")
+                Hoş geldiniz, @adSoyad. Okul yönetim sisteminin genel durumunu
+                buradan takip edebilirsiniz.
             </p>
 
-        </div>
+        </section>
 
+        <!-- ======================================================
+             ÖZETLER
+             ====================================================== -->
 
-        <!-- TEMEL YÖNETİM -->
+        <div class="dashboard-stat-grid">
 
-        <div class="section-title">
-            <div class="section-icon">⚙️</div>
-            Temel Yönetim
-        </div>
+            <div class="dashboard-stat">
 
-        <div class="row g-4 mb-5">
+                <div class="dashboard-stat-top">
 
-            <!-- OKULLAR -->
+                    <div class="dashboard-stat-icon">
+                        🏫
+                    </div>
 
-            <div class="col-md-6 col-lg-4">
+                </div>
 
-                <a asp-controller="Okul"
+                <div class="dashboard-stat-label">
+                    Toplam Okul
+                </div>
+
+                <div class="dashboard-stat-value">
+                    @okulSayisi
+                </div>
+
+                <a asp-controller="OkulUcreti"
                    asp-action="Index"
-                   class="admin-card">
-
-                    <div class="card-icon">🏫</div>
-
-                    <h3>Okullar</h3>
-
-                    <p>
-                        Okulları görüntüle, ekle ve yönet.
-                    </p>
-
-                    <div class="card-arrow">→</div>
-
+                   class="dashboard-stat-link">
+                    Okulları Gör →
                 </a>
 
             </div>
 
 
-            <!-- SINIFLAR -->
+            <div class="dashboard-stat">
 
-            <div class="col-md-6 col-lg-4">
+                <div class="dashboard-stat-top">
+
+                    <div class="dashboard-stat-icon">
+                        📚
+                    </div>
+
+                </div>
+
+                <div class="dashboard-stat-label">
+                    Toplam Sınıf
+                </div>
+
+                <div class="dashboard-stat-value">
+                    @sinifSayisi
+                </div>
 
                 <a asp-controller="Sinif"
                    asp-action="Index"
-                   class="admin-card">
-
-                    <div class="card-icon">📚</div>
-
-                    <h3>Sınıflar</h3>
-
-                    <p>
-                        Sınıfları ve sınıf bilgilerini yönet.
-                    </p>
-
-                    <div class="card-arrow">→</div>
-
+                   class="dashboard-stat-link">
+                    Sınıfları Gör →
                 </a>
 
             </div>
 
 
-            <!-- ÖĞRENCİLER -->
+            <div class="dashboard-stat">
 
-            <div class="col-md-6 col-lg-4">
+                <div class="dashboard-stat-top">
+
+                    <div class="dashboard-stat-icon">
+                        🎓
+                    </div>
+
+                </div>
+
+                <div class="dashboard-stat-label">
+                    Aktif Öğrenci
+                </div>
+
+                <div class="dashboard-stat-value">
+                    @aktifOgrenciSayisi
+                </div>
 
                 <a asp-controller="Ogrenci"
                    asp-action="Index"
-                   class="admin-card">
-
-                    <div class="card-icon">👨‍🎓</div>
-
-                    <h3>Öğrenciler</h3>
-
-                    <p>
-                        Öğrenci kayıtlarını görüntüle ve yönet.
-                    </p>
-
-                    <div class="card-arrow">→</div>
-
+                   class="dashboard-stat-link">
+                    Öğrencileri Gör →
                 </a>
 
             </div>
 
 
-            <!-- ÖĞRETMENLER -->
+            <div class="dashboard-stat">
 
-            <div class="col-md-6 col-lg-4">
+                <div class="dashboard-stat-top">
+
+                    <div class="dashboard-stat-icon">
+                        👩‍🏫
+                    </div>
+
+                </div>
+
+                <div class="dashboard-stat-label">
+                    Öğretmen
+                </div>
+
+                <div class="dashboard-stat-value">
+                    @ogretmenSayisi
+                </div>
 
                 <a asp-controller="Ogretmen"
                    asp-action="Index"
-                   class="admin-card">
-
-                    <div class="card-icon">👩‍🏫</div>
-
-                    <h3>Öğretmenler</h3>
-
-                    <p>
-                        Öğretmen kayıtlarını ve bilgilerini yönet.
-                    </p>
-
-                    <div class="card-arrow">→</div>
-
-                </a>
-
-            </div>
-
-
-            <!-- VELİLER -->
-
-            <div class="col-md-6 col-lg-4">
-
-                <a asp-controller="Veli"
-                   asp-action="Index"
-                   class="admin-card">
-
-                    <div class="card-icon">👨‍👩‍👧</div>
-
-                    <h3>Veliler</h3>
-
-                    <p>
-                        Veli bilgilerini görüntüle ve düzenle.
-                    </p>
-
-                    <div class="card-arrow">→</div>
-
-                </a>
-
-            </div>
-
-
-            <!-- KULLANICILAR -->
-
-            <div class="col-md-6 col-lg-4">
-
-                <a asp-controller="Kullanici"
-                   asp-action="Index"
-                   class="admin-card">
-
-                    <div class="card-icon">👤</div>
-
-                    <h3>Kullanıcılar</h3>
-
-                    <p>
-                        Sistem kullanıcılarını yönet.
-                    </p>
-
-                    <div class="card-arrow">→</div>
-
-                </a>
-
-            </div>
-
-
-            <!-- ÖĞRETMEN SINIF ATAMA -->
-
-            <div class="col-md-6 col-lg-4">
-
-                <a asp-controller="OgretmenSinif"
-                   asp-action="Index"
-                   class="admin-card">
-
-                    <div class="card-icon">🔗</div>
-
-                    <h3>Öğretmen–Sınıf Atama</h3>
-
-                    <p>
-                        Öğretmenleri sınıflara ata ve atamaları yönet.
-                    </p>
-
-                    <div class="card-arrow">→</div>
-
+                   class="dashboard-stat-link">
+                    Öğretmenleri Gör →
                 </a>
 
             </div>
 
         </div>
 
+        <!-- ======================================================
+             ANALİZ
+             ====================================================== -->
 
-        <!-- ÜCRET YÖNETİMİ -->
+        <div class="row g-4">
 
-        <div class="section-title">
-            <div class="section-icon">💰</div>
-            Ücret Yönetimi
-        </div>
+            <!-- SINIF DAĞILIMI -->
 
-        <div class="row mb-5">
+            <div class="col-lg-6">
 
-            <div class="col-12">
+                <div class="dashboard-panel">
 
-                <div class="admin-card finance-card">
+                    <div class="dashboard-panel-header">
 
-                    <div class="card-icon">💳</div>
+                        <div>
 
-                    <h3>
-                        Ücret Yönetimi
-                    </h3>
+                            <div class="dashboard-panel-title">
+                                Öğrenci Dağılımı
+                            </div>
 
-                    <p>
-                        Okul tarifelerini, öğrenciye özel ücretleri,
-                        ödeme planlarını, borçları ve tahsilatları tek
-                        bir alandan yönet.
-                    </p>
-
-                    <div class="finance-items">
-
-                        <div class="finance-item">
-
-                            <strong>
-                                🏫 Okul Tarifeleri
-                            </strong>
-
-                                Kurum ve standart veli ücretlerini
-                                okul bazında tanımla.
+                            <div class="dashboard-panel-subtitle">
+                                Sınıflara göre aktif öğrenci sayıları
+                            </div>
 
                         </div>
 
+                        <a asp-controller="Sinif"
+                           asp-action="Index"
+                           class="dashboard-panel-link">
+                            Tümünü Gör →
+                        </a>
 
-                        <div class="finance-item">
+                    </div>
 
-                            <strong>
-                                👨‍🎓 Özel Ücretler
-                            </strong>
+                    @if (sinifOgrenciDagilimi.Any())
+                    {
+                        foreach (var sinif in sinifOgrenciDagilimi)
+                        {
+                            var oran = sinif.OgrenciSayisi > 0
+                                ? Math.Max(4, (sinif.OgrenciSayisi * 100.0) / enYuksekSinifOgrenci)
+                                : 0;
 
-                                Sadece gerektiğinde öğrenciye özel
-                                ücret uygula.
+                            <div class="class-row">
+
+                                <div class="class-row-info">
+
+                                    <div class="class-name-area">
+                                        <span class="class-name">
+                                            @sinif.SinifAdi
+                                        </span>
+
+                                        @if (!string.IsNullOrWhiteSpace(sinif.OkulAdi))
+                                        {
+                                            <span class="class-school-name">
+                                                @sinif.OkulAdi
+                                            </span>
+                                        }
+                                    </div>
+
+                                    <span class="class-count">
+                                        @sinif.OgrenciSayisi öğrenci
+                                    </span>
+
+                                </div>
+
+                                <div class="class-progress">
+
+                                    <div class="class-progress-bar"
+                                         style="width:@($"{oran:0.##}%")">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-data">
+                            Henüz sınıf veya aktif öğrenci verisi bulunmuyor.
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+
+            <!-- TAHSİLAT -->
+
+            <div class="col-lg-6">
+
+                <div class="dashboard-panel dashboard-finance-panel">
+
+                    <div class="dashboard-panel-header">
+
+                        <div>
+
+                            <div class="dashboard-panel-title">
+                                Tahsilat Durumu
+                            </div>
+
+                            <div class="dashboard-panel-subtitle">
+                                Oluşturulan borçlara göre genel tahsilat
+                            </div>
 
                         </div>
 
+                        <a asp-controller="Odeme"
+                           asp-action="Index"
+                           class="dashboard-panel-link">
+                            Ödemeleri Gör →
+                        </a>
 
-                        <div class="finance-item">
+                    </div>
 
-                            <strong>
-                                📅 Plan ve Tahsilat
-                            </strong>
+                    <div class="finance-summary">
 
-                                Ödeme planlarını, borçları ve
-                                tahsilatları takip et.
+                        <div>
 
+                            <div class="finance-main-label">
+                                Toplam Tahsilat
+                            </div>
+
+                            <div class="finance-main-value">
+                                @toplamOdeme.ToString("N2") ₺
+                            </div>
+
+                        </div>
+
+                        <div class="finance-percent">
+                            %@tahsilatOrani.ToString("0")
                         </div>
 
                     </div>
 
-                    <a asp-controller="UcretYonetimi"
-                       asp-action="Index"
-                       class="finance-button">
+                    <div class="finance-progress">
 
-                        Ücret Yönetimini Aç →
+                        <div class="finance-progress-bar"
+                             style="width:@($"{tahsilatOrani:0.##}%")">
+                        </div>
 
-                    </a>
+                    </div>
+
+                    <div class="finance-details">
+
+                        <div class="finance-detail">
+
+                            <div class="finance-detail-label">
+                                Ödenen Borç
+                            </div>
+
+                            <div class="finance-detail-value">
+                                @toplamOdenmisBorc.ToString("N2") ₺
+                            </div>
+
+                        </div>
+
+                        <div class="finance-detail">
+
+                            <div class="finance-detail-label">
+                                Kalan Borç
+                            </div>
+
+                            <div class="finance-detail-value">
+                                @toplamBorc.ToString("N2") ₺
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -439,39 +859,101 @@
 
         </div>
 
+        <!-- ======================================================
+             SON ÖDEMELER + SİSTEM BİLGİSİ
+             ====================================================== -->
 
-        <!-- RAPORLAMA -->
+        <div class="dashboard-section-title">
 
-        <div class="section-title">
-            <div class="section-icon">📊</div>
-            Raporlama
+            <h2>Genel Durum</h2>
+
+ 
         </div>
 
-        <div class="row">
+        <div class="row g-4">
 
-            <div class="col-md-6">
+            <!-- SON ÖDEMELER -->
 
-                <a asp-controller="Rapor"
-                   asp-action="Index"
-                   class="admin-card">
+            <div class="col-lg-7">
 
-                    <div class="card-icon">📈</div>
+                <div class="dashboard-panel">
 
-                    <h3>Raporlama</h3>
+                    <div class="dashboard-panel-header">
 
-                    <p>
-                        Öğrenci, sınıf, yoklama ve ödeme
-                        raporlarını görüntüle.
-                    </p>
+                        <div>
 
-                    <div class="card-arrow">→</div>
+                            <div class="dashboard-panel-title">
+                                Son Ödemeler
+                            </div>
 
-                </a>
+                            <div class="dashboard-panel-subtitle">
+                                Sisteme girilen son ödeme kayıtları
+                            </div>
+
+                        </div>
+
+                        <a asp-controller="Odeme"
+                           asp-action="Index"
+                           class="dashboard-panel-link">
+                            Tüm Ödemeler →
+                        </a>
+
+                    </div>
+
+                    @if (sonOdemeler.Any())
+                    {
+                        <div class="payment-list">
+
+                            @foreach (var odeme in sonOdemeler)
+                            {
+                                <div class="payment-item">
+
+                                    <div class="payment-icon">
+                                        💳
+                                    </div>
+
+                                    <div class="payment-info">
+
+                                        <div class="payment-student">
+                                            @(odeme.Ogrenci?.AdSoyad ?? "Öğrenci bilgisi yok")
+                                        </div>
+
+                                        <div class="payment-date">
+                                            @odeme.OdemeTarihi.ToString("dd.MM.yyyy")
+                                        </div>
+
+                                    </div>
+
+                                    <div class="payment-amount">
+                                        @odeme.Tutar.ToString("N2") ₺
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="empty-data">
+                            Henüz ödeme kaydı bulunmuyor.
+                        </div>
+                    }
+
+                </div>
 
             </div>
+
+
+
+        </div>
+
+
 
         </div>
 
     </div>
 
 </div>
+
+

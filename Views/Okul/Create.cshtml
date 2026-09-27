@@ -4,42 +4,402 @@
     ViewData["Title"] = "Okul Ekle";
 }
 
-<div class="container mt-4">
+<style>
+    .admin-form-page {
+        padding: 10px 10px 40px;
+    }
 
-    <h2>Okul Ekle</h2>
-    <p class="text-muted">Yeni okul bilgilerini girin.</p>
+    .admin-form-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28px;
+    }
 
-    <form asp-action="Create" method="post">
+    .admin-form-title-area {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
 
-        <div class="mb-3">
-            <label class="form-label">Okul Adı</label>
-            <input asp-for="Ad"
-                   class="form-control"
-                   placeholder="Örneğin: İstanbul Özel Eğitim Merkezi" />
+    .admin-form-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #4da3ff, #174ea6);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        box-shadow: 0 8px 20px rgba(23, 78, 166, 0.20);
+    }
+
+    .admin-form-title {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: #172b4d;
+    }
+
+    .admin-form-subtitle {
+        margin: 5px 0 0;
+        color: #7a869a;
+        font-size: 14px;
+    }
+
+    .admin-form-card {
+        max-width: 900px;
+        background: #ffffff;
+        border-radius: 18px;
+        border: 1px solid #e6ebf2;
+        box-shadow: 0 8px 30px rgba(31, 45, 61, 0.08);
+        overflow: hidden;
+    }
+
+    .admin-form-card-header {
+        padding: 20px 28px;
+        background: linear-gradient(135deg, #f4f9ff, #eef5ff);
+        border-bottom: 1px solid #e1e9f5;
+    }
+
+    .admin-form-card-header h5 {
+        margin: 0;
+        color: #173b72;
+        font-size: 17px;
+        font-weight: 700;
+    }
+
+    .admin-form-card-header p {
+        margin: 5px 0 0;
+        color: #7a869a;
+        font-size: 13px;
+    }
+
+    .admin-form-body {
+        padding: 30px 28px;
+    }
+
+    .admin-form-group {
+        margin-bottom: 22px;
+    }
+
+    .admin-form-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #26364d;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .admin-form-input {
+        width: 100%;
+        min-height: 48px;
+        padding: 11px 14px;
+        border: 1px solid #d9e1ec;
+        border-radius: 10px;
+        background: #fbfcfe;
+        color: #26364d;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+
+    .admin-form-input:focus {
+        border-color: #3d8bfd;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(61, 139, 253, 0.10);
+    }
+
+    textarea.admin-form-input {
+        min-height: 115px;
+        resize: vertical;
+    }
+
+    .admin-form-input::placeholder {
+        color: #a2acba;
+    }
+
+    .admin-field-icon {
+        position: relative;
+    }
+
+    .admin-field-icon span {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 17px;
+        z-index: 1;
+    }
+
+    .admin-field-icon input {
+        padding-left: 43px;
+    }
+
+    .admin-field-icon textarea {
+        padding-left: 43px;
+        padding-top: 13px;
+    }
+
+    .admin-form-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 30px;
+        padding-top: 24px;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .admin-btn-save {
+        border: none;
+        border-radius: 10px;
+        padding: 11px 22px;
+        background: linear-gradient(135deg, #2878e8, #174ea6);
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(23, 78, 166, 0.18);
+        transition: all 0.2s ease;
+    }
+
+    .admin-btn-save:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(23, 78, 166, 0.25);
+    }
+
+    .admin-btn-cancel {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        padding: 10px 20px;
+        background: #f1f3f6;
+        color: #526174;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .admin-btn-cancel:hover {
+        background: #e4e8ee;
+        color: #26364d;
+    }
+
+    .admin-validation {
+        margin-bottom: 20px;
+        padding: 12px 15px;
+        border-radius: 10px;
+        background: #fff4f4;
+        border: 1px solid #f3cccc;
+        color: #b42318;
+        font-size: 13px;
+    }
+
+    .admin-back-link {
+        color: #315b91;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .admin-back-link:hover {
+        color: #174ea6;
+    }
+
+    @@media (max-width: 768px) {
+        .admin-form-header {
+            align-items: flex-start;
+        }
+
+        .admin-form-title {
+            font-size: 23px;
+        }
+
+        .admin-form-card {
+            max-width: 100%;
+        }
+
+        .admin-form-body {
+            padding: 22px 18px;
+        }
+
+        .admin-form-card-header {
+            padding: 18px;
+        }
+
+        .admin-form-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .admin-btn-save,
+        .admin-btn-cancel {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="admin-form-page">
+
+    <div class="admin-form-header">
+
+        <div class="admin-form-title-area">
+
+            <div class="admin-form-icon">
+                🏫
+            </div>
+
+            <div>
+                <h1 class="admin-form-title">
+                    Okul Ekle
+                </h1>
+
+                <p class="admin-form-subtitle">
+                    Sisteme yeni bir okul kaydı oluşturun.
+                </p>
+            </div>
+
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Adres</label>
-            <input asp-for="Adres"
-                   class="form-control"
-                   placeholder="Okul adresi" />
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Telefon</label>
-            <input asp-for="Telefon"
-                   class="form-control"
-                   placeholder="0212 000 00 00" />
-        </div>
-
-        <button type="submit" class="btn btn-primary">
-            Kaydet
-        </button>
-
-        <a asp-action="Index" class="btn btn-secondary">
-            İptal
+        <a asp-action="Index" class="admin-back-link">
+            ← Okullara Dön
         </a>
 
-    </form>
+    </div>
+
+
+    <div class="admin-form-card">
+
+        <div class="admin-form-card-header">
+
+            <h5>Okul Bilgileri</h5>
+
+            <p>
+                Okula ait temel bilgileri eksiksiz şekilde giriniz.
+            </p>
+
+        </div>
+
+
+        <div class="admin-form-body">
+
+            <form asp-action="Create" method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly"
+                     class="admin-validation"></div>
+
+
+                <!-- OKUL ADI -->
+
+                <div class="admin-form-group">
+
+                    <label asp-for="Ad"
+                           class="admin-form-label">
+                        Okul Adı
+                    </label>
+
+                    <div class="admin-field-icon">
+
+                        <span>🏫</span>
+
+                        <input asp-for="Ad"
+                               class="admin-form-input"
+                               placeholder="Örneğin: İstanbul Özel Eğitim Merkezi" />
+
+                    </div>
+
+                    <span asp-validation-for="Ad"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- ADRES -->
+
+                <div class="admin-form-group">
+
+                    <label asp-for="Adres"
+                           class="admin-form-label">
+                        Adres
+                    </label>
+
+                    <div class="admin-field-icon">
+
+                        <span>📍</span>
+
+                        <textarea asp-for="Adres"
+                                  class="admin-form-input"
+                                  placeholder="Okul adresini giriniz"></textarea>
+
+                    </div>
+
+                    <span asp-validation-for="Adres"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- TELEFON -->
+
+                <div class="admin-form-group">
+
+                    <label asp-for="Telefon"
+                           class="admin-form-label">
+                        Telefon
+                    </label>
+
+                    <div class="admin-field-icon">
+
+                        <span>☎️</span>
+
+                        <input asp-for="Telefon"
+                               class="admin-form-input"
+                               placeholder="0212 000 00 00" />
+
+                    </div>
+
+                    <span asp-validation-for="Telefon"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+
+                <!-- BUTONLAR -->
+
+                <div class="admin-form-actions">
+
+                    <button type="submit"
+                            class="admin-btn-save">
+                        ✓ Okulu Kaydet
+                    </button>
+
+                    <a asp-action="Index"
+                       class="admin-btn-cancel">
+                        ← İptal
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
 
 </div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

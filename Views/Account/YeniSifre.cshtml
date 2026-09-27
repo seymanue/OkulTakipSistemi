@@ -1,0 +1,359 @@
+@{
+    ViewData["Title"] = "Yeni Şifre";
+
+    string girisTuru = ViewBag.GirisTuru ?? "Ogretmen";
+    bool adminMi = girisTuru == "Admin";
+}
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body:has(.password-page) {
+    background: #493735 !important;
+}
+
+body:has(.password-page) header,
+body:has(.password-page) nav {
+    background: rgba(67, 43, 35, 0.96) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+.password-page {
+    width: 100vw;
+    min-height: calc(100vh - 64px);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 20px;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            ellipse at 10% 18%,
+            rgba(226, 164, 104, 0.34),
+            transparent 38%
+        ),
+        radial-gradient(
+            ellipse at 88% 78%,
+            rgba(73, 43, 35, 0.48),
+            transparent 45%
+        ),
+        linear-gradient(
+            120deg,
+            #b87952 0%,
+            #956049 42%,
+            #67463d 72%,
+            #493735 100%
+        );
+}
+
+.password-card {
+    width: min(460px, 100%);
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(67, 43, 35, 0.58);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow:
+        0 24px 60px rgba(35, 22, 18, 0.38),
+        inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+.password-header {
+    padding: 25px 30px 20px;
+    text-align: center;
+    color: #fff8f2;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(126, 78, 55, 0.82),
+            rgba(91, 57, 45, 0.78)
+        );
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.password-icon {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e6b47c;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow:
+        0 8px 20px rgba(45, 27, 21, 0.22),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.password-icon svg {
+    width: 42px;
+    height: 42px;
+}
+
+.password-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff8f2;
+}
+
+.password-header p {
+    margin: 7px 0 0;
+    color: rgba(255,248,242,0.82);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.password-body {
+    padding: 25px 30px 26px;
+    background: rgba(50, 34, 29, 0.34);
+}
+
+.alert {
+    padding: 11px 13px;
+    border-radius: 11px;
+    margin-bottom: 17px;
+    font-size: 13px;
+}
+
+.alert-danger {
+    background: rgba(127, 42, 32, 0.35);
+    color: #ffd5cc;
+    border: 1px solid rgba(255,150,130,0.25);
+}
+
+.field {
+    margin-bottom: 18px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #f5dfcf;
+}
+
+.password-input {
+    width: 100%;
+    height: 48px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 12px;
+    padding: 0 15px;
+    font-size: 15px;
+    color: #fff8f2;
+    outline: none;
+    background: rgba(255,255,255,0.10);
+    transition: 0.2s;
+}
+
+.password-input::placeholder {
+    color: rgba(255,242,232,0.54);
+}
+
+.password-input:focus {
+    border-color: rgba(226,164,104,0.75);
+    box-shadow: 0 0 0 3px rgba(226,164,104,0.14);
+    background: rgba(255,255,255,0.13);
+}
+
+.change-button {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #b87952, #8f5a43);
+    color: #fffaf6;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(57, 34, 27, 0.28);
+    transition: 0.2s;
+}
+
+.change-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(57, 34, 27, 0.36);
+}
+
+.password-page {
+    position: relative;
+    isolation: isolate;
+}
+
+.password-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.20;
+    pointer-events: none;
+
+    background-image:
+        radial-gradient(circle at 12% 20%, rgba(255,235,215,0.55) 0 2px, transparent 3px),
+        radial-gradient(circle at 82% 16%, rgba(255,235,215,0.45) 0 2px, transparent 3px),
+        radial-gradient(circle at 25% 78%, rgba(255,235,215,0.40) 0 2px, transparent 3px),
+        radial-gradient(circle at 75% 82%, rgba(255,235,215,0.40) 0 2px, transparent 3px),
+        linear-gradient(135deg, transparent 0 48%, rgba(255,255,255,0.08) 49% 50%, transparent 51%),
+        linear-gradient(45deg, transparent 0 48%, rgba(255,255,255,0.06) 49% 50%, transparent 51%);
+
+    background-size:
+        180px 180px,
+        220px 220px,
+        200px 200px,
+        240px 240px,
+        90px 90px,
+        90px 90px;
+}
+
+.password-page::after {
+    content: "✦   □   ✎       ✦       ◇   ✦       □   ✎       ✦";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    letter-spacing: 34px;
+    line-height: 150px;
+    color: rgba(255, 226, 201, 0.13);
+    transform: rotate(-8deg) scale(1.15);
+    white-space: normal;
+}
+
+@@media (max-width: 576px) {
+    .password-page {
+        min-height: calc(100vh - 58px);
+        padding: 18px 14px;
+    }
+
+    .password-card {
+        border-radius: 20px;
+    }
+
+    .password-header {
+        padding: 21px 20px 17px;
+    }
+
+    .password-body {
+        padding: 21px 20px 22px;
+    }
+}
+</style>
+
+<div class="password-page">
+
+    <div class="password-card">
+
+        <div class="password-header">
+
+            <div class="password-icon">
+                <svg viewBox="0 0 64 64"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg"
+                     aria-hidden="true">
+
+                    <rect x="16" y="28"
+                          width="32"
+                          height="25"
+                          rx="6"
+                          stroke="currentColor"
+                          stroke-width="3"/>
+
+                    <path d="M22 28V21C22 13.3 26.5 9 32 9C37.5 9 42 13.3 42 21V28"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-linecap="round"/>
+
+                    <circle cx="32" cy="39"
+                            r="3"
+                            fill="currentColor"/>
+
+                    <path d="M32 42V47"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <h2>Yeni Şifre</h2>
+
+            <p>
+                Hesabınız için yeni şifrenizi belirleyiniz.
+            </p>
+
+        </div>
+
+        <div class="password-body">
+
+            @if (ViewBag.Hata != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.Hata
+                </div>
+            }
+
+            <form asp-controller="Account"
+                  asp-action="YeniSifre"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="GirisTuru"
+                       value="@girisTuru" />
+
+                <div class="field">
+
+                    <label for="YeniSifre">
+                        Yeni Şifre
+                    </label>
+
+                    <input type="password"
+                           id="YeniSifre"
+                           name="YeniSifre"
+                           class="password-input"
+                           placeholder="Yeni şifrenizi giriniz"
+                           autocomplete="new-password"
+                           required />
+
+                </div>
+
+                <div class="field">
+
+                    <label for="YeniSifreTekrar">
+                        Yeni Şifre Tekrar
+                    </label>
+
+                    <input type="password"
+                           id="YeniSifreTekrar"
+                           name="YeniSifreTekrar"
+                           class="password-input"
+                           placeholder="Yeni şifrenizi tekrar giriniz"
+                           autocomplete="new-password"
+                           required />
+
+                </div>
+
+                <button type="submit"
+                        class="change-button">
+                    Şifreyi Değiştir
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

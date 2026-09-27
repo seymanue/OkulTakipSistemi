@@ -32,11 +32,32 @@ namespace OkulTakipSistemi.Controllers
         // YENİ SINIF - GET
         // =========================
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(int? okulId)
         {
             ViewBag.Okullar = _context.Okullar
                 .OrderBy(x => x.Ad)
                 .ToList();
+
+            ViewBag.Siniflar = _context.Siniflar
+                .OrderBy(x => x.Ad)
+                .ToList();
+
+            if (okulId.HasValue)
+            {
+                var okul = _context.Okullar
+                    .FirstOrDefault(x => x.Id == okulId.Value);
+
+                if (okul != null)
+                {
+                    var sinif = new Sinif
+                    {
+                        OkulId = okul.Id,
+                        Aktif = true
+                    };
+
+                    return View(sinif);
+                }
+            }
 
             return View();
         }
@@ -66,9 +87,6 @@ namespace OkulTakipSistemi.Controllers
 
                 return View(sinif);
             }
-
-            // Yeni oluşturulan sınıf aktif olsun
-            sinif.Aktif = true;
 
             _context.Siniflar.Add(sinif);
             _context.SaveChanges();
@@ -142,28 +160,6 @@ namespace OkulTakipSistemi.Controllers
         }
 
         // =========================
-        // AKTİF / PASİF DEĞİŞTİR
-        // =========================
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AktifPasif(int id)
-        {
-            var sinif = _context.Siniflar
-                .FirstOrDefault(x => x.Id == id);
-
-            if (sinif == null)
-            {
-                return NotFound();
-            }
-
-            sinif.Aktif = !sinif.Aktif;
-
-            _context.SaveChanges();
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        // =========================
         // SİL
         // =========================
         [HttpPost]
@@ -174,12 +170,105 @@ namespace OkulTakipSistemi.Controllers
                 .FirstOrDefault(x => x.Id == id);
 
             if (sinif == null)
-            {
                 return NotFound();
-            }
 
-            _context.Siniflar.Remove(sinif);
-            _context.SaveChanges();
+            using var transaction = _context.Database.BeginTransaction();
+
+            try
+            {
+                // 1. Bu sınıfa ait yoklama detaylarını sil
+                _context.Database.ExecuteSqlInterpolated($"""
+                    DELETE FROM YoklamaDetaylari
+                    WHERE YoklamaId IN (
+                        SELECT Id
+                        FROM Yoklamalar
+                        WHERE SinifId = {id}
+                    )
+                    """);
+
+                // 2. Bu sınıfa ait yoklamaları sil
+                _context.Database.ExecuteSqlInterpolated($"""
+                    DELETE FROM Yoklamalar
+                    WHERE SinifId = {id}
+                    """);
+
+                // 3. Öğretmen-sınıf bağlantılarını sil
+                _context.Database.ExecuteSqlInterpolated($"""
+                    DELETE FROM OgretmenSiniflar
+                    WHERE SinifId = {id}
+                    """);
+
+                // 4. Bu sınıfa ait öğrenci kayıtlarını al
+                var kayitIds = _context.OgrenciKayitlari
+                    .Where(x => x.SinifId == id)
+                    .Select(x => x.Id)
+                    .ToList();
+
+                // 5. Öğrenci kayıtlarına bağlı ücret/borç kayıtlarını sil
+                foreach (var kayitId in kayitIds)
+                {
+                    _context.Database.ExecuteSqlInterpolated($"""
+                        DELETE FROM OdemeDagilimlari
+                        WHERE AylikBorcId IN (
+                            SELECT Id
+                            FROM AylikBorclar
+                            WHERE OgrenciKaydiId = {kayitId}
+                        )
+                        """);
+
+                    _context.Database.ExecuteSqlInterpolated($"""
+                        DELETE FROM OgrenciOzelUcretler
+                        WHERE OgrenciKaydiId = {kayitId}
+                        """);
+
+                    _context.Database.ExecuteSqlInterpolated($"""
+                        DELETE FROM AylikBorclar
+                        WHERE OgrenciKaydiId = {kayitId}
+                        """);
+
+                    _context.Database.ExecuteSqlInterpolated($"""
+                        DELETE FROM OgrenciUcretDurumlari
+                        WHERE OgrenciKaydiId = {kayitId}
+                        """);
+                }
+
+                // 6. Öğrenci kayıtlarını sil
+                _context.Database.ExecuteSqlInterpolated($"""
+                    DELETE FROM OgrenciKayitlari
+                    WHERE SinifId = {id}
+                    """);
+
+                // 7. Sınıfa bağlı öğrencilerin SinifId alanını boşalt
+                _context.Database.ExecuteSqlInterpolated($"""
+                    UPDATE Ogrenciler
+                    SET SinifId = NULL
+                    WHERE SinifId = {id}
+                    """);
+
+                // 8. Sınıfı sil
+                _context.Database.ExecuteSqlInterpolated($"""
+                    DELETE FROM Siniflar
+                    WHERE Id = {id}
+                    """);
+
+                transaction.Commit();
+
+                TempData["Basarili"] =
+                    sinif.Ad + " sınıfı ve bağlı kayıtları başarıyla silindi.";
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+
+                Console.WriteLine("================================");
+                Console.WriteLine("SINIF SİLME HATASI");
+                Console.WriteLine("SINIF ID: " + id);
+                Console.WriteLine("HATA: " + ex.Message);
+                Console.WriteLine("================================");
+
+                TempData["Hata"] =
+                    sinif.Ad + " sınıfı silinemedi. İşlem geri alındı.";
+            }
 
             return RedirectToAction(nameof(Index));
         }

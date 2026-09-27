@@ -4,79 +4,438 @@
     ViewData["Title"] = "Okul Ücretleri";
 }
 
-<div class="container-fluid py-4">
-
-    <!-- BAŞLIK -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <div>
-            <h2 class="fw-bold mb-1">
-                Okul Ücretleri
-            </h2>
-
-            <p class="text-muted mb-0">
-                Okulların eğitim ücretlerini ve ödeme seçeneklerini yönetin.
-            </p>
-        </div>
-
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Yeni Okul Ücreti
-        </a>
-
-    </div>
-
-
-    <!-- BAŞARILI MESAJ -->
-    @if (TempData["Basarili"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show"
-             role="alert">
-
-            <strong>Başarılı:</strong>
-            @TempData["Basarili"]
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-
-        </div>
+<style>
+    .school-fee-page {
+        min-height: calc(100vh - 80px);
+        padding: 30px 32px 50px;
+        background: #f4f7fb;
     }
 
-
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info">
-            Henüz okul ücreti tanımlanmamış.
-        </div>
+    .school-fee-inner {
+        max-width: 1450px;
+        margin: 0 auto;
     }
-    else
-    {
-        <div class="card shadow-sm border-0">
 
-            <div class="card-body p-0">
+    /* BAŞLIK */
 
-                <div class="table-responsive">
+    .school-fee-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 26px;
+        padding: 26px 30px;
+        border: 1px solid #d9eaf8;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #eaf5ff 0%, #d8ecff 55%, #c7e3fb 100%);
+        box-shadow: 0 8px 25px rgba(26, 64, 99, 0.07);
+    }
 
-                    <table class="table table-hover align-middle mb-0">
+    .school-fee-title-area {
+        display: flex;
+        align-items: center;
+        gap: 17px;
+    }
 
-                        <thead class="table-light">
+    .school-fee-title-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 54px;
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 5px 15px rgba(25, 87, 145, 0.10);
+        font-size: 26px;
+    }
 
+    .school-fee-header h1 {
+        margin: 0 0 5px;
+        color: #163b61;
+        font-size: 27px;
+        font-weight: 800;
+    }
+
+    .school-fee-header p {
+        margin: 0;
+        color: #607b95;
+        font-size: 14px;
+    }
+
+    /* MESAJ */
+
+    .school-fee-alert {
+        margin-bottom: 22px;
+        padding: 15px 18px;
+        border: 1px solid #bfe6d0;
+        border-radius: 14px;
+        background: #effbf4;
+        color: #26734d;
+        box-shadow: 0 5px 15px rgba(32, 102, 68, 0.05);
+    }
+
+    /* KART */
+
+    .school-fee-card {
+        overflow: hidden;
+        margin-bottom: 22px;
+        border: 1px solid #e3eaf1;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 8px 25px rgba(26, 64, 99, 0.06);
+    }
+
+    .school-fee-card-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 21px 24px;
+        border-bottom: 1px solid #edf1f5;
+    }
+
+    .school-fee-card-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 43px;
+        height: 43px;
+        border-radius: 13px;
+        background: #e8f4ff;
+        font-size: 21px;
+    }
+
+    .school-fee-card-title {
+        color: #173d62;
+        font-size: 17px;
+        font-weight: 750;
+    }
+
+    .school-fee-card-subtitle {
+        margin-top: 3px;
+        color: #8798aa;
+        font-size: 12px;
+    }
+
+    .school-fee-card-body {
+        padding: 22px 24px;
+    }
+
+    .school-fee-add-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 19px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #1971c2, #2688d8);
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 6px 16px rgba(25, 113, 194, 0.20);
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .school-fee-add-button:hover {
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 9px 20px rgba(25, 113, 194, 0.27);
+    }
+
+    /* TABLO */
+
+    .school-fee-table-card {
+        overflow: hidden;
+        border: 1px solid #e3eaf1;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 8px 25px rgba(26, 64, 99, 0.06);
+    }
+
+    .school-fee-table-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 21px 24px;
+        border-bottom: 1px solid #edf1f5;
+    }
+
+    .school-fee-table-wrap {
+        overflow-x: auto;
+    }
+
+    .school-fee-table {
+        width: 100%;
+        margin: 0;
+        border-collapse: collapse;
+    }
+
+    .school-fee-table thead th {
+        padding: 14px 24px;
+        border: none;
+        background: #f7faff;
+        color: #70849a;
+        font-size: 12px;
+        font-weight: 750;
+        letter-spacing: .2px;
+        text-transform: uppercase;
+    }
+
+    .school-fee-table tbody td {
+        padding: 18px 24px;
+        border-top: 1px solid #edf1f5;
+        color: #294a68;
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    .school-fee-table tbody tr {
+        transition: background .18s ease;
+    }
+
+    .school-fee-table tbody tr:hover {
+        background: #f8fbfe;
+    }
+
+    .school-name {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+    }
+
+    .school-name-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        background: #e8f4ff;
+        font-size: 18px;
+    }
+
+    .school-fee-amount {
+        color: #173d62;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .school-fee-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+
+    .school-fee-edit,
+    .school-fee-delete {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 82px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all .18s ease;
+    }
+
+    .school-fee-edit {
+        border: 1px solid #c8e1f7;
+        background: #f1f8ff;
+        color: #1971c2;
+    }
+
+    .school-fee-edit:hover {
+        background: #e1f1ff;
+        color: #0d5b9e;
+    }
+
+    .school-fee-delete {
+        border: 1px solid #f2caca;
+        background: #fff6f6;
+        color: #c94c4c;
+        cursor: pointer;
+    }
+
+    .school-fee-delete:hover {
+        background: #ffebeb;
+        color: #ad3636;
+    }
+
+    .school-fee-empty {
+        margin: 22px 24px;
+        padding: 28px 20px;
+        border: 1px dashed #cbd9e6;
+        border-radius: 15px;
+        background: #f8fbfe;
+        color: #7d91a5;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    @@media (max-width: 800px) {
+        .school-fee-page {
+            padding: 20px 15px 40px;
+        }
+
+        .school-fee-header {
+            align-items: flex-start;
+            padding: 22px;
+        }
+
+        .school-fee-header h1 {
+            font-size: 23px;
+        }
+
+        .school-fee-table thead th,
+        .school-fee-table tbody td {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .school-fee-actions {
+            justify-content: flex-start;
+        }
+    }
+
+    @@media (max-width: 500px) {
+        .school-fee-title-icon {
+            display: none;
+        }
+
+        .school-fee-header {
+            padding: 20px;
+        }
+
+        .school-fee-card-header,
+        .school-fee-table-header {
+            padding: 18px;
+        }
+
+        .school-fee-card-body {
+            padding: 18px;
+        }
+    }
+</style>
+
+<div class="school-fee-page">
+
+    <div class="school-fee-inner">
+
+        <!-- BAŞLIK -->
+
+        <div class="school-fee-header">
+
+            <div class="school-fee-title-area">
+
+                <div class="school-fee-title-icon">
+                    🏫
+                </div>
+
+                <div>
+                    <h1>Okul Ücretleri</h1>
+
+                    <p>
+                        Okulların yıllık eğitim ücretlerini belirleyin.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BAŞARILI MESAJ -->
+
+        @if (TempData["Basarili"] != null)
+        {
+            <div class="school-fee-alert"
+                 role="alert">
+
+                <strong>Başarılı:</strong>
+                @TempData["Basarili"]
+
+            </div>
+        }
+
+
+        <!-- YENİ OKUL ÜCRETİ -->
+
+        <div class="school-fee-card">
+
+            <div class="school-fee-card-header">
+
+                <div class="school-fee-card-icon">
+                    💰
+                </div>
+
+                <div>
+                    <div class="school-fee-card-title">
+                        Okul Yıllık Ücreti Belirle
+                    </div>
+
+                    <div class="school-fee-card-subtitle">
+                        Seçtiğiniz okul için yıllık eğitim ücretini tanımlayın.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="school-fee-card-body">
+
+                <a asp-action="Create"
+                   class="school-fee-add-button">
+                    ＋ Okul Ücreti Belirle
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- TANIMLI ÜCRETLER -->
+
+        <div class="school-fee-table-card">
+
+            <div class="school-fee-table-header">
+
+                <div class="school-fee-card-icon">
+                    📋
+                </div>
+
+                <div>
+                    <div class="school-fee-card-title">
+                        Tanımlanan Okul Ücretleri
+                    </div>
+
+                    <div class="school-fee-card-subtitle">
+                        Sistemde kayıtlı yıllık okul ücretleri.
+                    </div>
+                </div>
+
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="school-fee-empty">
+                    Henüz okul için yıllık ücret belirlenmemiş.
+                </div>
+            }
+            else
+            {
+                <div class="school-fee-table-wrap">
+
+                    <table class="school-fee-table">
+
+                        <thead>
                             <tr>
                                 <th>Okul</th>
-                                <th>Toplam Ücret</th>
-                                <th>Ödeme Şekli</th>
-                                <th>Taksit</th>
-                                <th>Aylık Ücret</th>
-                                <th>Başlangıç Ayı</th>
-                                <th>Geçerlilik</th>
-                                <th>Açıklama</th>
-                                <th class="text-end">
-                                    İşlem
-                                </th>
+                                <th>Yıllık Ücret</th>
+                                <th style="text-align:right;">İşlem</th>
                             </tr>
-
                         </thead>
 
                         <tbody>
@@ -85,158 +444,48 @@
                             {
                                 <tr>
 
-                                    <!-- OKUL -->
                                     <td>
-                                        <div class="fw-semibold">
-                                            @(ucret.Okul?.Ad ?? "Okul belirtilmemiş")
+                                        <div class="school-name">
+
+                                            <div class="school-name-icon">
+                                                🏫
+                                            </div>
+
+                                            <span>
+                                                @(ucret.Okul?.Ad ?? "Okul belirtilmemiş")
+                                            </span>
+
                                         </div>
                                     </td>
 
-
-                                    <!-- TOPLAM ÜCRET -->
                                     <td>
-                                        <strong>
+                                        <span class="school-fee-amount">
                                             @ucret.ToplamUcret.ToString("N2") ₺
-                                        </strong>
+                                        </span>
                                     </td>
 
-
-                                    <!-- ÖDEME ŞEKLİ -->
                                     <td>
 
-                                        @if (ucret.OdemeSekli == "Pesin")
-                                        {
-                                            <span class="badge bg-success">
-                                                Peşin
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-primary">
-                                                Taksitli
-                                            </span>
-                                        }
+                                        <div class="school-fee-actions">
 
-                                    </td>
-
-
-                                    <!-- TAKSİT -->
-                                    <td>
-
-                                        @if (ucret.OdemeSekli == "Pesin")
-                                        {
-                                            <span class="text-muted">
-                                                -
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <strong>
-                                                @ucret.TaksitAySayisi ay
-                                            </strong>
-                                        }
-
-                                    </td>
-
-
-                                    <!-- AYLIK ÜCRET -->
-                                    <td>
-
-                                        @if (ucret.OdemeSekli == "Pesin")
-                                        {
-                                            <span class="text-muted">
-                                                -
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <strong>
-                                                @ucret.AylikUcret.ToString("N2") ₺
-                                            </strong>
-                                        }
-
-                                    </td>
-
-
-                                    <!-- BAŞLANGIÇ AYI -->
-                                    <td>
-
-                                        @{
-                                            string[] aylar =
-                                            {
-                                                "",
-                                                "Ocak",
-                                                "Şubat",
-                                                "Mart",
-                                                "Nisan",
-                                                "Mayıs",
-                                                "Haziran",
-                                                "Temmuz",
-                                                "Ağustos",
-                                                "Eylül",
-                                                "Ekim",
-                                                "Kasım",
-                                                "Aralık"
-                                            };
-                                        }
-
-                                        @(ucret.BaslangicAyi >= 1 &&
-                                          ucret.BaslangicAyi <= 12
-                                            ? aylar[ucret.BaslangicAyi]
-                                            : "-")
-
-                                    </td>
-
-
-                                    <!-- GEÇERLİLİK -->
-                                    <td>
-                                        @ucret.GecerlilikTarihi.ToString("dd.MM.yyyy")
-                                    </td>
-
-
-                                    <!-- AÇIKLAMA -->
-                                    <td>
-
-                                        @if (!string.IsNullOrWhiteSpace(ucret.Aciklama))
-                                        {
-                                            @ucret.Aciklama
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">
-                                                -
-                                            </span>
-                                        }
-
-                                    </td>
-
-
-                                    <!-- İŞLEMLER -->
-                                    <td class="text-end">
-
-                                        <div class="d-flex justify-content-end gap-2">
-
-                                            <!-- DÜZENLE -->
                                             <a asp-action="Edit"
                                                asp-route-id="@ucret.Id"
-                                               class="btn btn-sm btn-outline-primary">
+                                               class="school-fee-edit">
                                                 Düzenle
                                             </a>
 
-
-                                            <!-- SİL -->
-                                            <form asp-action="Delete"
+                                            <form asp-action="DeleteSchool"
                                                   method="post"
-                                                  onsubmit="return confirm('Bu okul ücretini silmek istediğinize emin misiniz?');">
+                                                  onsubmit="return confirm('Bu okulu ve okula bağlı tüm kayıtları kalıcı olarak silmek istediğinize emin misiniz?');">
 
                                                 @Html.AntiForgeryToken()
 
                                                 <input type="hidden"
                                                        name="id"
-                                                       value="@ucret.Id" />
+                                                       value="@ucret.OkulId" />
 
                                                 <button type="submit"
-                                                        class="btn btn-sm btn-outline-danger">
+                                                        class="school-fee-delete">
                                                     Sil
                                                 </button>
 
@@ -254,10 +503,10 @@
                     </table>
 
                 </div>
-
-            </div>
+            }
 
         </div>
-    }
+
+    </div>
 
 </div>

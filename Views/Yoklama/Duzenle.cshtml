@@ -1,4 +1,4 @@
-@model List<OkulTakipSistemi.Models.Ogrenci>
+@model IEnumerable<OkulTakipSistemi.Models.Ogrenci>
 
 @{
     ViewData["Title"] = "Yoklama Düzenle";
@@ -8,129 +8,2344 @@
     var detaylar = ViewBag.Detaylar as Dictionary<int, bool>;
 }
 
-<div class="container mt-5">
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <div>
-            <h2>Yoklama Düzenle</h2>
-
-            <p class="text-muted mb-0">
-                @sinif?.Ad
-                -
-                @yoklama?.Tarih.ToString("dd.MM.yyyy HH:mm")
-            </p>
-        </div>
-
-        <a asp-controller="Yoklama"
-           asp-action="SinifGecmis"
-           asp-route-id="@sinif?.Id"
-           class="btn btn-secondary">
-            ← Geri Dön
-        </a>
-
-    </div>
-
-    <hr />
-
-    @if (Model == null || !Model.Any())
-    {
-        <div class="alert alert-warning">
-            Bu sınıfta kayıtlı öğrenci bulunmamaktadır.
-        </div>
+<style>
+    * {
+        box-sizing: border-box;
     }
-    else
-    {
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #4f382d;
+        background: #f7f0e9;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    .edit-attendance-page {
+        min-height: 100vh;
+        padding: 42px 25px 60px;
+        background:
+            radial-gradient(circle at 8% 8%, rgba(244, 181, 116, .24), transparent 30%),
+            radial-gradient(circle at 92% 18%, rgba(207, 117, 65, .16), transparent 32%),
+            radial-gradient(circle at 55% 100%, rgba(238, 202, 137, .18), transparent 38%),
+            #f7f0e9;
+    }
+
+    .edit-container {
+        width: min(1100px, 100%);
+        margin: 0 auto;
+    }
+
+    .edit-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 28px 30px;
+        margin-bottom: 24px;
+        background: rgba(255, 252, 249, .96);
+        border: 1px solid #ead8c9;
+        border-radius: 20px;
+        box-shadow: 0 12px 32px rgba(111, 72, 50, .08);
+    }
+
+    .edit-header h1 {
+        margin: 0 0 7px;
+        color: #4f3328;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .edit-header p {
+        margin: 0;
+        color: #81695d;
+        font-size: 14px;
+    }
+
+    .edit-header p strong {
+        color: #b65d2d;
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 19px;
+        border-radius: 11px;
+        background: #8f5237;
+        border: 1px solid #8f5237;
+        color: #fffaf6 !important;
+        text-decoration: none !important;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .back-button:hover {
+        background: rgba(255,248,241,.22);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(126,72,42,.22);
+    }
+
+    .description-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 22px;
+        padding: 28px 30px;
+        margin-bottom: 24px;
+        background: rgba(255, 252, 249, .96);
+        border: 1px solid #ead8c9;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(111, 72, 50, .07);
+    }
+
+    .description-icon {
+        width: 58px;
+        height: 58px;
+        flex: 0 0 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #ffe6cc, #ffd3aa);
+        border: 1px solid #f2c49b;
+        border-radius: 15px;
+        color: #c45f25;
+    }
+
+    .description-icon svg {
+        width: 29px;
+        height: 29px;
+        fill: none;
+        stroke: #c45f25;
+        stroke-width: 1.8;
+    }
+
+    .description-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .description-content label {
+        display: block;
+        margin-bottom: 7px;
+        color: #4f3328;
+        font-size: 19px;
+        font-weight: 750;
+    }
+
+    .description-content p {
+        margin: 0 0 16px;
+        color: #81695d;
+        font-size: 14px;
+        line-height: 1.55;
+    }
+
+    .description-content input {
+        width: 100%;
+        min-height: 58px;
+        padding: 15px 17px;
+        background: #fffdfa;
+        border: 1px solid #dfcdbd;
+        border-radius: 11px;
+        color: #4f3328;
+        font-size: 15px;
+        outline: none;
+    }
+
+    .description-content input:focus {
+        border-color: #d27a42;
+        box-shadow: 0 0 0 4px rgba(210, 122, 66, .12);
+    }
+
+    .description-content input::placeholder {
+        color: #a39187;
+    }
+
+    .students-card {
+        overflow: hidden;
+        background: rgba(255, 252, 249, .97);
+        border: 1px solid #ead8c9;
+        border-radius: 20px;
+        box-shadow: 0 12px 32px rgba(111, 72, 50, .08);
+    }
+
+    .students-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 27px 30px;
+        background: linear-gradient(135deg, #fff4e9, #fffaf4);
+        border-bottom: 1px solid #eee0d4;
+    }
+
+    .students-header h2 {
+        margin: 0 0 6px;
+        color: #4f3328;
+        font-size: 23px;
+    }
+
+    .students-header p {
+        margin: 0;
+        color: #81695d;
+        font-size: 13px;
+    }
+
+    .student-count {
+        padding: 10px 15px;
+        border-radius: 999px;
+        background: #fff0cf;
+        color: #a96818;
+        font-size: 13px;
+        font-weight: 750;
+        white-space: nowrap;
+    }
+
+    .student-list {
+        padding: 0 30px;
+    }
+
+    .student-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        padding: 22px 0;
+        border-bottom: 1px solid #eee2d8;
+    }
+
+    .student-row:last-child {
+        border-bottom: 0;
+    }
+
+    .student-name {
+        margin-bottom: 5px;
+        color: #4f3328;
+        font-size: 16px;
+        font-weight: 750;
+    }
+
+    .student-no {
+        color: #92796b;
+        font-size: 13px;
+    }
+
+    .attendance-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .status-option {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .status-option input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .status-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 92px;
+        min-height: 46px;
+        padding: 0 15px;
+        border-radius: 11px;
+        border: 1px solid #dfcdbd;
+        background: #fffdfa;
+        color: #80685b;
+        font-weight: 700;
+        transition: .2s ease;
+    }
+
+    .status-option input:checked + .status-button.present {
+        background: #f28c28 !important;
+        border-color: #e47716 !important;
+        color: #ffffff !important;
+        box-shadow: 0 6px 16px rgba(226, 119, 22, .25) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    .status-option input:checked + .status-button.absent {
+        background: #f28c28 !important;
+        border-color: #e47716 !important;
+        color: #ffffff !important;
+        box-shadow: 0 6px 16px rgba(226, 119, 22, .25) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    .edit-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 22px 30px;
+        background: #fbf1e8;
+        border-top: 1px solid #eee0d4;
+    }
+
+    .edit-info {
+        color: #80685b;
+        font-size: 13px;
+    }
+
+    .save-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 48px;
+        padding: 0 23px;
+        border: 0;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #e8894f, #c96832);
+        color: #fff !important;
+        font-weight: 750;
+        cursor: pointer;
+        box-shadow: 0 7px 18px rgba(196, 95, 37, .20);
+    }
+
+    .save-button svg {
+        width: 19px;
+        height: 19px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+    }
+
+    .empty-state {
+        padding: 50px 25px;
+        text-align: center;
+        color: #80685b;
+    }
+
+    @@media (max-width: 700px) {
+        .edit-attendance-page {
+            padding: 25px 15px 40px;
+        }
+
+        .edit-header,
+        .description-card,
+        .students-header,
+        .edit-footer {
+            padding: 20px;
+        }
+
+        .edit-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .description-card {
+            gap: 15px;
+        }
+
+        .description-icon {
+            width: 48px;
+            height: 48px;
+            flex-basis: 48px;
+        }
+
+        .student-list {
+            padding: 0 20px;
+        }
+
+        .student-row {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .attendance-actions {
+            width: 100%;
+        }
+
+        .status-option,
+        .status-button {
+            flex: 1;
+            width: 100%;
+        }
+
+        .edit-footer {
+            align-items: stretch;
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="edit-attendance-page">
+    <div class="edit-container">
+
+        <div class="edit-header">
+            <div>
+                <h1>Yoklama Düzenle</h1>
+                <p><strong>@sinif?.Ad</strong> sınıfının kayıtlı yoklamasını düzenleyebilirsiniz.</p>
+            </div>
+
+            <a asp-controller="Yoklama"
+               asp-action="SinifGecmis"
+               asp-route-id="@sinif?.Id"
+               class="back-button">
+                ← Yoklama Geçmişine Dön
+            </a>
+        </div>
+
         <form asp-controller="Yoklama"
               asp-action="DuzenleKaydet"
               method="post">
 
-            <input type="hidden"
-                   name="yoklamaId"
-                   value="@yoklama?.Id" />
+            <input type="hidden" name="yoklamaId" value="@yoklama?.Id" />
 
-            @foreach (var ogrenci in Model)
-            {
-                var geldi = detaylar != null &&
-                            detaylar.ContainsKey(ogrenci.Id) &&
-                            detaylar[ogrenci.Id];
-
-                <div class="card mb-3 shadow-sm">
-
-                    <div class="card-body">
-
-                        <div class="row align-items-center">
-
-                            <div class="col-md-6">
-
-                                <strong>
-                                    @ogrenci.AdSoyad
-                                </strong>
-
-                                <br />
-
-                                <small class="text-muted">
-                                    Öğrenci No: @ogrenci.OgrenciNo
-                                </small>
-
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <div class="form-check form-check-inline">
-
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           name="durumlar[@ogrenci.Id]"
-                                           value="true"
-                                           @(geldi ? "checked" : "") />
-
-                                    <label class="form-check-label text-success">
-                                        Geldi
-                                    </label>
-
-                                </div>
-
-                                <div class="form-check form-check-inline">
-
-                                    <input class="form-check-input"
-                                           type="radio"
-                                           name="durumlar[@ogrenci.Id]"
-                                           value="false"
-                                           @(!geldi ? "checked" : "") />
-
-                                    <label class="form-check-label text-danger">
-                                        Gelmedi
-                                    </label>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
+            <div class="description-card">
+                <div class="description-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                    </svg>
                 </div>
-            }
 
-            <div class="mt-4">
+                <div class="description-content">
+                    <label for="aciklama">Yoklama Açıklaması</label>
 
-                <button type="submit"
-                        class="btn btn-success">
-                    ✓ Değişiklikleri Kaydet
-                </button>
+                    <p>
+                        Bu yoklamanın hangi ders veya tarih için alındığını
+                        belirtebilirsiniz.
+                    </p>
 
-                <a asp-controller="Yoklama"
-                   asp-action="SinifGecmis"
-                   asp-route-id="@sinif?.Id"
-                   class="btn btn-secondary ms-2">
-                    İptal
-                </a>
-
+                    <input type="text"
+                           id="aciklama"
+                           name="aciklama"
+                           maxlength="500"
+                           value="@yoklama?.Aciklama"
+                           placeholder="Örn: 15 Eylül Salı gününün yoklamasıdır." />
+                </div>
             </div>
 
-        </form>
-    }
+            <div class="students-card">
 
+                <div class="students-header">
+                    <div>
+                        <h2>Öğrenciler</h2>
+                        <p>Her öğrencinin yoklama durumunu değiştirebilirsiniz.</p>
+                    </div>
+
+                    <div class="student-count">
+                        @(Model?.Count() ?? 0) Öğrenci
+                    </div>
+                </div>
+
+                <div class="student-list">
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var ogrenci in Model)
+                        {
+                            var mevcutDurum =
+                                detaylar != null &&
+                                detaylar.ContainsKey(ogrenci.Id)
+                                    ? detaylar[ogrenci.Id]
+                                    : false;
+
+                            <div class="student-row">
+
+                                <div>
+                                    <div class="student-name">
+                                        @ogrenci.AdSoyad
+                                    </div>
+
+                                    <div class="student-no">
+                                        Öğrenci No: @ogrenci.OgrenciNo
+                                    </div>
+                                </div>
+
+                                <div class="attendance-actions">
+
+                                    <label class="status-option">
+                                        <input type="radio"
+                                               name="durumlar[@ogrenci.Id]"
+                                               value="true"
+                                               @(mevcutDurum ? "checked" : "") />
+
+                                        <span class="status-button present">
+                                            ✓ Geldi
+                                        </span>
+                                    </label>
+
+                                    <label class="status-option">
+                                        <input type="radio"
+                                               name="durumlar[@ogrenci.Id]"
+                                               value="false"
+                                               @(!mevcutDurum ? "checked" : "") />
+
+                                        <span class="status-button absent">
+                                            ✕ Gelmedi
+                                        </span>
+                                    </label>
+
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            Bu yoklamada öğrenci bulunmamaktadır.
+                        </div>
+                    }
+                </div>
+
+                @if (Model != null && Model.Any())
+                {
+                    <div class="edit-footer">
+                        <div class="edit-info">
+                            Yaptığınız değişiklikleri kontrol ettikten sonra kaydedebilirsiniz.
+                        </div>
+
+                        <button type="submit" class="save-button">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                <polyline points="7 3 7 8 15 8"></polyline>
+                            </svg>
+                            Yoklamayı Güncelle
+                        </button>
+                    </div>
+                }
+            </div>
+        </form>
+
+    </div>
 </div>
+
+<style id="DUZENLE-UST-ALAN-FINAL">
+/* Üstteki beyaz alanı kaldır */
+.attendance-edit-page .edit-header,
+.yoklama-edit-page .edit-header,
+.attendance-edit-page .page-header,
+.yoklama-edit-page .page-header {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* Yoklama Geçmişine Dön */
+.attendance-edit-page .history-back,
+.yoklama-edit-page .history-back,
+.attendance-edit-page .back-button,
+.yoklama-edit-page .back-button {
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+
+    gap: 8px !important;
+    white-space: nowrap !important;
+
+    color: #fffaf6 !important;
+    background: #c96a2b !important;
+
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+    box-shadow: none !important;
+
+    transition: background .22s ease,
+                transform .22s ease,
+                box-shadow .22s ease !important;
+}
+
+.attendance-edit-page .history-back:hover,
+.yoklama-edit-page .history-back:hover,
+.attendance-edit-page .back-button:hover,
+.yoklama-edit-page .back-button:hover {
+    background: #d77a3b !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(126,72,42,.22) !important;
+}
+</style>
+
+
+<style id="DUZENLE-UST-ALAN-DOGRU-FINAL">
+
+/* =========================================================
+   ÜST BEYAZ ALANI KALDIR
+   ========================================================= */
+
+.edit-attendance-page .edit-header {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* Üst başlık alanının içindeki beyaz görünümü kaldır */
+.edit-attendance-page .edit-header > div:first-child {
+    background: transparent !important;
+}
+
+/* =========================================================
+   YOKLAMA GEÇMİŞİNE DÖN
+   ========================================================= */
+
+.edit-attendance-page .edit-header .back-button {
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+
+    color: #fffaf6 !important;
+
+    background: #c96a2b !important;
+
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+
+    box-shadow: none !important;
+
+    transition:
+        background .22s ease,
+        transform .22s ease,
+        box-shadow .22s ease !important;
+}
+
+/* Buton hover */
+.edit-attendance-page .edit-header .back-button:hover {
+    background: #d77a3b !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(126,72,42,.22) !important;
+}
+
+/* Buton içindeki ikon */
+.edit-attendance-page .edit-header .back-button svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 auto !important;
+}
+
+/* Yazı tek satır */
+.edit-attendance-page .edit-header .back-button span {
+    white-space: nowrap !important;
+}
+
+</style>
+
+
+<style id="DUZENLE-SAYFASI-GERCEK-FINAL">
+
+/* ===== YOKLAMA DÜZENLE ÜST PANEL ===== */
+
+.edit-attendance-page .edit-header {
+    background: #c96a2b !important;
+    background-image: none !important;
+
+    border: none !important;
+    border-radius: 20px !important;
+
+    box-shadow: 0 12px 30px rgba(126,72,42,.14) !important;
+}
+
+/* Başlık yazıları */
+.edit-attendance-page .edit-header h1 {
+    color: #fffaf5 !important;
+}
+
+.edit-attendance-page .edit-header p {
+    color: rgba(255,250,245,.88) !important;
+}
+
+/* ===== YOKLAMA GEÇMİŞİNE DÖN ===== */
+
+.edit-attendance-page .edit-header .back-button {
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+
+    box-shadow: none !important;
+
+    transform: none !important;
+}
+
+.edit-attendance-page .edit-header .back-button:hover {
+    background: rgba(255,248,241,.22) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(126,72,42,.22) !important;
+}
+
+.edit-attendance-page .edit-header .back-button svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 auto !important;
+}
+
+</style>
+
+
+
+
+<style id="YOKLAMA-DUZENLE-UST-FINAL-2">
+
+/* =========================================================
+   YOKLAMA DÜZENLE - ÜST ALAN
+   ========================================================= */
+
+/* ORTAK LAYOUT ÜST MENÜSÜNÜ KALDIR */
+body.attendance-edit-layout > header {
+    display: none !important;
+}
+
+/* SAYFA BODY */
+body.attendance-edit-layout {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #f4e6dc !important;
+}
+
+/* ANA SAYFA ALANI */
+body.attendance-edit-layout .yoklama-edit-page,
+body.attendance-edit-layout .attendance-edit-page {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 34px 34px 50px !important;
+
+    background:
+        radial-gradient(
+            circle at 8% 8%,
+            rgba(239,167,111,.45),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 92% 12%,
+            rgba(218,127,91,.30),
+            transparent 26%
+        ),
+        radial-gradient(
+            circle at 15% 90%,
+            rgba(193,112,78,.25),
+            transparent 27%
+        ),
+        radial-gradient(
+            circle at 88% 90%,
+            rgba(238,178,126,.30),
+            transparent 25%
+        ),
+        #f4e6dc !important;
+}
+
+/* ÜST BAŞLIK PANELİ */
+body.attendance-edit-layout .edit-header,
+body.attendance-edit-layout .page-header,
+body.attendance-edit-layout .history-header {
+    background: #c96a2b !important;
+    border: none !important;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 30px rgba(126,72,42,.14) !important;
+}
+
+/* BAŞLIK YAZILARI */
+body.attendance-edit-layout .edit-header h1,
+body.attendance-edit-layout .page-header h1,
+body.attendance-edit-layout .history-header h1 {
+    color: #fffaf5 !important;
+}
+
+body.attendance-edit-layout .edit-header p,
+body.attendance-edit-layout .page-header p,
+body.attendance-edit-layout .history-header p {
+    color: rgba(255,250,245,.88) !important;
+}
+
+/* YOKLAMA GEÇMİŞİNE DÖN */
+body.attendance-edit-layout a[href*="SinifGecmis"],
+body.attendance-edit-layout a[href*="Gecmis"] {
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+
+    transition:
+        background .22s ease,
+        transform .22s ease,
+        border-color .22s ease !important;
+}
+
+body.attendance-edit-layout a[href*="SinifGecmis"] span,
+body.attendance-edit-layout a[href*="Gecmis"] span {
+    display: inline-block !important;
+    width: auto !important;
+    white-space: nowrap !important;
+}
+
+body.attendance-edit-layout a[href*="SinifGecmis"] svg,
+body.attendance-edit-layout a[href*="Gecmis"] svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 auto !important;
+}
+
+body.attendance-edit-layout a[href*="SinifGecmis"]:hover,
+body.attendance-edit-layout a[href*="Gecmis"]:hover {
+    background: rgba(255,248,241,.22) !important;
+    border-color: rgba(255,235,217,.75) !important;
+    transform: translateY(-2px) !important;
+}
+
+</style>
+
+<style id="DUZENLE-SAYFASI-TAM-TEMA-FINAL">
+
+/* =========================================================
+   YOKLAMA DÜZENLE
+   ========================================================= */
+
+/* ÜSTTEKİ BEYAZ NAVBAR TAMAMEN KALDIR */
+body.attendance-edit-layout > header {
+    display: none !important;
+}
+
+/* LAYOUT'UN ANA CONTAINER'INDAKİ BOŞLUĞU KALDIR */
+body.attendance-edit-layout > .container-fluid {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+body.attendance-edit-layout > .container-fluid > main {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* SAYFANIN KENDİ ARKA PLANI */
+body.attendance-edit-layout .edit-attendance-page {
+    width: 100% !important;
+    min-height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 34px 34px 60px !important;
+
+    background:
+        radial-gradient(
+            circle at 8% 8%,
+            rgba(239,167,111,.45),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 92% 12%,
+            rgba(218,127,91,.30),
+            transparent 26%
+        ),
+        radial-gradient(
+            circle at 15% 90%,
+            rgba(193,112,78,.25),
+            transparent 27%
+        ),
+        radial-gradient(
+            circle at 88% 90%,
+            rgba(238,178,126,.30),
+            transparent 25%
+        ),
+        #f4e6dc !important;
+}
+
+/* İÇERİK */
+body.attendance-edit-layout .edit-container {
+    width: min(1100px, 100%) !important;
+    margin: 0 auto !important;
+}
+
+/* =========================================================
+   ÜST TURUNCU PANEL
+   ========================================================= */
+
+body.attendance-edit-layout .edit-header {
+    min-height: 145px !important;
+
+    padding: 28px 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 24px !important;
+
+    background: #c96a2b !important;
+
+    border: none !important;
+    border-radius: 20px !important;
+
+    box-shadow:
+        0 12px 30px rgba(126,72,42,.14) !important;
+
+    overflow: hidden !important;
+}
+
+/* BAŞLIK */
+body.attendance-edit-layout .edit-header h1 {
+    margin: 0 0 7px !important;
+
+    color: #fffaf5 !important;
+
+    font-size: 30px !important;
+    font-weight: 800 !important;
+}
+
+/* AÇIKLAMA */
+body.attendance-edit-layout .edit-header p {
+    margin: 0 !important;
+
+    color: rgba(255,250,245,.88) !important;
+
+    font-size: 14px !important;
+}
+
+body.attendance-edit-layout .edit-header p strong {
+    color: #fffaf5 !important;
+}
+
+/* =========================================================
+   YOKLAMA GEÇMİŞİNE DÖN
+   ========================================================= */
+
+body.attendance-edit-layout .edit-header .back-button {
+    width: 175px !important;
+    min-width: 175px !important;
+    max-width: 175px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    flex-direction: row !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-wrap: nowrap !important;
+
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+
+    color: #fffaf6 !important;
+
+    background: rgba(255,248,241,.12) !important;
+
+    border: 2px solid rgba(255,235,217,.58) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+
+    box-shadow: none !important;
+
+    transform: none !important;
+
+    transition:
+        background .22s ease,
+        transform .22s ease,
+        border-color .22s ease !important;
+}
+
+/* BUTON YAZISI */
+body.attendance-edit-layout .edit-header .back-button span {
+    display: inline-block !important;
+
+    width: auto !important;
+
+    white-space: nowrap !important;
+}
+
+/* BUTON İKONU */
+body.attendance-edit-layout .edit-header .back-button svg {
+    width: 18px !important;
+    height: 18px !important;
+
+    flex: 0 0 auto !important;
+}
+
+/* HOVER */
+body.attendance-edit-layout .edit-header .back-button:hover {
+    background: rgba(255,248,241,.22) !important;
+
+    border-color: rgba(255,235,217,.75) !important;
+
+    transform: translateY(-2px) !important;
+}
+
+</style>
+
+<style id="DUZENLE-BUTON-RENK-VE-BOYUT-FINAL">
+
+/* ÜST PANEL - DAHA YUMUŞAK TARÇIN */
+body.attendance-edit-layout .edit-header {
+    background: #b86b45 !important;
+}
+
+/* YOKLAMA GEÇMİŞİNE DÖN */
+body.attendance-edit-layout .edit-header .back-button {
+    width: 225px !important;
+    min-width: 225px !important;
+    max-width: 225px !important;
+
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+
+    padding: 0 18px !important;
+
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+
+    white-space: nowrap !important;
+
+    color: #fffaf5 !important;
+
+    background: rgba(255,248,241,.13) !important;
+    border: 2px solid rgba(255,239,225,.62) !important;
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+
+    box-shadow: none !important;
+    transform: none !important;
+
+    transition:
+        background .22s ease,
+        border-color .22s ease,
+        transform .22s ease !important;
+}
+
+/* BUTON YAZISI */
+body.attendance-edit-layout .edit-header .back-button {
+    overflow: visible !important;
+}
+
+body.attendance-edit-layout .edit-header .back-button:hover {
+    background: rgba(255,248,241,.23) !important;
+    border-color: rgba(255,239,225,.82) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* OK İKONU */
+body.attendance-edit-layout .edit-header .back-button svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex: 0 0 auto !important;
+}
+
+</style>
+
+<style id="GELMEDI-TARCIN-TEMA">
+
+/* GELMEDİ BUTONU - KIRMIZIYI KALDIR */
+.edit-attendance-page .status-button.absent,
+.edit-attendance-page .status-button.gelmedi,
+.edit-attendance-page button[class*="absent"],
+.edit-attendance-page button[class*="gelmedi"] {
+    color: #8b5a3c !important;
+    background: #f3e4d6 !important;
+    border-color: #d7b9a2 !important;
+}
+
+/* GELMEDİ - SEÇİLİ DURUM */
+.edit-attendance-page .status-button.absent.active,
+.edit-attendance-page .status-button.gelmedi.active,
+.edit-attendance-page button[class*="absent"].active,
+.edit-attendance-page button[class*="gelmedi"].active {
+    color: #8b4f2f !important;
+    background: #e8c6a9 !important;
+    border-color: #c98a5d !important;
+}
+
+/* ÜZERİNE GELİNCE */
+.edit-attendance-page .status-button.absent:hover,
+.edit-attendance-page .status-button.gelmedi:hover,
+.edit-attendance-page button[class*="absent"]:hover,
+.edit-attendance-page button[class*="gelmedi"]:hover {
+    color: #7a452d !important;
+    background: #ead2bd !important;
+    border-color: #c98a5d !important;
+}
+
+/* GELDİ BUTONU DA AYNI PALETTE */
+.edit-attendance-page .status-button.present,
+.edit-attendance-page .status-button.geldi,
+.edit-attendance-page button[class*="present"],
+.edit-attendance-page button[class*="geldi"] {
+    color: #8b5a3c !important;
+    background: #faf2e7 !important;
+    border-color: #d8c2ad !important;
+}
+
+/* GELDİ SEÇİLİ */
+.edit-attendance-page .status-button.present.active,
+.edit-attendance-page .status-button.geldi.active,
+.edit-attendance-page button[class*="present"].active,
+.edit-attendance-page button[class*="geldi"].active {
+    color: #9a5b2e !important;
+    background: #f0d39e !important;
+    border-color: #d7a45f !important;
+}
+
+</style>
+
+<style id="GELMEDI-RENK-KESIN-FINAL">
+
+.edit-attendance-page .status-option .status-button.absent {
+    color: #8b5a3c !important;
+    background: #f3e4d6 !important;
+    border: 1px solid #d7b9a2 !important;
+    box-shadow: none !important;
+}
+
+/* Seçili GELMEDİ */
+.edit-attendance-page .status-option input[type="radio"]:checked + .status-button.absent {
+    color: #8b4f2f !important;
+    background: #e8c6a9 !important;
+    border-color: #c98a5d !important;
+    box-shadow: 0 4px 12px rgba(139,79,47,.12) !important;
+}
+
+/* GELMEDİ hover */
+.edit-attendance-page .status-option .status-button.absent:hover {
+    color: #7a452d !important;
+    background: #ead2bd !important;
+    border-color: #c98a5d !important;
+}
+
+</style>
+
+<style id="DUZENLE-RENKLER-FINAL">
+
+/* =========================================================
+   YOKLAMA DÜZENLE BAŞLIK - DAHA BELİRGİN
+   ========================================================= */
+
+.edit-attendance-page .edit-header {
+    background: linear-gradient(
+        135deg,
+        #a9572d 0%,
+        #bd6934 50%,
+        #a9572d 100%
+    ) !important;
+
+    box-shadow:
+        0 14px 32px rgba(126,72,42,.22) !important;
+}
+
+.edit-attendance-page .edit-header h1 {
+    color: #fffaf5 !important;
+    font-size: 32px !important;
+    font-weight: 850 !important;
+}
+
+.edit-attendance-page .edit-header p {
+    color: rgba(255,250,245,.92) !important;
+}
+
+
+/* =========================================================
+   GELDİ / GELMEDİ - NORMAL DURUM
+   ========================================================= */
+
+.edit-attendance-page .status-option .status-button {
+    color: #79513d !important;
+
+    background: #faf4ec !important;
+
+    border: 1.5px solid #d8c2ae !important;
+
+    box-shadow: none !important;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease !important;
+}
+
+
+/* =========================================================
+   GELDİ SEÇİLİ
+   ========================================================= */
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.present,
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.geldi {
+
+    color: #7d481f !important;
+
+    background: #f1d19d !important;
+
+    border: 2px solid #d59b56 !important;
+
+    box-shadow:
+        0 5px 14px rgba(181,123,55,.20) !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+/* =========================================================
+   GELMEDİ SEÇİLİ
+   ========================================================= */
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.absent,
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.gelmedi {
+
+    color: #81472e !important;
+
+    background: #e8c1a6 !important;
+
+    border: 2px solid #c47d55 !important;
+
+    box-shadow:
+        0 5px 14px rgba(151,83,48,.18) !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+/* =========================================================
+   NORMAL GELDİ HOVER
+   ========================================================= */
+
+.edit-attendance-page
+.status-option
+.status-button.present:hover,
+
+.edit-attendance-page
+.status-option
+.status-button.geldi:hover {
+
+    color: #7d481f !important;
+
+    background: #f5dfb8 !important;
+
+    border-color: #d5a05e !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+/* =========================================================
+   NORMAL GELMEDİ HOVER
+   ========================================================= */
+
+.edit-attendance-page
+.status-option
+.status-button.absent:hover,
+
+.edit-attendance-page
+.status-option
+.status-button.gelmedi:hover {
+
+    color: #81472e !important;
+
+    background: #efd3c0 !important;
+
+    border-color: #c98b68 !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+/* =========================================================
+   YOKLAMAYI GÜNCELLE BUTONU DA AYNI PALETTE
+   ========================================================= */
+
+.edit-attendance-page .edit-footer button,
+.edit-attendance-page .edit-footer .save-button {
+
+    background: #b85f2d !important;
+
+    border-color: #b85f2d !important;
+
+    color: #fffaf5 !important;
+
+    box-shadow:
+        0 7px 18px rgba(151,76,37,.20) !important;
+}
+
+.edit-attendance-page .edit-footer button:hover,
+.edit-attendance-page .edit-footer .save-button:hover {
+
+    background: #a95329 !important;
+
+    border-color: #a95329 !important;
+
+    transform: translateY(-2px) !important;
+}
+
+</style>
+
+<style id="DUZENLE-RENKLER-FINAL">
+
+/* ================================
+   CANLI ÜST BAŞLIK
+   ================================ */
+
+.edit-attendance-page .edit-header {
+    background: linear-gradient(
+        135deg,
+        #d96b20 0%,
+        #e87922 50%,
+        #c95a1d 100%
+    ) !important;
+
+    border: none !important;
+
+    box-shadow:
+        0 14px 32px rgba(190, 91, 30, .22) !important;
+}
+
+.edit-attendance-page .edit-header h1 {
+    color: #fffaf5 !important;
+}
+
+.edit-attendance-page .edit-header p {
+    color: rgba(255,250,245,.92) !important;
+}
+
+.edit-attendance-page .edit-header p strong {
+    color: #fffaf5 !important;
+}
+
+
+/* ================================
+   GELDİ / GELMEDİ
+   İKİSİ DE AYNI PALETTE
+   ================================ */
+
+.edit-attendance-page .status-option .status-button {
+    color: #9a5a32 !important;
+
+    background: #fff7ed !important;
+
+    border: 1.5px solid #e2c4a8 !important;
+
+    box-shadow: none !important;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease !important;
+}
+
+
+/* GELDİ SEÇİLİ */
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.present,
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.geldi {
+    color: #9a541e !important;
+
+    background: #f6d49d !important;
+
+    border-color: #d99545 !important;
+
+    box-shadow:
+        0 5px 14px rgba(217,149,69,.18) !important;
+}
+
+
+/* GELMEDİ SEÇİLİ */
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.absent,
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.gelmedi {
+    color: #99512f !important;
+
+    background: #efc6a9 !important;
+
+    border-color: #c9825d !important;
+
+    box-shadow:
+        0 5px 14px rgba(201,130,93,.18) !important;
+}
+
+
+/* NORMAL HALDE HOVER */
+.edit-attendance-page .status-button:hover {
+    background: #f8eadc !important;
+
+    border-color: #d69b70 !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+/* ================================
+   YOKLAMAYI GÜNCELLE
+   ================================ */
+
+.edit-attendance-page .edit-submit,
+.edit-attendance-page button[type="submit"] {
+    background: linear-gradient(
+        135deg,
+        #d96b20,
+        #c85b1e
+    ) !important;
+
+    border: none !important;
+
+    color: #fffaf5 !important;
+
+    box-shadow:
+        0 8px 18px rgba(190,91,30,.20) !important;
+}
+
+.edit-attendance-page .edit-submit:hover,
+.edit-attendance-page button[type="submit"]:hover {
+    background: linear-gradient(
+        135deg,
+        #e87922,
+        #d66520
+    ) !important;
+
+    transform: translateY(-2px) !important;
+}
+
+</style>
+
+
+<style id="DUZENLE-RENK-TEMIZ-FINAL">
+
+/* ===============================
+   YOKLAMA DÜZENLE - CANLI TURUNCU
+   =============================== */
+
+.edit-attendance-page .edit-header {
+    background: linear-gradient(
+        135deg,
+        #f28c28 0%,
+        #ed7d18 50%,
+        #e86f12 100%
+    ) !important;
+
+    border: none !important;
+
+    box-shadow:
+        0 12px 28px rgba(218,105,18,.24) !important;
+}
+
+.edit-attendance-page .edit-header h1 {
+    color: #ffffff !important;
+}
+
+.edit-attendance-page .edit-header p,
+.edit-attendance-page .edit-header p strong {
+    color: rgba(255,255,255,.95) !important;
+}
+
+
+/* ===============================
+   GELDİ / GELMEDİ NORMAL
+   =============================== */
+
+.edit-attendance-page .status-option .status-button {
+    color: #8b5a36 !important;
+
+    background: #fff8ef !important;
+
+    border: 1.5px solid #e1c4a5 !important;
+
+    box-shadow: none !important;
+
+    transform: none !important;
+}
+
+
+/* ===============================
+   GELDİ SEÇİLİ
+   =============================== */
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.present {
+    color: #ffffff !important;
+
+    background: #f28c28 !important;
+
+    border: 2px solid #e47716 !important;
+
+    box-shadow:
+        0 6px 16px rgba(226,119,22,.25) !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+/* ===============================
+   GELMEDİ SEÇİLİ
+   AYNI TURUNCU
+   =============================== */
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.absent {
+    color: #ffffff !important;
+
+    background: #f28c28 !important;
+
+    border: 2px solid #e47716 !important;
+
+    box-shadow:
+        0 6px 16px rgba(226,119,22,.25) !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+/* ===============================
+   HOVER
+   =============================== */
+
+.edit-attendance-page
+.status-option
+.status-button:hover {
+    background: #fff0df !important;
+
+    border-color: #e0a06c !important;
+
+    color: #8b542f !important;
+
+    transform: translateY(-1px) !important;
+}
+
+
+/* SEÇİLİ BUTONA HOVER GELİNCE RENGİ KORU */
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.present:hover,
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.absent:hover {
+    background: #f28c28 !important;
+
+    border-color: #e47716 !important;
+
+    color: #ffffff !important;
+}
+
+</style>
+
+<style id="YOKLAMA-DUZENLE-BASLIK-ESKI-RENK">
+
+.edit-attendance-page .edit-header {
+    background: linear-gradient(
+        135deg,
+        #a9572d 0%,
+        #bd6934 50%,
+        #a9572d 100%
+    ) !important;
+
+    border: none !important;
+
+    box-shadow:
+        0 12px 30px rgba(126,72,42,.14) !important;
+}
+
+.edit-attendance-page .edit-header h1 {
+    color: #fffaf5 !important;
+}
+
+.edit-attendance-page .edit-header p {
+    color: rgba(255,250,245,.92) !important;
+}
+
+.edit-attendance-page .edit-header p strong {
+    color: #fffaf5 !important;
+}
+
+</style>
+
+<style id="YOKLAMA-DUZENLE-BUTON-RENKLERI-FINAL">
+
+/* =========================================================
+   GELDİ / GELMEDİ BUTONLARI
+   Eski görünüme yakın, sıcak ve uyumlu renkler
+   ========================================================= */
+
+/* NORMAL GELDİ */
+.edit-attendance-page .status-option .status-button.present {
+    color: #765b48 !important;
+    background: #fffaf4 !important;
+    border: 1px solid #d8c7b7 !important;
+    box-shadow: none !important;
+}
+
+/* SEÇİLİ GELDİ */
+.edit-attendance-page .status-option input[type="radio"]:checked
++ .status-button.present {
+    color: #8f5525 !important;
+    background: #f3d49a !important;
+    border-color: #d8a45a !important;
+    box-shadow: 0 3px 10px rgba(180,120,50,.14) !important;
+}
+
+/* NORMAL GELMEDİ */
+.edit-attendance-page .status-option .status-button.absent {
+    color: #765b48 !important;
+    background: #fffaf4 !important;
+    border: 1px solid #d8c7b7 !important;
+    box-shadow: none !important;
+}
+
+/* SEÇİLİ GELMEDİ
+   KIRMIZI YOK — GELDİ İLE UYUMLU SICAK TARÇIN */
+.edit-attendance-page .status-option input[type="radio"]:checked
++ .status-button.absent {
+    color: #8f5525 !important;
+    background: #f3d49a !important;
+    border-color: #d8a45a !important;
+    box-shadow: 0 3px 10px rgba(180,120,50,.14) !important;
+}
+
+/* HOVER - GELDİ */
+.edit-attendance-page .status-option .status-button.present:hover {
+    color: #8f5525 !important;
+    background: #f8e5bd !important;
+    border-color: #d8a45a !important;
+}
+
+/* HOVER - GELMEDİ */
+.edit-attendance-page .status-option .status-button.absent:hover {
+    color: #8f5525 !important;
+    background: #f8e5bd !important;
+    border-color: #d8a45a !important;
+}
+
+/* =========================================================
+   ÜST "YOKLAMA DÜZENLE" PANELİ
+   Daha canlı turuncu
+   ========================================================= */
+
+.edit-attendance-page .edit-header {
+    background: linear-gradient(
+        135deg,
+        #e97916 0%,
+        #d96816 55%,
+        #c95c1c 100%
+    ) !important;
+
+    border: none !important;
+
+    box-shadow:
+        0 14px 32px rgba(184,91,30,.22) !important;
+}
+
+.edit-attendance-page .edit-header h1 {
+    color: #fffaf5 !important;
+}
+
+.edit-attendance-page .edit-header p {
+    color: rgba(255,250,245,.92) !important;
+}
+
+.edit-attendance-page .edit-header p strong {
+    color: #fffaf5 !important;
+}
+
+/* YOKLAMA GEÇMİŞİNE DÖN */
+.edit-attendance-page .edit-header .back-button {
+    color: #fffaf5 !important;
+
+    background: rgba(255,255,255,.12) !important;
+
+    border: 2px solid rgba(255,245,232,.68) !important;
+    border-radius: 15px !important;
+
+    font-weight: 700 !important;
+}
+
+.edit-attendance-page .edit-header .back-button:hover {
+    background: rgba(255,255,255,.22) !important;
+    border-color: rgba(255,245,232,.9) !important;
+    transform: translateY(-2px) !important;
+}
+
+</style>
+
+<style id="YOKLAMA-BUTONLARI-SON-RENK">
+
+/* NORMAL DURUM - İKİSİ DE AYNI KREM */
+.edit-attendance-page .status-option .status-button.present,
+.edit-attendance-page .status-option .status-button.absent {
+    color: #684b3b !important;
+    background: #fffaf4 !important;
+    border: 1px solid #d8c7b7 !important;
+    box-shadow: none !important;
+}
+
+/* GELDİ - SEÇİLİ */
+.edit-attendance-page .status-option input[type="radio"]:checked
++ .status-button.present {
+    color: #fffaf5 !important;
+    background: #d97832 !important;
+    border-color: #c46220 !important;
+    box-shadow: 0 5px 14px rgba(201,98,32,.22) !important;
+}
+
+/* GELMEDİ - SEÇİLİ */
+.edit-attendance-page .status-option input[type="radio"]:checked
++ .status-button.absent {
+    color: #fffaf5 !important;
+    background: #c98f7a !important;
+    border-color: #b97861 !important;
+    box-shadow: 0 5px 14px rgba(185,120,97,.20) !important;
+}
+
+/* GELDİ HOVER */
+.edit-attendance-page .status-option .status-button.present:hover {
+    color: #8f4f25 !important;
+    background: #f8e3cd !important;
+    border-color: #d97832 !important;
+}
+
+/* GELMEDİ HOVER */
+.edit-attendance-page .status-option .status-button.absent:hover {
+    color: #8a5545 !important;
+    background: #f1ddd5 !important;
+    border-color: #c98f7a !important;
+}
+
+</style>
+
+<style id="YOKLAMA-BUTONLARI-ESKI-HAL">
+
+/* GELDİ - ESKİ HALİ */
+.edit-attendance-page .status-option .status-button.present {
+    color: #765f52 !important;
+    background: #fffdf9 !important;
+    border: 1px solid #d8cfc8 !important;
+    box-shadow: none !important;
+}
+
+/* GELDİ - SEÇİLİ ESKİ HALİ */
+.edit-attendance-page .status-option input[type="radio"]:checked + .status-button.present {
+    color: #8b633f !important;
+    background: #f3dfb0 !important;
+    border-color: #d4b778 !important;
+    box-shadow: none !important;
+}
+
+/* GELMEDİ - ESKİ HALİ */
+.edit-attendance-page .status-option .status-button.absent {
+    color: #765f52 !important;
+    background: #fffdf9 !important;
+    border: 1px solid #d8cfc8 !important;
+    box-shadow: none !important;
+}
+
+/* GELMEDİ - SEÇİLİ ESKİ HALİ */
+.edit-attendance-page .status-option input[type="radio"]:checked + .status-button.absent {
+    color: #8c5d4d !important;
+    background: #ead7d0 !important;
+    border-color: #c9a99d !important;
+    box-shadow: none !important;
+}
+
+/* HOVER */
+.edit-attendance-page .status-option .status-button.present:hover {
+    color: #765f52 !important;
+    background: #f7eee4 !important;
+    border-color: #d4bda9 !important;
+}
+
+.edit-attendance-page .status-option .status-button.absent:hover {
+    color: #765f52 !important;
+    background: #f7eee4 !important;
+    border-color: #d4bda9 !important;
+}
+
+</style>
+
+<style id="YOKLAMA-DUZENLE-PALET-SON">
+
+/* =========================================================
+   CIRTLAK TURUNCU YOK
+   YUMUŞAK TARCIN + BEJ + PUDRA PALETİ
+   ========================================================= */
+
+/* ANA SAYFA */
+.edit-attendance-page {
+    background:
+        radial-gradient(
+            circle at 8% 8%,
+            rgba(218,180,151,.20),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 92% 18%,
+            rgba(201,163,137,.15),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 55% 100%,
+            rgba(232,211,179,.18),
+            transparent 38%
+        ),
+        #f4eee8 !important;
+}
+
+
+/* =========================================================
+   ÜST "YOKLAMA DÜZENLE" PANELİ
+   ========================================================= */
+
+.edit-attendance-page .edit-header {
+    background: linear-gradient(
+        135deg,
+        #b97855 0%,
+        #a9684b 55%,
+        #955b44 100%
+    ) !important;
+
+    border: none !important;
+
+    box-shadow:
+        0 14px 32px rgba(112,76,58,.18) !important;
+}
+
+.edit-attendance-page .edit-header h1 {
+    color: #fffaf5 !important;
+}
+
+.edit-attendance-page .edit-header p {
+    color: rgba(255,250,245,.90) !important;
+}
+
+.edit-attendance-page .edit-header p strong {
+    color: #fffaf5 !important;
+}
+
+
+/* =========================================================
+   YOKLAMA GEÇMİŞİNE DÖN
+   ========================================================= */
+
+.edit-attendance-page .edit-header .back-button {
+    color: #fffaf5 !important;
+
+    background: rgba(255,248,241,.10) !important;
+
+    border: 2px solid rgba(255,239,226,.62) !important;
+
+    border-radius: 15px !important;
+
+    font-size: 15px !important;
+    font-weight: 700 !important;
+
+    box-shadow: none !important;
+}
+
+.edit-attendance-page .edit-header .back-button:hover {
+    color: #fffaf5 !important;
+    background: rgba(255,248,241,.20) !important;
+    border-color: rgba(255,239,226,.82) !important;
+    transform: translateY(-2px) !important;
+}
+
+
+/* =========================================================
+   NORMAL BUTONLAR
+   ========================================================= */
+
+.edit-attendance-page .status-option .status-button.present,
+.edit-attendance-page .status-option .status-button.absent {
+    color: #705446 !important;
+
+    background: #fffdf9 !important;
+
+    border: 1px solid #d9c9bb !important;
+
+    box-shadow: none !important;
+}
+
+
+/* =========================================================
+   GELDİ - SEÇİLİ
+   AÇIK ALTIN / BEJ
+   ========================================================= */
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.present {
+
+    color: #76552f !important;
+
+    background: #f0dfb3 !important;
+
+    border: 1px solid #d0ae68 !important;
+
+    box-shadow:
+        0 4px 12px rgba(170,130,65,.12) !important;
+}
+
+
+/* =========================================================
+   GELMEDİ - SEÇİLİ
+   AÇIK PUDRA / KİREMİT
+   ========================================================= */
+
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.absent {
+
+    color: #805447 !important;
+
+    background: #efd9d2 !important;
+
+    border: 1px solid #cda89b !important;
+
+    box-shadow:
+        0 4px 12px rgba(160,110,95,.12) !important;
+}
+
+
+/* =========================================================
+   GELDİ HOVER
+   ========================================================= */
+
+.edit-attendance-page
+.status-option
+.status-button.present:hover {
+
+    color: #76552f !important;
+
+    background: #f7ead0 !important;
+
+    border-color: #d0ae68 !important;
+}
+
+
+/* =========================================================
+   GELMEDİ HOVER
+   ========================================================= */
+
+.edit-attendance-page
+.status-option
+.status-button.absent:hover {
+
+    color: #805447 !important;
+
+    background: #f4e4df !important;
+
+    border-color: #cda89b !important;
+}
+
+
+/* =========================================================
+   YOKLAMAYI GÜNCELLE
+   CIRTLAK TURUNCU YERİNE KOYU TARCIN
+   ========================================================= */
+
+.edit-attendance-page .edit-submit,
+.edit-attendance-page button[type="submit"],
+.edit-attendance-page input[type="submit"] {
+
+    color: #fffaf5 !important;
+
+    background: #a9684b !important;
+
+    border-color: #965a41 !important;
+
+    box-shadow:
+        0 8px 18px rgba(112,76,58,.18) !important;
+}
+
+.edit-attendance-page .edit-submit:hover,
+.edit-attendance-page button[type="submit"]:hover,
+.edit-attendance-page input[type="submit"]:hover {
+
+    background: #955b44 !important;
+
+    border-color: #86513d !important;
+
+    transform: translateY(-2px) !important;
+}
+
+
+/* =========================================================
+   ÖĞRENCİ SAYISI ETİKETİ
+   ========================================================= */
+
+.edit-attendance-page .student-count,
+.edit-attendance-page .count-badge {
+    color: #76552f !important;
+    background: #f2e2b9 !important;
+    border-color: #dfc98e !important;
+}
+
+</style>
+
+<style id="YOKLAMA-DUZENLE-UST-RENK-ACIK">
+
+/* SADECE YOKLAMA DÜZENLE ÜST PANELİ */
+.edit-attendance-page .edit-header {
+    background: linear-gradient(
+        135deg,
+        #d3a184 0%,
+        #c99172 55%,
+        #bd8065 100%
+    ) !important;
+}
+
+</style>
+
+<style id="TURUNCU-TAMAMEN-KALDIR">
+
+/* SEÇİLİ GELDİ */
+.edit-attendance-page .status-option input[type="radio"]:checked + span.status-button.present {
+    background: #f0dfb3 !important;
+    background-image: none !important;
+    color: #76552f !important;
+    border: 1px solid #d0ae68 !important;
+    box-shadow: none !important;
+}
+
+/* SEÇİLİ GELMEDİ */
+.edit-attendance-page .status-option input[type="radio"]:checked + span.status-button.absent {
+    background: #efd9d2 !important;
+    background-image: none !important;
+    color: #805447 !important;
+    border: 1px solid #cda89b !important;
+    box-shadow: none !important;
+}
+
+/* SEÇİLİ BUTONLARIN ESKİ TURUNCU GLOW'UNU DA KALDIR */
+.edit-attendance-page .status-option input[type="radio"]:checked + .status-button {
+    background-image: none !important;
+}
+
+/* YOKLAMAYI GÜNCELLE - CIRTLAK TURUNCU YOK */
+.edit-attendance-page button[type="submit"] {
+    background: #a9684b !important;
+    background-image: none !important;
+    border-color: #965a41 !important;
+}
+
+.edit-attendance-page button[type="submit"]:hover {
+    background: #955b44 !important;
+    background-image: none !important;
+}
+
+</style>
+
+<style id="CIRTLAK-TURUNCU-HOVER-KALDIR-FINAL">
+
+/* GELDİ SEÇİLİ + ÜZERİNE GELİNCE */
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.present:hover {
+
+    background: #f0dfb3 !important;
+    background-image: none !important;
+    color: #76552f !important;
+    border-color: #d0ae68 !important;
+    box-shadow: none !important;
+}
+
+/* GELMEDİ SEÇİLİ + ÜZERİNE GELİNCE */
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.absent:hover {
+
+    background: #efd9d2 !important;
+    background-image: none !important;
+    color: #805447 !important;
+    border-color: #cda89b !important;
+    box-shadow: none !important;
+}
+
+/* SEÇİLİ BUTONLARDA CIRTLAK TURUNCU OLAMAZ */
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.present,
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.absent {
+
+    background-image: none !important;
+}
+
+/* GELDİ */
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.present {
+    background-color: #f0dfb3 !important;
+}
+
+/* GELMEDİ */
+.edit-attendance-page
+.status-option
+input[type="radio"]:checked
++ .status-button.absent {
+    background-color: #efd9d2 !important;
+}
+
+</style>
+
+<style id="YOKLAMA-DUZENLE-UST-RENK">
+
+/* SADECE YOKLAMA DÜZENLE ÜST PANELİ */
+.edit-attendance-page .edit-header {
+    background: linear-gradient(
+        135deg,
+        #d9a27f 0%,
+        #cf956f 100%
+    ) !important;
+
+    background-image: linear-gradient(
+        135deg,
+        #d9a27f 0%,
+        #cf956f 100%
+    ) !important;
+}
+
+</style>
+
+<style id="EDIT-HEADER-RENK-KESIN">
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header {
+    background: #d3a184 !important;
+    background-image: none !important;
+    background-color: #d3a184 !important;
+}
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header h1 {
+    color: #fffaf5 !important;
+}
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header p {
+    color: rgba(255,250,245,.92) !important;
+}
+
+</style>
+
+<style id="EDIT-HEADER-RENK-FINAL">
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header {
+    background: #b86f4d !important;
+    background-image: none !important;
+    background-color: #b86f4d !important;
+}
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header h1 {
+    color: #fffaf5 !important;
+}
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header p,
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header p strong {
+    color: #fffaf5 !important;
+}
+
+</style>
+
+<style id="YOKLAMA-DUZENLE-UST-TOK-TARCIN">
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header {
+    background: #a9684b !important;
+    background-image: none !important;
+    background-color: #a9684b !important;
+}
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header h1 {
+    color: #fffaf5 !important;
+}
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header p,
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header p strong {
+    color: #fffaf5 !important;
+}
+
+</style>
+
+<style id="YOKLAMA-DUZENLE-KOYU-TARCIN">
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header {
+    background: #8f5237 !important;
+    background-image: none !important;
+    background-color: #8f5237 !important;
+}
+
+</style>
+
+<style id="YOKLAMA-DUZENLE-DIGERLERIYLE-AYNI">
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header {
+    background: #b85f2d !important;
+    background-image: none !important;
+    background-color: #b85f2d !important;
+}
+
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header h1,
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header p,
+html body.attendance-edit-layout .edit-attendance-page .edit-container .edit-header p strong {
+    color: #fffaf5 !important;
+}
+
+</style>

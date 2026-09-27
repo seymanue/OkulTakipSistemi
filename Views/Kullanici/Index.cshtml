@@ -4,126 +4,525 @@
     ViewData["Title"] = "Kullanıcılar";
 }
 
-<div class="container mt-4">
+<style>
+    .kullanici-page {
+        min-height: calc(100vh - 80px);
+        padding: 30px 32px 50px;
+        background: #f4f7fb;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    .kullanici-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+    }
 
-        <div>
-            <h2>Kullanıcılar</h2>
+    .kullanici-title {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
 
-            <p class="text-muted">
-                Sistem kullanıcılarını görüntüleyin.
-            </p>
+    .kullanici-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 26px;
+        background: linear-gradient(135deg, #60a5fa, #2563eb, #1e3a8a);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, .18);
+    }
+
+    .kullanici-title h2 {
+        margin: 0;
+        color: #172554;
+        font-size: 26px;
+        font-weight: 750;
+    }
+
+    .kullanici-title p {
+        margin: 4px 0 0;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    .kullanici-add {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 43px;
+        padding: 0 17px;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #2563eb, #1e3a8a);
+        color: #fff !important;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        box-shadow: 0 7px 18px rgba(37, 99, 235, .20);
+        transition: all .2s ease;
+    }
+
+    .kullanici-add:hover {
+        color: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 23px rgba(37, 99, 235, .28);
+    }
+
+    .kullanici-alert {
+        margin-bottom: 18px;
+        padding: 12px 15px;
+        border-radius: 11px;
+        font-size: 13px;
+        border: 1px solid transparent;
+    }
+
+    .kullanici-alert-danger {
+        color: #991b1b;
+        background: #fef2f2;
+        border-color: #fecaca;
+    }
+
+    .kullanici-alert-success {
+        color: #166534;
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+    }
+
+    .kullanici-card {
+        background: #fff;
+        border: 1px solid #dbeafe;
+        border-radius: 19px;
+        overflow: hidden;
+        box-shadow: 0 10px 28px rgba(15, 23, 42, .055);
+    }
+
+    .kullanici-card-head {
+        min-height: 62px;
+        padding: 0 21px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        background: linear-gradient(135deg, #f8fbff, #eff6ff);
+        border-bottom: 1px solid #dbeafe;
+    }
+
+    .kullanici-card-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #1e3a8a;
+        font-size: 14px;
+        font-weight: 750;
+    }
+
+    .kullanici-card-title-icon {
+        width: 29px;
+        height: 29px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #dbeafe;
+        font-size: 15px;
+    }
+
+    .kullanici-count {
+        padding: 5px 11px;
+        border-radius: 20px;
+        background: #dbeafe;
+        color: #1d4ed8;
+        font-size: 11px;
+        font-weight: 750;
+        white-space: nowrap;
+    }
+
+    .kullanici-table-wrap {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .kullanici-table {
+        width: 100%;
+        min-width: 900px;
+        margin: 0;
+        border-collapse: collapse;
+    }
+
+    .kullanici-table th {
+        padding: 13px 18px;
+        background: #fbfdff;
+        border-bottom: 1px solid #e2e8f0;
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 750;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        white-space: nowrap;
+        text-align: left;
+    }
+
+    .kullanici-table td {
+        padding: 15px 18px;
+        border-bottom: 1px solid #eef2f7;
+        color: #334155;
+        font-size: 13px;
+        vertical-align: middle;
+    }
+
+    .kullanici-table tbody tr {
+        transition: background .18s ease;
+    }
+
+    .kullanici-table tbody tr:hover {
+        background: #f8fbff;
+    }
+
+    .kullanici-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .kullanici-id {
+        width: 60px;
+        color: #94a3b8 !important;
+        font-weight: 700;
+    }
+
+    .kullanici-person {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #1e293b !important;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .kullanici-avatar {
+        width: 37px;
+        height: 37px;
+        border-radius: 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        color: #1d4ed8;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .kullanici-username {
+        color: #475569 !important;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .kullanici-email {
+        color: #64748b !important;
+        white-space: nowrap;
+    }
+
+    .kullanici-role {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: #eff6ff;
+        border: 1px solid #dbeafe;
+        color: #1d4ed8;
+        font-size: 11px;
+        font-weight: 750;
+        white-space: nowrap;
+    }
+
+    .kullanici-role.admin {
+        background: #eef2ff;
+        border-color: #c7d2fe;
+        color: #3730a3;
+    }
+
+    .kullanici-delete {
+        border: none;
+        padding: 7px 11px;
+        border-radius: 9px;
+        background: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .2s ease;
+    }
+
+    .kullanici-delete:hover {
+        background: #fee2e2;
+        transform: translateY(-1px);
+    }
+
+    .kullanici-protected {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 11px;
+        border-radius: 9px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .kullanici-empty {
+        padding: 50px 20px !important;
+        text-align: center;
+        color: #94a3b8 !important;
+    }
+
+    .kullanici-empty-icon {
+        display: block;
+        margin-bottom: 9px;
+        font-size: 31px;
+    }
+
+    @@media (max-width: 700px) {
+        .kullanici-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .kullanici-add {
+            width: 100%;
+        }
+
+        .kullanici-title h2 {
+            font-size: 23px;
+        }
+    }
+
+    .page-title-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 26px;
+        padding: 26px 30px;
+        border: 1px solid #d9eaf8;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #eaf5ff 0%, #d8ecff 55%, #c7e3fb 100%);
+        box-shadow: 0 8px 25px rgba(26, 64, 99, 0.07);
+    }
+
+    .page-title-content {
+        display: flex;
+        align-items: center;
+        gap: 17px;
+        min-width: 0;
+    }
+
+    .page-title-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 54px;
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 5px 15px rgba(25, 87, 145, 0.10);
+        font-size: 26px;
+    }
+
+    .page-title-box h1,
+    .page-title-box h2 {
+        margin: 0 0 5px;
+        color: #163b61;
+        font-size: 27px;
+        font-weight: 800;
+    }
+
+    .page-title-box p {
+        margin: 0;
+        color: #607b95;
+        font-size: 14px;
+    }
+
+    .page-title-action {
+        flex-shrink: 0;
+    }
+
+    @@media (max-width: 700px) {
+        .page-title-box {
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 22px;
+        }
+
+        .page-title-action {
+            width: 100%;
+        }
+    }
+
+</style>
+
+<div class="kullanici-page">
+
+    <div class="page-title-box">
+
+        <div class="page-title-content">
+
+            <div class="page-title-icon">
+                👤
+            </div>
+
+            <div>
+                <h2>Kullanıcılar</h2>
+                <p>Sistemde kayıtlı kullanıcıları görüntüleyin ve yönetin.</p>
+            </div>
+
         </div>
 
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Kullanıcı Ekle
-        </a>
 
     </div>
 
     @if (TempData["Hata"] != null)
     {
-        <div class="alert alert-danger">
+        <div class="kullanici-alert kullanici-alert-danger">
             @TempData["Hata"]
         </div>
     }
 
     @if (TempData["Basari"] != null)
     {
-        <div class="alert alert-success">
+        <div class="kullanici-alert kullanici-alert-success">
             @TempData["Basari"]
         </div>
     }
 
-    <table class="table table-bordered table-hover">
+    <div class="kullanici-card">
 
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Ad Soyad</th>
-                <th>Kullanıcı Adı</th>
-                <th>E-posta</th>
-                <th>Rol</th>
-                <th>İşlemler</th>
-            </tr>
-        </thead>
+        <div class="kullanici-card-head">
 
-        <tbody>
+            <div class="kullanici-card-title">
+                <span class="kullanici-card-title-icon">👥</span>
+                Kullanıcı Listesi
+            </div>
 
-            @if (Model == null || !Model.Any())
-            {
-                <tr>
-                    <td colspan="6"
-                        class="text-center text-muted">
-                        Henüz kullanıcı bulunmamaktadır.
-                    </td>
-                </tr>
-            }
-            else
-            {
-                @foreach (var kullanici in Model)
-                {
+            <div class="kullanici-count">
+                @Model.Count() Kullanıcı
+            </div>
+
+        </div>
+
+        <div class="kullanici-table-wrap">
+
+            <table class="kullanici-table">
+
+                <thead>
                     <tr>
-
-                        <td>
-                            @kullanici.Id
-                        </td>
-
-                        <td>
-                            @kullanici.AdSoyad
-                        </td>
-
-                        <td>
-                            @kullanici.KullaniciAdi
-                        </td>
-
-                        <td>
-                            @kullanici.Email
-                        </td>
-
-                        <td>
-                            @(kullanici.Rol?.Ad ?? "Belirtilmemiş")
-                        </td>
-
-                        <td>
-
-                            @if (kullanici.KullaniciAdi != "admin")
-                            {
-                                <form asp-action="Delete"
-                                      method="post"
-                                      style="display:inline;"
-                                      onsubmit="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?');">
-
-                                    @Html.AntiForgeryToken()
-
-                                    <input type="hidden"
-                                           name="id"
-                                           value="@kullanici.Id" />
-
-                                    <button type="submit"
-                                            class="btn btn-danger btn-sm">
-                                        🗑️ Sil
-                                    </button>
-
-                                </form>
-                            }
-                            else
-                            {
-                                <span class="text-muted">
-                                    Ana Admin
-                                </span>
-                            }
-
-                        </td>
-
+                        
+                        <th>Ad Soyad</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>E-posta</th>
+                        <th>Rol</th>
+                        <th>İşlemler</th>
                     </tr>
-                }
-            }
+                </thead>
 
-        </tbody>
+                <tbody>
 
-    </table>
+                    @if (Model == null || !Model.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="kullanici-empty">
+                                <span class="kullanici-empty-icon">👤</span>
+                                Henüz kayıtlı kullanıcı bulunmuyor.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var kullanici in Model)
+                        {
+                            var adSoyad = string.IsNullOrWhiteSpace(kullanici.AdSoyad)
+                                ? "Kullanıcı"
+                                : kullanici.AdSoyad;
+
+                            var ilkHarf = adSoyad.Substring(0, 1).ToUpper();
+                            var rolAdi = kullanici.Rol?.Ad ?? "Belirtilmemiş";
+
+                            <tr>
+
+                                <td>
+                                    <div class="kullanici-person">
+                                        <span class="kullanici-avatar">
+                                            @ilkHarf
+                                        </span>
+                                        <span>@adSoyad</span>
+                                    </div>
+                                </td>
+
+                                <td class="kullanici-username">
+                                    @kullanici.KullaniciAdi
+                                </td>
+
+                                <td class="kullanici-email">
+                                    @(string.IsNullOrWhiteSpace(kullanici.Email)
+                                        ? "-"
+                                        : kullanici.Email)
+                                </td>
+
+                                <td>
+                                    <span class="kullanici-role @(rolAdi == "Admin" ? "admin" : "")">
+                                        @(rolAdi == "Admin" ? "🛡️" : "👩‍🏫")
+                                        @(rolAdi == "Admin" ? "Yönetici" : rolAdi)
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @if (kullanici.KullaniciAdi != "admin")
+                                    {
+                                        <form asp-action="Delete"
+                                              method="post"
+                                              style="display:inline;"
+                                              onsubmit="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@kullanici.Id" />
+
+                                            <button type="submit"
+                                                    class="kullanici-delete">
+                                                🗑️ Sil
+                                            </button>
+
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="kullanici-protected">
+                                            🔒 Ana Admin
+                                        </span>
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>

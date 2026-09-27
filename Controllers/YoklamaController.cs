@@ -326,6 +326,7 @@ namespace OkulTakipSistemi.Controllers
                     YoklamaId = yoklama.Id,
                     SinifAdi = sinif.Ad,
                     Tarih = yoklama.Tarih,
+                    Aciklama = yoklama.Aciklama,
                     Ogrenciler = detaylar
                 });
             }
@@ -411,6 +412,7 @@ namespace OkulTakipSistemi.Controllers
         [HttpPost]
         public IActionResult DuzenleKaydet(
             int yoklamaId,
+            string? aciklama,
             Dictionary<int, bool> durumlar)
         {
             var kullaniciId = HttpContext.Session.GetInt32("KullaniciId");
@@ -437,6 +439,10 @@ namespace OkulTakipSistemi.Controllers
             {
                 return NotFound();
             }
+
+            yoklama.Aciklama = string.IsNullOrWhiteSpace(aciklama)
+                ? null
+                : aciklama.Trim();
 
             var atama = _context.OgretmenSiniflar
                 .FirstOrDefault(x =>

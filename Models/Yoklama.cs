@@ -14,6 +14,8 @@ namespace OkulTakipSistemi.Models
 
         public DateTime Tarih { get; set; }
 
+        public string? Aciklama { get; set; }
+
         public ICollection<YoklamaDetay> Detaylar { get; set; }
             = new List<YoklamaDetay>();
     }

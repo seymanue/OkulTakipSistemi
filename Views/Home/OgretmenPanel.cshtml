@@ -6,7 +6,6 @@
     int sinifSayisi = ViewBag.SinifSayisi ?? 0;
     int ogrenciSayisi = ViewBag.OgrenciSayisi ?? 0;
     int bugunkuYoklamaSayisi = ViewBag.BugunkuYoklamaSayisi ?? 0;
-    int toplamYoklamaSayisi = ViewBag.ToplamYoklamaSayisi ?? 0;
 }
 
 <div class="teacher-dashboard">
@@ -37,13 +36,9 @@
                 </svg>
             </span>
 
-            <span class="topbar-divider"></span>
-
-            <a class="topbar-name"
-               asp-controller="Account"
-               asp-action="OgretmenBilgileri">
+            <span class="topbar-name">
                 @adSoyad
-            </a>
+            </span>
 
             <a class="topbar-logout"
                asp-controller="Account"
@@ -74,12 +69,11 @@
                 <span>ÖĞRETMEN PANELİ</span>
             </div>
 
-            <h1>
-                Hoş geldiniz,
-                <strong>@adSoyad</strong>
+            <h1 class="welcome-title">
+                <span class="welcome-greeting">Hoş geldiniz,</span>
+                <strong class="welcome-name">@adSoyad</strong>
             </h1>
 
-            <div class="welcome-line"></div>
 
             <p class="welcome-message">
                 <span class="welcome-sun">
@@ -216,20 +210,6 @@
         </div>
 
 
-        <div class="stat-card">
-            <div class="stat-icon">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <rect x="5" y="3" width="14" height="18" rx="2"/>
-                    <path d="M8 7h8M8 11h8M8 15h5"/>
-                </svg>
-            </div>
-
-            <div class="stat-info">
-                <span>Toplam Yoklama</span>
-                <strong>@toplamYoklamaSayisi</strong>
-                <small>Tüm zamanlardaki toplam yoklama</small>
-            </div>
-        </div>
 
     </section>
 
@@ -395,3 +375,39 @@
     updateTeacherDateTime();
     setInterval(updateTeacherDateTime, 1000);
 </script>
+
+<style>
+.teacher-layout .teacher-topbar-right .topbar-panel {
+    display: none !important;
+}
+</style>
+
+<style>
+
+/* TÜM BAŞLIK PANELLERİ — AYNI RENK + AYNI KALINLIK */
+
+.history-header,
+.attendance-header {
+    min-height: 145px !important;
+    padding: 28px 30px !important;
+
+    background: #d9823b !important;
+    border-radius: 20px !important;
+}
+
+/* Sınıflarım başlık alanı */
+.siniflarim-page .page-heading {
+    min-height: 145px !important;
+    padding: 28px 30px !important;
+
+    background: #d9823b !important;
+    border-radius: 20px !important;
+}
+
+/* Sınıflarım başlık yazıları */
+.siniflarim-page .page-heading h1,
+.siniflarim-page .page-heading p {
+    color: #fff8f1 !important;
+}
+
+</style>
