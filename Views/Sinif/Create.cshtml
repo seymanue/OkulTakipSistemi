@@ -5,81 +5,132 @@
 }
 
 <style>
-    .sinif-form-page {
-        padding: 30px 38px 40px;
+    .sinif-page {
+        min-height: calc(100vh - 80px);
+        padding: 30px 32px 50px;
+        background: #f4f7fb;
     }
 
-    .sinif-form-header {
+    /* =========================================================
+       BAŞLIK
+       ========================================================= */
+
+    .sinif-page-header {
         display: flex;
         align-items: center;
-        gap: 15px;
-        margin-bottom: 28px;
+        gap: 17px;
+        margin-bottom: 26px;
+        padding: 26px 30px;
+        border: 1px solid #d9eaf8;
+        border-radius: 20px;
+        background: linear-gradient(
+            135deg,
+            #eaf5ff 0%,
+            #d8ecff 55%,
+            #c7e3fb 100%
+        );
+        box-shadow: 0 8px 25px rgba(26, 64, 99, 0.07);
     }
 
-    .sinif-form-icon {
-        width: 52px;
-        height: 52px;
+    .sinif-page-icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 15px;
-        background: linear-gradient(135deg, #62afe4, #1e5b99);
-        color: white;
-        font-size: 24px;
-        box-shadow: 0 8px 20px rgba(30, 91, 153, .18);
+        flex: 0 0 54px;
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 5px 15px rgba(25, 87, 145, 0.10);
+        font-size: 26px;
     }
 
-    .sinif-form-title {
-        margin: 0;
-        color: #17375e;
+    .sinif-page-header h1 {
+        margin: 0 0 5px;
+        color: #163b61;
         font-size: 27px;
-        font-weight: 700;
+        font-weight: 800;
+        line-height: 1.2;
     }
 
-    .sinif-form-subtitle {
-        margin: 5px 0 0;
-        color: #8a9bad;
-        font-size: 13px;
+    .sinif-page-header p {
+        margin: 0;
+        color: #607b95;
+        font-size: 14px;
+    }
+
+    /* =========================================================
+       FORM KARTI
+       ========================================================= */
+
+    .sinif-form-wrapper {
+        width: 100%;
+        max-width: 1100px;
     }
 
     .sinif-form-card {
-        max-width: 720px;
-        background: white;
-        border: 1px solid #e5edf4;
-        border-radius: 17px;
-        box-shadow: 0 7px 25px rgba(38, 67, 95, .07);
-        padding: 28px;
+        width: 100%;
+        background: #ffffff;
+        border: 1px solid #e3ebf3;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(26, 64, 99, 0.06);
+        overflow: hidden;
     }
 
+    .sinif-card-header {
+        display: flex;
+        align-items: center;
+        min-height: 64px;
+        padding: 0 26px;
+        border-bottom: 1px solid #edf2f6;
+        background: #ffffff;
+    }
+
+    .sinif-card-header-title {
+        color: #294b6d;
+        font-size: 15px;
+        font-weight: 750;
+    }
+
+    .sinif-card-body {
+        padding: 30px;
+    }
+
+    /* =========================================================
+       FORM ALANLARI
+       ========================================================= */
+
     .sinif-form-group {
-        margin-bottom: 21px;
+        margin-bottom: 24px;
     }
 
     .sinif-form-label {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: 9px;
         color: #38546f;
         font-size: 13px;
-        font-weight: 650;
+        font-weight: 700;
     }
 
     .sinif-form-control {
         width: 100%;
-        min-height: 46px;
-        padding: 10px 13px;
-        border: 1px solid #dce6ef;
-        border-radius: 10px;
+        min-height: 48px;
+        padding: 11px 14px;
+        border: 1px solid #d9e5ef;
+        border-radius: 11px;
         background: #fbfdff;
         color: #34495e;
         font-size: 13px;
         outline: none;
-        transition: .2s ease;
+        transition: border-color .2s ease,
+                    box-shadow .2s ease,
+                    background .2s ease;
     }
 
     .sinif-form-control:focus {
         border-color: #6aa9df;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(66, 141, 204, .10);
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(66, 141, 204, 0.10);
     }
 
     .sinif-form-control:disabled {
@@ -88,107 +139,86 @@
         cursor: not-allowed;
     }
 
+    select.sinif-form-control {
+        cursor: pointer;
+    }
+
+    select.sinif-form-control:disabled {
+        cursor: not-allowed;
+    }
+
+    /* =========================================================
+       MEVCUT SINIFLAR
+       ========================================================= */
+
     .sinif-mevcut-card {
         display: none;
-        margin-top: 4px;
-        margin-bottom: 21px;
-        padding: 15px;
-        border-radius: 11px;
-        background: #f5f9fd;
-        border: 1px solid #e3edf5;
+        margin-top: -3px;
+        margin-bottom: 24px;
+        padding: 18px;
+        border: 1px solid #dceaf5;
+        border-radius: 13px;
+        background: #f7fbff;
     }
 
     .sinif-mevcut-baslik {
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         color: #526b82;
         font-size: 11px;
-        font-weight: 700;
+        font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: .5px;
+        letter-spacing: .55px;
     }
 
     .sinif-mevcut-liste {
         display: flex;
         flex-wrap: wrap;
-        gap: 7px;
+        gap: 8px;
     }
 
     .sinif-mevcut-item {
-        padding: 6px 10px;
-        border-radius: 7px;
-        background: white;
-        border: 1px solid #dce8f1;
+        display: inline-flex;
+        align-items: center;
+        min-height: 32px;
+        padding: 6px 12px;
+        border: 1px solid #d7e7f4;
+        border-radius: 9px;
+        background: #ffffff;
         color: #315f8d;
-        font-size: 11px;
-        font-weight: 600;
+        font-size: 12px;
+        font-weight: 650;
+        box-shadow: 0 2px 7px rgba(30, 91, 153, 0.04);
     }
 
     .sinif-mevcut-yok {
         color: #91a0ae;
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .sinif-info {
         display: none;
-        margin-top: -7px;
-        margin-bottom: 20px;
-        color: #8a9bad;
-        font-size: 11px;
-    }
-
-    .sinif-form-actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 8px;
-    }
-
-    .sinif-save-btn,
-    .sinif-back-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        min-height: 42px;
-        padding: 9px 17px;
-        border-radius: 9px;
-        text-decoration: none;
+        margin-top: -10px;
+        margin-bottom: 22px;
+        color: #7b91a5;
         font-size: 12px;
-        font-weight: 650;
-        cursor: pointer;
-        transition: .2s ease;
     }
 
-    .sinif-save-btn {
-        border: none;
-        background: linear-gradient(135deg, #2878e8, #174ea6);
-        color: white;
-        box-shadow: 0 6px 16px rgba(23, 78, 166, .18);
-    }
-
-    .sinif-save-btn:hover {
-        transform: translateY(-1px);
-        color: white;
-        box-shadow: 0 8px 20px rgba(23, 78, 166, .24);
-    }
-
-    .sinif-back-btn {
-        border: 1px solid #dce6ef;
-        background: #f6f9fc;
-        color: #526b82;
-    }
-
-    .sinif-back-btn:hover {
-        background: #edf4fa;
-        color: #315f8d;
-    }
+    /* =========================================================
+       HATA
+       ========================================================= */
 
     .sinif-validation {
-        margin-bottom: 18px;
-        padding: 11px 13px;
-        border-radius: 9px;
-        background: #fff4f4;
+        margin-bottom: 22px;
+        padding: 12px 14px;
+        border: 1px solid #f2d5d5;
+        border-radius: 10px;
+        background: #fff6f6;
         color: #b44a4a;
         font-size: 12px;
+    }
+
+    .sinif-validation:empty {
+        display: none;
     }
 
     .sinif-field-error {
@@ -197,17 +227,118 @@
         font-size: 11px;
     }
 
-    @@media (max-width: 800px) {
-        .sinif-form-page {
-            padding: 22px 18px 30px;
+    /* =========================================================
+       BUTONLAR
+       ========================================================= */
+
+    .sinif-form-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+        padding-top: 24px;
+        border-top: 1px solid #edf2f6;
+    }
+
+    .sinif-save-btn,
+    .sinif-back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-height: 44px;
+        padding: 10px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform .2s ease,
+                    box-shadow .2s ease,
+                    background .2s ease;
+    }
+
+    .sinif-save-btn {
+        border: none;
+        background: linear-gradient(135deg, #2878e8, #174ea6);
+        color: #ffffff;
+        box-shadow: 0 6px 16px rgba(23, 78, 166, 0.18);
+    }
+
+    .sinif-save-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        color: #ffffff;
+        box-shadow: 0 9px 22px rgba(23, 78, 166, 0.24);
+    }
+
+    .sinif-save-btn:disabled {
+        background: #b8c6d3;
+        color: #ffffff;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    .sinif-back-btn {
+        border: 1px solid #d9e5ef;
+        background: #f7fafd;
+        color: #526b82;
+    }
+
+    .sinif-back-btn:hover {
+        background: #edf4fa;
+        color: #315f8d;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @@media (max-width: 900px) {
+        .sinif-page {
+            padding: 24px 20px 40px;
         }
 
-        .sinif-form-card {
-            padding: 21px;
+        .sinif-page-header {
+            padding: 22px;
+        }
+
+        .sinif-form-wrapper {
+            max-width: 100%;
+        }
+    }
+
+    @@media (max-width: 700px) {
+        .sinif-page {
+            padding: 20px 16px 30px;
+        }
+
+        .sinif-page-header {
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .sinif-page-icon {
+            flex: 0 0 48px;
+            width: 48px;
+            height: 48px;
+            font-size: 23px;
+        }
+
+        .sinif-page-header h1 {
+            font-size: 23px;
+        }
+
+        .sinif-page-header p {
+            font-size: 13px;
+        }
+
+        .sinif-card-body {
+            padding: 22px;
         }
 
         .sinif-form-actions {
             flex-direction: column;
+            align-items: stretch;
         }
 
         .sinif-save-btn,
@@ -217,20 +348,22 @@
     }
 </style>
 
-<div class="sinif-form-page">
+<div class="sinif-page">
 
-    <div class="sinif-form-header">
+    <!-- =====================================================
+         BAŞLIK
+         ===================================================== -->
 
-        <div class="sinif-form-icon">
+    <div class="sinif-page-header">
+
+        <div class="sinif-page-icon">
             📚
         </div>
 
         <div>
-            <h1 class="sinif-form-title">
-                Sınıf Ekle
-            </h1>
+            <h1>Sınıf Ekle</h1>
 
-            <p class="sinif-form-subtitle">
+            <p>
                 Önce okulu seçin, ardından yeni sınıfı ekleyin.
             </p>
         </div>
@@ -238,124 +371,148 @@
     </div>
 
 
-    <div class="sinif-form-card">
+    <!-- =====================================================
+         FORM
+         ===================================================== -->
 
-        <form asp-controller="Sinif"
-              asp-action="Create"
-              method="post">
+    <div class="sinif-form-wrapper">
 
-            @Html.AntiForgeryToken()
+        <div class="sinif-form-card">
 
-            <div asp-validation-summary="ModelOnly"
-                 class="sinif-validation">
-            </div>
-
-
-            <!-- OKUL ÖNCE -->
-            <div class="sinif-form-group">
-
-                <label asp-for="OkulId"
-                       class="sinif-form-label">
-                    Okul
-                </label>
-
-                <select asp-for="OkulId"
-                        id="okulSelect"
-                        class="sinif-form-control">
-
-                    <option value="">
-                        -- Önce Okul Seçiniz --
-                    </option>
-
-                    @foreach (var okul in ViewBag.Okullar)
-                    {
-                        if (Model != null && Model.OkulId == okul.Id)
-                        {
-                            <option value="@okul.Id" selected>
-                                @okul.Ad
-                            </option>
-                        }
-                        else
-                        {
-                            <option value="@okul.Id">
-                                @okul.Ad
-                            </option>
-                        }
-                    }
-
-                </select>
-
-                <span asp-validation-for="OkulId"
-                      class="text-danger sinif-field-error">
-                </span>
-
-            </div>
-
-
-            <!-- MEVCUT SINIFLAR -->
-            <div id="mevcutSiniflar"
-                 class="sinif-mevcut-card">
-
-                <div class="sinif-mevcut-baslik">
-                    Bu okuldaki mevcut sınıflar
+            <div class="sinif-card-header">
+                <div class="sinif-card-header-title">
+                    Sınıf Bilgileri
                 </div>
+            </div>
 
-                <div id="sinifListesi"
-                     class="sinif-mevcut-liste">
-                </div>
+            <div class="sinif-card-body">
+
+                <form asp-controller="Sinif"
+                      asp-action="Create"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="sinif-validation">
+                    </div>
+
+
+                    <!-- OKUL -->
+
+                    <div class="sinif-form-group">
+
+                        <label asp-for="OkulId"
+                               class="sinif-form-label">
+                            Okul
+                        </label>
+
+                        <select asp-for="OkulId"
+                                id="okulSelect"
+                                class="sinif-form-control">
+
+                            <option value="">
+                                -- Önce Okul Seçiniz --
+                            </option>
+
+                            @foreach (var okul in ViewBag.Okullar)
+                            {
+                                if (Model != null && Model.OkulId == okul.Id)
+                                {
+                                    <option value="@okul.Id" selected>
+                                        @okul.Ad — @okul.Adres
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@okul.Id">
+                                        @okul.Ad — @okul.Adres
+                                    </option>
+                                }
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="OkulId"
+                              class="text-danger sinif-field-error">
+                        </span>
+
+                    </div>
+
+
+                    <!-- MEVCUT SINIFLAR -->
+
+                    <div id="mevcutSiniflar"
+                         class="sinif-mevcut-card">
+
+                        <div class="sinif-mevcut-baslik">
+                            Bu okuldaki mevcut sınıflar
+                        </div>
+
+                        <div id="sinifListesi"
+                             class="sinif-mevcut-liste">
+                        </div>
+
+                    </div>
+
+
+                    <!-- SINIF ADI -->
+
+                    <div class="sinif-form-group">
+
+                        <label asp-for="Ad"
+                               class="sinif-form-label">
+                            Yeni Sınıf Adı
+                        </label>
+
+                        <input asp-for="Ad"
+                               id="sinifAd"
+                               class="sinif-form-control"
+                               placeholder="Önce okul seçiniz"
+                               disabled />
+
+                        <span asp-validation-for="Ad"
+                              class="text-danger sinif-field-error">
+                        </span>
+
+                    </div>
+
+
+                    <div id="sinifInfo"
+                         class="sinif-info">
+                        Seçtiğiniz okula yeni bir sınıf ekliyorsunuz.
+                    </div>
+
+
+                    <!-- BUTONLAR -->
+
+                    <div class="sinif-form-actions">
+
+                        <button type="submit"
+                                id="kaydetBtn"
+                                class="sinif-save-btn"
+                                disabled>
+                            💾 Sınıfı Kaydet
+                        </button>
+
+                        <a asp-controller="Sinif"
+                           asp-action="Index"
+                           class="sinif-back-btn">
+                            ← İptal
+                        </a>
+
+                    </div>
+
+                </form>
 
             </div>
 
-
-            <!-- SINIF ADI -->
-            <div class="sinif-form-group">
-
-                <label asp-for="Ad"
-                       class="sinif-form-label">
-                    Yeni Sınıf Adı
-                </label>
-
-                <input asp-for="Ad"
-                       id="sinifAd"
-                       class="sinif-form-control"
-                       placeholder="Önce okul seçiniz"
-                       disabled />
-
-                <span asp-validation-for="Ad"
-                      class="text-danger sinif-field-error">
-                </span>
-
-            </div>
-
-
-            <div id="sinifInfo"
-                 class="sinif-info">
-                Seçtiğiniz okula yeni bir sınıf ekliyorsunuz.
-            </div>
-
-
-            <div class="sinif-form-actions">
-
-                <button type="submit"
-                        id="kaydetBtn"
-                        class="sinif-save-btn"
-                        disabled>
-                    💾 Sınıfı Kaydet
-                </button>
-
-                <a asp-controller="Sinif"
-                   asp-action="Index"
-                   class="sinif-back-btn">
-                    ← Geri
-                </a>
-
-            </div>
-
-        </form>
+        </div>
 
     </div>
 
 </div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -396,7 +553,9 @@
             kaydetBtn.disabled = false;
             sinifAd.placeholder = "Örn: 5-A";
 
-            const okulSiniflari = siniflar.filter(x => x.OkulId === okulId);
+            const okulSiniflari = siniflar.filter(
+                x => x.OkulId === okulId
+            );
 
             mevcutSiniflar.style.display = "block";
             sinifInfo.style.display = "block";
@@ -428,6 +587,7 @@
 
     });
 </script>
+
 
 @section Scripts
 {

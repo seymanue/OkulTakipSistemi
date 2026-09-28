@@ -206,15 +206,102 @@ namespace OkulTakipSistemi.Controllers
             // SINIF SİLME
             if (silinecekSinifIds != null && silinecekSinifIds.Count > 0)
             {
-                var silinecekSiniflar = _context.Siniflar
-                    .Where(x =>
-                        x.OkulId == okul.Id &&
-                        silinecekSinifIds.Contains(x.Id))
-                    .ToList();
+                using var transaction = _context.Database.BeginTransaction();
 
-                if (silinecekSiniflar.Count > 0)
+                try
                 {
-                    _context.Siniflar.RemoveRange(silinecekSiniflar);
+                    var silinecekSiniflar = _context.Siniflar
+                        .Where(x =>
+                            x.OkulId == okul.Id &&
+                            silinecekSinifIds.Contains(x.Id))
+                        .ToList();
+
+                    foreach (var sinif in silinecekSiniflar)
+                    {
+                        var sinifId = sinif.Id;
+
+                        // 1. Yoklama detaylarını sil
+                        _context.Database.ExecuteSqlInterpolated($"""
+                            DELETE FROM YoklamaDetaylari
+                            WHERE YoklamaId IN (
+                                SELECT Id
+                                FROM Yoklamalar
+                                WHERE SinifId = {sinifId}
+                            )
+                            """);
+
+                        // 2. Yoklamaları sil
+                        _context.Database.ExecuteSqlInterpolated($"""
+                            DELETE FROM Yoklamalar
+                            WHERE SinifId = {sinifId}
+                            """);
+
+                        // 3. Öğretmen-sınıf bağlantılarını sil
+                        _context.Database.ExecuteSqlInterpolated($"""
+                            DELETE FROM OgretmenSiniflar
+                            WHERE SinifId = {sinifId}
+                            """);
+
+                        // 4. Bu sınıfa ait öğrenci kayıtlarını bul
+                        var kayitIds = _context.OgrenciKayitlari
+                            .Where(x => x.SinifId == sinifId)
+                            .Select(x => x.Id)
+                            .ToList();
+
+                        // 5. Öğrenci kayıtlarına bağlı ücret/borç kayıtlarını sil
+                        foreach (var kayitId in kayitIds)
+                        {
+                            _context.Database.ExecuteSqlInterpolated($"""
+                                DELETE FROM OdemeDagilimlari
+                                WHERE AylikBorcId IN (
+                                    SELECT Id
+                                    FROM AylikBorclar
+                                    WHERE OgrenciKaydiId = {kayitId}
+                                )
+                                """);
+
+                            _context.Database.ExecuteSqlInterpolated($"""
+                                DELETE FROM OgrenciOzelUcretler
+                                WHERE OgrenciKaydiId = {kayitId}
+                                """);
+
+                            _context.Database.ExecuteSqlInterpolated($"""
+                                DELETE FROM AylikBorclar
+                                WHERE OgrenciKaydiId = {kayitId}
+                                """);
+
+                            _context.Database.ExecuteSqlInterpolated($"""
+                                DELETE FROM OgrenciUcretDurumlari
+                                WHERE OgrenciKaydiId = {kayitId}
+                                """);
+                        }
+
+                        // 6. Öğrenci kayıtlarını sil
+                        _context.Database.ExecuteSqlInterpolated($"""
+                            DELETE FROM OgrenciKayitlari
+                            WHERE SinifId = {sinifId}
+                            """);
+
+                        // 7. Öğrencilerin sınıf bağlantısını kaldır
+                        _context.Database.ExecuteSqlInterpolated($"""
+                            UPDATE Ogrenciler
+                            SET SinifId = NULL
+                            WHERE SinifId = {sinifId}
+                            """);
+
+                        // 8. Sınıfı sil
+                        _context.Database.ExecuteSqlInterpolated($"""
+                            DELETE FROM Siniflar
+                            WHERE Id = {sinifId}
+                            """);
+                    }
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
                 }
             }
 

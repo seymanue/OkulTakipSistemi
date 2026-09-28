@@ -474,22 +474,13 @@
                                                 Düzenle
                                             </a>
 
-                                            <form asp-action="DeleteSchool"
-                                                  method="post"
-                                                  onsubmit="return confirm('Bu okulu ve okula bağlı tüm kayıtları kalıcı olarak silmek istediğinize emin misiniz?');">
-
-                                                @Html.AntiForgeryToken()
-
-                                                <input type="hidden"
-                                                       name="id"
-                                                       value="@ucret.OkulId" />
-
-                                                <button type="submit"
-                                                        class="school-fee-delete">
-                                                    Sil
-                                                </button>
-
-                                            </form>
+                                            <button type="button"
+                                                    class="school-fee-delete"
+                                                    data-school-id="@ucret.OkulId"
+                                                    data-school-name="@ucret.Okul?.Ad"
+                                                    onclick="okulSilmeOnayi(this);">
+                                                Sil
+                                            </button>
 
                                         </div>
 
@@ -510,3 +501,209 @@
     </div>
 
 </div>
+
+<style>
+    .okul-silme-modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(15, 35, 55, 0.50);
+        backdrop-filter: blur(5px);
+    }
+
+    .okul-silme-modal-overlay.aktif {
+        display: flex;
+    }
+
+    .okul-silme-modal {
+        width: min(500px, 100%);
+        padding: 34px;
+        border-radius: 24px;
+        background: #ffffff;
+        box-shadow: 0 25px 70px rgba(22, 59, 97, 0.24);
+        text-align: center;
+        animation: okulSilmeModalAc 0.2s ease-out;
+    }
+
+    .okul-silme-modal-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: #fff1f1;
+        font-size: 31px;
+    }
+
+    .okul-silme-modal h3 {
+        margin: 0 0 10px;
+        color: #163b61;
+        font-size: 23px;
+        font-weight: 800;
+    }
+
+    .okul-silme-modal p {
+        margin: 0 auto;
+        max-width: 410px;
+        color: #607b95;
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .okul-silme-modal-okul {
+        margin: 17px auto 0;
+        padding: 12px 18px;
+        border-radius: 13px;
+        background: #eef6ff;
+        color: #1769aa;
+        font-size: 15px;
+        font-weight: 800;
+        max-width: 360px;
+        word-break: break-word;
+    }
+
+    .okul-silme-modal-uyari {
+        margin-top: 16px;
+        padding: 11px 14px;
+        border-radius: 12px;
+        background: #fff8e8;
+        color: #8a6418;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .okul-silme-modal-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .okul-silme-modal-btn {
+        min-width: 125px;
+        padding: 11px 20px;
+        border: 0;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .okul-silme-modal-vazgec {
+        background: #eef3f8;
+        color: #526b82;
+    }
+
+    .okul-silme-modal-vazgec:hover {
+        background: #e2eaf2;
+        transform: translateY(-1px);
+    }
+
+    .okul-silme-modal-sil {
+        background: #dc3545;
+        color: #ffffff;
+    }
+
+    .okul-silme-modal-sil:hover {
+        background: #c82333;
+        transform: translateY(-1px);
+    }
+
+    @@keyframes okulSilmeModalAc {
+        from {
+            opacity: 0;
+            transform: translateY(10px) scale(0.97);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+</style>
+
+<div id="okulSilmeModal" class="okul-silme-modal-overlay">
+
+    <div class="okul-silme-modal" role="dialog" aria-modal="true">
+
+        <div class="okul-silme-modal-icon">
+            🗑️
+        </div>
+
+        <h3>Okulu Silmek Üzeresiniz</h3>
+
+        <p>
+            Aşağıdaki okulu ve ona bağlı tüm kayıtları kalıcı olarak silmek
+            istediğinizden emin misiniz?
+        </p>
+
+        <div id="okulSilmeAdi" class="okul-silme-modal-okul"></div>
+
+        <div class="okul-silme-modal-uyari">
+            ⚠️ Bu işlem geri alınamaz.
+        </div>
+
+        <form asp-action="DeleteSchool"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   id="okulSilmeId"
+                   name="id" />
+
+            <div class="okul-silme-modal-actions">
+
+                <button type="button"
+                        class="okul-silme-modal-btn okul-silme-modal-vazgec"
+                        onclick="okulSilmeIptal();">
+                    Vazgeç
+                </button>
+
+                <button type="submit"
+                        class="okul-silme-modal-btn okul-silme-modal-sil">
+                    Okulu Sil
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+    function okulSilmeOnayi(button) {
+        const okulId = button.getAttribute("data-school-id");
+        const okulAdi = button.getAttribute("data-school-name");
+
+        document.getElementById("okulSilmeId").value = okulId;
+        document.getElementById("okulSilmeAdi").textContent = "🏫 " + okulAdi;
+        document.getElementById("okulSilmeModal").classList.add("aktif");
+    }
+
+    function okulSilmeIptal() {
+        document.getElementById("okulSilmeId").value = "";
+        document.getElementById("okulSilmeModal").classList.remove("aktif");
+    }
+
+    document.getElementById("okulSilmeModal").addEventListener("click", function (event) {
+        if (event.target === this) {
+            okulSilmeIptal();
+        }
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+            okulSilmeIptal();
+        }
+    });
+</script>
